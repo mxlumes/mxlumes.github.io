@@ -3,31 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="M-X Lumes: Professional 3:1 Epoxy Resin Systems.">
+    <meta name="description" content="M-X Lumes: Professional 3:1 Epoxy Resin Systems. Built for Master Artists.">
     <title>M-X Lumes | Professional Resin Systems</title>
     
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <style>
-        /* --- 1. CORE VARIABLES --- */
+        /* =========================================
+           1. CORE SYSTEM & VARIABLES
+           ========================================= */
         :root { 
             --accent-grad: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
             --accent-solid: #6366f1;
             --bg: #000000; 
-            /* Deepest OLED Glass */
-            --glass-bg: rgba(8, 8, 10, 0.85); 
-            --glass-border: rgba(255, 255, 255, 0.1); 
+            /* Deep OLED Glass System */
+            --glass-bg: rgba(5, 5, 8, 0.85); 
+            --glass-border: rgba(255, 255, 255, 0.08); 
             --text: #ffffff; 
             --text-dim: #9ca3af; 
             --warning: #fbbf24;
             --success: #10b981;
+            /* Fluid Animation Curves */
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         }
         
-        /* HARDWARE RESET */
+        /* Hardware-Accelerated Native Scroll (Zero Lag) */
         html { 
             scroll-behavior: smooth; 
             height: 100%; 
-            background: #000;
+            background: #000; 
         }
         
         body { 
@@ -42,8 +46,10 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
 
-        /* --- 2. THE BACKGROUND ENGINE (CRITICAL FIX) --- */
-        #fixed-layer {
+        /* =========================================
+           2. THE HYBRID BACKGROUND ENGINE
+           ========================================= */
+        #master-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             z-index: -999; /* Locked behind everything */
             pointer-events: none;
@@ -55,30 +61,39 @@
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: url('product-1.webp') no-repeat center bottom; 
             
-            /* --- DESKTOP RULE: 65% SCALE --- */
+            /* --- DESKTOP DEFAULT: 65% SCALE --- */
             background-size: 65%; 
             
+            /* High-End Visual Filter */
             filter: saturate(1.1) contrast(1.1) brightness(0.7);
-            will-change: transform; /* Hint to browser to use GPU */
+            will-change: transform;
         }
 
         .bg-overlay { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            /* Gradient fades from transparent (top) to black (bottom) */
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 60%, #000000 100%); 
+            /* Gradient ensures text is readable */
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 60%, #000000 100%); 
         }
 
-        /* --- 3. CURSOR ENGINE (DESKTOP ONLY) --- */
+        .grain { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -100; 
+            opacity: 0.035; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* =========================================
+           3. CURSOR ENGINE (DESKTOP ONLY)
+           ========================================= */
         @media (hover: hover) and (pointer: fine) {
-            body, a, button { cursor: none; }
-            .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; }
+            body { cursor: none; }
+            a, button, input { cursor: none; }
+            .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; will-change: transform; }
             .cursor-dot { width: 6px; height: 6px; background: white; border-radius: 50%; }
-            .cursor-outline { width: 40px; height: 40px; border: 1.5px solid rgba(255, 255, 255, 0.4); border-radius: 50%; transition: transform 0.15s ease-out; }
+            .cursor-outline { width: 40px; height: 40px; border: 1.5px solid rgba(255, 255, 255, 0.4); border-radius: 50%; transition: width 0.2s, height 0.2s; }
             .aurora-glow { 
                 position: fixed; top: 0; left: 0; width: 600px; height: 600px; 
-                background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%); 
+                background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%); 
                 pointer-events: none; z-index: 1; mix-blend-mode: screen; 
-                transform: translate3d(-50%, -50%, 0);
+                will-change: transform; transform: translate3d(-50%, -50%, 0); 
             }
         }
         @media (hover: none) { 
@@ -86,7 +101,9 @@
             body, a, button { cursor: auto; }
         }
 
-        /* --- 4. NAVIGATION --- */
+        /* =========================================
+           4. NAVIGATION & HERO
+           ========================================= */
         .navbar { 
             position: fixed; top: 0; width: 100%; height: 64px; 
             background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -96,20 +113,18 @@
         .logo { font-weight: 900; font-size: 18px; letter-spacing: 2px; text-transform: uppercase; color: #fff; text-decoration: none; }
         .nav-links { list-style: none; display: flex; gap: 30px; }
         .nav-links a { text-decoration: none; color: var(--text-dim); font-size: 11px; text-transform: uppercase; font-weight: 700; transition: 0.3s; letter-spacing: 1px; }
-        .nav-links a:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .nav-links a:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
 
-        /* --- 5. HERO SECTION (Transparent BG to show Image) --- */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s var(--ease-out); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
         .hero { height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; z-index: 10; }
         .hero-text { 
             padding: 60px 40px; 
             background: rgba(5, 5, 8, 0.6); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
             border-radius: 40px; border: 1px solid var(--glass-border); text-align: center; max-width: 700px; width: 100%; 
             box-shadow: 0 40px 100px rgba(0,0,0,0.8);
-            opacity: 0; transform: translateY(30px); animation: fadeInUp 1s forwards 0.2s;
         }
-        
-        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-
         h1 { 
             font-size: clamp(36px, 8vw, 72px); font-weight: 800; letter-spacing: -2px; margin-bottom: 20px; line-height: 1.1; 
             background: linear-gradient(110deg, #fff 20%, #a5b4fc 50%, #fff 80%);
@@ -125,16 +140,17 @@
         }
         .cta-btn:hover { transform: scale(1.05); }
 
-        /* --- 6. MAIN CONTENT WRAPPER --- */
-        /* This is the black layer that scrolls OVER the fixed background image */
+        /* =========================================
+           5. MAIN CONTENT (Scrolls over fixed BG)
+           ========================================= */
         .main-content { 
             position: relative; background: var(--bg); z-index: 10; 
             border-top: 1px solid var(--glass-border); box-shadow: 0 -50px 100px #000; 
         }
-        .section { padding: 100px 20px; max-width: 1200px; margin: 0 auto; }
+        .section { padding: 120px 20px; max-width: 1200px; margin: 0 auto; }
         .section-title { font-size: clamp(30px, 5vw, 48px); font-weight: 800; text-align: center; margin-bottom: 70px; color: #fff; }
 
-        /* --- 7. SHOP GRID --- */
+        /* SHOP GRID (5, 10, 15% Logic) */
         .shop-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 80px; }
         .shop-card { 
             background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -153,7 +169,7 @@
             font-weight: 800; text-transform: uppercase; font-size: 11px; margin-top: 15px; cursor: pointer;
         }
 
-        /* --- 8. OMNI CALCULATOR --- */
+        /* OMNI CALCULATOR */
         .omni-panel { background: var(--glass-bg); border-radius: 32px; border: 1px solid var(--glass-border); overflow: hidden; }
         .omni-header { background: rgba(0,0,0,0.5); padding: 25px; display: flex; gap: 12px; border-bottom: 1px solid var(--glass-border); overflow-x: auto; }
         .shape-btn { flex: 0 0 auto; padding: 12px 24px; background: transparent; color: var(--text-dim); border: 1px solid #333; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; transition: 0.3s; cursor: pointer; }
@@ -176,7 +192,7 @@
         .tool-btn { padding: 14px; background: transparent; border: 1px solid #333; color: #fff; border-radius: 10px; font-size: 11px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
         .tool-btn:hover { border-color: var(--accent-solid); }
 
-        /* --- 9. GALLERY & PROTOCOL --- */
+        /* GALLERY & GUIDE */
         .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 100px; }
         .gallery-item { position: relative; background: #050505; border-radius: 32px; height: 450px; overflow: hidden; border: 1px solid var(--glass-border); }
         .gallery-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.5s; }
@@ -187,20 +203,7 @@
         .guide-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 32px; padding: 60px 30px; text-align: center; }
         .timer-badge { background: #000; color: #fff; padding: 12px 25px; border-radius: 10px; font-family: monospace; font-size: 22px; border: 1px solid #222; margin: 20px 0; display: inline-block; }
 
-        /* --- 10. CART SYSTEM --- */
-        .cart-fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--accent-grad); border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 1001; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.4); cursor: pointer; transition: transform 0.3s; }
-        .cart-fab:active { transform: scale(0.9); }
-        .cart-badge { position: absolute; top: -5px; right: -5px; background: #ff0000; color: white; width: 26px; height: 26px; border-radius: 50%; font-size: 12px; font-weight: 900; display: flex; justify-content: center; align-items: center; opacity: 0; }
-        .cart-badge.visible { opacity: 1; }
-        
-        .cart-modal { position: fixed; top: 0; right: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; opacity: 0; pointer-events: none; transition: 0.3s; display: flex; justify-content: flex-end; }
-        .cart-modal.active { opacity: 1; pointer-events: all; }
-        .cart-panel { width: 500px; height: 100%; background: #08080a; border-left: 1px solid var(--glass-border); padding: 40px; transform: translateX(100%); transition: 0.3s; display: flex; flex-direction: column; }
-        .cart-modal.active .cart-panel { transform: translateX(0); }
-        .cart-items { flex: 1; overflow-y: auto; margin: 30px 0; border-top: 1px solid #222; }
-        .cart-summary { background: #000; padding: 25px; border-radius: 20px; border: 1px solid #222; }
-
-        /* --- 11. FOOTER --- */
+        /* --- 10. FOOTER FINALE --- */
         .footer-wrap { 
             position: relative; padding: 150px 20px 80px; min-height: 100vh; 
             background: #000 url('last page background.png') no-repeat center bottom; 
@@ -213,9 +216,22 @@
         .f-col a { text-decoration: none; color: #888; font-size: 14px; display: block; margin-bottom: 12px; transition: 0.3s; }
         .f-col a:hover { color: #fff; transform: translateX(5px); }
 
+        /* --- 11. CART SYSTEM --- */
+        .cart-fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--accent-grad); border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 1001; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.4); cursor: pointer; transition: transform 0.3s; }
+        .cart-fab:active { transform: scale(0.9); }
+        .cart-badge { position: absolute; top: -5px; right: -5px; background: #ff0000; color: white; width: 26px; height: 26px; border-radius: 50%; font-size: 12px; font-weight: 900; display: flex; justify-content: center; align-items: center; opacity: 0; }
+        .cart-badge.visible { opacity: 1; }
+        
+        .cart-modal { position: fixed; top: 0; right: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; opacity: 0; pointer-events: none; transition: 0.4s var(--ease-out); display: flex; justify-content: flex-end; }
+        .cart-modal.active { opacity: 1; pointer-events: all; }
+        .cart-panel { width: 500px; height: 100%; background: #08080a; border-left: 1px solid var(--glass-border); padding: 40px; transform: translateX(100%); transition: 0.4s var(--ease-out); display: flex; flex-direction: column; }
+        .cart-modal.active .cart-panel { transform: translateX(0); }
+        .cart-items { flex: 1; overflow-y: auto; margin: 30px 0; border-top: 1px solid #222; }
+        .cart-summary { background: #000; padding: 25px; border-radius: 20px; border: 1px solid #222; }
+
         /* --- 12. MOBILE MEDIA QUERIES (CRITICAL FIX) --- */
         @media (max-width: 900px) { 
-            /* THE FIX: Force COVER on mobile so image fills screen */
+            /* THE FIX: Force COVER on mobile so image fills screen, 65% on Desktop */
             .bg-image { 
                 background-size: cover !important; 
                 background-position: center !important; 
@@ -234,10 +250,11 @@
 </head>
 <body>
 
-    <div id="fixed-layer">
+    <div id="master-bg">
         <div class="bg-image"></div>
         <div class="bg-overlay"></div>
     </div>
+    <div class="grain"></div>
     
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
@@ -367,7 +384,7 @@
     </footer>
 
     <script>
-        // 1. MOUSE PHYSICS (DESKTOP ONLY)
+        // --- 1. MOUSE PHYSICS (DESKTOP ONLY) ---
         if (window.matchMedia("(pointer: fine)").matches) {
             const dot = document.querySelector('.cursor-dot');
             const outline = document.querySelector('.cursor-outline');
@@ -385,7 +402,7 @@
             updateCursor();
         }
 
-        // 2. COMMERCE
+        // --- 2. COMMERCE ---
         let cart = [];
         function addToCart(item, price) { cart.push({item, price}); updateCart(); toggleCart(); }
         function updateCart() {
@@ -408,7 +425,7 @@
             new Razorpay(options).open();
         }
 
-        // 3. CALCULATOR
+        // --- 3. CALCULATOR ---
         let currentShape = 'rect';
         function setShape(s) { currentShape = s; document.querySelectorAll('.shape-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); ['rect','circ','hex','custom'].forEach(d=>document.getElementById('dims-'+d).style.display = d===s?'flex':'none'); runCalc(); }
         function runCalc() {
@@ -428,7 +445,7 @@
             document.getElementById('smartTip').innerText = `⚠ Depth > ${limit}cm. Use deep pour.`;
         }
 
-        // 4. TIMER
+        // --- 4. TIMER ---
         let timer; let tl=180; function updateTimer() { document.getElementById('timerDisplay').innerText=`0${Math.floor(tl/60)}:${(tl%60).toString().padStart(2,'0')}`; }
         function startTimer() { if(timer) return; timer=setInterval(()=>{ if(tl>0){tl--; updateTimer();}else{clearInterval(timer); alert("Mix Ready!");}},1000); }
         function printTicket() { const t=document.getElementById('outTotal').innerText; const w=window.open('','','width=300,height=400'); w.document.write(`<body style="font-family:monospace;text-align:center;"><h3>BATCH</h3><h1>${t}</h1></body>`); w.print(); }
