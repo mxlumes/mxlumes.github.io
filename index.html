@@ -57,8 +57,9 @@
         
         .bg-image { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            /* 65% SCALE APPLIED HERE */
             background: #000 url('product-1.webp') no-repeat center bottom; 
-            background-size: cover; 
+            background-size: 65%; 
             /* COLOR RESTORED: Not B&W */
             filter: saturate(1.1) contrast(1.1) brightness(0.7);
         }
@@ -207,7 +208,7 @@
         .f-col a:hover { color: #fff; transform: translateX(5px); }
 
         /* --- 9. CART SYSTEM --- */
-        .cart-fab { position: fixed; bottom: 30px; right: 30px; width: 64px; height: 64px; background: var(--accent-grad); border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 1001; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.4); cursor: pointer; transition: transform 0.3s; }
+        .cart-fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--accent-grad); border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 1001; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.4); cursor: pointer; transition: transform 0.3s; }
         .cart-fab:active { transform: scale(0.9); }
         .cart-badge { position: absolute; top: -5px; right: -5px; background: #ff0000; color: white; width: 26px; height: 26px; border-radius: 50%; font-size: 12px; font-weight: 900; display: flex; justify-content: center; align-items: center; opacity: 0; }
         .cart-badge.visible { opacity: 1; }
@@ -221,7 +222,8 @@
 
         /* MOBILE RESPONSIVE OPTIMIZATION */
         @media (max-width: 900px) { 
-            /* Fix Mobile Background Issues */
+            /* Fix Mobile Background Issues: 65% on Desktop, COVER on Mobile */
+            .bg-image { background-size: cover; background-position: center; } 
             .hero-text { padding: 40px 20px; background: rgba(5,5,8,0.8); margin-top: 0; }
             h1 { font-size: 42px; }
             .shop-grid, .omni-body, .gallery-grid, .guide-grid, .footer-grid { grid-template-columns: 1fr; }
