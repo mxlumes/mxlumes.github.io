@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="M-X Lumes: Professional 3:1 Epoxy Resin Systems.">
+    <meta name="description" content="M-X Lumes: Professional 3:1 Epoxy Resin Systems. Built for Master Artists.">
     <title>M-X Lumes | Professional Resin Systems</title>
     
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
 
     <style>
         /* --- 1. CORE MIDNIGHT ARCHITECTURE --- */
@@ -23,35 +22,33 @@
             --success: #10b981;
         }
         
-        /* SCROLL RESET FOR LENIS */
-        html { width: 100%; height: 100%; background: #000; }
+        /* NATIVE SMOOTH SCROLLING (Lag-Free) */
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; cursor: none; }
+        
         body { 
             background-color: var(--bg); color: var(--text); line-height: 1.6; 
-            width: 100%; min-height: 100%; cursor: none;
-            overflow-x: hidden;
+            overflow-x: hidden; -webkit-font-smoothing: antialiased; 
+            width: 100%; min-height: 100%;
         }
-        html.lenis { height: auto; }
-        .lenis.lenis-smooth { scroll-behavior: auto; }
-        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-        .lenis.lenis-stopped { overflow: hidden; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; cursor: none; }
-
-        /* --- 2. GPU ACCELERATED LAYERS --- */
+        /* --- 2. GPU ACCELERATED LAYERS (LAG FIX) --- */
         .stable-bg { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -2; 
             background: #000 url('product-1.webp') no-repeat center bottom; background-size: 66%; 
             pointer-events: none; filter: saturate(0) contrast(1.2); 
-            will-change: transform; transform: translate3d(0,0,0); /* Hardware Lock */
+            will-change: transform; transform: translate3d(0,0,0); /* Force GPU */
         }
         .bg-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -1; 
             background: linear-gradient(to bottom, transparent 5%, rgba(0,0,0,0.98) 50%, #000 100%); 
             pointer-events: none; transform: translate3d(0,0,0);
         }
+        /* Optimized Grain - Reduced Opacity for Performance */
         .grain { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; 
-            opacity: 0.03; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.02; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
         /* --- 3. CURSOR ENGINE --- */
@@ -65,14 +62,10 @@
             will-change: transform; transform: translate3d(-50%, -50%, 0); 
         }
 
-        /* --- 4. UI ANIMATIONS --- */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        /* --- 5. NAVIGATION --- */
+        /* --- 4. NAVIGATION --- */
         .navbar { 
             position: fixed; top: 0; width: 100%; height: 64px; 
-            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             z-index: 1000; border-bottom: 1px solid var(--glass-border); 
         }
         .nav-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; padding: 0 40px; }
@@ -80,6 +73,10 @@
         .nav-links { list-style: none; display: flex; gap: 40px; }
         .nav-links a { text-decoration: none; color: var(--text-dim); font-size: 11px; text-transform: uppercase; font-weight: 700; transition: 0.3s; letter-spacing: 1px; position: relative; }
         .nav-links a:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+
+        /* --- 5. ANIMATIONS --- */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* --- 6. HERO & MARQUEE --- */
         .hero { height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; z-index: 10; }
@@ -96,10 +93,12 @@
         }
         @keyframes textShimmer { to { background-position: 200% center; } }
         .tagline { font-size: clamp(16px, 2.5vw, 22px); color: #cbd5e1; margin-bottom: 45px; font-weight: 400; }
+        .magnetic-wrap { display: inline-block; }
         .cta-btn { 
             background: var(--accent-grad); color: white; padding: 18px 56px; border-radius: 980px; 
             text-decoration: none; font-weight: 700; font-size: 15px; transition: 0.3s; 
-            display: inline-block; border: none; box-shadow: 0 15px 35px rgba(79, 70, 229, 0.3); cursor: none;
+            display: inline-block; border: none; box-shadow: 0 15px 35px rgba(79, 70, 229, 0.3);
+            position: relative; overflow: hidden; cursor: none;
         }
         .cta-btn:hover { transform: scale(1.03); box-shadow: 0 20px 50px rgba(124, 58, 237, 0.4); }
 
@@ -108,9 +107,9 @@
         .marquee-item { color: var(--text-dim); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; margin: 0 50px; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* --- 7. SHOP SECTION (TIERED DISCOUNT LOGIC) --- */
+        /* --- 7. SHOP SECTION (TIERED DISCOUNTS) --- */
         .main-content { position: relative; background: var(--bg); z-index: 10; box-shadow: 0 -100px 200px #000; border-top: 1px solid var(--glass-border); }
-        .section { padding: 140px 20px; max-width: 1300px; margin: 0 auto; position: relative; }
+        .section { padding: 160px 20px; max-width: 1300px; margin: 0 auto; position: relative; }
         .section-title { font-size: clamp(36px, 6vw, 56px); font-weight: 800; text-align: center; margin-bottom: 90px; letter-spacing: -0.04em; color: #fff; }
 
         .shop-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 100px; }
@@ -128,11 +127,11 @@
         .add-btn { width: 100%; padding: 14px; background: #fff; color: #000; border: none; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 11px; transition: 0.3s; cursor: none; }
         .add-btn:hover { background: var(--accent-grad); color: #fff; }
 
-        /* --- 8. OMNI-CALCULATOR (FULL FEATURE) --- */
-        .omni-panel { background: var(--glass-bg); border-radius: 40px; border: 1px solid var(--glass-border); overflow: hidden; }
+        /* --- 8. OMNI-CALCULATOR (COMPLETE) --- */
+        .omni-panel { background: var(--glass-bg); border-radius: 40px; border: 1px solid var(--glass-border); overflow: hidden; box-shadow: 0 60px 120px rgba(0,0,0,0.6); }
         .omni-header { background: rgba(0,0,0,0.4); padding: 30px; display: flex; gap: 15px; border-bottom: 1px solid var(--glass-border); overflow-x: auto; }
         .shape-btn { flex: 1; padding: 16px; background: transparent; color: var(--text-dim); border: 1px solid #333; border-radius: 16px; font-size: 12px; font-weight: 700; text-transform: uppercase; transition: 0.3s; white-space: nowrap; cursor: none; }
-        .shape-btn.active { background: var(--accent-grad); color: #fff; border-color: transparent; }
+        .shape-btn.active { background: var(--accent-grad); color: #fff; border-color: transparent; box-shadow: 0 0 25px rgba(124, 58, 237, 0.4); }
         
         .omni-body { display: grid; grid-template-columns: 1.6fr 1fr; }
         .omni-config { padding: 60px; border-right: 1px solid var(--glass-border); }
@@ -140,30 +139,36 @@
         
         .config-title { font-size: 12px; color: var(--accent-solid); font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 25px; display: block; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
         .input-row { display: flex; gap: 25px; margin-bottom: 25px; }
-        .input-group label { display: block; font-size: 11px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 10px; font-weight: 800; }
-        .input-group input { width: 100%; background: #000; border: 1.5px solid #222; padding: 16px; border-radius: 14px; color: #fff; font-size: 18px; outline: none; transition: 0.3s; }
-        .input-group input:focus { border-color: var(--accent-solid); }
+        .input-group label { display: block; font-size: 11px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 10px; font-weight: 800; letter-spacing: 0.5px; }
+        .input-group input { width: 100%; background: #000; border: 1.5px solid #222; padding: 16px; border-radius: 14px; color: #fff; font-size: 18px; outline: none; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.8); }
+        .input-group input:focus { border-color: var(--accent-solid); box-shadow: 0 0 15px rgba(99, 102, 241, 0.2); }
         
         .res-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; }
         .res-val { font-size: 24px; font-weight: 700; color: #fff; }
-        .res-total { font-size: 68px; font-weight: 900; background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+        .res-total { font-size: 68px; font-weight: 900; background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; margin-bottom: 8px; }
         .smart-tip { margin-top: 20px; font-size: 13px; color: var(--warning); display: none; background: rgba(251, 191, 36, 0.08); padding: 18px; border-radius: 16px; border: 1px solid rgba(251, 191, 36, 0.3); }
         .tool-btn { padding: 15px; background: transparent; border: 1px solid #333; color: #fff; border-radius: 12px; font-size: 11px; font-weight: 800; text-transform: uppercase; transition: 0.3s; cursor: none; }
         .tool-btn:hover { border-color: var(--accent-solid); background: rgba(124, 58, 237, 0.15); }
 
-        /* --- 9. GALLERY & DASHBOARD --- */
+        /* --- 9. GALLERY & PROTOCOL --- */
         .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 100px; }
         .gallery-item { position: relative; background: #0a0a0a; border-radius: 40px; height: 500px; overflow: hidden; border: 1px solid var(--glass-border); }
-        .gallery-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 1s ease; transform: scale(1.01); will-change: transform; }
-        .gallery-item:hover .gallery-img { opacity: 1; transform: scale(1.05); }
+        .gallery-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 1s ease; filter: saturate(0.8); }
+        .gallery-item:hover .gallery-img { opacity: 1; transform: scale(1.05); filter: saturate(1.1); }
         .gallery-caption { position: absolute; bottom: 0; left: 0; width: 100%; padding: 50px 40px; background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, transparent); }
 
         .guide-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin: 60px 0; }
         .guide-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 40px; padding: 70px 50px; text-align: center; transition: 0.4s; }
         .guide-card:hover { border-color: var(--accent-solid); transform: translateY(-5px); }
-        .timer-badge { background: #000; color: #fff; padding: 12px 25px; border-radius: 12px; font-family: monospace; font-size: 24px; border: 1px solid #222; margin: 20px 0; display: inline-block; }
+        .timer-badge { background: #000; color: #fff; padding: 12px 25px; border-radius: 12px; font-family: monospace; font-size: 24px; border: 1px solid #222; margin: 20px 0; display: inline-block; letter-spacing: 2px; }
 
-        /* --- 10. HUB & DOWNLOADS --- */
+        /* --- 10. FAQ & DOWNLOADS --- */
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.08); padding: 25px 0; cursor: none; }
+        .faq-q { font-size: 18px; font-weight: 600; display: flex; justify-content: space-between; color: #fff; transition: 0.3s; }
+        .faq-item:hover .faq-q { color: var(--accent-solid); padding-left: 10px; }
+        .faq-a { max-height: 0; overflow: hidden; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); color: var(--text-dim); font-size: 15px; line-height: 1.6; }
+        .faq-item.active .faq-a { max-height: 150px; padding-top: 15px; }
+
         .hub-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 80px; }
         .hub-card { background: var(--glass-bg); padding: 50px; border-radius: 32px; border: 1px solid var(--glass-border); }
         .asset-link { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid #222; text-decoration: none; color: #fff; transition: 0.3s; cursor: none; }
@@ -177,16 +182,18 @@
         }
         .footer-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.92) 15%, rgba(0,0,0,0.3) 100%); z-index: 1; pointer-events: none; }
         .footer-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; width: 100%; }
+        
         .footer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 40px; margin-bottom: 100px; }
         .f-col { background: rgba(0,0,0,0.3); backdrop-filter: blur(15px); padding: 35px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.08); }
         .f-col h4 { font-size: 11px; font-weight: 900; color: #fff; text-transform: uppercase; margin-bottom: 25px; letter-spacing: 2px; }
         .f-col a { text-decoration: none; color: #999; font-size: 14px; display: block; margin-bottom: 12px; transition: 0.3s; cursor: none; }
         .f-col a:hover { color: #fff; transform: translateX(5px); text-shadow: 0 0 10px var(--accent-solid); }
 
-        /* --- 12. CART --- */
+        /* --- 12. CART SYSTEM --- */
         .cart-fab { position: fixed; bottom: 40px; right: 40px; width: 64px; height: 64px; background: var(--accent-grad); border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 1001; transition: 0.4s; box-shadow: 0 15px 40px rgba(79, 70, 229, 0.4); cursor: none; }
         .cart-badge { position: absolute; top: -5px; right: -5px; background: #ff0000; color: white; width: 26px; height: 26px; border-radius: 50%; font-size: 12px; font-weight: 900; display: flex; justify-content: center; align-items: center; opacity: 0; transition: 0.3s; }
         .cart-badge.visible { opacity: 1; }
+        
         .cart-modal { position: fixed; top: 0; right: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; opacity: 0; pointer-events: none; transition: 0.5s; display: flex; justify-content: flex-end; }
         .cart-modal.active { opacity: 1; pointer-events: all; }
         .cart-panel { width: 500px; height: 100%; background: #08080a; border-left: 1px solid var(--border); padding: 50px; transform: translateX(100%); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; }
@@ -211,8 +218,8 @@
             <a href="#" class="logo">M-X LUMES</a>
             <ul class="nav-links">
                 <li><a href="#shop">Inventory</a></li>
+                <li><a href="#pro">Specs</a></li>
                 <li><a href="#calc">Calculator</a></li>
-                <li><a href="#gallery">Studio</a></li>
                 <li><a href="#hub">Support</a></li>
             </ul>
         </div>
@@ -238,23 +245,49 @@
     </div>
 
     <div class="main-content">
+        
         <section id="shop" class="section reveal">
             <h2 class="section-title">Direct Studio Supply.</h2>
             <div class="shop-grid">
                 <div class="shop-card">
-                    <div><span class="shop-tag">Starter Kit</span><div class="shop-title">1.2 KG</div><div class="shop-price">₹1,250</div><p style="color:var(--text-dim); font-size:12px; margin-top:10px;">3:1 Ratio (900g+300g). Standard entry kit.</p></div>
+                    <div>
+                        <span class="shop-tag">Starter Kit</span>
+                        <div class="shop-title">1.2 KG</div>
+                        <div class="shop-price">₹1,250</div>
+                        <p style="color:var(--text-dim); font-size:12px; margin-top:10px;">3:1 Ratio (900g+300g). Standard entry kit.</p>
+                    </div>
                     <button class="add-btn" onclick="addToCart('Starter Kit (1.2KG)', 1250)">Add to Cart</button>
                 </div>
                 <div class="shop-card">
-                    <div><span class="shop-tag">Studio Kit</span><div class="shop-title">4.8 KG</div><span class="discount-badge">Save 5%</span><div class="shop-price">₹4,750</div><span class="shop-old-price">₹5,000</span><p style="color:var(--text-dim); font-size:12px; margin-top:10px;">3.6kg Resin + 1.2kg Hardener.</p></div>
+                    <div>
+                        <span class="shop-tag">Studio Kit</span>
+                        <div class="shop-title">4.8 KG</div>
+                        <span class="discount-badge">Save 5%</span>
+                        <div class="shop-price">₹4,750</div>
+                        <span class="shop-old-price">₹5,000</span>
+                        <p style="color:var(--text-dim); font-size:12px; margin-top:10px;">3.6kg Resin + 1.2kg Hardener. Medium build.</p>
+                    </div>
                     <button class="add-btn" onclick="addToCart('Studio Kit (4.8KG)', 4750)">Add to Cart</button>
                 </div>
                 <div class="shop-card" style="border-color:var(--accent-solid);">
-                    <div><span class="shop-tag" style="color:var(--accent-solid);">Pro Pack</span><div class="shop-title">12 KG</div><span class="discount-badge">Save 10%</span><div class="shop-price">₹11,250</div><span class="shop-old-price">₹12,500</span><p style="color:var(--text-dim); font-size:12px; margin-top:10px;">9kg Resin + 3kg Hardener.</p></div>
+                    <div>
+                        <span class="shop-tag">Pro Pack</span>
+                        <div class="shop-title">12 KG</div>
+                        <span class="discount-badge">Save 10%</span>
+                        <div class="shop-price">₹11,250</div>
+                        <span class="shop-old-price">₹12,500</span>
+                        <p style="color:var(--text-dim); font-size:12px; margin-top:10px;">9kg Resin + 3kg Hardener. Master choice.</p>
+                    </div>
                     <button class="add-btn" style="background:var(--accent-grad); color:#fff;" onclick="addToCart('Pro Pack (12KG)', 11250)">Add to Cart</button>
                 </div>
                 <div class="shop-card">
-                    <div><span class="shop-tag">Industrial Drum</span><div class="shop-title">24 KG</div><span class="discount-badge">Save 15%</span><div class="shop-price">₹21,250</div><span class="shop-old-price">₹25,000</span><p style="color:var(--text-dim); font-size:12px; margin-top:10px;">18kg Resin + 6kg Hardener.</p></div>
+                    <div>
+                        <span class="shop-tag">Industrial Drum</span>
+                        <div class="shop-title">24 KG</div>
+                        <span class="discount-badge">Save 15%</span>
+                        <div class="shop-price">₹21,250</div>
+                        <span class="shop-old-price">₹25,000</span><p style="color:var(--text-dim); font-size:12px; margin-top:10px;">18kg Resin + 6kg Hardener. Bulk yield.</p>
+                    </div>
                     <button class="add-btn" onclick="addToCart('Industrial Pack (24KG)', 21250)">Add to Cart</button>
                 </div>
             </div>
@@ -298,10 +331,7 @@
                         <div class="res-row" style="border:none;"><span class="res-label">Total Pour</span><span class="res-total" id="outTotal">0g</span></div>
                         <div id="costDisplay" style="text-align:right; font-size:15px; color:var(--success); margin:10px 0; font-weight:800;"></div>
                         <div id="smartTip" class="smart-tip"></div>
-                        <div class="action-bar" style="display:flex; gap:10px; margin-top:20px;">
-                            <button class="tool-btn" onclick="printTicket()">Print Ticket</button>
-                            <button class="tool-btn" style="background:#222;" onclick="copyResults()">Copy Specs</button>
-                        </div>
+                        <div class="action-bar"><button class="tool-btn" onclick="printTicket()">Print Ticket</button><button class="tool-btn" style="background:#222;" onclick="copyResults()">Copy Specs</button></div>
                     </div>
                 </div>
             </div>
@@ -310,7 +340,7 @@
         <section id="gallery" class="section reveal">
             <h2 class="section-title">Optical Purity.</h2>
             <div class="gallery-grid">
-                <div class="gallery-item"><img src="gallary 1.png" class="gallery-img"><div class="gallery-caption"><span class="shop-tag">TRANSMISSION</span><span style="font-weight:700;display:block;">180 mPas Viscosity</span></div></div>
+                <div class="gallery-item"><img src="gallary 1.png" class="gallery-img"><div class="gallery-caption"><span class="shop-tag">TRANSMISSION</span><span style="font-weight:700;display:block;">180 mPas Low Viscosity</span></div></div>
                 <div class="gallery-item"><img src="gallary 3.png" class="gallery-img"><div class="gallery-caption"><span class="shop-tag">REFRACTION</span><span style="font-weight:700;display:block;">Botanical Capture</span></div></div>
                 <div class="gallery-item"><img src="gallary 2.png" class="gallery-img"><div class="gallery-caption"><span class="shop-tag">DENSITY</span><span style="font-weight:700;display:block;">Shore 82D Hardness</span></div></div>
             </div>
@@ -331,6 +361,8 @@
 
         <section id="hub" class="section reveal">
             <h2 class="section-title">Support Hub.</h2>
+            <div class="faq-item" onclick="this.classList.toggle('active')"><div class="faq-q"><span>Avoid micro-bubbles?</span><span>+</span></div><div class="faq-a">Our 180 mPas viscosity enables passive degassing. Stir slowly for 3 minutes.</div></div>
+            <div class="faq-item" onclick="this.classList.toggle('active')"><div class="faq-q"><span>Demold time?</span><span>+</span></div><div class="faq-a">Demold after 24 hours at 25°C. Full hardness at 72 hours.</div></div>
             <div class="hub-grid">
                 <div class="hub-card">
                     <h3 style="font-size: 24px; margin-bottom: 20px;">Downloads</h3>
@@ -378,12 +410,7 @@
     </footer>
 
     <script>
-        // 1. LENIS SMOOTH SCROLL (PHYSICS ENGINE)
-        const lenis = new Lenis({ duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), direction: 'vertical', smooth: true });
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
-
-        // 2. GPU CURSOR
+        // --- 1. GPU CURSOR PHYSICS ---
         const dot = document.querySelector('.cursor-dot');
         const outline = document.querySelector('.cursor-outline');
         const glow = document.querySelector('.aurora-glow');
@@ -399,7 +426,7 @@
         }
         updateCursor();
 
-        // 3. COMMERCE ENGINE
+        // --- 2. COMMERCE ENGINE ---
         let cart = [];
         function addToCart(item, price) { cart.push({item, price}); updateCart(); toggleCart(); }
         function updateCart() {
@@ -416,8 +443,10 @@
         }
         function toggleCart() { document.getElementById('cartModal').classList.toggle('active'); }
         function payNow() { 
-            const total = parseInt(document.getElementById('cartTotal').innerText.replace(/[^0-9]/g, ''));
-            var options = { "key": "YOUR_RAZORPAY_KEY", "amount": total*100, "currency": "INR", "name": "M-X LUMES", "handler": function(res){ window.open('https://wa.me/919999999999?text=Paid+Order+ID:'+res.razorpay_payment_id); } };
+            const totalStr = document.getElementById('cartTotal').innerText.replace(/[^0-9]/g, '');
+            const total = parseInt(totalStr);
+            if(!total) return;
+            var options = { "key": "YOUR_RAZORPAY_KEY_ID", "amount": total*100, "currency": "INR", "name": "M-X LUMES", "handler": function(res){ window.open('https://wa.me/919999999999?text=Order+Paid+ID:'+res.razorpay_payment_id); } };
             new Razorpay(options).open();
         }
         function checkoutWhatsApp() { 
@@ -426,7 +455,7 @@
             window.open(`https://wa.me/919999999999?text=${msg}`, '_blank'); 
         }
 
-        // 4. OMNI-CALC ENGINE
+        // --- 3. OMNI-CALC ENGINE ---
         let currentShape = 'rect';
         function setShape(s) { 
             currentShape = s; 
@@ -450,10 +479,10 @@
             if(costKg > 0) document.getElementById('costDisplay').innerText = `Estimated Pour Cost: ₹${((mass/1000)*costKg).toFixed(2)}`;
             const limit = parseFloat(document.getElementById('limitDepth').value);
             document.getElementById('smartTip').style.display = dep>limit?'block':'none';
-            document.getElementById('smartTip').innerText = `⚠ Depth exceeds ${limit}cm. Switch to deep pour.`;
+            document.getElementById('smartTip').innerText = `⚠ Depth exceeds ${limit}cm. Switch to deep pour or use multiple layers.`;
         }
 
-        // 5. TIMER & UTILS
+        // --- 4. TIMER & UTILS ---
         let timer; let tl=180; function updateTimer() { document.getElementById('timerDisplay').innerText=`0${Math.floor(tl/60)}:${(tl%60).toString().padStart(2,'0')}`; }
         function startTimer() { if(timer) return; timer=setInterval(()=>{ if(tl>0){tl--; updateTimer();}else{clearInterval(timer); alert("Mix Sequence Complete!");}},1000); }
         function printTicket() { const t=document.getElementById('outTotal').innerText; const w=window.open('','','width=400,height=500'); w.document.write(`<body style="font-family:monospace;padding:50px;text-align:center;"><h2>M-X LUMES STUDIO</h2><hr><h1>TOTAL: ${t}</h1><p>A: ${document.getElementById('outA').innerText} | B: ${document.getElementById('outB').innerText}</p></body>`); w.print(); }
