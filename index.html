@@ -15,67 +15,71 @@
             --accent-grad: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
             --accent-solid: #6366f1;
             --bg: #000000; 
+            /* Deep OLED Glass */
             --glass-bg: rgba(8, 8, 10, 0.85); 
             --glass-border: rgba(255, 255, 255, 0.1); 
             --text: #ffffff; 
-            --text-dim: #94a3b8; 
+            --text-dim: #9ca3af; 
             --warning: #fbbf24;
             --success: #10b981;
-            /* FLUID BEZIER CURVE */
-            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            /* Fluid Motion Curve */
+            --ease-fluid: cubic-bezier(0.19, 1, 0.22, 1);
         }
         
-        /* SCROLL RESET */
-        html { height: 100%; }
+        /* HARDWARE RESET */
+        html { height: 100%; -webkit-font-smoothing: antialiased; background: #000; }
+        
         body { 
-            background-color: var(--bg); color: var(--text); 
+            margin: 0; padding: 0; 
+            background-color: transparent; /* Critical for fixed bg */
+            color: var(--text); 
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0; padding: 0;
             width: 100%; min-height: 100%;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            /* Allow Lenis to handle scroll physics without conflict */
+            touch-action: pan-y; 
         }
 
-        /* LENIS CSS (REQUIRED FOR SMOOTHNESS) */
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+
+        /* LENIS CONFIG */
         html.lenis { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto; }
         .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
         .lenis.lenis-stopped { overflow: hidden; }
 
-        /* --- 2. THE MOBILE BACKGROUND FIX (HARDWARE LOCKED LAYER) --- */
-        .fixed-viewport {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100dvh; /* Dynamic Height */
-            z-index: -5; /* Behind everything */
+        /* --- 2. THE MOBILE BACKGROUND FIX (LAYER SEPARATION) --- */
+        #global-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; 
+            z-index: -10; /* Locked behind everything */
             pointer-events: none;
-            overflow: hidden;
+            will-change: transform; transform: translateZ(0); /* GPU Lock */
         }
         
         .stable-bg { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: #000 url('product-1.webp') no-repeat center bottom; 
             background-size: cover; 
-            background-position: center;
             filter: saturate(0) contrast(1.1) brightness(0.7);
-            transform: translateZ(0); /* Forces GPU Rendering */
         }
 
         .bg-overlay { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 50%, #000000 100%); 
+            /* Gradient ensures text pops on mobile */
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 60%, #000000 100%); 
         }
 
         .grain { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -5; 
             opacity: 0.03; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
-        /* --- 3. CURSOR (DESKTOP ONLY) --- */
+        /* --- 3. CURSOR ENGINE (DESKTOP ONLY) --- */
         @media (hover: hover) and (pointer: fine) {
-            body { cursor: none; }
-            a, button, input { cursor: none; }
+            body, a, button { cursor: none; }
             .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; will-change: transform; }
             .cursor-dot { width: 6px; height: 6px; background: white; border-radius: 50%; }
-            .cursor-outline { width: 40px; height: 40px; border: 1.5px solid rgba(255, 255, 255, 0.4); border-radius: 50%; transition: transform 0.2s var(--ease-out); }
+            .cursor-outline { width: 40px; height: 40px; border: 1.5px solid rgba(255, 255, 255, 0.4); border-radius: 50%; transition: width 0.3s, height 0.3s, border-color 0.3s; }
             .aurora-glow { 
                 position: fixed; top: 0; left: 0; width: 600px; height: 600px; 
                 background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%); 
@@ -83,31 +87,35 @@
                 will-change: transform; transform: translate3d(-50%, -50%, 0); 
             }
         }
-        @media (hover: none) { .cursor-dot, .cursor-outline, .aurora-glow { display: none; } }
+        @media (hover: none) { 
+            .cursor-dot, .cursor-outline, .aurora-glow { display: none; } 
+            body, a, button { cursor: auto; }
+        }
 
         /* --- 4. NAVIGATION --- */
         .navbar { 
-            position: fixed; top: 0; width: 100%; height: 64px; 
-            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            position: fixed; top: 0; width: 100%; height: 60px; 
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             z-index: 1000; border-bottom: 1px solid var(--glass-border); 
         }
         .nav-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; padding: 0 20px; }
-        .logo { font-weight: 900; font-size: 18px; letter-spacing: 3px; text-transform: uppercase; color: #fff; text-decoration: none; }
+        .logo { font-weight: 900; font-size: 18px; letter-spacing: 2px; text-transform: uppercase; color: #fff; text-decoration: none; }
         .nav-links { list-style: none; display: flex; gap: 30px; }
         .nav-links a { text-decoration: none; color: var(--text-dim); font-size: 11px; text-transform: uppercase; font-weight: 700; transition: 0.3s; letter-spacing: 1px; }
-        .nav-links a:hover { color: #fff; }
+        .nav-links a:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
 
         /* --- 5. ANIMATIONS --- */
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 1.2s var(--ease-out); }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 1.2s var(--ease-fluid); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* --- 6. HERO --- */
         .hero { height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; z-index: 10; }
         .hero-text { 
             padding: 60px 40px; 
-            background: rgba(5, 5, 5, 0.6); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            /* Dark glass for visibility */
+            background: rgba(5, 5, 8, 0.6); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
             border-radius: 40px; border: 1px solid var(--glass-border); text-align: center; max-width: 700px; width: 100%; 
-            box-shadow: 0 40px 100px rgba(0,0,0,0.9);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
         }
         h1 { 
             font-size: clamp(36px, 8vw, 72px); font-weight: 800; letter-spacing: -2px; margin-bottom: 20px; line-height: 1.1; 
@@ -124,7 +132,7 @@
         }
         .cta-btn:hover { transform: scale(1.05); }
 
-        /* --- 7. MAIN CONTENT (Scrolls over background) --- */
+        /* --- 7. MAIN CONTENT --- */
         .main-content { 
             position: relative; background: var(--bg); z-index: 10; 
             border-top: 1px solid var(--glass-border); box-shadow: 0 -50px 100px #000; 
@@ -132,13 +140,13 @@
         .section { padding: 120px 20px; max-width: 1200px; margin: 0 auto; }
         .section-title { font-size: clamp(30px, 5vw, 48px); font-weight: 800; text-align: center; margin-bottom: 70px; color: #fff; }
 
-        /* SHOP GRID (5, 10, 15% Logic) */
+        /* SHOP GRID */
         .shop-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 80px; }
         .shop-card { 
             background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); border-radius: 28px; padding: 35px 25px; 
             text-align: center; display: flex; flex-direction: column; justify-content: space-between; 
-            transition: transform 0.4s var(--ease-out);
+            transition: transform 0.4s var(--ease-fluid);
         }
         .shop-card:hover { border-color: var(--accent-solid); transform: translateY(-8px); }
         .shop-tag { font-size: 10px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; display: block; margin-bottom: 10px; letter-spacing: 1px; }
@@ -166,7 +174,7 @@
         .input-group label { display: block; font-size: 10px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 8px; font-weight: 700; }
         .input-group input { 
             width: 100%; background: #000; border: 1px solid #333; padding: 16px; border-radius: 12px; 
-            color: #fff; font-size: 16px; outline: none; transition: 0.3s;
+            color: #fff; font-size: 16px; /* Prevents Zoom on iOS */ outline: none; transition: 0.3s;
         }
         .input-group input:focus { border-color: var(--accent-solid); }
         .res-total { font-size: 56px; font-weight: 900; background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -177,7 +185,7 @@
         /* GALLERY & GUIDE */
         .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 100px; }
         .gallery-item { position: relative; background: #050505; border-radius: 32px; height: 450px; overflow: hidden; border: 1px solid var(--glass-border); }
-        .gallery-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.8s var(--ease-out); }
+        .gallery-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.8s var(--ease-fluid); }
         .gallery-item:hover .gallery-img { opacity: 1; transform: scale(1.05); }
         .gallery-caption { position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px; background: linear-gradient(to top, #000 10%, transparent); }
 
@@ -199,14 +207,14 @@
         .f-col a:hover { color: #fff; transform: translateX(5px); }
 
         /* --- 9. CART SYSTEM --- */
-        .cart-fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--accent-grad); border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 1001; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.4); cursor: pointer; transition: transform 0.3s; }
+        .cart-fab { position: fixed; bottom: 30px; right: 30px; width: 64px; height: 64px; background: var(--accent-grad); border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 1001; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.4); cursor: pointer; transition: transform 0.3s; }
         .cart-fab:active { transform: scale(0.9); }
         .cart-badge { position: absolute; top: -5px; right: -5px; background: #ff0000; color: white; width: 26px; height: 26px; border-radius: 50%; font-size: 12px; font-weight: 900; display: flex; justify-content: center; align-items: center; opacity: 0; }
         .cart-badge.visible { opacity: 1; }
         
-        .cart-modal { position: fixed; top: 0; right: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; opacity: 0; pointer-events: none; transition: 0.4s var(--ease-out); display: flex; justify-content: flex-end; }
+        .cart-modal { position: fixed; top: 0; right: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; opacity: 0; pointer-events: none; transition: 0.4s var(--ease-fluid); display: flex; justify-content: flex-end; }
         .cart-modal.active { opacity: 1; pointer-events: all; }
-        .cart-panel { width: 500px; height: 100%; background: #08080a; border-left: 1px solid var(--glass-border); padding: 40px; transform: translateX(100%); transition: 0.4s var(--ease-out); display: flex; flex-direction: column; }
+        .cart-panel { width: 500px; height: 100%; background: #08080a; border-left: 1px solid var(--glass-border); padding: 40px; transform: translateX(100%); transition: 0.4s var(--ease-fluid); display: flex; flex-direction: column; }
         .cart-modal.active .cart-panel { transform: translateX(0); }
         .cart-items { flex: 1; overflow-y: auto; margin: 30px 0; border-top: 1px solid #222; }
         .cart-summary { background: #000; padding: 25px; border-radius: 20px; border: 1px solid #222; }
@@ -214,7 +222,6 @@
         /* MOBILE RESPONSIVE OPTIMIZATION */
         @media (max-width: 900px) { 
             /* Fix Mobile Background Issues */
-            .stable-bg { background-attachment: scroll; } 
             .hero-text { padding: 40px 20px; background: rgba(5,5,8,0.8); margin-top: 0; }
             h1 { font-size: 42px; }
             .shop-grid, .omni-body, .gallery-grid, .guide-grid, .footer-grid { grid-template-columns: 1fr; }
@@ -228,7 +235,7 @@
 </head>
 <body>
 
-    <div class="fixed-viewport">
+    <div id="global-bg">
         <div class="stable-bg"></div>
         <div class="bg-overlay"></div>
     </div>
