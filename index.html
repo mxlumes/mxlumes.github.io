@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="M-X Lumes: Professional 3:1 Epoxy Resin Systems. Built for Master Artists.">
+    <meta name="description" content="M-X Lumes: Professional 3:1 Epoxy Resin Systems.">
     <title>M-X Lumes | Professional Resin Systems</title>
     
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <style>
         /* =========================================
-           1. CORE SYSTEM & VARIABLES
+           1. CORE SYSTEM (STABLE & FLUID)
            ========================================= */
         :root { 
             --accent-grad: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
@@ -23,9 +23,10 @@
             --warning: #fbbf24;
             --success: #10b981;
             --danger: #ef4444;
+            /* Premium Interaction Curve */
+            --ease-glide: cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         
-        /* HARDWARE RESET */
         html { scroll-behavior: smooth; height: 100%; background: #000; }
         
         body { 
@@ -50,11 +51,8 @@
         .bg-image { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: url('product-1.webp') no-repeat center bottom; 
-            
-            /* DESKTOP DEFAULT: 65% Studio Look */
-            background-size: 65%; 
-            
-            filter: saturate(1.1) contrast(1.1) brightness(0.7);
+            background-size: 65%; /* Desktop Default */
+            filter: saturate(1.1) contrast(1.1) brightness(0.65);
             will-change: transform;
         }
 
@@ -65,11 +63,11 @@
 
         .grain { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -5; 
-            opacity: 0.035; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
         /* =========================================
-           3. UI & COMPONENTS
+           3. UI COMPONENTS
            ========================================= */
         .navbar { 
             position: fixed; top: 0; width: 100%; height: 60px; 
@@ -79,33 +77,39 @@
         .nav-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; padding: 0 20px; }
         .logo { font-weight: 900; font-size: 18px; letter-spacing: 2px; text-transform: uppercase; color: #fff; text-decoration: none; }
         .nav-links { list-style: none; display: flex; gap: 30px; }
-        .nav-links a { text-decoration: none; color: var(--text-dim); font-size: 11px; text-transform: uppercase; font-weight: 700; transition: 0.3s; }
+        .nav-links a { text-decoration: none; color: var(--text-dim); font-size: 11px; text-transform: uppercase; font-weight: 700; transition: color 0.3s var(--ease-glide); }
         .nav-links a:hover { color: #fff; }
 
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1s var(--ease-glide); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         .hero { height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; z-index: 10; }
         .hero-text { 
             padding: 60px 40px; 
-            background: rgba(5, 5, 8, 0.6); backdrop-filter: blur(30px); border-radius: 40px; 
+            background: rgba(5, 5, 8, 0.6); backdrop-filter: blur(40px); border-radius: 40px; 
             border: 1px solid var(--glass-border); text-align: center; max-width: 700px; width: 100%; 
             box-shadow: 0 40px 100px rgba(0,0,0,0.8);
         }
         h1 { 
-            font-size: clamp(36px, 8vw, 72px); font-weight: 800; letter-spacing: -2px; margin-bottom: 20px; line-height: 1.1; 
+            font-size: clamp(36px, 8vw, 76px); font-weight: 800; letter-spacing: -2px; margin-bottom: 20px; line-height: 1.1; 
             background: linear-gradient(110deg, #fff 20%, #a5b4fc 50%, #fff 80%);
             background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: textShimmer 6s linear infinite;
         }
         @keyframes textShimmer { to { background-position: 200% center; } }
-        .tagline { font-size: clamp(14px, 4vw, 16px); color: #9ca3af; margin-bottom: 30px; }
+        .tagline { font-size: clamp(14px, 4vw, 18px); color: #9ca3af; margin-bottom: 30px; }
         .cta-btn { 
             background: var(--accent-grad); color: white; padding: 16px 48px; border-radius: 99px; 
-            text-decoration: none; font-weight: 700; font-size: 14px; transition: 0.3s; 
+            text-decoration: none; font-weight: 700; font-size: 14px; transition: transform 0.3s var(--ease-glide), box-shadow 0.3s; 
             display: inline-block; border: none; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.25);
         }
-        .cta-btn:hover { transform: scale(1.05); }
+        .cta-btn:hover { transform: scale(1.05); box-shadow: 0 20px 50px rgba(79, 70, 229, 0.4); }
+
+        /* --- MARQUEE (NEW) --- */
+        .marquee { background: #000; overflow: hidden; padding: 12px 0; border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); position: relative; z-index: 15; }
+        .marquee-track { display: flex; animation: scroll 20s linear infinite; white-space: nowrap; width: max-content; }
+        .marquee-item { color: var(--text-dim); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin: 0 40px; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* =========================================
            4. MAIN CONTENT
@@ -114,15 +118,12 @@
             position: relative; background: var(--bg); z-index: 10; 
             border-top: 1px solid var(--glass-border); box-shadow: 0 -50px 100px #000; 
         }
-        .section { padding: 100px 20px; max-width: 1200px; margin: 0 auto; }
+        .section { padding: 120px 20px; max-width: 1200px; margin: 0 auto; }
         .section-title { font-size: clamp(30px, 5vw, 48px); font-weight: 800; text-align: center; margin-bottom: 70px; color: #fff; letter-spacing: -1px; }
 
-        /* --- FEATURES GRID (ENRICHED) --- */
+        /* --- FEATURES GRID --- */
         .specs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 100px; }
-        .spec-card { 
-            background: var(--glass-bg); padding: 30px; border-radius: 24px; border: 1px solid var(--glass-border); text-align: center; 
-            transition: 0.3s;
-        }
+        .spec-card { background: var(--glass-bg); padding: 30px; border-radius: 24px; border: 1px solid var(--glass-border); text-align: center; transition: 0.4s var(--ease-glide); }
         .spec-card:hover { transform: translateY(-5px); border-color: var(--accent-solid); }
         .spec-val { display: block; font-size: 32px; font-weight: 800; color: #fff; margin-bottom: 5px; }
         .spec-label { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
@@ -132,9 +133,10 @@
         .shop-card { 
             background: var(--glass-bg); backdrop-filter: blur(20px); 
             border: 1px solid var(--glass-border); border-radius: 28px; padding: 35px 25px; 
-            text-align: center; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s;
+            text-align: center; display: flex; flex-direction: column; justify-content: space-between; 
+            transition: transform 0.4s var(--ease-glide);
         }
-        .shop-card:hover { border-color: var(--accent-solid); transform: translateY(-5px); }
+        .shop-card:hover { border-color: var(--accent-solid); transform: translateY(-8px); }
         .shop-tag { font-size: 10px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; display: block; margin-bottom: 10px; letter-spacing: 1px; }
         .shop-title { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 5px; }
         .shop-price { font-size: 20px; color: var(--accent-solid); font-weight: 700; }
@@ -142,15 +144,15 @@
         .discount-badge { background: var(--success); color: #000; font-size: 9px; font-weight: 900; padding: 4px 10px; border-radius: 5px; margin-bottom: 15px; display: inline-block; }
         .add-btn { 
             width: 100%; padding: 14px; background: #fff; color: #000; border: none; border-radius: 12px; 
-            font-weight: 800; text-transform: uppercase; font-size: 11px; margin-top: 15px; cursor: pointer;
+            font-weight: 800; text-transform: uppercase; font-size: 11px; margin-top: 15px; cursor: pointer; transition: 0.3s;
         }
+        .add-btn:hover { background: var(--accent-grad); color: #fff; }
 
-        /* --- COMPARISON TABLE (ENRICHED) --- */
+        /* --- COMPARISON TABLE --- */
         .comp-table { width: 100%; border-collapse: collapse; margin-bottom: 100px; background: var(--glass-bg); border-radius: 24px; overflow: hidden; border: 1px solid var(--glass-border); }
         .comp-table th, .comp-table td { padding: 25px; text-align: left; border-bottom: 1px solid var(--glass-border); color: #fff; font-size: 14px; }
         .comp-table th { background: rgba(255,255,255,0.05); text-transform: uppercase; font-size: 11px; color: var(--text-dim); letter-spacing: 1px; }
         .comp-table tr:last-child td { border-bottom: none; }
-        .comp-table tr:hover td { background: rgba(255,255,255,0.02); }
         .check { color: var(--success); font-weight: 900; }
         .cross { color: var(--danger); font-weight: 900; opacity: 0.7; }
 
@@ -172,30 +174,39 @@
         .tool-btn { padding: 14px; background: transparent; border: 1px solid #333; color: #fff; border-radius: 10px; font-size: 11px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
         .tool-btn:hover { border-color: var(--accent-solid); }
 
-        /* --- TIMELINE (ENRICHED) --- */
+        /* --- TIMELINE --- */
         .timeline { position: relative; margin: 80px 0; padding-left: 30px; border-left: 2px solid rgba(255,255,255,0.1); }
         .timeline-item { margin-bottom: 50px; position: relative; padding-left: 40px; }
-        .timeline-item::before { 
-            content: ''; position: absolute; left: -36px; top: 5px; width: 14px; height: 14px; 
-            background: #000; border: 2px solid var(--accent-solid); border-radius: 50%; 
-            box-shadow: 0 0 15px var(--accent-solid); 
-        }
+        .timeline-item::before { content: ''; position: absolute; left: -36px; top: 5px; width: 14px; height: 14px; background: #000; border: 2px solid var(--accent-solid); border-radius: 50%; box-shadow: 0 0 15px var(--accent-solid); }
         .t-date { font-size: 11px; color: var(--accent-solid); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block; font-weight: 800; }
         .t-title { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 10px; }
         .t-desc { font-size: 15px; color: #999; max-width: 600px; line-height: 1.7; }
 
-        /* GALLERY & GUIDE */
+        /* --- REVIEWS (NEW) --- */
+        .reviews-wrap { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; scroll-snap-type: x mandatory; }
+        .review-card { min-width: 300px; background: var(--glass-bg); padding: 30px; border-radius: 20px; border: 1px solid var(--glass-border); scroll-snap-align: center; }
+        .r-stars { color: var(--warning); font-size: 14px; margin-bottom: 15px; }
+        .r-text { font-size: 14px; color: #ccc; margin-bottom: 20px; line-height: 1.6; }
+        .r-author { font-size: 12px; font-weight: 700; color: #fff; }
+
+        /* --- FAQ (NEW) --- */
+        details { border-bottom: 1px solid var(--glass-border); padding: 20px 0; cursor: pointer; transition: 0.3s; }
+        details[open] { padding-bottom: 30px; }
+        summary { font-size: 18px; font-weight: 700; color: #fff; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+        summary::after { content: '+'; font-size: 24px; color: var(--accent-solid); }
+        details[open] summary::after { content: '-'; }
+        .faq-ans { color: #9ca3af; margin-top: 15px; font-size: 15px; line-height: 1.6; max-width: 800px; }
+
+        /* GALLERY & DASHBOARD */
         .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 100px; }
         .gallery-item { position: relative; background: #050505; border-radius: 32px; height: 450px; overflow: hidden; border: 1px solid var(--glass-border); }
-        .gallery-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.5s; }
+        .gallery-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.8s var(--ease-glide); }
         .gallery-item:hover .gallery-img { opacity: 1; transform: scale(1.05); }
         .gallery-caption { position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px; background: linear-gradient(to top, #000 10%, transparent); }
 
         .guide-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin: 60px 0; }
         .guide-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 32px; padding: 60px 30px; text-align: center; }
         .timer-badge { background: #000; color: #fff; padding: 12px 25px; border-radius: 10px; font-family: monospace; font-size: 22px; border: 1px solid #222; margin: 20px 0; display: inline-block; }
-
-        /* SAFETY SECTION (NEW) */
         .safety-box { border: 1px solid var(--warning); background: rgba(251, 191, 36, 0.05); }
         .safety-title { color: var(--warning); font-size: 18px; font-weight: 700; margin-bottom: 10px; }
 
@@ -249,7 +260,7 @@
                 <li><a href="#shop">Inventory</a></li>
                 <li><a href="#specs">Specs</a></li>
                 <li><a href="#calc">Calculator</a></li>
-                <li><a href="#gallery">Studio</a></li>
+                <li><a href="#protocol">Guide</a></li>
             </ul>
         </div>
     </nav>
@@ -261,6 +272,17 @@
             <a href="#shop" class="cta-btn">Acquire System</a>
         </div>
     </header>
+
+    <div class="marquee">
+        <div class="marquee-track">
+            <span class="marquee-item">ISO 9001 CERTIFIED <span>•</span></span>
+            <span class="marquee-item">ZERO VOC EMISSIONS <span>•</span></span>
+            <span class="marquee-item">TRIPLE HALS UV-SHIELD <span>•</span></span>
+            <span class="marquee-item">180 mPas VISCOSITY <span>•</span></span>
+            <span class="marquee-item">3:1 MIXING RATIO <span>•</span></span>
+            <span class="marquee-item">ISO 9001 CERTIFIED <span>•</span></span>
+        </div>
+    </div>
 
     <div class="main-content">
         
@@ -354,12 +376,21 @@
             </div>
         </section>
 
-        <section id="gallery" class="section reveal">
-            <h2 class="section-title">Studio</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item"><img src="gallary 1.png" class="gallery-img"><div class="gallery-caption"><span>TRANSMISSION</span></div></div>
-                <div class="gallery-item"><img src="gallary 3.png" class="gallery-img"><div class="gallery-caption"><span>REFRACTION</span></div></div>
-                <div class="gallery-item"><img src="gallary 2.png" class="gallery-img"><div class="gallery-caption"><span>DENSITY</span></div></div>
+        <section class="section reveal">
+            <h2 class="section-title">Artist Reviews</h2>
+            <div class="reviews-wrap">
+                <div class="review-card"><div class="r-stars">★★★★★</div><p class="r-text">"The 180 mPas viscosity is a game changer. No bubbles even without a pressure pot."</p><span class="r-author">@resin_art_india</span></div>
+                <div class="review-card"><div class="r-stars">★★★★★</div><p class="r-text">"Best 3:1 system I've used. The hardness after 72 hours is unbelievable."</p><span class="r-author">@studio_mosaic</span></div>
+                <div class="review-card"><div class="r-stars">★★★★★</div><p class="r-text">"Switched from generic brands. My flower preservation projects are finally crystal clear."</p><span class="r-author">@botanical_cast</span></div>
+            </div>
+        </section>
+
+        <section class="section reveal">
+            <h2 class="section-title">Technical FAQ</h2>
+            <div style="max-width:800px; margin:0 auto;">
+                <details><summary>Is a pressure pot required?</summary><p class="faq-ans">No. Our low viscosity (180 mPas) allows bubbles to rise and pop naturally.</p></details>
+                <details><summary>What is the max pour depth?</summary><p class="faq-ans">For Transparent Plus, we recommend 20-25mm per layer. For deeper pours, use our Deep Cast series.</p></details>
+                <details><summary>Is it food safe?</summary><p class="faq-ans">Yes, once fully cured (7 days), it is inert and safe for incidental food contact.</p></details>
             </div>
         </section>
 
@@ -403,26 +434,7 @@
     </footer>
 
     <script>
-        // --- 1. MOUSE PHYSICS (DESKTOP ONLY) ---
-        if (window.matchMedia("(pointer: fine)").matches) {
-            const dot = document.createElement('div'); dot.className = 'cursor-dot'; document.body.appendChild(dot);
-            const outline = document.createElement('div'); outline.className = 'cursor-outline'; document.body.appendChild(outline);
-            const glow = document.createElement('div'); glow.className = 'aurora-glow'; document.body.appendChild(glow);
-            
-            let mX = 0, mY = 0, dX = 0, dY = 0, oX = 0, oY = 0;
-            window.addEventListener('mousemove', e => { mX = e.clientX; mY = e.clientY; });
-            function updateCursor() {
-                dX = mX; dY = mY;
-                oX += (mX - oX) * 0.2; oY += (mY - oY) * 0.2;
-                dot.style.transform = `translate3d(${dX}px, ${dY}px, 0)`;
-                glow.style.transform = `translate3d(${dX}px, ${dY}px, 0)`;
-                outline.style.transform = `translate3d(${oX - 19}px, ${oY - 19}px, 0)`;
-                requestAnimationFrame(updateCursor);
-            }
-            updateCursor();
-        }
-
-        // --- 2. COMMERCE ---
+        // COMMERCE
         let cart = [];
         function addToCart(item, price) { cart.push({item, price}); updateCart(); toggleCart(); }
         function updateCart() {
@@ -445,7 +457,7 @@
             new Razorpay(options).open();
         }
 
-        // --- 3. CALCULATOR ---
+        // CALCULATOR
         let currentShape = 'rect';
         function setShape(s) { currentShape = s; document.querySelectorAll('.shape-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); ['rect','circ','hex','custom'].forEach(d=>document.getElementById('dims-'+d).style.display = d===s?'flex':'none'); runCalc(); }
         function runCalc() {
@@ -465,7 +477,7 @@
             document.getElementById('smartTip').innerText = `⚠ Depth > ${limit}cm. Use deep pour.`;
         }
 
-        // --- 4. TIMER ---
+        // TIMER
         let timer; let tl=180; function updateTimer() { document.getElementById('timerDisplay').innerText=`0${Math.floor(tl/60)}:${(tl%60).toString().padStart(2,'0')}`; }
         function startTimer() { if(timer) return; timer=setInterval(()=>{ if(tl>0){tl--; updateTimer();}else{clearInterval(timer); alert("Mix Ready!");}},1000); }
         function printTicket() { const t=document.getElementById('outTotal').innerText; const w=window.open('','','width=300,height=400'); w.document.write(`<body style="font-family:monospace;text-align:center;"><h3>BATCH</h3><h1>${t}</h1></body>`); w.print(); }
