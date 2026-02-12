@@ -14,32 +14,23 @@
 
     <style>
         /* -----------------------------------------------------------
-           1. OLED MIDNIGHT THEME (REFINED)
+           1. OLED MIDNIGHT THEME (PERFORMANCE OPTIMIZED)
            ----------------------------------------------------------- */
         :root {
-            /* Colors */
             --bg-oled: #000000;
             --bg-panel: #050505;
             --text-main: #f2f2f2;
             --text-dim: #909090;
-            
-            /* Accents */
             --accent: #ffffff;
-            --brand-glow: rgba(99, 102, 241, 0.5); /* Indigo Glow */
-            
-            /* Borders & Glass */
+            --brand-glow: rgba(99, 102, 241, 0.5);
             --border: rgba(255, 255, 255, 0.08);
             --border-hover: rgba(255, 255, 255, 0.4);
             --glass: rgba(15, 15, 15, 0.7);
             --blur: blur(30px);
             --radius: 24px;
-            
-            /* Status */
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
-            
-            /* Animation */
             --ease-elastic: cubic-bezier(0.19, 1, 0.22, 1);
         }
 
@@ -55,25 +46,24 @@
             line-height: 1.7;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            /* Performance: Hardware accelerate text */
+            text-rendering: optimizeLegibility;
         }
 
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; line-height: 1.1; letter-spacing: -0.03em; }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         button { cursor: pointer; border: none; outline: none; background: none; font-family: inherit; }
-        img { display: block; max-width: 100%; }
+        img { display: block; max-width: 100%; height: auto; }
 
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
 
         /* -----------------------------------------------------------
-           2. CINEMATIC BACKGROUND (VIGNETTE MASKED)
+           2. CINEMATIC BACKGROUND
            ----------------------------------------------------------- */
         .bg-layer {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -5;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -5;
             background-color: #000;
             background-image: url('product-1.webp');
             background-position: center bottom;
@@ -82,6 +72,8 @@
             -webkit-mask-image: radial-gradient(circle at 50% 100%, black 20%, transparent 100%);
             mask-image: radial-gradient(circle at 50% 100%, black 20%, transparent 100%);
             opacity: 0.85;
+            /* Performance: Hint browser to optimize this layer */
+            will-change: opacity, transform;
             transition: opacity 0.8s ease;
         }
 
@@ -101,14 +93,21 @@
            ----------------------------------------------------------- */
         .container { max-width: 1100px; margin: 0 auto; padding: 0 30px; }
         .section { padding: 130px 0; position: relative; z-index: 2; }
-        .reveal { opacity: 0; transform: translateY(40px); filter: blur(10px); transition: all 1.2s var(--ease-elastic); }
+        
+        /* Performance: Added will-change to prevent jank */
+        .reveal { 
+            opacity: 0; transform: translateY(40px); filter: blur(10px); 
+            transition: all 1.2s var(--ease-elastic);
+            will-change: transform, opacity, filter; 
+        }
         .reveal.active { opacity: 1; transform: translateY(0); filter: blur(0); }
 
-        /* Crystal Glass Card */
         .glass {
             background: var(--glass); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
             border: 1px solid var(--border); border-radius: var(--radius);
             position: relative; overflow: hidden; transition: all 0.4s var(--ease-elastic);
+            /* Performance hint */
+            will-change: transform, box-shadow;
         }
         .glass::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px;
@@ -120,7 +119,6 @@
             transform: translateY(-6px) scale(1.005);
         }
 
-        /* Buttons */
         .btn { padding: 18px 36px; border-radius: 60px; font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 1.5px; transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
         .btn-primary { background: #fff; color: #000; box-shadow: 0 0 20px rgba(255,255,255,0.1); }
         .btn-primary:hover { background: #f0f0f0; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255,255,255,0.25); }
@@ -158,7 +156,7 @@
         .g-item:hover .g-img { filter: grayscale(0%); opacity: 1; transform: scale(1.05); }
 
         /* -----------------------------------------------------------
-           6. FEATURES (Specs, Timeline, Calc)
+           6. FEATURES
            ----------------------------------------------------------- */
         .specs-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 50px; }
         .spec-row { display: flex; justify-content: space-between; padding: 25px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 15px; }
@@ -188,113 +186,52 @@
         .shape-btn { flex: 1; padding: 14px; background: transparent; border: 1px solid #333; color: #888; border-radius: 12px; margin-right: 10px; cursor: pointer; text-transform: uppercase; font-size: 10px; font-weight: 700; transition: 0.3s; }
         .shape-btn.active { background: #fff; color: #000; border-color: #fff; }
 
+        .dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 60px; }
+        .dd-box { padding: 50px; border-radius: 24px; border: 1px solid var(--border); }
+        .dd-box.dos { background: rgba(16, 185, 129, 0.03); border-color: rgba(16, 185, 129, 0.2); }
+        .dd-box.donts { background: rgba(239, 68, 68, 0.03); border-color: rgba(239, 68, 68, 0.2); }
+
         /* -----------------------------------------------------------
-           8. PREMIUM FOOTER (RE-ENGINEERED)
+           7. PREMIUM FOOTER
            ----------------------------------------------------------- */
-        .footer { 
-            position: relative; 
-            padding: 150px 0 60px; 
-            margin-top: 150px;
-            /* Background Image */
-            background: #000 url('last page background.png') no-repeat center bottom; 
-            background-size: cover; 
-            border-top: 1px solid transparent; /* Replaced by pseudo gradient */
-            overflow: hidden;
-        }
-        
-        /* Premium Top Border Gradient */
-        .footer::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), transparent);
-        }
-
-        /* Dark Overlay Fade */
-        .footer-overlay { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: linear-gradient(to bottom, #000 0%, rgba(5,5,10,0.85) 40%, rgba(5,5,10,0.4) 100%); 
-            pointer-events: none; z-index: 1;
-        }
-
+        .footer { position: relative; padding: 150px 0 60px; margin-top: 150px; background: #000 url('last page background.png') no-repeat center bottom; background-size: cover; overflow: hidden; }
+        .footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), transparent); }
+        .footer-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #000 0%, rgba(5,5,10,0.85) 40%, rgba(5,5,10,0.4) 100%); pointer-events: none; z-index: 1; }
         .footer-content { position: relative; z-index: 2; }
-
-        /* Watermark */
-        .footer-watermark {
-            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-            font-size: 30vw; font-weight: 800; color: #fff; opacity: 0.02;
-            pointer-events: none; white-space: nowrap; line-height: 0.8;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        /* CTA Section */
-        .footer-cta {
-            text-align: center; margin-bottom: 100px;
-        }
+        .footer-watermark { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); font-size: 30vw; font-weight: 800; color: #fff; opacity: 0.02; pointer-events: none; white-space: nowrap; line-height: 0.8; font-family: 'Space Grotesk', sans-serif; }
+        
+        .footer-cta { text-align: center; margin-bottom: 100px; }
         .footer-cta h2 { font-size: clamp(32px, 4vw, 56px); margin-bottom: 20px; }
         .footer-cta p { color: var(--text-dim); max-width: 400px; margin: 0 auto 30px; }
 
-        /* Grid */
         .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; }
-        
-        .f-col h4 { 
-            font-size: 11px; font-weight: 800; color: #fff; margin-bottom: 30px; 
-            text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; gap: 10px;
-        }
+        .f-col h4 { font-size: 11px; font-weight: 800; color: #fff; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
         .f-col h4::before { content:''; display:block; width:6px; height:6px; background:#6366f1; border-radius:50%; }
-
-        .f-link { 
-            display: block; color: var(--text-dim); margin-bottom: 15px; font-size: 14px; 
-            transition: all 0.3s; position: relative; padding-left: 0;
-        }
+        .f-link { display: block; color: var(--text-dim); margin-bottom: 15px; font-size: 14px; transition: all 0.3s; position: relative; padding-left: 0; }
         .f-link:hover { color: #fff; padding-left: 10px; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
-        .f-link:hover::before { 
-            content: '›'; position: absolute; left: 0; color: #6366f1; font-weight: 800; 
-        }
-
-        /* Social Circles */
+        .f-link:hover::before { content: '›'; position: absolute; left: 0; color: #6366f1; font-weight: 800; }
+        
         .social-row { display: flex; gap: 15px; margin-top: 30px; }
-        .social-btn {
-            width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border);
-            display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px;
-            transition: 0.3s; background: rgba(255,255,255,0.02);
-        }
+        .social-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; transition: 0.3s; background: rgba(255,255,255,0.02); }
         .social-btn:hover { background: #fff; color: #000; transform: translateY(-3px); }
-
-        /* Bottom Bar */
-        .f-bottom { 
-            border-top: 1px solid rgba(255,255,255,0.05); padding-top: 40px; margin-top: 80px; 
-            display: flex; justify-content: space-between; align-items: center; 
-            font-size: 12px; color: #666;
-        }
+        .f-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 40px; margin-top: 80px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #666; }
 
         /* -----------------------------------------------------------
-           9. CART & MODALS
+           8. CART & MODALS
            ----------------------------------------------------------- */
-        .cart-fab { 
-            position: fixed; bottom: 40px; right: 40px; width: 64px; height: 64px; background: #fff; 
-            border-radius: 50%; display: flex; justify-content: center; align-items: center; 
-            cursor: pointer; z-index: 2000; box-shadow: 0 0 40px rgba(255,255,255,0.2); 
-            transition: transform 0.3s var(--ease-elastic);
-        }
+        .cart-fab { position: fixed; bottom: 40px; right: 40px; width: 64px; height: 64px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 2000; box-shadow: 0 0 40px rgba(255,255,255,0.2); transition: transform 0.3s var(--ease-elastic); }
         .cart-fab:hover { transform: scale(1.1); }
-        .cart-count { 
-            position: absolute; top: -2px; right: -2px; background: #000; color: #fff; 
-            font-size: 10px; width: 22px; height: 22px; border-radius: 50%; display: flex; 
-            justify-content: center; align-items: center; border: 2px solid #fff; 
-        }
+        .cart-count { position: absolute; top: -2px; right: -2px; background: #000; color: #fff; font-size: 10px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; }
         
         .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; z-index: 3000; pointer-events: none; }
         .cart-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); opacity: 0; transition: 0.3s; }
-        .cart-inner { 
-            position: absolute; right: 0; width: 420px; height: 100%; background: #050505; 
-            border-left: 1px solid var(--border); transform: translateX(100%); 
-            transition: 0.5s var(--ease-elastic); display: flex; flex-direction: column; padding: 50px; 
-        }
+        .cart-inner { position: absolute; right: 0; width: 420px; height: 100%; background: #050505; border-left: 1px solid var(--border); transform: translateX(100%); transition: 0.5s var(--ease-elastic); display: flex; flex-direction: column; padding: 50px; }
         .cart-sidebar.active { pointer-events: all; }
         .cart-sidebar.active .cart-overlay { opacity: 1; }
         .cart-sidebar.active .cart-inner { transform: translateX(0); }
 
         /* -----------------------------------------------------------
-           10. MOBILE OPTIMIZATION
+           9. MOBILE OPTIMIZATION
            ----------------------------------------------------------- */
         @media (max-width: 900px) {
             .bg-layer { background-size: cover; background-position: center; opacity: 0.5; -webkit-mask-image: none; mask-image: none; }
@@ -346,7 +283,7 @@
                 <div class="glass product-card reveal">
                     <div>
                         <span class="p-tag">Starter Kit</span>
-                        <img src="product-1.webp" alt="1.2KG Kit" class="p-img">
+                        <img src="product-1.webp" alt="1.2KG Kit" class="p-img" loading="lazy" decoding="async">
                         <h3>1.2 KG Kit</h3>
                         <p style="color:var(--text-dim); font-size:14px; margin-top:5px;">900g Resin + 300g Hardener.</p>
                     </div>
@@ -358,7 +295,7 @@
                 <div class="glass product-card reveal" style="border-color:rgba(255,255,255,0.3);">
                     <div>
                         <span class="p-tag" style="background:#fff; color:#000; border-color:#fff;">Best Seller</span>
-                        <img src="product-1.webp" alt="7.5KG Kit" class="p-img" style="filter:hue-rotate(15deg) contrast(1.1);">
+                        <img src="product-1.webp" alt="7.5KG Kit" class="p-img" loading="lazy" decoding="async" style="filter:hue-rotate(15deg) contrast(1.1);">
                         <h3>7.5 KG Kit</h3>
                         <p style="color:var(--text-dim); font-size:14px; margin-top:5px;">5.6KG Resin + 1.9KG Hardener.</p>
                     </div>
@@ -370,7 +307,7 @@
                 <div class="glass product-card reveal">
                     <div>
                         <span class="p-tag">Industrial</span>
-                        <img src="product-1.webp" alt="30KG Drum" class="p-img" style="filter:grayscale(100%) brightness(0.8);">
+                        <img src="product-1.webp" alt="30KG Drum" class="p-img" loading="lazy" decoding="async" style="filter:grayscale(100%) brightness(0.8);">
                         <h3>30 KG Drum</h3>
                         <p style="color:var(--text-dim); font-size:14px; margin-top:5px;">Bulk Supply. Requires mechanical mixing.</p>
                     </div>
@@ -485,13 +422,7 @@
         <div class="container">
             <h2 style="text-align:center; margin-bottom:50px;">Gallery</h2>
             <div class="gallery-grid">
-                <div class="g-item wide"><img src="gallery-1.png" class="g-img"></div>
-                <div class="g-item"><img src="gallery-2.png" class="g-img"></div>
-                <div class="g-item"><img src="gallery-3.png" class="g-img"></div>
-                <div class="g-item"><img src="gallery-4.png" class="g-img"></div>
-                <div class="g-item"><img src="gallery-5.png" class="g-img"></div>
-                <div class="g-item"><img src="gallery-6.png" class="g-img"></div>
-            </div>
+                <div class="g-item wide"><img src="at3.png" class="g-img" loading="lazy" decoding="async"></div> <div class="g-item"><img src="at1.png" class="g-img" loading="lazy" decoding="async"></div> <div class="g-item"><img src="at2.png" class="g-img" loading="lazy" decoding="async"></div> <div class="g-item"><img src="at4.png" class="g-img" loading="lazy" decoding="async"></div> <div class="g-item"><img src="at5.png" class="g-img" loading="lazy" decoding="async"></div> <div class="g-item"><img src="at4.png" class="g-img" loading="lazy" decoding="async"></div> </div>
 
             <div class="dos-donts">
                 <div class="dd-box dos">
