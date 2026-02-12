@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="M-X Lumes: Professional 3:1 Epoxy Resin Systems.">
+    <meta name="description" content="M-X Lumes: Professional 3:1 Epoxy Resin Systems. Built for Master Artists.">
     <title>M-X Lumes | Professional Resin Systems</title>
     
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -50,14 +50,17 @@
         .bg-image { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: url('product-1.webp') no-repeat center bottom; 
-            background-size: 65%; /* Desktop Default */
+            
+            /* DESKTOP DEFAULT: 65% Studio Look */
+            background-size: 65%; 
+            
             filter: saturate(1.1) contrast(1.1) brightness(0.7);
             will-change: transform;
         }
 
         .bg-overlay { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 60%, #000000 100%); 
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 60%, #000000 100%); 
         }
 
         .grain { 
@@ -112,11 +115,15 @@
             border-top: 1px solid var(--glass-border); box-shadow: 0 -50px 100px #000; 
         }
         .section { padding: 100px 20px; max-width: 1200px; margin: 0 auto; }
-        .section-title { font-size: clamp(30px, 5vw, 48px); font-weight: 800; text-align: center; margin-bottom: 70px; color: #fff; }
+        .section-title { font-size: clamp(30px, 5vw, 48px); font-weight: 800; text-align: center; margin-bottom: 70px; color: #fff; letter-spacing: -1px; }
 
-        /* --- FEATURES GRID (NEW) --- */
+        /* --- FEATURES GRID (ENRICHED) --- */
         .specs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 100px; }
-        .spec-card { background: var(--glass-bg); padding: 30px; border-radius: 24px; border: 1px solid var(--glass-border); text-align: center; }
+        .spec-card { 
+            background: var(--glass-bg); padding: 30px; border-radius: 24px; border: 1px solid var(--glass-border); text-align: center; 
+            transition: 0.3s;
+        }
+        .spec-card:hover { transform: translateY(-5px); border-color: var(--accent-solid); }
         .spec-val { display: block; font-size: 32px; font-weight: 800; color: #fff; margin-bottom: 5px; }
         .spec-label { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
 
@@ -138,13 +145,14 @@
             font-weight: 800; text-transform: uppercase; font-size: 11px; margin-top: 15px; cursor: pointer;
         }
 
-        /* --- COMPARISON TABLE (NEW) --- */
+        /* --- COMPARISON TABLE (ENRICHED) --- */
         .comp-table { width: 100%; border-collapse: collapse; margin-bottom: 100px; background: var(--glass-bg); border-radius: 24px; overflow: hidden; border: 1px solid var(--glass-border); }
-        .comp-table th, .comp-table td { padding: 20px; text-align: left; border-bottom: 1px solid var(--glass-border); color: #fff; font-size: 14px; }
-        .comp-table th { background: rgba(255,255,255,0.05); text-transform: uppercase; font-size: 11px; color: var(--text-dim); }
+        .comp-table th, .comp-table td { padding: 25px; text-align: left; border-bottom: 1px solid var(--glass-border); color: #fff; font-size: 14px; }
+        .comp-table th { background: rgba(255,255,255,0.05); text-transform: uppercase; font-size: 11px; color: var(--text-dim); letter-spacing: 1px; }
         .comp-table tr:last-child td { border-bottom: none; }
+        .comp-table tr:hover td { background: rgba(255,255,255,0.02); }
         .check { color: var(--success); font-weight: 900; }
-        .cross { color: var(--danger); font-weight: 900; }
+        .cross { color: var(--danger); font-weight: 900; opacity: 0.7; }
 
         /* --- CALCULATOR --- */
         .omni-panel { background: var(--glass-bg); border-radius: 32px; border: 1px solid var(--glass-border); overflow: hidden; }
@@ -164,13 +172,17 @@
         .tool-btn { padding: 14px; background: transparent; border: 1px solid #333; color: #fff; border-radius: 10px; font-size: 11px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
         .tool-btn:hover { border-color: var(--accent-solid); }
 
-        /* --- TIMELINE (NEW) --- */
-        .timeline { position: relative; margin: 80px 0; padding-left: 20px; border-left: 2px solid #333; }
-        .timeline-item { margin-bottom: 40px; position: relative; padding-left: 30px; }
-        .timeline-item::before { content: ''; position: absolute; left: -26px; top: 5px; width: 10px; height: 10px; background: var(--accent-solid); border-radius: 50%; box-shadow: 0 0 10px var(--accent-solid); }
-        .t-date { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block; }
-        .t-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 10px; }
-        .t-desc { font-size: 14px; color: #888; max-width: 500px; }
+        /* --- TIMELINE (ENRICHED) --- */
+        .timeline { position: relative; margin: 80px 0; padding-left: 30px; border-left: 2px solid rgba(255,255,255,0.1); }
+        .timeline-item { margin-bottom: 50px; position: relative; padding-left: 40px; }
+        .timeline-item::before { 
+            content: ''; position: absolute; left: -36px; top: 5px; width: 14px; height: 14px; 
+            background: #000; border: 2px solid var(--accent-solid); border-radius: 50%; 
+            box-shadow: 0 0 15px var(--accent-solid); 
+        }
+        .t-date { font-size: 11px; color: var(--accent-solid); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block; font-weight: 800; }
+        .t-title { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .t-desc { font-size: 15px; color: #999; max-width: 600px; line-height: 1.7; }
 
         /* GALLERY & GUIDE */
         .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 100px; }
@@ -182,6 +194,10 @@
         .guide-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin: 60px 0; }
         .guide-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 32px; padding: 60px 30px; text-align: center; }
         .timer-badge { background: #000; color: #fff; padding: 12px 25px; border-radius: 10px; font-family: monospace; font-size: 22px; border: 1px solid #222; margin: 20px 0; display: inline-block; }
+
+        /* SAFETY SECTION (NEW) */
+        .safety-box { border: 1px solid var(--warning); background: rgba(251, 191, 36, 0.05); }
+        .safety-title { color: var(--warning); font-size: 18px; font-weight: 700; margin-bottom: 10px; }
 
         /* FOOTER */
         .footer-wrap { position: relative; padding: 150px 20px 80px; min-height: 100vh; background: #000 url('last page background.png') no-repeat center bottom; background-size: cover; border-top: 1px solid #1a1a1b; display: flex; flex-direction: column; justify-content: center; }
@@ -350,9 +366,12 @@
         <section id="protocol" class="section reveal">
             <h2 class="section-title">Dashboard</h2>
             <div class="guide-grid">
-                <div class="guide-card"><h3>Safety</h3><p style="color:#666; font-size:12px;">Wear Mask & Gloves. Ventilated Area.</p></div>
+                <div class="guide-card safety-box">
+                    <div class="safety-title">⚠ Safety First</div>
+                    <p style="color:#666; font-size:12px;">Epoxy is a chemical. Always wear a vapor mask and nitrile gloves in a ventilated area.</p>
+                </div>
                 <div class="guide-card" style="border-color:var(--accent-solid);"><h3>Timer</h3><div class="timer-badge" id="timerDisplay">03:00</div><button class="add-btn" style="margin-top:10px; width:auto; padding:8px 20px;" onclick="startTimer()">Start</button></div>
-                <div class="guide-card"><h3>Docs</h3><p style="color:#666; font-size:12px;"><a href="#" style="color:#fff;">Download TDS</a> | <a href="#" style="color:#fff;">Download SDS</a></p></div>
+                <div class="guide-card"><h3>Docs</h3><p style="color:#666; font-size:12px;"><a href="#" style="color:#fff;">Download TDS</a><br><a href="#" style="color:#fff;">Download SDS</a></p></div>
             </div>
         </section>
     </div>
@@ -386,18 +405,18 @@
     <script>
         // --- 1. MOUSE PHYSICS (DESKTOP ONLY) ---
         if (window.matchMedia("(pointer: fine)").matches) {
-            // ... (Cursor Logic same as before) ...
-            const dot = document.querySelector('.cursor-dot');
-            const outline = document.querySelector('.cursor-outline');
-            const glow = document.querySelector('.aurora-glow'); // Re-added glow
+            const dot = document.createElement('div'); dot.className = 'cursor-dot'; document.body.appendChild(dot);
+            const outline = document.createElement('div'); outline.className = 'cursor-outline'; document.body.appendChild(outline);
+            const glow = document.createElement('div'); glow.className = 'aurora-glow'; document.body.appendChild(glow);
+            
             let mX = 0, mY = 0, dX = 0, dY = 0, oX = 0, oY = 0;
             window.addEventListener('mousemove', e => { mX = e.clientX; mY = e.clientY; });
             function updateCursor() {
                 dX = mX; dY = mY;
                 oX += (mX - oX) * 0.2; oY += (mY - oY) * 0.2;
-                if(dot) dot.style.transform = `translate3d(${dX}px, ${dY}px, 0)`;
-                if(glow) glow.style.transform = `translate3d(${dX}px, ${dY}px, 0)`;
-                if(outline) outline.style.transform = `translate3d(${oX - 19}px, ${oY - 19}px, 0)`;
+                dot.style.transform = `translate3d(${dX}px, ${dY}px, 0)`;
+                glow.style.transform = `translate3d(${dX}px, ${dY}px, 0)`;
+                outline.style.transform = `translate3d(${oX - 19}px, ${oY - 19}px, 0)`;
                 requestAnimationFrame(updateCursor);
             }
             updateCursor();
