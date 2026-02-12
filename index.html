@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="M-X Lumes: Professional 3:1 Epoxy Resin Systems. ISO 9001 Certified.">
     <title>M-X Lumes | The Professional Standard</title>
     
@@ -13,18 +13,18 @@
 
     <style>
         /* -----------------------------------------------------------
-           1. OLED MIDNIGHT & MILKY WHITE THEME (REFINED)
+           1. OLED THEME PRO (REFINED)
            ----------------------------------------------------------- */
         :root {
             /* Colors */
             --bg-oled: #000000;
-            --bg-panel: #030303;
-            --text-milky: #f2f2f2;
+            --bg-panel: #050505;
+            --text-milky: #f0f0f0;
             --text-dim: #999999;
             
             /* Accents */
             --accent: #ffffff; 
-            --border: rgba(255, 255, 255, 0.15);
+            --border: rgba(255, 255, 255, 0.12);
             --border-hover: rgba(255, 255, 255, 0.4);
             
             /* Status Colors */
@@ -33,315 +33,269 @@
             --danger: #ef4444;
 
             /* Glassmorphism Premium */
-            --glass: rgba(15, 15, 15, 0.6);
-            --blur: blur(30px); /* Increased for smoother look */
+            --glass: rgba(18, 18, 18, 0.7);
+            --blur: blur(25px);
             
             /* Layout */
             --container: 1100px;
-            --radius: 24px;
-            
-            /* Animation Variables */
-            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --radius: 20px;
+            --ease: cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         /* -----------------------------------------------------------
            2. RESET & GLOBAL STYLES
            ----------------------------------------------------------- */
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        html { scroll-behavior: smooth; font-size: 16px; scroll-padding-top: 100px; }
+        html { scroll-behavior: smooth; font-size: 16px; scroll-padding-top: 90px; }
         
         body {
             background-color: var(--bg-oled);
             color: var(--text-milky);
             font-family: 'Manrope', sans-serif;
-            line-height: 1.7; /* Increased for readability */
+            line-height: 1.6;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        h1, h2, h3, h4, h5 { font-family: 'Space Grotesk', sans-serif; color: var(--accent); line-height: 1.1; letter-spacing: -0.02em; }
+        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; color: var(--accent); line-height: 1.1; letter-spacing: -0.03em; }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         button { cursor: pointer; border: none; outline: none; background: none; font-family: inherit; }
-        ul { list-style: none; }
         img { display: block; max-width: 100%; }
-        
-        /* Selection Color */
-        ::selection { background: rgba(255, 255, 255, 0.2); color: #fff; }
 
         /* Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #fff; }
+        ::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
 
         /* -----------------------------------------------------------
-           3. BACKGROUND ENGINE (STABILIZED)
+           3. BACKGROUND ENGINE (MOBILE FIX)
            ----------------------------------------------------------- */
-        .fixed-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -5;
-            background: #000 url('bg-main.webp') no-repeat center bottom;
-            background-size: 65%; /* Desktop Preference */
-            opacity: 1;
-            transition: opacity 0.5s ease;
+        /* We use an IMG tag for background instead of CSS background-image 
+           to ensure it renders correctly on mobile browsers */
+        .bg-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -5;
+            object-fit: cover; opacity: 0.6; /* Slight dim for text readability */
+            /* Desktop: Scale nicely */
+            transform: scale(1.1); 
         }
+        
         .bg-gradient {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -4;
-            /* Smoother fade to black at the bottom */
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 70%, #000 100%);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -4;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.9) 80%, #000 100%);
             pointer-events: none;
         }
-        .grain-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; opacity: 0.03; pointer-events: none;
+        
+        .grain {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; opacity: 0.04; pointer-events: none;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Mobile Stability */
-        @media (max-width: 900px) {
-            .fixed-bg { background-size: cover; background-position: center; opacity: 0.5; }
-        }
-
         /* -----------------------------------------------------------
-           4. SMOOTH GLIDE ANIMATIONS
+           4. ANIMATION & UTILITIES
            ----------------------------------------------------------- */
         .container { max-width: var(--container); margin: 0 auto; padding: 0 25px; }
         
-        /* Cinematic Reveal: Blurs into focus */
         .reveal { 
-            opacity: 0; 
-            transform: translateY(40px); 
-            filter: blur(10px);
-            transition: all 1.2s var(--ease-out); 
+            opacity: 0; transform: translateY(40px); filter: blur(5px);
+            transition: all 1s var(--ease); 
         }
-        .reveal.active { 
-            opacity: 1; 
-            transform: translateY(0); 
-            filter: blur(0);
-        }
+        .reveal.active { opacity: 1; transform: translateY(0); filter: blur(0); }
         
-        /* Glass Panel Standard */
+        /* Glass Box */
         .glass-box {
             background: var(--glass); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
             border: 1px solid var(--border); border-radius: var(--radius);
-            transition: border-color 0.3s, transform 0.4s var(--ease-out), box-shadow 0.4s; overflow: hidden;
+            transition: 0.4s var(--ease); overflow: hidden;
         }
         .glass-box:hover { 
             border-color: var(--border-hover); 
-            box-shadow: 0 30px 60px -10px rgba(0,0,0,0.8); 
             transform: translateY(-5px); 
+            box-shadow: 0 20px 50px -10px rgba(0,0,0,0.8); 
         }
 
-        /* Premium Buttons */
+        /* Buttons */
         .btn { 
-            padding: 16px 32px; border-radius: 50px; font-weight: 700; font-size: 12px; 
+            padding: 16px 30px; border-radius: 50px; font-weight: 700; font-size: 12px; 
             text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; 
             display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-            position: relative; overflow: hidden;
         }
         .btn-primary { background: #fff; color: #000; }
-        .btn-primary:hover { background: #e0e0e0; box-shadow: 0 0 20px rgba(255,255,255,0.3); }
-        .btn-outline { border: 1px solid var(--border); color: #fff; }
-        .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.05); }
+        .btn-primary:hover { background: #e0e0e0; transform: scale(1.03); }
+        .btn-outline { border: 1px solid var(--border); color: #fff; background: rgba(255,255,255,0.02); }
+        .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
 
         /* -----------------------------------------------------------
-           5. NAVIGATION & HERO
+           5. NAVIGATION
            ----------------------------------------------------------- */
         .navbar { 
             position: fixed; top: 0; width: 100%; z-index: 1000; height: 80px; 
             display: flex; align-items: center; border-bottom: 1px solid transparent; 
-            transition: 0.5s var(--ease-out); 
+            transition: 0.4s; 
         }
         .navbar.scrolled { 
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); 
+            background: rgba(0,0,0,0.9); backdrop-filter: blur(20px); 
             border-bottom: 1px solid var(--border); height: 70px;
         }
         .nav-inner { width: 100%; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: 800; font-size: 18px; letter-spacing: 3px; text-transform: uppercase; color: #fff; }
-        .nav-links { display: flex; gap: 40px; }
-        .nav-link { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; }
+        .logo { font-weight: 800; font-size: 20px; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-link { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-dim); }
         .nav-link:hover { color: #fff; }
 
+        /* -----------------------------------------------------------
+           6. HERO SECTION
+           ----------------------------------------------------------- */
         .hero { 
-            min-height: 100vh; display: flex; align-items: center; justify-content: center; 
-            text-align: center; position: relative; z-index: 10; padding-top: 60px;
+            height: 100vh; display: flex; align-items: center; justify-content: center; 
+            text-align: center; position: relative; z-index: 10;
         }
         .hero h1 { 
-            font-size: clamp(48px, 6vw, 90px); letter-spacing: -2px; margin-bottom: 24px; font-weight: 800; 
-            background: linear-gradient(to bottom, #fff 40%, #888 100%);
+            font-size: clamp(40px, 8vw, 90px); margin-bottom: 20px; font-weight: 800; 
+            background: linear-gradient(180deg, #fff 0%, #aaa 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .hero p { color: var(--text-dim); max-width: 500px; margin: 0 auto 40px; font-size: 18px; font-weight: 300; }
+        .hero p { color: #ccc; max-width: 500px; margin: 0 auto 40px; font-size: 18px; }
 
         /* -----------------------------------------------------------
-           6. SHOP & PRODUCTS (INTERACTIVE)
+           7. SHOP GRID
            ----------------------------------------------------------- */
-        .section { padding: 120px 0; position: relative; z-index: 2; }
-        .section-header { text-align: center; margin-bottom: 80px; }
-        .section-title { font-size: 42px; margin-bottom: 10px; }
+        .section { padding: 100px 0; position: relative; z-index: 2; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-title { font-size: 40px; margin-bottom: 10px; }
         
         .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-        .product-card { padding: 30px; display: flex; flex-direction: column; justify-content: space-between; min-height: 520px; }
+        .product-card { padding: 30px; display: flex; flex-direction: column; justify-content: space-between; min-height: 500px; }
+        
+        /* IMAGE HANDLING */
         .prod-img { 
-            width: 100%; height: 260px; object-fit: cover; border-radius: 12px; margin-bottom: 25px; 
-            opacity: 0.8; transition: 0.5s var(--ease-out); 
+            width: 100%; height: 260px; object-fit: cover; border-radius: 12px; margin-bottom: 20px; 
+            opacity: 0.9; transition: 0.5s var(--ease); 
         }
-        .product-card:hover .prod-img { opacity: 1; transform: scale(1.03); }
+        .product-card:hover .prod-img { opacity: 1; transform: scale(1.02); }
+        
         .prod-tag { 
-            font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-dim); 
-            border: 1px solid var(--border); padding: 6px 10px; border-radius: 30px; 
-            display: inline-block; margin-bottom: 15px; 
+            font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--text-dim); 
+            border: 1px solid var(--border); padding: 5px 10px; border-radius: 20px; 
+            display: inline-block; margin-bottom: 10px; 
         }
-        
+
         /* -----------------------------------------------------------
-           7. SPECIFICATIONS & COMPARISON (REFINED TABLES)
+           8. SPECS & COMPARISON
            ----------------------------------------------------------- */
-        .specs-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; margin-bottom: 100px; }
+        .specs-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; margin-bottom: 80px; }
         .spec-table { width: 100%; border-collapse: collapse; }
-        .spec-table th { 
-            text-align: left; padding: 25px 0; color: var(--text-dim); font-size: 11px; 
-            text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); 
-        }
-        .spec-table td { 
-            padding: 25px 0; border-bottom: 1px solid rgba(255,255,255,0.05); 
-            font-weight: 500; font-size: 15px; 
-        }
+        .spec-table th { text-align: left; padding: 20px 0; color: var(--text-dim); font-size: 11px; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+        .spec-table td { padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 15px; }
 
-        .download-box { display: flex; gap: 20px; margin-top: 20px; }
         .file-btn { 
-            flex: 1; padding: 25px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
-            border-radius: 20px; display: flex; align-items: center; gap: 20px; transition: 0.3s; cursor: pointer; 
+            display: flex; align-items: center; gap: 15px; padding: 20px; 
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
+            border-radius: 16px; margin-bottom: 15px; transition: 0.3s; 
         }
-        .file-btn:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+        .file-btn:hover { background: rgba(255,255,255,0.08); border-color: #fff; }
         .file-icon { 
-            width: 45px; height: 45px; background: #fff; border-radius: 10px; 
-            display: flex; align-items: center; justify-content: center; 
-            color: #000; font-weight: 800; font-size: 12px; 
+            width: 40px; height: 40px; background: #fff; color: #000; border-radius: 8px; 
+            display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 10px; 
         }
 
-        /* Prism Table */
-        .comp-wrapper { overflow-x: auto; margin-top: 60px; }
-        .comp-table { width: 100%; min-width: 700px; border-collapse: collapse; background: var(--glass); border-radius: 32px; }
-        .comp-table th { 
-            padding: 30px; text-align: left; font-size: 11px; text-transform: uppercase; 
-            color: var(--text-dim); background: rgba(255,255,255,0.02); letter-spacing: 1px;
-        }
-        .comp-table td { padding: 30px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .comp-highlight { color: #fff; font-weight: 800; font-size: 16px; border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.02); }
+        .comp-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .comp-table { width: 100%; min-width: 650px; border-collapse: collapse; background: var(--glass); border-radius: 24px; }
+        .comp-table th { padding: 25px; text-align: left; font-size: 11px; text-transform: uppercase; color: var(--text-dim); background: rgba(255,255,255,0.02); }
+        .comp-table td { padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .hl { color: #fff; font-weight: 700; border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.02); }
 
         /* -----------------------------------------------------------
-           8. TIMELINE (POUR PROTOCOL)
+           9. TIMELINE (MOBILE OPTIMIZED)
            ----------------------------------------------------------- */
-        .timeline-wrap { position: relative; max-width: 800px; margin: 0 auto; padding: 60px 0; }
-        .timeline-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.3), transparent); transform: translateX(-50%); }
-        .time-step { display: flex; align-items: center; margin-bottom: 100px; position: relative; }
+        .timeline-wrap { position: relative; max-width: 800px; margin: 0 auto; padding: 40px 0; }
+        .timeline-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,0.2); transform: translateX(-50%); }
+        .time-step { display: flex; align-items: center; margin-bottom: 60px; position: relative; }
         .time-step:nth-child(even) { flex-direction: row-reverse; }
-        .time-content { width: 42%; padding: 40px; background: var(--glass); border: 1px solid var(--border); border-radius: 24px; position: relative; transition: 0.3s; }
-        .time-content:hover { border-color: #fff; }
-        .time-dot { position: absolute; left: 50%; width: 10px; height: 10px; background: #fff; border-radius: 50%; transform: translateX(-50%); z-index: 2; box-shadow: 0 0 20px rgba(255,255,255,0.6); }
-        .step-num { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-dim); margin-bottom: 10px; display: block; letter-spacing: 1px; }
+        .time-content { width: 45%; padding: 30px; background: var(--glass); border: 1px solid var(--border); border-radius: 20px; }
+        .time-dot { position: absolute; left: 50%; width: 12px; height: 12px; background: #fff; border-radius: 50%; transform: translateX(-50%); z-index: 2; box-shadow: 0 0 15px rgba(255,255,255,0.5); }
 
         /* -----------------------------------------------------------
-           9. CALCULATOR (SMOOTH INTERACTION)
+           10. GALLERY (MOBILE MASONRY FIX)
            ----------------------------------------------------------- */
-        .omni-panel { box-shadow: 0 50px 100px rgba(0,0,0,0.8); }
-        .omni-header { background: rgba(0,0,0,0.3); padding: 30px; display: flex; gap: 15px; overflow-x: auto; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .shape-btn { 
-            flex: 1; padding: 15px; background: transparent; color: var(--text-dim); border: 1px solid #333; 
-            border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; 
-            transition: 0.3s; white-space: nowrap; min-width: 100px; 
-        }
-        .shape-btn.active { background: #fff; color: #000; border-color: #fff; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
-        .omni-body { display: grid; grid-template-columns: 1.5fr 1fr; }
-        .omni-config { padding: 60px; border-right: 1px solid rgba(255,255,255,0.05); }
-        .omni-results { padding: 60px; background: rgba(20,20,20,0.8); display: flex; flex-direction: column; justify-content: center; }
-        
-        .input-group { margin-bottom: 25px; }
-        .input-group label { display: block; font-size: 11px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 10px; font-weight: 700; letter-spacing: 1px; }
-        .input-group input { 
-            width: 100%; background: #050505; border: 1px solid #333; padding: 16px; border-radius: 12px; 
-            color: #fff; outline: none; transition: 0.3s; font-size: 16px; 
-        }
-        .input-group input:focus { border-color: #fff; transform: translateY(-2px); }
-        .res-total { font-size: 64px; font-weight: 800; color: #fff; line-height: 1; margin: 15px 0; letter-spacing: -2px; }
-
-        /* -----------------------------------------------------------
-           10. GALLERY & SAFETY
-           ----------------------------------------------------------- */
-        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-bottom: 100px; }
-        .gallery-item { height: 320px; border-radius: 20px; overflow: hidden; position: relative; border: 1px solid var(--border); cursor: crosshair; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 80px; }
+        .gallery-item { height: 280px; border-radius: 20px; overflow: hidden; position: relative; border: 1px solid var(--border); }
         .gallery-item.wide { grid-column: span 2; }
-        .gallery-img { width: 100%; height: 100%; object-fit: cover; transition: 0.7s var(--ease-out); filter: grayscale(100%); opacity: 0.7; }
+        .gallery-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; filter: grayscale(100%); opacity: 0.8; }
         .gallery-item:hover .gallery-img { filter: grayscale(0%); opacity: 1; transform: scale(1.05); }
 
-        .safety-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 60px; }
-        .dos-card { background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 32px; padding: 50px; }
-        .donts-card { background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 32px; padding: 50px; }
-        .list-item { margin-bottom: 20px; padding-left: 25px; position: relative; font-size: 15px; color: var(--text-dim); }
-        .list-item::before { content: '•'; position: absolute; left: 0; font-weight: 800; font-size: 20px; line-height: 1; }
+        .dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .dd-card { padding: 40px; border-radius: 24px; border: 1px solid var(--border); }
+        .dd-card.dos { background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.3); }
+        .dd-card.donts { background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.3); }
+
+        /* -----------------------------------------------------------
+           11. CALCULATOR (TOUCH OPTIMIZED)
+           ----------------------------------------------------------- */
+        .omni-panel { box-shadow: 0 40px 80px rgba(0,0,0,0.5); }
+        .omni-body { display: grid; grid-template-columns: 1.5fr 1fr; }
+        .omni-config { padding: 50px; border-right: 1px solid var(--border); }
+        .omni-results { padding: 50px; background: rgba(20,20,20,0.6); display: flex; flex-direction: column; justify-content: center; }
+        .shape-btn { flex: 1; padding: 15px; border: 1px solid #333; color: #888; border-radius: 12px; font-weight: 700; font-size: 11px; text-transform: uppercase; transition: 0.3s; white-space: nowrap; }
+        .shape-btn.active { background: #fff; color: #000; border-color: #fff; }
         
-        .chemical-warning { 
-            margin-top: 50px; padding: 30px; border: 1px solid var(--warning); border-radius: 20px; 
-            background: rgba(245, 158, 11, 0.05); display: flex; gap: 25px; align-items: center; 
-        }
-        .warn-icon { font-size: 32px; color: var(--warning); }
+        .input-group label { display: block; font-size: 10px; color: #888; text-transform: uppercase; margin-bottom: 8px; font-weight: 700; }
+        .input-group input { width: 100%; background: #080808; border: 1px solid #333; padding: 15px; border-radius: 12px; color: #fff; font-size: 16px; outline: none; transition: 0.3s; }
+        .input-group input:focus { border-color: #fff; }
 
         /* -----------------------------------------------------------
-           11. FOOTER (FAT)
+           12. FOOTER & CART
            ----------------------------------------------------------- */
-        .footer { background: #000; padding: 120px 0 40px; border-top: 1px solid var(--border); margin-top: 120px; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 80px; }
-        .f-header { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; color: #fff; font-weight: 800; }
-        .f-link { display: block; color: var(--text-dim); margin-bottom: 15px; font-size: 14px; transition: 0.2s; }
-        .f-link:hover { color: #fff; transform: translateX(5px); }
-
-        /* -----------------------------------------------------------
-           12. CART & MODALS
-           ----------------------------------------------------------- */
-        .cart-fab { 
-            position: fixed; bottom: 30px; right: 30px; width: 64px; height: 64px; background: #fff; 
-            border-radius: 50%; display: flex; justify-content: center; align-items: center; 
-            cursor: pointer; z-index: 2000; box-shadow: 0 0 30px rgba(255,255,255,0.3); 
-            transition: 0.3s var(--ease-out);
-        }
-        .cart-fab:hover { transform: scale(1.1); box-shadow: 0 0 50px rgba(255,255,255,0.5); }
-        .cart-count { 
-            position: absolute; top: -2px; right: -2px; background: #000; color: #fff; font-size: 10px; 
-            width: 24px; height: 24px; border-radius: 50%; display: flex; justify-content: center; 
-            align-items: center; border: 2px solid #fff; font-weight: 800;
-        }
+        .footer { background: #000; padding: 100px 0 40px; border-top: 1px solid var(--border); margin-top: 100px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 60px; }
+        
+        .cart-fab { position: fixed; bottom: 30px; right: 30px; width: 64px; height: 64px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 2000; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .cart-count { position: absolute; top: 0; right: 0; background: #000; color: #fff; font-size: 10px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; font-weight: 800; }
         
         .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; z-index: 3000; pointer-events: none; }
         .cart-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); opacity: 0; transition: 0.3s; }
-        .cart-inner { 
-            position: absolute; right: 0; width: 450px; height: 100%; background: #050505; 
-            border-left: 1px solid var(--border); transform: translateX(100%); transition: 0.5s var(--ease-out); 
-            display: flex; flex-direction: column; padding: 50px; 
-        }
+        .cart-inner { position: absolute; right: 0; width: 420px; height: 100%; background: #050505; border-left: 1px solid var(--border); transform: translateX(100%); transition: 0.4s var(--ease); display: flex; flex-direction: column; padding: 40px; }
         .cart-sidebar.active { pointer-events: all; }
         .cart-sidebar.active .cart-overlay { opacity: 1; }
         .cart-sidebar.active .cart-inner { transform: translateX(0); }
-        
-        /* Toast Notification */
-        .toast {
-            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(100px);
-            background: #fff; color: #000; padding: 15px 30px; border-radius: 50px; font-weight: 700;
-            z-index: 4000; opacity: 0; transition: 0.4s var(--ease-out); box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
+        /* -----------------------------------------------------------
+           13. MOBILE MEDIA QUERIES (CRITICAL FIXES)
+           ----------------------------------------------------------- */
         @media (max-width: 900px) {
-            .product-grid, .specs-grid, .omni-body, .gallery-grid, .footer-grid, .safety-grid { grid-template-columns: 1fr; }
+            /* Fix Background: Remove 'fixed' which breaks on iOS */
+            .bg-layer { position: fixed; height: 100vh; width: 100%; object-fit: cover; opacity: 0.5; transform: none; }
+            
+            /* Stack Grids */
+            .product-grid, .specs-grid, .omni-body, .gallery-grid, .footer-grid, .dos-donts { grid-template-columns: 1fr; }
+            
+            /* Fix Timeline for Mobile */
+            .timeline-line { left: 20px; transform: none; }
+            .time-step { flex-direction: column !important; align-items: flex-start; margin-left: 50px; margin-bottom: 40px; }
+            .time-dot { left: 15px; transform: none; }
+            .time-content { width: 100%; }
+            
+            /* Fix Gallery */
             .gallery-item.wide { grid-column: span 1; }
-            .cart-inner { width: 100%; }
+            
+            /* Fix Cart */
+            .cart-inner { width: 100%; padding: 30px; }
+            
+            /* Text Sizes */
+            .hero h1 { font-size: 48px; }
+            .section-title { font-size: 32px; }
+            
+            /* Omni Calc */
+            .omni-config { border-right: none; border-bottom: 1px solid var(--border); padding: 30px; }
+            .omni-results { padding: 30px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="fixed-bg"></div> <div class="bg-gradient"></div>
-    <div class="grain-overlay"></div>
-    
-    <div id="toast" class="toast">Item Added to Cart</div>
+    <img src="bg-main.webp" alt="Background" class="bg-layer">
+    <div class="bg-gradient"></div>
+    <div class="grain"></div>
 
     <nav class="navbar">
         <div class="container nav-inner">
@@ -350,7 +304,6 @@
                 <a href="#shop" class="nav-link">Shop</a>
                 <a href="#specs" class="nav-link">Specs</a>
                 <a href="#calc" class="nav-link">Calc</a>
-                <a href="#gallery" class="nav-link">Gallery</a>
             </div>
         </div>
     </nav>
@@ -358,10 +311,10 @@
     <header class="hero">
         <div class="reveal active">
             <h1>Molecular Clarity.<br>OLED Contrast.</h1>
-            <p>The definitive 3:1 epoxy system. Engineered for optical perfection.</p>
-            <div style="display:flex; gap:20px; justify-content:center;">
-                <a href="#shop" class="btn btn-primary">Shop Systems</a>
-                <a href="#specs" class="btn btn-outline">Technical Data</a>
+            <p>The definitive 3:1 epoxy system. Engineered for professional artisans.</p>
+            <div style="display:flex; gap:15px; justify-content:center;">
+                <a href="#shop" class="btn btn-primary">Shop Now</a>
+                <a href="#specs" class="btn btn-outline">Specs</a>
             </div>
         </div>
     </header>
@@ -370,7 +323,6 @@
         <div class="container">
             <div class="section-header reveal">
                 <h2 class="section-title">Studio Systems</h2>
-                <p style="color:var(--text-dim);">Select your volume.</p>
             </div>
             <div class="product-grid">
                 <div class="glass-box product-card reveal">
@@ -385,7 +337,7 @@
                         <button class="btn btn-primary" style="width:100%;" onclick="addToCart('Starter Kit', 1250)">Add to Cart</button>
                     </div>
                 </div>
-                <div class="glass-box product-card reveal" style="border-color:#fff; box-shadow:0 0 30px rgba(255,255,255,0.1);">
+                <div class="glass-box product-card reveal" style="border-color:#fff;">
                     <div>
                         <span class="prod-tag" style="background:#fff; color:#000;">Best Seller</span>
                         <img src="product-2.jpg" alt="7.5KG Kit" class="prod-img">
@@ -415,57 +367,39 @@
 
     <section id="specs" class="section">
         <div class="container">
-            <div class="section-header reveal">
-                <h2 class="section-title">Technical Specifications</h2>
-            </div>
-            
             <div class="specs-grid reveal">
-                <div class="glass-box" style="padding:50px;">
-                    <h3 style="margin-bottom:30px;">Laboratory Data</h3>
+                <div class="glass-box" style="padding:40px;">
+                    <h3 style="margin-bottom:30px;">Technical Data</h3>
                     <table class="spec-table">
                         <tr><th>Property</th><th>Value</th></tr>
-                        <tr><td>Mix Ratio (Weight)</td><td>3 Parts A : 1 Part B</td></tr>
-                        <tr><td>Mixed Viscosity</td><td>180 - 200 mPas (Ultra Low)</td></tr>
-                        <tr><td>Pot Life (25°C)</td><td>45 - 60 Minutes</td></tr>
-                        <tr><td>Cure Time (Demold)</td><td>24 Hours</td></tr>
-                        <tr><td>Full Cure (Hardness)</td><td>7 Days (85 Shore D)</td></tr>
-                        <tr><td>Max Pour Depth</td><td>25mm (Single Layer)</td></tr>
+                        <tr><td>Mix Ratio</td><td>3:1 (By Weight)</td></tr>
+                        <tr><td>Viscosity</td><td>180 mPas (Ultra Low)</td></tr>
+                        <tr><td>Pot Life</td><td>60 Mins @ 25°C</td></tr>
+                        <tr><td>Demold</td><td>24 Hours</td></tr>
+                        <tr><td>Hardness</td><td>85 Shore D</td></tr>
                     </table>
                 </div>
-
                 <div>
                     <h3 style="margin-bottom:20px;">Downloads</h3>
-                    <div class="download-box">
-                        <a href="tds.pdf" target="_blank" class="file-btn">
-                            <div class="file-icon">TDS</div>
-                            <div>
-                                <div style="font-weight:700; font-size:13px;">Technical Data Sheet</div>
-                                <div style="font-size:10px; color:var(--text-dim);">PDF • 2.4 MB</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="download-box">
-                        <a href="sds.pdf" target="_blank" class="file-btn">
-                            <div class="file-icon">SDS</div>
-                            <div>
-                                <div style="font-weight:700; font-size:13px;">Safety Data Sheet</div>
-                                <div style="font-size:10px; color:var(--text-dim);">PDF • 1.8 MB</div>
-                            </div>
-                        </a>
-                    </div>
+                    <a href="tds.pdf" target="_blank" class="file-btn">
+                        <div class="file-icon">PDF</div>
+                        <div><div style="font-weight:700; font-size:13px;">Technical Data Sheet</div><div style="font-size:10px; color:var(--text-dim);">2.4 MB</div></div>
+                    </a>
+                    <a href="sds.pdf" target="_blank" class="file-btn">
+                        <div class="file-icon">PDF</div>
+                        <div><div style="font-weight:700; font-size:13px;">Safety Data Sheet</div><div style="font-size:10px; color:var(--text-dim);">1.8 MB</div></div>
+                    </a>
                 </div>
             </div>
 
             <div class="comp-wrapper reveal">
                 <table class="comp-table">
-                    <thead>
-                        <tr><th>Feature</th><th class="comp-highlight">M-X Lumes Pro</th><th>Standard Generic</th><th>Cheap Imports</th></tr>
-                    </thead>
+                    <thead><tr><th>Feature</th><th class="hl">M-X Lumes Pro</th><th>Standard Generic</th></tr></thead>
                     <tbody>
-                        <tr><td>Bubble Release</td><td class="comp-highlight">Auto-Degassing</td><td>Requires Torch</td><td>Poor</td></tr>
-                        <tr><td>Clarity</td><td class="comp-highlight">Crystal Clear</td><td>Slight Haze</td><td>Yellow Tint</td></tr>
-                        <tr><td>UV Protection</td><td class="comp-highlight">Triple HALS</td><td>Single HALS</td><td>None</td></tr>
-                        <tr><td>VOC Content</td><td class="comp-highlight">Zero (0%)</td><td>Low</td><td>High (Smell)</td></tr>
+                        <tr><td>Bubble Release</td><td class="hl">Auto-Degassing</td><td>Requires Torch</td></tr>
+                        <tr><td>Clarity</td><td class="hl">Crystal Clear</td><td>Slight Haze</td></tr>
+                        <tr><td>UV Protection</td><td class="hl">Triple HALS</td><td>Single HALS</td></tr>
+                        <tr><td>VOCs</td><td class="hl">Zero (0%)</td><td>>5%</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -474,31 +408,28 @@
 
     <section class="section reveal">
         <div class="container">
-            <h2 class="section-title" style="text-align:center; margin-bottom:40px;">The Pour Protocol</h2>
+            <h2 class="section-title" style="text-align:center;">The Protocol</h2>
             <div class="timeline-wrap">
                 <div class="timeline-line"></div>
                 <div class="time-step">
                     <div class="time-dot"></div>
                     <div class="time-content">
-                        <span class="step-num">Step 01</span>
-                        <h4>Measure by Weight</h4>
-                        <p style="color:var(--text-dim); font-size:14px; margin-top:10px;">Do not measure by volume. Place cup on scale. Pour 3 parts Resin, then 1 part Hardener.</p>
+                        <h4>Step 01: Weigh</h4>
+                        <p style="font-size:14px; color:var(--text-dim); margin-top:5px;">Place cup on scale. Pour 3 parts Resin, then 1 part Hardener.</p>
                     </div>
                 </div>
                 <div class="time-step">
                     <div class="time-dot"></div>
                     <div class="time-content">
-                        <span class="step-num">Step 02</span>
-                        <h4>Mix & Transfer</h4>
-                        <p style="color:var(--text-dim); font-size:14px; margin-top:10px;">Mix for 3 minutes. Scrape sides. Pour into a second cup and mix again (Double Cup Method).</p>
+                        <h4>Step 02: Mix</h4>
+                        <p style="font-size:14px; color:var(--text-dim); margin-top:5px;">Mix slowly for 3 minutes. Scrape sides and bottom thoroughly.</p>
                     </div>
                 </div>
                 <div class="time-step">
                     <div class="time-dot"></div>
                     <div class="time-content">
-                        <span class="step-num">Step 03</span>
-                        <h4>Pour & Cure</h4>
-                        <p style="color:var(--text-dim); font-size:14px; margin-top:10px;">Pour into mold. Wait 5 mins for bubbles to rise. Torch surface. Cover to protect from dust.</p>
+                        <h4>Step 03: Pour</h4>
+                        <p style="font-size:14px; color:var(--text-dim); margin-top:5px;">Pour into mold. Wait 5 mins for bubbles to rise, then torch.</p>
                     </div>
                 </div>
             </div>
@@ -509,43 +440,38 @@
         <div class="container">
             <h2 class="section-title" style="text-align:center;">Omni-Calc Tool</h2>
             <div class="glass-box omni-panel">
-                <div class="omni-header">
+                <div style="background:rgba(255,255,255,0.05); padding:20px; display:flex; gap:10px; overflow-x:auto;">
                     <button class="shape-btn active" id="btnRect" onclick="setShape('rect')">Rectangle</button>
                     <button class="shape-btn" id="btnCirc" onclick="setShape('circ')">Circle</button>
                     <button class="shape-btn" id="btnHex" onclick="setShape('hex')">Hexagon</button>
                 </div>
                 <div class="omni-body">
                     <div class="omni-config">
-                        <div class="input-row">
-                            <div class="input-group"><label>Mix Ratio A</label><input type="number" id="ratioA" value="3" oninput="runCalc()"></div>
-                            <div class="input-group"><label>Mix Ratio B</label><input type="number" id="ratioB" value="1" oninput="runCalc()"></div>
-                        </div>
-                        <div id="dims-rect" class="input-row">
+                        <div class="input-group"><label>Mix Ratio A</label><input type="number" id="ratioA" value="3" oninput="runCalc()"></div>
+                        <div class="input-group"><label>Mix Ratio B</label><input type="number" id="ratioB" value="1" oninput="runCalc()"></div>
+                        
+                        <div id="dims-rect">
                             <div class="input-group"><label>Length (cm)</label><input type="number" id="L" placeholder="0" oninput="runCalc()"></div>
                             <div class="input-group"><label>Width (cm)</label><input type="number" id="W" placeholder="0" oninput="runCalc()"></div>
                         </div>
-                        <div id="dims-circ" class="input-row" style="display:none;">
+                        <div id="dims-circ" style="display:none;">
                             <div class="input-group"><label>Diameter (cm)</label><input type="number" id="Dia" placeholder="0" oninput="runCalc()"></div>
                         </div>
-                        <div id="dims-hex" class="input-row" style="display:none;">
+                        <div id="dims-hex" style="display:none;">
                             <div class="input-group"><label>Side (cm)</label><input type="number" id="HexSide" placeholder="0" oninput="runCalc()"></div>
                         </div>
                         
-                        <div class="input-row">
-                            <div class="input-group"><label>Depth (cm)</label><input type="number" id="D" placeholder="0" oninput="runCalc()"></div>
-                            <div class="input-group"><label>Count</label><input type="number" id="Qty" value="1" oninput="runCalc()"></div>
-                        </div>
+                        <div class="input-group"><label>Depth (cm)</label><input type="number" id="D" placeholder="0" oninput="runCalc()"></div>
+                        <div class="input-group"><label>Count</label><input type="number" id="Qty" value="1" oninput="runCalc()"></div>
                     </div>
                     <div class="omni-results">
                         <span style="font-size:12px; color:var(--text-dim); text-transform:uppercase;">Total Mix</span>
-                        <div class="res-total" id="outTotal">0g</div>
+                        <div class="res-total" id="outTotal" style="font-size:50px; font-weight:800; color:#fff;">0g</div>
                         <div style="margin-top:20px; color:#fff;">
                             <div>Part A: <span id="outA" style="font-weight:700;">0g</span></div>
                             <div>Part B: <span id="outB" style="font-weight:700;">0g</span></div>
                         </div>
-                        <div id="safety-msg" style="margin-top:20px; padding:15px; background:rgba(251, 191, 36, 0.1); border-radius:10px; font-size:12px; color:var(--warning); display:none;">
-                            ⚠️ <strong>Exotherm Warning:</strong> Depth exceeds 2.5cm. Standard epoxy may crack.
-                        </div>
+                        <div id="safety-msg" style="margin-top:20px; font-size:12px; color:var(--warning); display:none;">⚠️ Exotherm Warning: Depth > 2.5cm</div>
                     </div>
                 </div>
             </div>
@@ -564,31 +490,28 @@
                 <div class="gallery-item"><img src="gallery-6.jpg" class="gallery-img"></div>
             </div>
 
-            <div class="safety-grid">
-                <div class="dos-card">
+            <div class="dos-donts">
+                <div class="dd-card dos">
                     <h3 style="color:var(--success); margin-bottom:20px;">✓ The Dos</h3>
                     <ul>
-                        <li class="list-item">Wear nitrile gloves and respirator.</li>
-                        <li class="list-item">Work in a temperature controlled room (22-25°C).</li>
-                        <li class="list-item">Seal wood/porous objects before pouring.</li>
+                        <li style="margin-bottom:10px; color:var(--text-dim);">• Wear gloves and mask.</li>
+                        <li style="margin-bottom:10px; color:var(--text-dim);">• Work at 25°C.</li>
+                        <li style="margin-bottom:10px; color:var(--text-dim);">• Seal porous surfaces.</li>
                     </ul>
                 </div>
-                <div class="donts-card">
+                <div class="dd-card donts">
                     <h3 style="color:var(--danger); margin-bottom:20px;">✕ The Don'ts</h3>
                     <ul>
-                        <li class="list-item">Do not mix by volume (cups).</li>
-                        <li class="list-item">Do not scrape the cup while pouring into mold.</li>
-                        <li class="list-item">Do not introduce water/moisture to resin.</li>
+                        <li style="margin-bottom:10px; color:var(--text-dim);">• Don't mix by volume.</li>
+                        <li style="margin-bottom:10px; color:var(--text-dim);">• Don't scrape cup on pour.</li>
+                        <li style="margin-bottom:10px; color:var(--text-dim);">• Avoid water contact.</li>
                     </ul>
                 </div>
             </div>
-
-            <div class="chemical-warning">
-                <div class="warn-icon">⚠️</div>
-                <div>
-                    <h4 style="color:var(--warning); margin-bottom:5px;">Chemical Hazard Warning</h4>
-                    <p style="font-size:12px; color:var(--text-dim);">Epoxy resin can cause skin irritation and sensitization. Avoid breathing fumes. In case of eye contact, rinse immediately and seek medical advice. Keep out of reach of children.</p>
-                </div>
+            
+            <div style="margin-top:40px; padding:20px; border:1px solid var(--warning); border-radius:12px; background:rgba(251,191,36,0.05); display:flex; gap:15px; align-items:center;">
+                <span style="font-size:24px;">⚠️</span>
+                <p style="font-size:12px; color:var(--text-dim);">Chemical Warning: Causes skin irritation. Avoid breathing fumes. Keep away from children.</p>
             </div>
         </div>
     </section>
@@ -598,25 +521,17 @@
             <div class="footer-grid">
                 <div>
                     <h2 class="logo" style="margin-bottom:20px;">M-X LUMES</h2>
-                    <p style="color:var(--text-dim); font-size:13px;">Engineered in Meerut. The professional's choice for optical clarity.</p>
+                    <p style="color:var(--text-dim); font-size:13px;">Engineered in Meerut. The professional's choice.</p>
                 </div>
                 <div>
-                    <div class="f-header">Products</div>
-                    <a href="#" class="f-link">Transparent Plus</a>
-                    <a href="#" class="f-link">Deep Pour Pro</a>
-                    <a href="#" class="f-link">Pigments</a>
+                    <h4 style="font-size:11px; margin-bottom:20px;">LINKS</h4>
+                    <a href="#" style="display:block; color:var(--text-dim); margin-bottom:10px; font-size:13px;">Products</a>
+                    <a href="#calc" style="display:block; color:var(--text-dim); margin-bottom:10px; font-size:13px;">Calculator</a>
                 </div>
                 <div>
-                    <div class="f-header">Resources</div>
-                    <a href="tds.pdf" class="f-link">Technical Data Sheet</a>
-                    <a href="sds.pdf" class="f-link">Safety Data Sheet</a>
-                    <a href="#calc" class="f-link">Calculator</a>
-                </div>
-                <div>
-                    <div class="f-header">Legal</div>
-                    <a href="#" class="f-link">Terms of Service</a>
-                    <a href="#" class="f-link">Privacy Policy</a>
-                    <a href="#" class="f-link">Shipping Policy</a>
+                    <h4 style="font-size:11px; margin-bottom:20px;">LEGAL</h4>
+                    <a href="#" style="display:block; color:var(--text-dim); margin-bottom:10px; font-size:13px;">Privacy</a>
+                    <a href="#" style="display:block; color:var(--text-dim); margin-bottom:10px; font-size:13px;">Terms</a>
                 </div>
             </div>
             <div style="border-top:1px solid var(--border); padding-top:30px; text-align:center; font-size:12px; color:var(--text-dim);">
@@ -628,16 +543,18 @@
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-overlay" onclick="toggleCart()"></div>
         <div class="cart-inner">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
                 <h2>Cart</h2>
                 <button onclick="toggleCart()" style="color:#fff; font-size:24px;">×</button>
             </div>
-            <div id="cartItems" style="flex:1; overflow-y:auto; margin:20px 0;">
+            <div id="cartItems" style="flex:1; overflow-y:auto;">
                 <p style="color:var(--text-dim);">Your cart is empty.</p>
             </div>
-            <div class="cart-summary">
-                <div class="cart-total"><span>Total</span><span id="cartTotal">₹0</span></div>
-                <button class="btn btn-primary" style="width:100%; margin-top:20px;" onclick="checkoutWhatsApp()">Checkout WhatsApp</button>
+            <div style="margin-top:20px; border-top:1px solid var(--border); padding-top:20px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-size:20px; font-weight:700;">
+                    <span>Total</span><span id="cartTotal">₹0</span>
+                </div>
+                <button class="btn btn-primary" style="width:100%;" onclick="checkoutWhatsApp()">Checkout WhatsApp</button>
             </div>
         </div>
     </div>
@@ -653,7 +570,7 @@
             document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50);
         });
 
-        // 2. ANIMATION OBSERVER (GLIDE)
+        // 2. REVEAL ANIMATION
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if(entry.isIntersecting) entry.target.classList.add('active');
@@ -668,7 +585,7 @@
             document.querySelectorAll('.shape-btn').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
             ['rect', 'circ', 'hex'].forEach(s => document.getElementById(`dims-${s}`).style.display = 'none');
-            document.getElementById(`dims-${shape}`).style.display = 'flex';
+            document.getElementById(`dims-${shape}`).style.display = 'block';
             runCalc();
         }
 
@@ -697,14 +614,8 @@
             document.getElementById('outA').innerText = Math.round(partA) + 'g';
             document.getElementById('outB').innerText = Math.round(partB) + 'g';
 
-            // Safety Warning Animation
             const safety = document.getElementById('safety-msg');
-            if(h > 2.5) { 
-                safety.style.display = 'block'; 
-                safety.style.animation = 'fadeIn 0.5s ease';
-            } else { 
-                safety.style.display = 'none'; 
-            }
+            if(h > 2.5) { safety.style.display = 'block'; } else { safety.style.display = 'none'; }
         }
 
         // 4. CART LOGIC
@@ -712,8 +623,7 @@
         function addToCart(name, price) {
             cart.push({name, price});
             renderCart();
-            showToast();
-            // toggleCart(); // Optional: Auto open cart
+            toggleCart();
         }
         function renderCart() {
             const container = document.getElementById('cartItems');
@@ -721,18 +631,24 @@
             let total = 0;
             cart.forEach((item, idx) => {
                 total += item.price;
-                container.innerHTML += `<div class="cart-item"><span>${item.name}</span><span>₹${item.price}</span></div>`;
+                container.innerHTML += `
+                    <div style="display:flex; justify-content:space-between; margin-bottom:15px; border-bottom:1px solid #222; padding-bottom:10px;">
+                        <div>
+                            <div style="font-weight:700;">${item.name}</div>
+                            <div style="font-size:12px; color:#888;">₹${item.price}</div>
+                        </div>
+                        <button onclick="removeFromCart(${idx})" style="color:#ef4444;">✕</button>
+                    </div>`;
             });
-            document.getElementById('cartTotal').innerText = `₹${total.toLocaleString()}`;
+            document.getElementById('cartTotal').innerText = `₹${total}`;
             document.getElementById('cartCount').innerText = cart.length;
+        }
+        function removeFromCart(idx) {
+            cart.splice(idx, 1);
+            renderCart();
         }
         function toggleCart() {
             document.getElementById('cartSidebar').classList.toggle('active');
-        }
-        function showToast() {
-            const t = document.getElementById('toast');
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 3000);
         }
         function checkoutWhatsApp() {
             if(cart.length === 0) return alert('Cart is empty');
