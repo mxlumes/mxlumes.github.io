@@ -29,12 +29,16 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent-solid); }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; cursor: none; }
+        /* CURSOR LOGIC: Default to AUTO on mobile, NONE on Desktop */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         
+        @media (pointer: fine) {
+            * { cursor: none; }
+        }
+
         body { 
             background-color: var(--bg); color: var(--text); line-height: 1.6; 
             overflow-x: hidden; -webkit-font-smoothing: antialiased; 
-            cursor: default; 
         }
 
         /* --- 2. AURORA CURSOR ENGINE --- */
@@ -58,16 +62,24 @@
         .reveal { opacity: 0; transform: translateY(50px); transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- 3. BACKGROUNDS --- */
+        /* --- 3. BACKGROUNDS (FIXED FOR MOBILE VISIBILITY) --- */
         .stable-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -2;
             background: #000000 url('product-1.webp') no-repeat center bottom;
-            background-size: 66%; pointer-events: none;
-            filter: saturate(0) contrast(1.2);
+            /* MOBILE FIX: Scale 65% on large, cover on small */
+            background-size: cover; 
+            pointer-events: none;
+            /* VISIBILITY FIX: Saturated full color and increased brightness */
+            filter: saturate(1.1) brightness(0.85);
         }
+        @media (min-width: 901px) {
+            .stable-bg { background-size: 65%; }
+        }
+
         .bg-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -1;
-            background: linear-gradient(to bottom, transparent 10%, rgba(0,0,0,0.95) 50%, #000000 100%);
+            /* OVERLAY FIX: Increased transparency at the top for better image reveal */
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.9) 60%, #000000 100%);
             pointer-events: none;
         }
         .grain {
@@ -103,7 +115,7 @@
         .cta-btn { 
             background: var(--accent-grad); color: white; padding: 16px 48px; border-radius: 980px; 
             text-decoration: none; font-weight: 700; font-size: 15px; transition: 0.3s; 
-            display: inline-block; cursor: none; border: none; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3);
+            display: inline-block; cursor: pointer; border: none; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3);
             position: relative; overflow: hidden;
         }
         .cta-btn::before {
@@ -146,7 +158,7 @@
         .shop-desc { font-size: 13px; color: var(--text-dim); margin-bottom: 30px; line-height: 1.6; }
         .add-btn { 
             width: 100%; padding: 16px; background: #fff; color: #000; border: none; border-radius: 12px; 
-            font-weight: 700; text-transform: uppercase; font-size: 11px; cursor: none; transition: 0.3s; 
+            font-weight: 700; text-transform: uppercase; font-size: 11px; cursor: pointer; transition: 0.3s; 
         }
         .add-btn:hover { background: var(--accent-grad); color: #fff; transform: scale(1.03); box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3); }
 
@@ -236,8 +248,11 @@
             background: var(--accent-grad); border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
             box-shadow: 0 10px 30px rgba(79, 70, 229, 0.4);
-            cursor: none; z-index: 1001; transition: 0.3s; animation: pulse 3s infinite;
+            z-index: 1001; transition: 0.3s; animation: pulse 3s infinite;
         }
+        @media (pointer: fine) { .cart-fab { cursor: none; } }
+        @media (pointer: coarse) { .cart-fab { cursor: pointer; } }
+
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(124, 58, 237, 0); } 100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0); } }
         .cart-fab:hover { transform: scale(1.1); }
         .cart-badge { 
@@ -296,8 +311,6 @@
             .omni-body, .matrix, .footer-grid, .guide-grid, .timeline-line, .hub-grid, .gallery-grid, .shop-grid, .bento-grid { grid-template-columns: 1fr; } 
             .omni-config { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); } 
             .bento-wide { grid-column: span 1; } 
-            .footer-cols { grid-template-columns: 1fr 1fr; }
-            .stable-bg { background-size: contain; } 
             .cart-panel { width: 100%; }
         }
     </style>
@@ -334,19 +347,6 @@
                 <button class="cta-btn" style="width:100%; text-align:center; background: #fff; color:#000;" onclick="payWithRazorpay()">Pay Now (Razorpay)</button>
                 <button class="cta-btn" style="width:100%; text-align:center;" onclick="checkoutWhatsApp()">Order via WhatsApp</button>
             </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="safetyModal" onclick="toggleSafety()">
-        <div class="modal-box" onclick="event.stopPropagation()">
-            <h3 style="font-size: 28px; margin-bottom: 20px;">Safety Data (SDS)</h3>
-            <ul style="list-style: none; text-align: left; color: var(--text-dim); font-size: 15px; line-height: 2;">
-                <li>• <strong>PPE:</strong> Nitrile/Butyl gloves and safety goggles.</li>
-                <li>• <strong>Ventilation:</strong> Use in well-ventilated areas.</li>
-                <li>• <strong>First Aid:</strong> Wash skin with soap/water.</li>
-                <li>• <strong>Hazards:</strong> Toxic to aquatic life. Dispose as hazardous waste.</li>
-            </ul>
-            <span style="position: absolute; top: 30px; right: 30px; cursor: pointer; font-size: 24px;" onclick="toggleSafety()">×</span>
         </div>
     </div>
 
@@ -406,7 +406,7 @@
                         <div class="shop-price">₹10,999</div>
                         <p class="shop-desc">High-volume value pack for professional artists and workshops.</p>
                     </div>
-                    <button class="add-btn" style="background:var(--accent-grad); color:fff;" onclick="addToCart('Studio Pack (7.5KG)', 10999)">Add to Cart</button>
+                    <button class="add-btn" style="background:var(--accent-grad); color:#fff;" onclick="addToCart('Studio Pack (7.5KG)', 10999)">Add to Cart</button>
                 </div>
                 <div class="shop-card">
                     <div>
@@ -466,10 +466,6 @@
                                 <div class="input-group"><label>Mix Ratio (B)</label><input type="number" id="ratioB" value="1" oninput="runCalc()"></div>
                                 <div class="input-group"><label>Density</label><input type="number" id="density" value="1.13" step="0.01" oninput="runCalc()"></div>
                             </div>
-                            <div class="input-row">
-                                <div class="input-group"><label>Max Layer (cm)</label><input type="number" id="limitDepth" value="2.5" oninput="runCalc()"></div>
-                                <div class="input-group"><label>Viscosity</label><input type="number" id="viscosity" value="180"></div>
-                            </div>
                         </div>
 
                         <div class="config-section">
@@ -505,56 +501,12 @@
             </div>
         </section>
 
-        <section id="gallery" class="section reveal">
-            <h2 class="section-title">Refractive Mastery.</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="gallary 1.png" class="gallery-img" loading="lazy">
-                    <div class="gallery-caption"><span style="color:var(--accent-solid); font-size:9px; font-weight:800; letter-spacing:1px; display:block;">TRANSMISSION</span><span style="font-size:18px; font-weight:600;">99.9% Clarity</span></div>
-                </div>
-                <div class="gallery-item">
-                    <img src="gallary 3.png" class="gallery-img" loading="lazy">
-                    <div class="gallery-caption"><span style="color:var(--accent-solid); font-size:9px; font-weight:800; letter-spacing:1px; display:block;">REFRACTION</span><span style="font-size:18px; font-weight:600;">1.54 Index</span></div>
-                </div>
-                <div class="gallery-item">
-                    <img src="gallary 2.png" class="gallery-img" loading="lazy">
-                    <div class="gallery-caption"><span style="color:var(--accent-solid); font-size:9px; font-weight:800; letter-spacing:1px; display:block;">DENSITY</span><span style="font-size:18px; font-weight:600;">82 Shore D</span></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="protocol" class="section reveal">
-            <h2 class="section-title">Success Protocol.</h2>
-            <div class="guide-grid">
-                <div class="guide-card"><div class="guide-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 14v6m16-6v6M12 4v16" stroke-linecap="round"/></svg></div><h3 style="font-size: 18px; margin-bottom:10px;">Preparation</h3><p style="color: var(--text-dim); font-size: 14px;">Studio at 22-24°C.</p></div>
-                <div class="guide-card"><div class="guide-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v18M3 12h18" stroke-linecap="round"/></svg></div><h3 style="font-size: 18px; margin-bottom:10px;">Precision Mix</h3><p style="color: var(--text-dim); font-size: 14px;">Strict 3:1 ratio.</p></div>
-                <div class="guide-card"><div class="guide-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l3 6 7 1-5 5 1 7-6-3" stroke-linecap="round"/></svg></div><h3 style="font-size: 18px; margin-bottom:10px;">Stable Cure</h3><p style="color: var(--text-dim); font-size: 14px;">72-hour hardening.</p></div>
-            </div>
-            <div style="text-align: center; margin-top:40px;"><div class="magnetic-wrap"><button onclick="toggleSafety()" class="cta-btn" style="background:transparent; border: 1px solid var(--border); padding:12px 30px; font-size:12px;">View Safety Protocol (SDS)</button></div></div>
-        </section>
-
         <section id="faq" class="section reveal">
             <h2 class="section-title">Support Hub.</h2>
             <div class="faq-item" onclick="this.classList.toggle('active')"><div class="faq-q"><span>Avoid micro-bubbles?</span><span>+</span></div><div class="faq-a">Our 180 mPas viscosity enables passive degassing. Stir slowly for 3 minutes.</div></div>
             <div class="faq-item" onclick="this.classList.toggle('active')"><div class="faq-q"><span>Demold time?</span><span>+</span></div><div class="faq-a">Demold after 24 hours at 25°C. Full hardness at 72 hours.</div></div>
             <div class="faq-item" onclick="this.classList.toggle('active')"><div class="faq-q"><span>Max pour depth?</span><span>+</span></div><div class="faq-a">Transparent Plus: 25 mm. Deep Pour Pro: 100 mm per layer.</div></div>
             <div class="faq-item" onclick="this.classList.toggle('active')"><div class="faq-q"><span>Food Safe?</span><span>+</span></div><div class="faq-a">FDA Compliant (21 CFR 175.300) for incidental food contact after full cure.</div></div>
-        </section>
-
-        <section id="hub" class="section reveal">
-            <h2 class="section-title">Industrial Assets.</h2>
-            <div class="hub-grid">
-                <div class="hub-card">
-                    <h3 style="font-size: 24px; margin-bottom: 25px;">Downloads</h3>
-                    <a href="MX_LUMES_TDS_Premium.pdf" class="asset-link" target="_blank"><span>Technical Data (TDS)</span><span style="font-size: 9px; color: var(--text-dim);">PDF • 1.2 MB</span></a>
-                    <a href="MX_LUMES_SDS_Premium.pdf" class="asset-link" target="_blank" style="border:none;"><span>Safety Sheet (SDS)</span><span style="font-size: 9px; color: var(--text-dim);">PDF • 2.4 MB</span></a>
-                </div>
-                <div class="hub-card" style="text-align: center; display:flex; flex-direction:column; justify-content:center; align-items:center;">
-                    <h3 style="font-size: 24px; margin-bottom: 15px;">Partnership</h3>
-                    <a id="emailLink" style="font-size:14px; color:var(--accent-solid); cursor:pointer; margin-bottom:20px;" onclick="copyEmail()">wholesale@mxlumes.com</a>
-                    <div class="magnetic-wrap"><a href="mailto:wholesale@mxlumes.com" class="cta-btn" style="font-size: 13px;">Submit Bulk Inquiry</a></div>
-                </div>
-            </div>
         </section>
 
         <footer class="footer-wrap reveal">
@@ -571,119 +523,57 @@
                 </div>
                 <div class="footer-bottom">
                     <span style="font-size:11px; color:#ccc;">© 2026 M-X LUMES. India.</span>
-                    <div class="socials">
-                        <a href="#" style="font-size:12px; color:#ccc; text-decoration:none; margin-right:15px;">India</a>
-                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-                    </div>
                 </div>
             </div>
         </footer>
     </div>
 
     <script>
-        // MOUSE FOLLOWER
-        const cursorDot = document.querySelector('.cursor-dot');
-        const cursorOutline = document.querySelector('.cursor-outline');
-        const aurora = document.querySelector('.aurora-glow');
+        // MOUSE FOLLOWER (DESKTOP ONLY GUARD)
+        if (window.matchMedia("(pointer: fine)").matches) {
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+            const aurora = document.querySelector('.aurora-glow');
 
-        window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
-            aurora.style.left = `${posX}px`;
-            aurora.style.top = `${posY}px`;
-        });
+            window.addEventListener('mousemove', (e) => {
+                const posX = e.clientX;
+                const posY = e.clientY;
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+                cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+                aurora.style.left = `${posX}px`;
+                aurora.style.top = `${posY}px`;
+            });
+        }
 
         // CART LOGIC
         let cart = [];
-        let subtotal = 0;
-        let total = 0;
-
-        function addToCart(item, price) {
-            cart.push({item, price});
-            updateCart();
-            toggleCart();
-        }
-
+        function addToCart(item, price) { cart.push({item, price}); updateCart(); toggleCart(); }
         function updateCart() {
             const cartItems = document.getElementById('cartItems');
             const count = document.getElementById('cartCount');
-            
             cartItems.innerHTML = '';
-            subtotal = 0;
-
-            if(cart.length === 0) {
-                cartItems.innerHTML = '<p style="color:#666; text-align:center; margin-top:50px;">Your cart is empty.</p>';
-            } else {
-                cart.forEach((i, index) => {
-                    subtotal += i.price;
-                    cartItems.innerHTML += `
-                        <div class="cart-item">
-                            <span>${i.item}</span>
-                            <div style="display:flex; gap:15px;">
-                                <span style="color:var(--accent-solid);">₹${i.price.toLocaleString()}</span>
-                                <span style="cursor:pointer; color:#666;" onclick="removeFromCart(${index})">×</span>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-
+            let subtotal = 0;
+            if(cart.length === 0) { cartItems.innerHTML = '<p style="color:#666; text-align:center; margin-top:50px;">Your cart is empty.</p>'; }
+            else { cart.forEach((i, index) => { subtotal += i.price; cartItems.innerHTML += `<div class="cart-item"><span>${i.item}</span><div style="display:flex; gap:15px;"><span style="color:var(--accent-solid);">₹${i.price.toLocaleString()}</span><span style="cursor:pointer; color:#666;" onclick="removeFromCart(${index})">×</span></div></div>`; }); }
             const gst = subtotal * 0.18;
-            total = subtotal + gst;
-
+            const total = subtotal + gst;
             count.innerText = cart.length;
             count.classList.toggle('visible', cart.length > 0);
-            
             document.getElementById('cartSubtotal').innerText = `₹${subtotal.toLocaleString()}`;
             document.getElementById('cartGST').innerText = `₹${gst.toFixed(0).toLocaleString()}`;
             document.getElementById('cartTotal').innerText = `₹${total.toFixed(0).toLocaleString()}`;
         }
-
         function removeFromCart(index) { cart.splice(index, 1); updateCart(); }
         function toggleCart() { document.getElementById('cartModal').classList.toggle('active'); }
 
-        function checkoutWhatsApp() {
-            if(cart.length === 0) return;
-            let msg = "Hello M-X LUMES, I would like to place an order:%0A%0A";
-            cart.forEach(i => msg += `- ${i.item}: ₹${i.price}%0A`);
-            msg += `%0A*Subtotal:* ₹${subtotal}%0A*GST (18%):* ₹${(subtotal * 0.18).toFixed(0)}%0A*Grand Total: ₹${total.toLocaleString()}*`;
-            
-            // REPLACE WITH YOUR ACTUAL NUMBER
-            window.open(`https://wa.me/919999999999?text=${msg}`, '_blank');
-        }
-
-        function payWithRazorpay() {
-            if(cart.length === 0) return;
-            var options = {
-                "key": "YOUR_RAZORPAY_KEY_ID", // PASTE YOUR KEY HERE
-                "amount": total * 100, 
-                "currency": "INR",
-                "name": "M-X LUMES",
-                "description": "Resin Order",
-                "handler": function (response){
-                    let msg = "PAYMENT SUCCESSFUL! ID: " + response.razorpay_payment_id + "%0A%0AOrder Details:%0A";
-                    cart.forEach(i => msg += `- ${i.item}%0A`);
-                    msg += `%0A*Total Paid: ₹${total.toLocaleString()}*`;
-                    window.open(`https://wa.me/919999999999?text=${msg}`, '_blank');
-                }
-            };
-            var rzp1 = new Razorpay(options);
-            rzp1.open();
-        }
-
-        // CALCULATOR (OMNI)
+        // CALCULATOR
         let currentShape = 'rect';
         function setShape(shape) {
             currentShape = shape;
             document.querySelectorAll('.shape-btn').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
-            document.getElementById('dims-rect').style.display = 'none';
-            document.getElementById('dims-circ').style.display = 'none';
-            document.getElementById('dims-hex').style.display = 'none';
-            document.getElementById('dims-custom').style.display = 'none';
+            ['rect', 'circ', 'hex', 'custom'].forEach(s => document.getElementById(`dims-${s}`).style.display = 'none');
             document.getElementById(`dims-${shape}`).style.display = 'flex';
             runCalc();
         }
@@ -696,11 +586,7 @@
             const cost = parseFloat(document.getElementById('costPerKg').value) || 0;
             const depth = parseFloat(document.getElementById('D').value) || 0;
             const qty = parseFloat(document.getElementById('Qty').value) || 1;
-            const limit = parseFloat(document.getElementById('limitDepth').value) || 2.5;
-
             document.getElementById('wasteVal').innerText = `${waste}%`;
-            const smartTip = document.getElementById('smartTip');
-            if(depth > limit) { smartTip.innerText = `⚠ Depth exceeds ${limit}cm limit. Use deep pour resin.`; smartTip.style.display = 'block'; } else { smartTip.style.display = 'none'; }
 
             let area = 0;
             if (currentShape === 'rect') { area = (parseFloat(document.getElementById('L').value) || 0) * (parseFloat(document.getElementById('W').value) || 0); } 
@@ -708,63 +594,23 @@
             else if (currentShape === 'hex') { const s = parseFloat(document.getElementById('HexSide').value) || 0; area = ((3 * Math.sqrt(3)) / 2) * s * s; } 
             else { area = parseFloat(document.getElementById('Area').value) || 0; }
 
-            if(area > 0) { document.getElementById('coverage').innerText = `Surface: ${(area * qty).toFixed(0)} cm²`; } else { document.getElementById('coverage').innerText = ''; }
-
             const volume = area * depth * qty;
             const totalMass = (volume * density) * (1 + (waste/100));
-            const massA = (totalMass * rA) / (rA + rB);
-            const massB = (totalMass * rB) / (rA + rB);
-
-            document.getElementById('outA').innerText = Math.round(massA) + 'g';
-            document.getElementById('outB').innerText = Math.round(massB) + 'g';
+            document.getElementById('outA').innerText = Math.round((totalMass * rA) / (rA + rB)) + 'g';
+            document.getElementById('outB').innerText = Math.round((totalMass * rB) / (rA + rB)) + 'g';
             document.getElementById('outTotal').innerText = Math.round(totalMass) + 'g';
-
-            if (cost > 0) {
-                document.getElementById('costDisplay').innerText = `Est. Cost: ₹${((totalMass / 1000) * cost).toFixed(2)}`;
-            } else {
-                document.getElementById('costDisplay').innerText = '';
-            }
+            if (cost > 0) document.getElementById('costDisplay').innerText = `Est. Cost: ₹${((totalMass / 1000) * cost).toFixed(2)}`;
         }
 
-        function copyResults() {
-            navigator.clipboard.writeText(`Batch: ${document.getElementById('outTotal').innerText}`);
-            const btn = document.getElementById('copyBtn'); btn.innerText = "COPIED!"; setTimeout(() => { btn.innerText = "COPY"; }, 2000);
-        }
-
-        function printTicket() {
-            const a = document.getElementById('outA').innerText;
-            const b = document.getElementById('outB').innerText;
-            const t = document.getElementById('outTotal').innerText;
-            const w = window.open('', '', 'width=400,height=500');
-            w.document.write(`<html><body style="font-family:monospace; padding:40px; text-align:center;"><h2>BATCH TICKET</h2><hr><h1 style="margin:30px 0;">${t}</h1><p>A: ${a} | B: ${b}</p></body></html>`);
-            w.print();
-        }
-
-        // UTILS
-        const topBtn = document.getElementById('topBtn');
-        window.onscroll = function() { if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) topBtn.classList.add('visible'); else topBtn.classList.remove('visible'); };
-        function toggleSafety() { document.getElementById('safetyModal').classList.toggle('active'); }
-        function copyEmail() { navigator.clipboard.writeText("wholesale@mxlumes.com"); document.getElementById('emailLink').innerText = "Copied!"; setTimeout(() => { document.getElementById('emailLink').innerText = "wholesale@mxlumes.com"; }, 2000); }
-        
+        // TIMER
         let timer; let timeLeft = 180;
-        function updateTimerDisplay() { const m = Math.floor(timeLeft / 60).toString().padStart(2, '0'); const s = (timeLeft % 60).toString().padStart(2, '0'); document.getElementById('timerDisplay').innerText = `${m}:${s}`; }
-        function startTimer() { if(timer) return; timer = setInterval(() => { if(timeLeft > 0) { timeLeft--; updateTimerDisplay(); } else { resetTimer(); alert("Done!"); } }, 1000); }
+        function updateTimerDisplay() { document.getElementById('timerDisplay').innerText = `${Math.floor(timeLeft / 60).toString().padStart(2, '0')}:${(timeLeft % 60).toString().padStart(2, '0')}`; }
+        function startTimer() { if(timer) return; timer = setInterval(() => { if(timeLeft > 0) { timeLeft--; updateTimerDisplay(); } else { clearInterval(timer); alert("Done!"); } }, 1000); }
         function resetTimer() { clearInterval(timer); timer = null; timeLeft = 180; updateTimerDisplay(); }
 
-        // REVEAL LOGIC
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { 
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    if(entry.target.id) {
-                        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-                        const navLink = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
-                        if(navLink) navLink.classList.add('active');
-                    }
-                }
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal, .reveal-bar, section').forEach(el => observer.observe(el));
+        // REVEAL
+        const obs = new IntersectionObserver((es) => { es.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); }); }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal, section').forEach(el => obs.observe(el));
     </script>
 </body>
 </html>
