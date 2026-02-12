@@ -24,65 +24,112 @@
             --warning: #fbbf24;
             --success: #10b981;
             --panel-bg: #0f0f12;
+            --ease-fluid: cubic-bezier(0.19, 1, 0.22, 1);
         }
         
-        /* HARDWARE RESET - STABLE SCROLL */
-        html { height: auto; min-height: 100%; background: #000; scroll-behavior: smooth; }
-        body { margin: 0; padding: 0; background-color: transparent; color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; width: 100%; overflow-x: hidden; line-height: 1.6; }
+        /* HARDWARE RESET */
+        html { height: auto; min-height: 100%; background: #000; }
+        
+        body { 
+            margin: 0; padding: 0; 
+            background-color: transparent !important; 
+            color: var(--text); 
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            width: 100%; 
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
 
-        /* LENIS CONFIG */
+        /* LENIS CONFIG (SAFE MODE) */
         html.lenis, html.lenis body { height: auto; } 
         .lenis.lenis-smooth { scroll-behavior: auto !important; }
         .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
         .lenis.lenis-stopped { overflow: hidden; }
 
         /* =========================================
-           2. BACKGROUND ENGINE
+           2. MOBILE-PROOF BACKGROUND
            ========================================= */
-        #fixed-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -999; pointer-events: none; overflow: hidden; background: #000; }
+        #fixed-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            z-index: -999; pointer-events: none; overflow: hidden;
+            will-change: transform; transform: translateZ(0); 
+        }
+        
         .bg-image { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('product-1.webp') no-repeat center bottom; 
-            /* MOBILE: Cover / DESKTOP: 65% via Media Query */
-            background-size: cover; background-position: center;
+            background: #000 url('product-1.webp') no-repeat center bottom; 
+            
+            /* DESKTOP DEFAULT: 65% Studio Scale */
+            background-size: 65%; 
+            
             filter: saturate(1.1) contrast(1.1) brightness(0.65);
-            will-change: transform;
         }
-        .bg-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.85) 60%, #000000 100%); }
-        .grain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -5; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+        .bg-overlay { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.85) 60%, #000000 100%); 
+        }
+
+        .grain { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -5; 
+            opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
 
         /* =========================================
            3. UI COMPONENTS
            ========================================= */
-        .navbar { position: fixed; top: 0; width: 100%; height: 60px; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(20px); z-index: 1000; border-bottom: 1px solid var(--glass-border); }
+        .navbar { 
+            position: fixed; top: 0; width: 100%; height: 60px; 
+            background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(20px); 
+            z-index: 1000; border-bottom: 1px solid var(--glass-border); 
+        }
         .nav-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; padding: 0 20px; }
         .logo { font-weight: 900; font-size: 18px; letter-spacing: 2px; text-transform: uppercase; color: #fff; text-decoration: none; }
         .nav-links { list-style: none; display: flex; gap: 30px; }
-        .nav-links a { text-decoration: none; color: var(--text-dim); font-size: 11px; text-transform: uppercase; font-weight: 700; transition: color 0.3s; }
-        .nav-links a:hover { color: #fff; text-shadow: 0 0 10px var(--accent-solid); }
+        .nav-links a { 
+            text-decoration: none; color: var(--text-dim); font-size: 11px; text-transform: uppercase; font-weight: 700; 
+            transition: color 0.3s; display: inline-block; letter-spacing: 1px;
+        }
+        .nav-links a:hover { color: #fff; text-shadow: 0 0 10px rgba(99,102,241,0.5); }
 
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 1.2s var(--ease-fluid); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         .hero { height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; z-index: 10; }
-        .hero-text { padding: 60px 40px; background: rgba(5, 5, 8, 0.6); backdrop-filter: blur(40px); border-radius: 40px; border: 1px solid var(--glass-border); text-align: center; max-width: 700px; width: 100%; box-shadow: 0 40px 100px rgba(0,0,0,0.8); }
-        h1 { font-size: clamp(36px, 8vw, 72px); font-weight: 800; letter-spacing: -2px; margin-bottom: 20px; line-height: 1.1; background: linear-gradient(110deg, #fff 20%, #a5b4fc 50%, #fff 80%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: textShimmer 6s linear infinite; }
+        .hero-text { 
+            padding: 60px 40px; 
+            background: rgba(5, 5, 8, 0.6); backdrop-filter: blur(40px); border-radius: 40px; 
+            border: 1px solid var(--glass-border); text-align: center; max-width: 700px; width: 100%; 
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+        }
+        h1 { 
+            font-size: clamp(36px, 8vw, 76px); font-weight: 800; letter-spacing: -2px; margin-bottom: 20px; line-height: 1.1; 
+            background: linear-gradient(110deg, #fff 20%, #a5b4fc 50%, #fff 80%);
+            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: textShimmer 6s linear infinite;
+        }
         @keyframes textShimmer { to { background-position: 200% center; } }
         .tagline { font-size: clamp(14px, 4vw, 16px); color: #9ca3af; margin-bottom: 30px; }
-        .cta-btn { background: var(--accent-grad); color: white; padding: 16px 48px; border-radius: 99px; text-decoration: none; font-weight: 700; font-size: 14px; transition: 0.3s; display: inline-block; border: none; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.25); }
+        .cta-btn { 
+            background: var(--accent-grad); color: white; padding: 16px 48px; border-radius: 99px; 
+            text-decoration: none; font-weight: 700; font-size: 14px; transition: 0.3s; 
+            display: inline-block; border: none; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.25);
+        }
         .cta-btn:hover { transform: scale(1.05); }
 
         /* =========================================
-           4. QUANTUM CALCULATOR CSS
+           4. QUANTUM CALCULATOR (The Upgrade)
            ========================================= */
         .qc-panel { background: var(--panel-bg); border-radius: 32px; border: 1px solid var(--glass-border); overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
         
-        /* Segmented Control */
-        .qc-segment { display: flex; background: rgba(0,0,0,0.5); padding: 5px; margin: 30px 30px 0; border-radius: 12px; border: 1px solid var(--glass-border); }
-        .qc-seg-btn { flex: 1; background: transparent; border: none; color: #666; font-size: 10px; font-weight: 800; padding: 10px; border-radius: 8px; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
-        .qc-seg-btn.active { background: #333; color: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-        .qc-seg-btn:hover { color: #fff; }
+        /* System Switcher */
+        .qc-tabs { display: flex; background: rgba(0,0,0,0.5); padding: 5px; margin: 30px 30px 0; border-radius: 12px; border: 1px solid var(--glass-border); }
+        .qc-tab { flex: 1; padding: 12px; background: transparent; border: none; color: #666; font-size: 10px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.3s; border-radius: 8px; }
+        .qc-tab.active { background: #222; color: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .qc-tab:hover { color: #fff; }
 
         .qc-body { display: grid; grid-template-columns: 1.6fr 1fr; }
         .qc-config { padding: 30px; border-right: 1px solid var(--glass-border); }
@@ -111,13 +158,13 @@
         .range-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
         /* Visual Mix Bar */
-        .mix-bar-wrap { height: 8px; background: #333; border-radius: 4px; overflow: hidden; display: flex; margin-bottom: 20px; }
+        .mix-bar-wrap { height: 6px; background: #333; border-radius: 4px; overflow: hidden; display: flex; margin-bottom: 20px; }
         .mix-part-a { background: var(--accent-solid); height: 100%; transition: width 0.5s; }
         .mix-part-b { background: #fff; height: 100%; transition: width 0.5s; }
 
         /* Results Typography */
         .res-big { font-size: 42px; font-weight: 900; color: #fff; line-height: 1; letter-spacing: -1px; margin-bottom: 5px; }
-        .res-sub { font-size: 12px; color: var(--accent-solid); font-weight: 700; text-transform: uppercase; margin-bottom: 20px; display: block; }
+        .res-sub { font-size: 11px; color: var(--accent-solid); font-weight: 800; text-transform: uppercase; margin-bottom: 25px; display: block; }
         .res-row { display: flex; justify-content: space-between; border-bottom: 1px solid #222; padding: 12px 0; font-size: 13px; color: #888; }
         .res-row span:last-child { color: #fff; font-weight: 600; font-family: monospace; }
         
@@ -125,9 +172,12 @@
         .print-btn:hover { border-color: #fff; background: rgba(255,255,255,0.05); }
 
         /* =========================================
-           5. OTHER SECTIONS
+           5. MAIN SECTIONS
            ========================================= */
-        .main-content { position: relative; background: var(--bg); z-index: 10; border-top: 1px solid var(--glass-border); box-shadow: 0 -50px 100px #000; }
+        .main-content { 
+            position: relative; background: var(--bg); z-index: 10; 
+            border-top: 1px solid var(--glass-border); box-shadow: 0 -50px 100px #000; 
+        }
         .section { padding: 100px 20px; max-width: 1200px; margin: 0 auto; }
         .section-title { font-size: clamp(30px, 5vw, 48px); font-weight: 800; text-align: center; margin-bottom: 70px; color: #fff; letter-spacing: -1px; }
 
@@ -147,7 +197,7 @@
         
         .guide-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin: 60px 0; }
         .guide-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 32px; padding: 60px 30px; text-align: center; }
-        .timer-badge { background: #000; color: #fff; padding: 12px 25px; border-radius: 10px; font-family: monospace; font-size: 22px; border: 1px solid #222; margin: 20px 0; display: inline-block; }
+        .timer-badge { background: #000; color: #fff; padding: 12px 25px; border-radius: 10px; font-family: monospace; font-size: 24px; border: 1px solid #222; margin: 20px 0; display: inline-block; font-weight: 700; }
 
         /* FOOTER & CART */
         .footer-wrap { position: relative; padding: 150px 20px 80px; min-height: 100vh; background: #000 url('last page background.png') no-repeat center bottom; background-size: cover; border-top: 1px solid #1a1a1b; display: flex; flex-direction: column; justify-content: center; }
@@ -215,19 +265,19 @@
             <h2 class="section-title">Kit Inventory</h2>
             <div class="shop-grid">
                 <div class="shop-card">
-                    <div><div class="shop-title">1.2 KG</div><div class="shop-price">₹1,250</div><p style="color:#666; font-size:12px;">Starter Kit</p></div>
+                    <div><span style="font-size:10px; color:#666; font-weight:800; display:block; margin-bottom:10px;">STARTER</span><div class="shop-title">1.2 KG</div><div class="shop-price">₹1,250</div></div>
                     <button class="add-btn" onclick="addToCart('Starter Kit (1.2KG)', 1250)">Add to Cart</button>
                 </div>
                 <div class="shop-card">
-                    <div><div class="shop-title">4.8 KG</div><div class="shop-price">₹4,750</div><p style="color:#666; font-size:12px;">Studio Pack</p></div>
+                    <div><span style="font-size:10px; color:#666; font-weight:800; display:block; margin-bottom:10px;">STUDIO</span><div class="shop-title">4.8 KG</div><div class="shop-price">₹4,750</div></div>
                     <button class="add-btn" onclick="addToCart('Studio Kit (4.8KG)', 4750)">Add to Cart</button>
                 </div>
                 <div class="shop-card" style="border-color:var(--accent-solid);">
-                    <div><div class="shop-title">12 KG</div><div class="shop-price">₹11,250</div><p style="color:var(--accent-solid); font-size:12px;">Pro Choice</p></div>
+                    <div><span style="font-size:10px; color:var(--accent-solid); font-weight:800; display:block; margin-bottom:10px;">PRO</span><div class="shop-title">12 KG</div><div class="shop-price">₹11,250</div></div>
                     <button class="add-btn" style="background:var(--accent-grad); color:#fff;" onclick="addToCart('Pro Pack (12KG)', 11250)">Add to Cart</button>
                 </div>
                 <div class="shop-card">
-                    <div><div class="shop-title">24 KG</div><div class="shop-price">₹21,250</div><p style="color:#666; font-size:12px;">Industrial</p></div>
+                    <div><span style="font-size:10px; color:#666; font-weight:800; display:block; margin-bottom:10px;">INDUSTRIAL</span><div class="shop-title">24 KG</div><div class="shop-price">₹21,250</div></div>
                     <button class="add-btn" onclick="addToCart('Industrial Pack (24KG)', 21250)">Add to Cart</button>
                 </div>
             </div>
@@ -236,10 +286,10 @@
         <section id="calc" class="section reveal">
             <h2 class="section-title">Quantum Calculator</h2>
             <div class="qc-panel">
-                <div class="qc-segment">
-                    <button class="qc-seg-btn active" onclick="setSystem(3, 1.13, this)">Art (3:1)</button>
-                    <button class="qc-seg-btn" onclick="setSystem(2, 1.09, this)">Deep (2:1)</button>
-                    <button class="qc-seg-btn" onclick="setSystem(1, 1.15, this)">Coat (1:1)</button>
+                <div class="qc-tabs">
+                    <button class="qc-tab active" onclick="setSystem(3, 1.13, this)">Art (3:1)</button>
+                    <button class="qc-tab" onclick="setSystem(2, 1.09, this)">Deep (2:1)</button>
+                    <button class="qc-tab" onclick="setSystem(1, 1.15, this)">Coat (1:1)</button>
                 </div>
                 
                 <div class="qc-body">
@@ -265,6 +315,8 @@
                             <div class="range-header"><span>Wastage Buffer</span><span id="wasteVal">5%</span></div>
                             <input type="range" min="0" max="20" value="5" class="range-slider" id="wasteSlider" oninput="runQCalc()">
                         </div>
+                        
+                        <div class="input-grp"><label>Pigment Load</label><input type="text" id="pigmentLoad" value="Calculated Automatically" disabled style="color:#666;"></div>
                     </div>
 
                     <div class="qc-results">
@@ -277,7 +329,7 @@
                             </div>
                             <div class="res-row"><span>Resin (A)</span><span id="valA">0g</span></div>
                             <div class="res-row"><span>Hardener (B)</span><span id="valB">0g</span></div>
-                            <div class="res-row"><span>Pigment Load</span><span id="valPigment" style="color:var(--warning);">0g</span></div>
+                            <div class="res-row"><span>Mica Powder</span><span id="valPigment" style="color:var(--warning);">0g</span></div>
                         </div>
                         <button class="print-btn" onclick="window.print()">Print Batch Ticket</button>
                     </div>
@@ -331,8 +383,14 @@
     </footer>
 
     <script>
-        // 1. LENIS SMOOTH SCROLL
-        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), direction: 'vertical', smooth: true, touchMultiplier: 2 });
+        // 1. LENIS SMOOTH SCROLL (With Mobile/Desktop Detection)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            smooth: true,
+            touchMultiplier: 2
+        });
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
@@ -365,7 +423,7 @@
 
         function setSystem(ratioA, density, btn) {
             qRatioA = ratioA; qRatioB = 1; qDensity = density;
-            document.querySelectorAll('.qc-seg-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.qc-tab').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             
             // Update Bar Visual
@@ -427,6 +485,7 @@
         // 4. TIMER
         let timer; let tl=180; function updateTimer() { document.getElementById('timerDisplay').innerText=`0${Math.floor(tl/60)}:${(tl%60).toString().padStart(2,'0')}`; }
         function startTimer() { if(timer) return; timer=setInterval(()=>{ if(tl>0){tl--; updateTimer();}else{clearInterval(timer); alert("Mix Ready!");}},1000); }
+        function printTicket() { const t=document.getElementById('outTotal').innerText; const w=window.open('','','width=300,height=400'); w.document.write(`<body style="font-family:monospace;text-align:center;"><h3>BATCH</h3><h1>${t}</h1></body>`); w.print(); }
 
         const obs = new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('active'); }); }, {threshold:0.1});
         document.querySelectorAll('.reveal, section').forEach(el=>obs.observe(el));
