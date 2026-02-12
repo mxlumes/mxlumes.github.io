@@ -7,6 +7,7 @@
     <title>M-X Lumes | Professional Resin Systems</title>
     
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
 
     <style>
@@ -14,21 +15,34 @@
            1. CORE SYSTEM & VARIABLES
            ========================================= */
         :root { 
-            --hue: 250; /* Base Hue for Theme Engine */
-            --accent-main: hsl(var(--hue), 80%, 60%);
-            --accent-glow: hsl(var(--hue), 80%, 60%, 0.5);
+            --accent-grad: linear-gradient(135deg, #4F46E5 0%, #a855f7 100%);
+            --accent-solid: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.4);
             --bg: #000000; 
-            --glass-bg: rgba(8, 8, 12, 0.7); 
+            --glass-bg: rgba(10, 10, 15, 0.6); 
             --glass-border: rgba(255, 255, 255, 0.08); 
             --text: #ffffff; 
             --text-dim: #9ca3af; 
+            --warning: #fbbf24;
             --success: #10b981;
             --danger: #ef4444;
+            /* Ultra-Premium Easing */
             --ease-fluid: cubic-bezier(0.19, 1, 0.22, 1);
         }
         
-        html { height: auto; min-height: 100%; background: #000; scroll-behavior: smooth; }
-        body { margin: 0; padding: 0; background-color: transparent !important; color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; width: 100%; overflow-x: hidden; }
+        /* HARDWARE RESET (Crucial for Stability) */
+        html { height: auto; min-height: 100%; background: #000; }
+        
+        body { 
+            margin: 0; padding: 0; 
+            background-color: transparent !important; 
+            color: var(--text); 
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            width: 100%; 
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
 
         /* LENIS CONFIG */
@@ -38,157 +52,199 @@
         .lenis.lenis-stopped { overflow: hidden; }
 
         /* =========================================
-           2. FEATURE 1: CINEMATIC PRELOADER
+           2. MOBILE-PROOF BACKGROUND ENGINE
            ========================================= */
-        #preloader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
-            background: #000; display: flex; justify-content: center; align-items: center;
-            flex-direction: column; transition: opacity 0.8s ease;
+        #fixed-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            z-index: -999; pointer-events: none; overflow: hidden;
+            will-change: transform; transform: translateZ(0); /* Hardware lock */
         }
-        .loader-bar { width: 200px; height: 2px; background: #333; margin-top: 20px; overflow: hidden; border-radius: 2px; }
-        .loader-progress { width: 0%; height: 100%; background: var(--accent-main); transition: width 0.5s; box-shadow: 0 0 10px var(--accent-main); }
-        .loader-text { font-family: monospace; font-size: 12px; color: var(--accent-main); letter-spacing: 2px; }
-
-        /* =========================================
-           3. BACKGROUND & AMBIENCE (FEATURE 10: ORBS)
-           ========================================= */
-        #fixed-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -999; pointer-events: none; overflow: hidden; transform: translateZ(0); }
+        
         .bg-image { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: #000 url('product-1.webp') no-repeat center bottom; 
-            background-size: 65%; filter: saturate(1.1) contrast(1.1) brightness(0.7);
+            
+            /* DESKTOP DEFAULT: 65% Studio Frame */
+            background-size: 65%; 
+            
+            /* Cinematic Color Grading */
+            filter: saturate(1.1) contrast(1.1) brightness(0.65);
         }
-        .bg-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.85) 60%, #000000 100%); }
-        
-        .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.3; animation: floatOrb 20s infinite alternate; }
-        .orb-1 { top: 10%; left: 10%; width: 300px; height: 300px; background: var(--accent-main); }
-        .orb-2 { bottom: 20%; right: 10%; width: 400px; height: 400px; background: #4f46e5; animation-delay: -5s; }
-        @keyframes floatOrb { 0% { transform: translate(0,0); } 100% { transform: translate(50px, 50px); } }
 
-        .grain { position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; pointer-events: none; z-index: -5; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); animation: grain 8s steps(10) infinite; }
+        .bg-overlay { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.85) 60%, #000000 100%); 
+        }
+
+        .grain { 
+            position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; 
+            pointer-events: none; z-index: -5; 
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.04; animation: grain 8s steps(10) infinite;
+        }
         @keyframes grain { 0%, 100% { transform:translate(0, 0); } 10% { transform:translate(-5%, -10%); } 50% { transform:translate(-15%, 10%); } }
 
         /* =========================================
-           4. NAVIGATION (FEATURE 6: SMART STICKY)
+           3. HYDRO-CURSOR (DESKTOP ONLY)
+           ========================================= */
+        @media (hover: hover) and (pointer: fine) {
+            body, a, button { cursor: none; }
+            .cursor-dot { position: fixed; top: 0; left: 0; width: 6px; height: 6px; background: white; border-radius: 50%; pointer-events: none; z-index: 9999; }
+            .cursor-outline { 
+                position: fixed; top: 0; left: 0; width: 40px; height: 40px; 
+                border: 1.5px solid rgba(255, 255, 255, 0.4); border-radius: 50%; 
+                pointer-events: none; z-index: 9999; 
+                transition: width 0.3s, height 0.3s, background 0.3s;
+            }
+            .aurora-glow { 
+                position: fixed; top: 0; left: 0; width: 600px; height: 600px; 
+                background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%); 
+                pointer-events: none; z-index: 1; mix-blend-mode: screen; 
+                will-change: transform; transform: translate3d(-50%, -50%, 0); 
+            }
+        }
+        @media (hover: none) { 
+            .cursor-dot, .cursor-outline, .aurora-glow { display: none; } 
+            body, a, button { cursor: auto; }
+        }
+
+        /* =========================================
+           4. NAVIGATION & HERO
            ========================================= */
         .navbar { 
-            position: fixed; top: 0; width: 100%; height: 60px; 
+            position: fixed; top: 0; width: 100%; height: 64px; 
             background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); 
             z-index: 1000; border-bottom: 1px solid var(--glass-border); 
-            transition: transform 0.3s ease;
         }
-        .navbar.hidden { transform: translateY(-100%); }
         .nav-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; padding: 0 20px; }
         .logo { font-weight: 900; font-size: 18px; letter-spacing: 2px; text-transform: uppercase; color: #fff; text-decoration: none; }
         .nav-links { list-style: none; display: flex; gap: 30px; }
-        .nav-links a { text-decoration: none; color: var(--text-dim); font-size: 11px; text-transform: uppercase; font-weight: 700; transition: 0.3s; }
-        .nav-links a:hover { color: var(--accent-main); text-shadow: 0 0 10px var(--accent-glow); }
+        .nav-links a { 
+            text-decoration: none; color: var(--text-dim); font-size: 11px; text-transform: uppercase; font-weight: 700; 
+            transition: color 0.3s; display: inline-block;
+        }
+        .nav-links a:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
 
-        /* FEATURE 8: COUNTDOWN */
-        .offer-banner { font-size: 10px; background: var(--accent-main); color: #000; padding: 2px 8px; border-radius: 4px; font-weight: 800; margin-left: 10px; }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s var(--ease-fluid); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* =========================================
-           5. HERO & INTERACTION
-           ========================================= */
         .hero { height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; z-index: 10; }
         .hero-text { 
             padding: 60px 40px; 
-            background: rgba(5, 5, 8, 0.6); backdrop-filter: blur(40px); border-radius: 40px; 
+            background: rgba(5, 5, 8, 0.5); backdrop-filter: blur(40px); border-radius: 40px; 
             border: 1px solid var(--glass-border); text-align: center; max-width: 700px; width: 100%; 
             box-shadow: 0 40px 100px rgba(0,0,0,0.8);
         }
+        /* PARALLAX TEXT */
         h1 { 
-            font-size: clamp(36px, 8vw, 76px); font-weight: 800; letter-spacing: -2px; margin-bottom: 20px; line-height: 1.1; 
-            background: linear-gradient(110deg, #fff 20%, var(--accent-main) 50%, #fff 80%);
+            font-size: clamp(36px, 8vw, 76px); font-weight: 800; letter-spacing: -3px; margin-bottom: 20px; line-height: 1.1; 
+            background: linear-gradient(110deg, #fff 20%, #a5b4fc 50%, #fff 80%);
             background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: textShimmer 6s linear infinite;
+            animation: textShimmer 6s linear infinite; will-change: transform;
         }
         @keyframes textShimmer { to { background-position: 200% center; } }
-        /* FEATURE 7: TYPING TAGLINE */
-        .tagline { font-size: clamp(14px, 4vw, 16px); color: #9ca3af; margin-bottom: 30px; border-right: 2px solid var(--accent-main); white-space: nowrap; overflow: hidden; width: 0; animation: blink 0.7s infinite; }
-        @keyframes blink { 50% { border-color: transparent; } }
-
-        /* FEATURE 4: RIPPLE BUTTONS */
+        .tagline { font-size: clamp(14px, 4vw, 16px); color: #9ca3af; margin-bottom: 30px; }
         .cta-btn { 
-            position: relative; overflow: hidden;
-            background: var(--accent-main); color: white; padding: 16px 48px; border-radius: 99px; 
+            background: var(--accent-grad); color: white; padding: 16px 48px; border-radius: 99px; 
             text-decoration: none; font-weight: 700; font-size: 14px; transition: 0.3s; 
-            display: inline-block; border: none; box-shadow: 0 10px 30px var(--accent-glow);
+            display: inline-block; border: none; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.25);
         }
         .cta-btn:hover { transform: scale(1.05); }
-        .ripple {
-            position: absolute; background: rgba(255, 255, 255, 0.5); transform: translate(-50%, -50%);
-            pointer-events: none; border-radius: 50%; animation: rippleEffect 0.6s linear;
-        }
-        @keyframes rippleEffect { 0% { width: 0; height: 0; opacity: 0.5; } 100% { width: 400px; height: 400px; opacity: 0; } }
+
+        /* MARQUEE (Kinetic) */
+        .marquee { background: #000; overflow: hidden; padding: 12px 0; border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); position: relative; z-index: 15; }
+        .marquee-track { display: flex; white-space: nowrap; width: max-content; will-change: transform; }
+        .marquee-item { color: var(--text-dim); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin: 0 40px; }
 
         /* =========================================
-           6. MAIN CONTENT LAYOUT
+           5. MAIN CONTENT
            ========================================= */
-        .main-content { position: relative; background: var(--bg); z-index: 10; border-top: 1px solid var(--glass-border); box-shadow: 0 -50px 100px #000; }
-        .section { padding: 100px 20px; max-width: 1200px; margin: 0 auto; }
+        .main-content { 
+            position: relative; background: var(--bg); z-index: 10; 
+            border-top: 1px solid var(--glass-border); box-shadow: 0 -50px 100px #000; 
+        }
+        .section { padding: 120px 20px; max-width: 1200px; margin: 0 auto; }
         .section-title { font-size: clamp(30px, 5vw, 48px); font-weight: 800; text-align: center; margin-bottom: 70px; color: #fff; }
 
-        /* FEATURE 9: TOOLTIPS */
-        .tooltip { border-bottom: 1px dashed var(--accent-main); cursor: help; position: relative; }
-        .tooltip:hover::after {
-            content: attr(data-tip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
-            background: var(--accent-main); color: #000; padding: 5px 10px; border-radius: 4px; font-size: 10px; width: 150px; text-align: center; margin-bottom: 5px;
-        }
+        /* TILT CARD PHYSICS */
+        .tilt-card { transition: transform 0.1s; transform-style: preserve-3d; }
 
-        /* SPECS GRID */
+        /* TECH SPECS */
         .specs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 100px; }
         .spec-card { background: var(--glass-bg); padding: 30px; border-radius: 24px; border: 1px solid var(--glass-border); text-align: center; transition: 0.3s; }
-        .spec-card:hover { transform: translateY(-5px); border-color: var(--accent-main); box-shadow: 0 0 20px var(--accent-glow); }
+        .spec-card:hover { transform: translateY(-5px); border-color: var(--accent-solid); }
         .spec-val { display: block; font-size: 32px; font-weight: 800; color: #fff; margin-bottom: 5px; }
         .spec-label { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
 
         /* SHOP GRID */
         .shop-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 80px; }
-        .shop-card { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 28px; padding: 35px 25px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; }
-        .shop-card:hover { border-color: var(--accent-main); transform: translateY(-5px); }
-        .shop-tag { font-size: 10px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; display: block; margin-bottom: 10px; }
+        .shop-card { 
+            background: var(--glass-bg); backdrop-filter: blur(20px); 
+            border: 1px solid var(--glass-border); border-radius: 28px; padding: 35px 25px; 
+            text-align: center; display: flex; flex-direction: column; justify-content: space-between; 
+        }
+        .shop-tag { font-size: 10px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; display: block; margin-bottom: 10px; letter-spacing: 1px; }
         .shop-title { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 5px; }
-        .shop-price { font-size: 20px; color: var(--accent-main); font-weight: 700; }
-        .add-btn { width: 100%; padding: 14px; background: #fff; color: #000; border: none; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 11px; margin-top: 15px; cursor: pointer; position: relative; overflow: hidden; }
+        .shop-price { font-size: 20px; color: var(--accent-solid); font-weight: 700; }
+        .shop-old-price { text-decoration: line-through; color: #555; font-size: 13px; display: block; margin-bottom: 10px; }
+        .discount-badge { background: var(--success); color: #000; font-size: 9px; font-weight: 900; padding: 4px 10px; border-radius: 5px; margin-bottom: 15px; display: inline-block; }
+        .add-btn { 
+            width: 100%; padding: 14px; background: #fff; color: #000; border: none; border-radius: 12px; 
+            font-weight: 800; text-transform: uppercase; font-size: 11px; margin-top: 15px; cursor: none; transition: 0.3s;
+        }
+        .add-btn:hover { background: var(--accent-grad); color: #fff; }
 
-        /* COMPARISON */
+        /* COMPARISON TABLE */
         .comp-table { width: 100%; border-collapse: collapse; margin-bottom: 100px; background: var(--glass-bg); border-radius: 24px; overflow: hidden; border: 1px solid var(--glass-border); }
         .comp-table th, .comp-table td { padding: 25px; text-align: left; border-bottom: 1px solid var(--glass-border); color: #fff; font-size: 14px; }
         .comp-table th { background: rgba(255,255,255,0.05); text-transform: uppercase; font-size: 11px; color: var(--text-dim); }
         .check { color: var(--success); font-weight: 900; }
         .cross { color: var(--danger); font-weight: 900; opacity: 0.7; }
 
-        /* CALCULATOR */
+        /* OMNI CALCULATOR */
         .omni-panel { background: var(--glass-bg); border-radius: 32px; border: 1px solid var(--glass-border); overflow: hidden; }
         .omni-header { background: rgba(0,0,0,0.5); padding: 25px; display: flex; gap: 12px; border-bottom: 1px solid var(--glass-border); overflow-x: auto; }
-        .shape-btn { flex: 0 0 auto; padding: 12px 24px; background: transparent; color: var(--text-dim); border: 1px solid #333; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; transition: 0.3s; cursor: pointer; }
-        .shape-btn.active { background: var(--accent-main); color: #fff; border-color: transparent; }
+        .shape-btn { flex: 0 0 auto; padding: 12px 24px; background: transparent; color: var(--text-dim); border: 1px solid #333; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; transition: 0.3s; cursor: none; }
+        .shape-btn.active { background: var(--accent-grad); color: #fff; border-color: transparent; }
         .omni-body { display: grid; grid-template-columns: 1.5fr 1fr; }
         .omni-config { padding: 50px; border-right: 1px solid var(--glass-border); }
         .omni-results { padding: 50px; background: rgba(0,0,0,0.6); display: flex; flex-direction: column; justify-content: center; }
         .input-row { display: flex; gap: 20px; margin-bottom: 25px; }
         .input-group { flex: 1; }
         .input-group label { display: block; font-size: 10px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 8px; font-weight: 700; }
-        .input-group input { width: 100%; background: #000; border: 1px solid #333; padding: 16px; border-radius: 12px; color: #fff; font-size: 16px; outline: none; transition: 0.3s; }
-        .input-group input:focus { border-color: var(--accent-main); }
-        .res-total { font-size: 56px; font-weight: 900; background: var(--accent-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .input-group input { width: 100%; background: #000; border: 1px solid #333; padding: 16px; border-radius: 12px; color: #fff; font-size: 16px; outline: none; transition: 0.3s; cursor: text; }
+        .input-group input:focus { border-color: var(--accent-solid); }
+        .res-total { font-size: 56px; font-weight: 900; background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .smart-tip { margin-top: 20px; font-size: 13px; color: var(--warning); display: none; background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 12px; border: 1px solid rgba(251, 191, 36, 0.2); }
-        .tool-btn { padding: 14px; background: transparent; border: 1px solid #333; color: #fff; border-radius: 10px; font-size: 11px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
-        .tool-btn:hover { border-color: var(--accent-main); }
+        .tool-btn { padding: 14px; background: transparent; border: 1px solid #333; color: #fff; border-radius: 10px; font-size: 11px; font-weight: 800; text-transform: uppercase; cursor: none; transition: 0.3s; }
+        .tool-btn:hover { border-color: var(--accent-solid); }
 
         /* TIMELINE */
         .timeline { position: relative; margin: 80px 0; padding-left: 30px; border-left: 2px solid rgba(255,255,255,0.1); }
         .timeline-item { margin-bottom: 50px; position: relative; padding-left: 40px; }
-        .timeline-item::before { content: ''; position: absolute; left: -36px; top: 5px; width: 14px; height: 14px; background: #000; border: 2px solid var(--accent-main); border-radius: 50%; box-shadow: 0 0 15px var(--accent-main); }
-        .t-date { font-size: 11px; color: var(--accent-main); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block; font-weight: 800; }
+        .timeline-item::before { content: ''; position: absolute; left: -36px; top: 5px; width: 14px; height: 14px; background: #000; border: 2px solid var(--accent-solid); border-radius: 50%; box-shadow: 0 0 15px var(--accent-solid); }
+        .t-date { font-size: 11px; color: var(--accent-solid); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block; font-weight: 800; }
         .t-title { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 10px; }
         .t-desc { font-size: 15px; color: #999; max-width: 600px; line-height: 1.7; }
+
+        /* REVIEWS */
+        .reviews-wrap { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 30px; scroll-snap-type: x mandatory; }
+        .review-card { min-width: 300px; background: var(--glass-bg); padding: 30px; border-radius: 20px; border: 1px solid var(--glass-border); scroll-snap-align: center; }
+        .r-stars { color: var(--warning); margin-bottom: 10px; }
+        .r-text { font-size: 14px; color: #ccc; margin-bottom: 15px; font-style: italic; }
+        .r-author { font-size: 12px; font-weight: 700; color: #fff; }
+
+        /* FAQ */
+        details { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 20px 0; cursor: pointer; }
+        summary { font-size: 18px; font-weight: 700; color: #fff; list-style: none; display: flex; justify-content: space-between; }
+        summary::after { content: '+'; font-size: 24px; color: var(--accent-solid); }
+        details[open] summary::after { content: '-'; }
+        .faq-ans { color: #999; margin-top: 15px; font-size: 15px; line-height: 1.6; }
 
         /* GALLERY & GUIDE */
         .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 100px; }
         .gallery-item { position: relative; background: #050505; border-radius: 32px; height: 450px; overflow: hidden; border: 1px solid var(--glass-border); }
-        .gallery-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.5s; }
+        .gallery-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.8s var(--ease-fluid); }
         .gallery-item:hover .gallery-img { opacity: 1; transform: scale(1.05); }
         .gallery-caption { position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px; background: linear-gradient(to top, #000 10%, transparent); }
 
@@ -198,32 +254,29 @@
         .safety-box { border: 1px solid var(--warning); background: rgba(251, 191, 36, 0.05); }
         .safety-title { color: var(--warning); font-size: 18px; font-weight: 700; margin-bottom: 10px; }
 
-        /* CART & TOASTS */
-        .cart-fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--accent-main); border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 1001; box-shadow: 0 10px 30px var(--accent-glow); cursor: pointer; }
+        /* CART */
+        .cart-fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--accent-grad); border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 1001; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.4); cursor: none; transition: transform 0.3s; }
+        .cart-fab:active { transform: scale(0.9); }
         .cart-badge { position: absolute; top: -5px; right: -5px; background: #ff0000; color: white; width: 26px; height: 26px; border-radius: 50%; font-size: 12px; font-weight: 900; display: flex; justify-content: center; align-items: center; opacity: 0; }
         .cart-badge.visible { opacity: 1; }
-        .cart-modal { position: fixed; top: 0; right: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; opacity: 0; pointer-events: none; transition: 0.3s; display: flex; justify-content: flex-end; }
+        .cart-modal { position: fixed; top: 0; right: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; opacity: 0; pointer-events: none; transition: 0.4s var(--ease-fluid); display: flex; justify-content: flex-end; }
         .cart-modal.active { opacity: 1; pointer-events: all; }
-        .cart-panel { width: 500px; height: 100%; background: #08080a; border-left: 1px solid var(--glass-border); padding: 40px; transform: translateX(100%); transition: 0.3s; display: flex; flex-direction: column; }
+        .cart-panel { width: 500px; height: 100%; background: #08080a; border-left: 1px solid var(--glass-border); padding: 40px; transform: translateX(100%); transition: 0.4s var(--ease-fluid); display: flex; flex-direction: column; }
         .cart-modal.active .cart-panel { transform: translateX(0); }
         .cart-items { flex: 1; overflow-y: auto; margin: 30px 0; border-top: 1px solid #222; }
-        
-        /* FEATURE 3: SALES TOAST */
-        .toast { position: fixed; bottom: 30px; left: 30px; background: rgba(20,20,25,0.9); border: 1px solid var(--glass-border); padding: 15px 25px; border-radius: 12px; z-index: 1002; transform: translateY(100px); transition: 0.5s; display: flex; align-items: center; gap: 15px; backdrop-filter: blur(10px); }
-        .toast.show { transform: translateY(0); }
-        .toast-img { width: 40px; height: 40px; background: #333; border-radius: 8px; }
-        .toast-text { font-size: 12px; color: #fff; }
-        .toast-time { font-size: 10px; color: #888; display: block; margin-top: 2px; }
+        .cart-summary { background: #000; padding: 25px; border-radius: 20px; border: 1px solid #222; }
 
-        /* FEATURE 2: COLOR PICKER */
-        .theme-picker { position: fixed; top: 100px; right: 30px; z-index: 100; display: flex; flex-direction: column; gap: 10px; }
-        .theme-dot { width: 20px; height: 20px; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); transition: 0.2s; }
-        .theme-dot:hover { transform: scale(1.2); }
-
-        /* FEATURE 5: CONFETTI CANVAS */
-        #confetti { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+        /* FOOTER */
+        .footer-wrap { position: relative; padding: 150px 20px 80px; min-height: 100vh; background: #000 url('last page background.png') no-repeat center bottom; background-size: cover; border-top: 1px solid #1a1a1b; display: flex; flex-direction: column; justify-content: center; }
+        .footer-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.9) 15%, rgba(0,0,0,0.5) 100%); z-index: 1; pointer-events: none; }
+        .footer-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; width: 100%; }
+        .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+        .f-col h4 { font-size: 11px; font-weight: 800; color: #fff; text-transform: uppercase; margin-bottom: 25px; opacity: 0.8; }
+        .f-col a { text-decoration: none; color: #888; font-size: 14px; display: block; margin-bottom: 12px; transition: 0.3s; }
+        .f-col a:hover { color: #fff; transform: translateX(5px); }
 
         @media (max-width: 900px) { 
+            /* THE BACKGROUND FIX: Force cover on mobile */
             .bg-image { background-size: cover !important; background-position: center !important; }
             .hero-text { padding: 40px 20px; background: rgba(5,5,8,0.8); margin-top: 0; }
             h1 { font-size: 42px; }
@@ -234,84 +287,85 @@
             .cart-panel { width: 100%; }
             .section { padding: 80px 20px; }
             .comp-table { font-size: 12px; overflow-x: auto; display: block; white-space: nowrap; }
-            .theme-picker { display: none; } /* Hide interactive fluff on mobile */
-            .toast { left: 50%; transform: translateX(-50%) translateY(100px); width: 90%; bottom: 20px; }
-            .toast.show { transform: translateX(-50%) translateY(0); }
+            /* Disable premium cursor on mobile */
+            .cursor-dot, .cursor-outline, .aurora-glow { display: none; }
+            body, a, button, .add-btn, .cart-fab, .shape-btn, .cta-btn, .tool-btn, .magnetic-link { cursor: auto; }
         }
     </style>
 </head>
 <body>
 
-    <div id="preloader">
-        <div class="loader-text">INITIALIZING CORE...</div>
-        <div class="loader-bar"><div class="loader-progress"></div></div>
-    </div>
-
     <div id="fixed-layer">
         <div class="bg-image"></div>
         <div class="bg-overlay"></div>
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
     </div>
     <div class="grain"></div>
     
-    <nav class="navbar" id="navbar">
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+    <div class="aurora-glow"></div>
+
+    <nav class="navbar">
         <div class="nav-content">
-            <a href="#" class="logo">M-X LUMES <span class="offer-banner">OFFER ENDS IN <span id="timer">04:59</span></span></a>
+            <a href="#" class="logo magnetic-link">M-X LUMES</a>
             <ul class="nav-links">
-                <li><a href="#shop">Inventory</a></li>
-                <li><a href="#specs">Specs</a></li>
-                <li><a href="#calc">Calculator</a></li>
-                <li><a href="#protocol">Guide</a></li>
+                <li><a href="#shop" class="magnetic-link">Inventory</a></li>
+                <li><a href="#specs" class="magnetic-link">Specs</a></li>
+                <li><a href="#calc" class="magnetic-link">Calculator</a></li>
+                <li><a href="#protocol" class="magnetic-link">Guide</a></li>
             </ul>
         </div>
     </nav>
 
-    <div class="theme-picker">
-        <div class="theme-dot" style="background:#6366f1" onclick="setTheme(250)"></div>
-        <div class="theme-dot" style="background:#a855f7" onclick="setTheme(270)"></div>
-        <div class="theme-dot" style="background:#ec4899" onclick="setTheme(330)"></div>
-        <div class="theme-dot" style="background:#14b8a6" onclick="setTheme(170)"></div>
-    </div>
-
     <header class="hero">
         <div class="hero-text reveal">
-            <h1>Transparent Plus</h1>
-            <p class="tagline" id="typewriter"></p>
-            <a href="#shop" class="cta-btn">Acquire System</a>
+            <h1 id="hero-title">Transparent Plus</h1>
+            <p class="tagline">STOICHIOMETRIC 3:1 PRECISION.</p>
+            <a href="#shop" class="cta-btn magnetic-link">Acquire System</a>
         </div>
     </header>
+
+    <div class="marquee">
+        <div class="marquee-track">
+            <span class="marquee-item">ISO 9001 CERTIFIED <span>•</span></span>
+            <span class="marquee-item">ZERO VOC EMISSIONS <span>•</span></span>
+            <span class="marquee-item">TRIPLE HALS UV-SHIELD <span>•</span></span>
+            <span class="marquee-item">180 mPas VISCOSITY <span>•</span></span>
+            <span class="marquee-item">3:1 MIXING RATIO <span>•</span></span>
+            <span class="marquee-item">ISO 9001 CERTIFIED <span>•</span></span>
+        </div>
+    </div>
 
     <div class="main-content">
         
         <section id="specs" class="section reveal">
             <h2 class="section-title">Core Specifications</h2>
             <div class="specs-grid">
-                <div class="spec-card"><span class="spec-val">82D</span><span class="spec-label tooltip" data-tip="Resists scratches">Shore Hardness</span></div>
-                <div class="spec-card"><span class="spec-val">180</span><span class="spec-label tooltip" data-tip="Water-like flow">mPas Viscosity</span></div>
-                <div class="spec-card"><span class="spec-val">0%</span><span class="spec-label tooltip" data-tip="No fumes">VOC Emissions</span></div>
-                <div class="spec-card"><span class="spec-val">45m</span><span class="spec-label tooltip" data-tip="Pot life">Work Time</span></div>
+                <div class="spec-card tilt-card"><span class="spec-val">82D</span><span class="spec-label">Shore Hardness</span></div>
+                <div class="spec-card tilt-card"><span class="spec-val">180</span><span class="spec-label">mPas Viscosity</span></div>
+                <div class="spec-card tilt-card"><span class="spec-val">0%</span><span class="spec-label">VOC Emissions</span></div>
+                <div class="spec-card tilt-card"><span class="spec-val">45m</span><span class="spec-label">Work Time</span></div>
             </div>
         </section>
 
         <section id="shop" class="section reveal">
             <h2 class="section-title">Kit Inventory</h2>
             <div class="shop-grid">
-                <div class="shop-card">
+                <div class="shop-card tilt-card">
                     <div><span class="shop-tag">Starter</span><div class="shop-title">1.2 KG</div><div class="shop-price">₹1,250</div><p style="color:#666; font-size:12px;">900g + 300g. Test Kit.</p></div>
-                    <button class="add-btn" onclick="addToCart('Starter Kit (1.2KG)', 1250)">Add to Cart</button>
+                    <button class="add-btn magnetic-link" onclick="addToCart('Starter Kit (1.2KG)', 1250)">Add to Cart</button>
                 </div>
-                <div class="shop-card">
+                <div class="shop-card tilt-card">
                     <div><span class="shop-tag">Studio</span><div class="shop-title">4.8 KG</div><span class="discount-badge">Save 5%</span><div class="shop-price">₹4,750</div><span class="shop-old-price">₹5,000</span></div>
-                    <button class="add-btn" onclick="addToCart('Studio Kit (4.8KG)', 4750)">Add to Cart</button>
+                    <button class="add-btn magnetic-link" onclick="addToCart('Studio Kit (4.8KG)', 4750)">Add to Cart</button>
                 </div>
-                <div class="shop-card" style="border-color:var(--accent-main);">
-                    <div><span class="shop-tag" style="color:var(--accent-main);">Pro</span><div class="shop-title">12 KG</div><span class="discount-badge">Save 10%</span><div class="shop-price">₹11,250</div><span class="shop-old-price">₹12,500</span></div>
-                    <button class="add-btn" style="background:var(--accent-grad); color:#fff;" onclick="addToCart('Pro Pack (12KG)', 11250)">Add to Cart</button>
+                <div class="shop-card tilt-card" style="border-color:var(--accent-solid);">
+                    <div><span class="shop-tag" style="color:var(--accent-solid);">Pro</span><div class="shop-title">12 KG</div><span class="discount-badge">Save 10%</span><div class="shop-price">₹11,250</div><span class="shop-old-price">₹12,500</span></div>
+                    <button class="add-btn magnetic-link" style="background:var(--accent-grad); color:#fff;" onclick="addToCart('Pro Pack (12KG)', 11250)">Add to Cart</button>
                 </div>
-                <div class="shop-card">
+                <div class="shop-card tilt-card">
                     <div><span class="shop-tag">Industrial</span><div class="shop-title">24 KG</div><span class="discount-badge">Save 15%</span><div class="shop-price">₹21,250</div><span class="shop-old-price">₹25,000</span></div>
-                    <button class="add-btn" onclick="addToCart('Industrial Pack (24KG)', 21250)">Add to Cart</button>
+                    <button class="add-btn magnetic-link" onclick="addToCart('Industrial Pack (24KG)', 21250)">Add to Cart</button>
                 </div>
             </div>
         </section>
@@ -333,10 +387,10 @@
             <h2 class="section-title">Omni-Calc</h2>
             <div class="omni-panel">
                 <div class="omni-header">
-                    <button class="shape-btn active" id="btnRect" onclick="setShape('rect')">Rectangle</button>
-                    <button class="shape-btn" id="btnCirc" onclick="setShape('circ')">Circle</button>
-                    <button class="shape-btn" id="btnHex" onclick="setShape('hex')">Hexagon</button>
-                    <button class="shape-btn" id="btnCustom" onclick="setShape('custom')">Custom</button>
+                    <button class="shape-btn active magnetic-link" id="btnRect" onclick="setShape('rect')">Rectangle</button>
+                    <button class="shape-btn magnetic-link" id="btnCirc" onclick="setShape('circ')">Circle</button>
+                    <button class="shape-btn magnetic-link" id="btnHex" onclick="setShape('hex')">Hexagon</button>
+                    <button class="shape-btn magnetic-link" id="btnCustom" onclick="setShape('custom')">Custom</button>
                 </div>
                 <div class="omni-body">
                     <div class="omni-config">
@@ -358,7 +412,7 @@
                         <div class="res-total" id="outTotal">0g</div>
                         <div id="costDisplay" style="text-align:right; color:var(--success); font-weight:700; margin:10px 0;"></div>
                         <div id="smartTip" class="smart-tip"></div>
-                        <button class="tool-btn" style="width:100%; margin-top:20px;" onclick="printTicket()">Print Ticket</button>
+                        <button class="tool-btn magnetic-link" style="width:100%; margin-top:20px;" onclick="printTicket()">Print Ticket</button>
                     </div>
                 </div>
             </div>
@@ -374,12 +428,21 @@
             </div>
         </section>
 
-        <section id="gallery" class="section reveal">
-            <h2 class="section-title">Studio</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item"><img src="gallary 1.png" class="gallery-img"><div class="gallery-caption"><span>TRANSMISSION</span></div></div>
-                <div class="gallery-item"><img src="gallary 3.png" class="gallery-img"><div class="gallery-caption"><span>REFRACTION</span></div></div>
-                <div class="gallery-item"><img src="gallary 2.png" class="gallery-img"><div class="gallery-caption"><span>DENSITY</span></div></div>
+        <section class="section reveal">
+            <h2 class="section-title">Artist Reviews</h2>
+            <div class="reviews-wrap">
+                <div class="review-card tilt-card"><div class="r-stars">★★★★★</div><p class="r-text">"The 180 mPas viscosity is a game changer. No bubbles even without a pressure pot."</p><span class="r-author">@resin_art_india</span></div>
+                <div class="review-card tilt-card"><div class="r-stars">★★★★★</div><p class="r-text">"Best 3:1 system I've used. The hardness after 72 hours is unbelievable."</p><span class="r-author">@studio_mosaic</span></div>
+                <div class="review-card tilt-card"><div class="r-stars">★★★★★</div><p class="r-text">"Switched from generic brands. My flower preservation projects are finally crystal clear."</p><span class="r-author">@botanical_cast</span></div>
+            </div>
+        </section>
+
+        <section class="section reveal">
+            <h2 class="section-title">Technical FAQ</h2>
+            <div style="max-width:800px; margin:0 auto;">
+                <details><summary>Is a pressure pot required?</summary><p class="faq-ans">No. Our low viscosity (180 mPas) allows bubbles to rise and pop naturally.</p></details>
+                <details><summary>What is the max pour depth?</summary><p class="faq-ans">For Transparent Plus, we recommend 20-25mm per layer. For deeper pours, use our Deep Cast series.</p></details>
+                <details><summary>Is it food safe?</summary><p class="faq-ans">Yes, once fully cured (7 days), it is inert and safe for incidental food contact.</p></details>
             </div>
         </section>
 
@@ -390,21 +453,13 @@
                     <div class="safety-title">⚠ Safety First</div>
                     <p style="color:#666; font-size:12px;">Epoxy is a chemical. Always wear a vapor mask and nitrile gloves in a ventilated area.</p>
                 </div>
-                <div class="guide-card" style="border-color:var(--accent-solid);"><h3>Timer</h3><div class="timer-badge" id="mixTimerDisplay">03:00</div><button class="add-btn" style="margin-top:10px; width:auto; padding:8px 20px;" onclick="startMixTimer()">Start</button></div>
+                <div class="guide-card" style="border-color:var(--accent-solid);"><h3>Timer</h3><div class="timer-badge" id="timerDisplay">03:00</div><button class="add-btn magnetic-link" style="margin-top:10px; width:auto; padding:8px 20px;" onclick="startTimer()">Start</button></div>
                 <div class="guide-card"><h3>Docs</h3><p style="color:#666; font-size:12px;"><a href="#" style="color:#fff;">Download TDS</a><br><a href="#" style="color:#fff;">Download SDS</a></p></div>
             </div>
         </section>
     </div>
 
-    <div class="toast" id="liveToast">
-        <div class="toast-img" style="background:var(--accent-main);"></div>
-        <div>
-            <span class="toast-text" id="toastMsg">User bought 12KG</span>
-            <span class="toast-time">Just now</span>
-        </div>
-    </div>
-
-    <div class="cart-fab" onclick="toggleCart()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg><div class="cart-badge" id="cartCount">0</div></div>
+    <div class="cart-fab magnetic-link" onclick="toggleCart()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg><div class="cart-badge" id="cartCount">0</div></div>
     <div class="cart-modal" id="cartModal"><div class="cart-panel">
         <h2>Cart</h2>
         <div id="cartItems" style="flex:1; overflow-y:auto;"></div>
@@ -413,10 +468,9 @@
             <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>GST (18%)</span><span id="cartGST">₹0</span></div>
             <div style="display:flex; justify-content:space-between; font-weight:700; font-size:20px; border-top:1px solid #333; padding-top:10px;"><span>Total</span><span id="cartTotal">₹0</span></div>
         </div>
-        <button class="add-btn" onclick="payNow()">Checkout</button>
+        <button class="add-btn magnetic-link" onclick="payNow()">Checkout</button>
         <button class="tool-btn" style="width:100%; margin-top:10px; border:none;" onclick="toggleCart()">Close</button>
     </div></div>
-    <canvas id="confetti"></canvas>
 
     <footer class="footer-wrap reveal">
         <div class="footer-overlay"></div>
@@ -432,79 +486,93 @@
     </footer>
 
     <script>
-        // 1. PRELOADER
-        window.addEventListener('load', () => {
-            document.querySelector('.loader-progress').style.width = '100%';
-            setTimeout(() => {
-                document.getElementById('preloader').style.opacity = '0';
-                setTimeout(() => document.getElementById('preloader').remove(), 800);
-            }, 1000);
+        // 1. LENIS SMOOTH SCROLL (With Mobile/Desktop Detection)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            smooth: true,
+            touchMultiplier: 2
         });
 
-        // 2. LENIS SCROLL (Mobile Tuned)
-        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), direction: 'vertical', smooth: true, touchMultiplier: 2 });
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        // 2. ANIMATION LOOP (MARQUEE & PARALLAX)
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+            
+            // Feature: Velocity Marquee Logic
+            const speed = 1 + lenis.velocity * 0.05; 
+            const marquee = document.querySelector('.marquee-track');
+            if(marquee) marquee.style.transform = `translateX(${-time * 0.05 * Math.abs(speed)}px)`;
+
+            // Feature: Parallax Hero Text
+            const heroText = document.querySelector('.hero-text');
+            if(heroText) heroText.style.transform = `translateY(${window.scrollY * 0.3}px)`;
+        }
         requestAnimationFrame(raf);
 
-        // 3. TYPEWRITER EFFECT
-        const txt = "STOICHIOMETRIC 3:1 PRECISION.";
-        let i = 0;
-        function typeWriter() {
-            if (i < txt.length) {
-                document.querySelector('.tagline').innerHTML += txt.charAt(i);
-                i++;
-                setTimeout(typeWriter, 50);
-            }
-        }
-        setTimeout(typeWriter, 1500);
-
-        // 4. SMART NAVBAR
-        let lastScroll = 0;
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-            if (currentScroll > lastScroll && currentScroll > 100) {
-                document.querySelector('.navbar').style.transform = 'translateY(-100%)';
-            } else {
-                document.querySelector('.navbar').style.transform = 'translateY(0)';
-            }
-            lastScroll = currentScroll;
-        });
-
-        // 5. RIPPLE BUTTONS
-        document.querySelectorAll('.add-btn, .cta-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                let x = e.clientX - e.target.getBoundingClientRect().left;
-                let y = e.clientY - e.target.getBoundingClientRect().top;
-                let ripples = document.createElement('span');
-                ripples.style.left = x + 'px'; ripples.style.top = y + 'px';
-                ripples.classList.add('ripple');
-                this.appendChild(ripples);
-                setTimeout(() => ripples.remove(), 600);
+        // 3. HYDRO-CURSOR & MAGNETIC BUTTONS (Desktop Only)
+        if (window.matchMedia("(pointer: fine)").matches) {
+            const dot = document.querySelector('.cursor-dot');
+            const outline = document.querySelector('.cursor-outline');
+            const glow = document.querySelector('.aurora-glow');
+            let mX = 0, mY = 0, dX = 0, dY = 0, oX = 0, oY = 0;
+            
+            window.addEventListener('mousemove', e => { mX = e.clientX; mY = e.clientY; });
+            
+            // Feature: Magnetic Buttons
+            const magnets = document.querySelectorAll('.magnetic-link');
+            magnets.forEach(btn => {
+                btn.addEventListener('mousemove', e => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                    document.body.style.cursor = 'none';
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = 'translate(0, 0)';
+                });
             });
-        });
 
-        // 6. LIVE TOASTS
-        const names = ["Rahul from Delhi", "Priya from Mumbai", "Amit from Bangalore", "Sneha from Pune"];
-        const items = ["1.2KG Kit", "12KG Pro Pack", "4.8KG Studio", "24KG Industrial"];
-        function showToast() {
-            const name = names[Math.floor(Math.random() * names.length)];
-            const item = items[Math.floor(Math.random() * items.length)];
-            document.getElementById('toastMsg').innerText = `${name} bought ${item}`;
-            document.getElementById('liveToast').classList.add('show');
-            setTimeout(() => document.getElementById('liveToast').classList.remove('show'), 4000);
+            // Feature: Liquid Tilt Cards
+            const cards = document.querySelectorAll('.tilt-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -5;
+                    const rotateY = ((x - centerX) / centerX) * 5;
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+                });
+            });
+
+            function updateCursor() {
+                dX = mX; dY = mY;
+                oX += (mX - oX) * 0.15; 
+                oY += (mY - oY) * 0.15;
+                
+                if(dot) dot.style.transform = `translate3d(${dX}px, ${dY}px, 0)`;
+                if(glow) glow.style.transform = `translate3d(${dX}px, ${dY}px, 0)`;
+                if(outline) outline.style.transform = `translate3d(${oX - 19}px, ${oY - 19}px, 0)`;
+                requestAnimationFrame(updateCursor);
+            }
+            updateCursor();
         }
-        setInterval(showToast, 15000);
 
-        // 7. THEME ENGINE
-        function setTheme(hue) {
-            document.documentElement.style.setProperty('--hue', hue);
-        }
-
-        // 8. COMMERCE
+        // COMMERCE
         let cart = [];
         function addToCart(item, price) { cart.push({item, price}); updateCart(); toggleCart(); }
         function updateCart() {
-            const list = document.getElementById('cartItems'); list.innerHTML = cart.length ? '' : 'Empty'; let sub = 0;
+            const list = document.getElementById('cartItems');
+            list.innerHTML = cart.length ? '' : 'Empty';
+            let sub = 0;
             cart.forEach((i) => { sub += i.price; list.innerHTML += `<div style="padding:10px 0; border-bottom:1px solid #222; display:flex; justify-content:space-between;"><span>${i.item}</span><span>₹${i.price}</span></div>`; });
             const tax = sub * 0.18;
             document.getElementById('cartSubtotal').innerText = `₹${sub.toLocaleString()}`;
@@ -514,17 +582,14 @@
             document.getElementById('cartCount').classList.toggle('visible', cart.length > 0);
         }
         function toggleCart() { document.getElementById('cartModal').classList.toggle('active'); }
-        
-        // 9. CONFETTI (Simple)
         function payNow() { 
             const total = parseInt(document.getElementById('cartTotal').innerText.replace(/[^0-9]/g, ''));
             if(!total) return;
-            // Confetti Trigger logic would go here
             var options = { "key": "YOUR_RAZORPAY_KEY", "amount": total*100, "currency": "INR", "name": "M-X LUMES", "handler": function(res){ window.open('https://wa.me/919999999999?text=Order+ID:'+res.razorpay_payment_id); } };
             new Razorpay(options).open();
         }
 
-        // 10. CALCULATOR
+        // CALCULATOR
         let currentShape = 'rect';
         function setShape(s) { currentShape = s; document.querySelectorAll('.shape-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); ['rect','circ','hex','custom'].forEach(d=>document.getElementById('dims-'+d).style.display = d===s?'flex':'none'); runCalc(); }
         function runCalc() {
@@ -544,7 +609,9 @@
             document.getElementById('smartTip').innerText = `⚠ Depth > ${limit}cm. Use deep pour.`;
         }
 
-        let timer; let tl=180; function startMixTimer() { if(timer) return; timer=setInterval(()=>{ if(tl>0){tl--; document.getElementById('mixTimerDisplay').innerText=`0${Math.floor(tl/60)}:${(tl%60).toString().padStart(2,'0')}`; }else{clearInterval(timer); alert("Mix Ready!");}},1000); }
+        // TIMER
+        let timer; let tl=180; function updateTimer() { document.getElementById('timerDisplay').innerText=`0${Math.floor(tl/60)}:${(tl%60).toString().padStart(2,'0')}`; }
+        function startTimer() { if(timer) return; timer=setInterval(()=>{ if(tl>0){tl--; updateTimer();}else{clearInterval(timer); alert("Mix Ready!");}},1000); }
         function printTicket() { const t=document.getElementById('outTotal').innerText; const w=window.open('','','width=300,height=400'); w.document.write(`<body style="font-family:monospace;text-align:center;"><h3>BATCH</h3><h1>${t}</h1></body>`); w.print(); }
 
         const obs = new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('active'); }); }, {threshold:0.1});
