@@ -74,16 +74,11 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -5;
             background-color: #000;
             background-image: url('product-1.webp');
-            
-            /* Logic */
             background-position: center bottom;
             background-repeat: no-repeat;
             background-size: 65%;
-            
-            /* Vignette: Seamless fade into black */
             -webkit-mask-image: radial-gradient(circle at 50% 100%, black 20%, transparent 100%);
             mask-image: radial-gradient(circle at 50% 100%, black 20%, transparent 100%);
-            
             opacity: 0.8;
             will-change: opacity; transition: opacity 1s var(--ease-fluid);
         }
@@ -105,10 +100,8 @@
         .container { max-width: 1100px; margin: 0 auto; padding: 0 25px; }
         .section { padding: 140px 0; position: relative; z-index: 2; content-visibility: auto; contain-intrinsic-size: 800px; }
         
-        /* Staggered Reveal Engine */
         .reveal { opacity: 0; transform: translateY(30px); filter: blur(5px); transition: all 1s var(--ease-fluid); }
         .reveal.active { opacity: 1; transform: translateY(0); filter: blur(0); }
-        
         .grid-3 .reveal:nth-child(2) { transition-delay: 0.1s; }
         .grid-3 .reveal:nth-child(3) { transition-delay: 0.2s; }
 
@@ -208,7 +201,7 @@
         .chem-warn { padding: 20px; border: 1px solid var(--warning); border-radius: 12px; background: rgba(245,158,11,0.05); color: var(--text-dim); font-size: 13px; display: flex; gap: 15px; align-items: center; margin-top: 40px; }
 
         /* -----------------------------------------------------------
-           8. INFINITY CALCULATOR (EXPANDED FOR INDIAN ARTISTS)
+           8. CHEMIST CALCULATOR V5.0 (ENV + RISK + MM)
            ----------------------------------------------------------- */
         .zenith-calc {
             background: var(--bg-panel); border: 1px solid var(--border);
@@ -217,22 +210,22 @@
         }
         
         .z-controls { padding: 60px; border-right: 1px solid var(--border); }
-        .z-display { padding: 60px; background: rgba(15,15,15,0.9); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+        .z-display { padding: 60px; background: rgba(15,15,15,0.95); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
         
-        .unit-wrap { display: flex; gap: 5px; margin-bottom: 25px; }
+        /* Unit Wrap */
+        .unit-wrap { display: flex; gap: 5px; }
         .unit-btn { padding: 8px 16px; border-radius: 12px; font-size: 10px; font-weight: 800; color: #666; background: rgba(255,255,255,0.05); transition: 0.3s; }
         .unit-btn.active { background: #fff; color: #000; }
 
-        /* Updated Shapes Grid (3 Cols) */
+        /* Shapes */
         .z-shapes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 40px; }
         .z-shape {
             padding: 25px; border: 1px solid var(--border); border-radius: 20px;
             display: flex; flex-direction: column; align-items: center; gap: 12px;
             cursor: pointer; transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); background: rgba(255,255,255,0.01);
         }
-        .z-shape:hover { background: rgba(255,255,255,0.04); transform: translateY(-3px); }
         .z-shape.active { border-color: #6366f1; background: rgba(99, 102, 241, 0.05); box-shadow: 0 0 30px rgba(99, 102, 241, 0.1); }
-        .z-shape svg { width: 32px; height: 32px; stroke: #888; stroke-width: 1.5; fill: none; transition: 0.3s; }
+        .z-shape svg { width: 32px; height: 32px; stroke: #888; stroke-width: 1.5; fill: none; }
         .z-shape.active svg { stroke: #fff; }
         .z-shape span { font-size: 10px; font-weight: 800; letter-spacing: 1px; color: #666; text-transform: uppercase; }
         .z-shape.active span { color: #fff; }
@@ -246,35 +239,31 @@
         
         .z-slider { -webkit-appearance: none; flex: 1; height: 6px; background: #222; border-radius: 3px; outline: none; }
         .z-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; background: #fff; border-radius: 50%; cursor: grab; transition: 0.2s; box-shadow: 0 0 20px rgba(255,255,255,0.4); }
-        .z-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
-
-        /* Indian Presets */
+        
         .preset-row { display: flex; gap: 10px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
         .preset-btn { padding: 10px 20px; border: 1px solid var(--border); border-radius: 30px; font-size: 11px; color: #888; background: transparent; white-space: nowrap; transition: 0.3s; cursor: pointer; }
         .preset-btn:active { transform: scale(0.95); } 
         .preset-btn:hover { color: #fff; border-color: #fff; }
 
-        .eng-mode { margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px; }
-        .eng-toggle { font-size: 11px; font-weight: 700; color: #6366f1; cursor: pointer; display: flex; align-items: center; gap: 5px; }
-        .eng-panel { display: none; margin-top: 20px; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .eng-panel.show { display: grid; animation: fadeIn 0.3s; }
-        .eng-inp { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 10px; border-radius: 8px; color: #fff; font-family: inherit; font-size: 12px; }
+        /* Chemist Panel */
+        .chem-panel { background: rgba(99,102,241,0.03); border: 1px solid var(--border); border-radius: 20px; padding: 25px; margin-top: 30px; }
+        .chem-head { font-size: 11px; font-weight: 700; color: #6366f1; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+        .chem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
         
-        /* Display & Results */
+        /* Results */
         .z-res-title { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #666; letter-spacing: 2px; }
         .z-res-val { font-size: 84px; font-weight: 800; color: #fff; line-height: 1; margin: 10px 0 20px; letter-spacing: -3px; }
         .z-res-sub { font-size: 14px; color: #888; font-family: 'Space Grotesk'; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 15px; }
         
-        .z-advisor { margin-top: 20px; padding: 20px; border-radius: 16px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); display: flex; align-items: center; gap: 15px; transition: 0.3s; }
+        .time-box { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px; }
+        .t-card { background: rgba(255,255,255,0.03); padding: 10px; border-radius: 12px; text-align: center; }
+        .t-val { font-size: 16px; font-weight: 700; color: #fff; display: block; }
+        .t-lbl { font-size: 10px; color: #666; text-transform: uppercase; }
+
+        .z-advisor { padding: 20px; border-radius: 16px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); display: flex; align-items: center; gap: 15px; }
         .z-advisor.warn { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); }
-        .z-adv-icon { font-size: 24px; }
-        .z-adv-text { font-size: 13px; font-weight: 700; color: #fff; }
+        .z-adv-text { font-size: 12px; font-weight: 700; color: #fff; line-height: 1.4; }
         
-        .z-cost { margin-top: auto; padding: 20px; background: rgba(255,255,255,0.02); border-radius: 16px; display: flex; justify-content: space-between; align-items: center; }
-        .cost-inp { background: transparent; border: none; border-bottom: 1px solid #444; width: 60px; color: #fff; text-align: right; font-weight: 700; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
         /* -----------------------------------------------------------
            9. FOOTER
            ----------------------------------------------------------- */
@@ -298,7 +287,6 @@
            10. CART
            ----------------------------------------------------------- */
         .cart-fab { position: fixed; bottom: 40px; right: 40px; width: 64px; height: 64px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 2000; box-shadow: 0 0 40px rgba(255,255,255,0.2); transition: transform 0.3s var(--ease-fluid); }
-        .cart-fab:hover { transform: scale(1.1); }
         .cart-count { position: absolute; top: -2px; right: -2px; background: #000; color: #fff; font-size: 10px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; }
         .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; z-index: 3000; pointer-events: none; }
         .cart-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); opacity: 0; transition: 0.3s; }
@@ -437,7 +425,7 @@
 
     <section id="calc" class="section reveal">
         <div class="container">
-            <h2 style="text-align:center; margin-bottom:50px;">Project Calculator</h2>
+            <h2 style="text-align:center; margin-bottom:50px;">Chemist Calculator</h2>
             
             <div class="zenith-calc">
                 <div class="z-controls">
@@ -451,7 +439,7 @@
                     <div class="z-shapes">
                         <div class="z-shape active" id="btn-rect" onclick="setShape('rect')">
                             <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/></svg>
-                            <span>Rectangle</span>
+                            <span>Square</span>
                         </div>
                         <div class="z-shape" id="btn-circ" onclick="setShape('circ')">
                             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>
@@ -464,101 +452,71 @@
                     </div>
 
                     <div class="preset-row">
-                        <button class="preset-btn" onclick="setPreset('varmala')">Varmala Block</button>
+                        <button class="preset-btn" onclick="setPreset('varmala')">Varmala</button>
                         <button class="preset-btn" onclick="setPreset('clock')">Clock</button>
                         <button class="preset-btn" onclick="setPreset('geode')">Geode</button>
-                        <button class="preset-btn" onclick="setPreset('bookmark')">Bookmark</button>
                         <button class="preset-btn" onclick="setPreset('tray')">Tray</button>
-                        <button class="preset-btn" onclick="setPreset('table')">Table</button>
                     </div>
 
                     <div id="dims-rect">
                         <div class="z-group">
                             <div class="z-label">Length</div>
-                            <div class="z-input-row">
-                                <input type="number" id="input-L" class="z-number" value="0" oninput="syncSlider('L')">
-                                <input type="range" class="z-slider" id="slider-L" min="0" max="200" value="0" oninput="syncInput('L')">
-                            </div>
+                            <div class="z-input-row"><input type="number" id="input-L" class="z-number" value="0" oninput="syncSlider('L')"><input type="range" class="z-slider" id="slider-L" min="0" max="200" value="0" oninput="syncInput('L')"></div>
                         </div>
                         <div class="z-group">
                             <div class="z-label">Width</div>
-                            <div class="z-input-row">
-                                <input type="number" id="input-W" class="z-number" value="0" oninput="syncSlider('W')">
-                                <input type="range" class="z-slider" id="slider-W" min="0" max="100" value="0" oninput="syncInput('W')">
-                            </div>
+                            <div class="z-input-row"><input type="number" id="input-W" class="z-number" value="0" oninput="syncSlider('W')"><input type="range" class="z-slider" id="slider-W" min="0" max="100" value="0" oninput="syncInput('W')"></div>
                         </div>
                     </div>
                     
                     <div id="dims-circ" style="display:none;">
                         <div class="z-group">
                             <div class="z-label">Diameter</div>
-                            <div class="z-input-row">
-                                <input type="number" id="input-Dia" class="z-number" value="0" oninput="syncSlider('Dia')">
-                                <input type="range" class="z-slider" id="slider-Dia" min="0" max="100" value="0" oninput="syncInput('Dia')">
-                            </div>
+                            <div class="z-input-row"><input type="number" id="input-Dia" class="z-number" value="0" oninput="syncSlider('Dia')"><input type="range" class="z-slider" id="slider-Dia" min="0" max="100" value="0" oninput="syncInput('Dia')"></div>
                         </div>
                     </div>
 
                     <div id="dims-hex" style="display:none;">
                         <div class="z-group">
                             <div class="z-label">Side Length</div>
-                            <div class="z-input-row">
-                                <input type="number" id="input-Side" class="z-number" value="0" oninput="syncSlider('Side')">
-                                <input type="range" class="z-slider" id="slider-Side" min="0" max="50" value="0" oninput="syncInput('Side')">
-                            </div>
+                            <div class="z-input-row"><input type="number" id="input-Side" class="z-number" value="0" oninput="syncSlider('Side')"><input type="range" class="z-slider" id="slider-Side" min="0" max="50" value="0" oninput="syncInput('Side')"></div>
                         </div>
                     </div>
 
                     <div class="z-group">
                         <div class="z-label">Depth</div>
-                        <div class="z-input-row">
-                            <input type="number" id="input-D" class="z-number" value="1" oninput="syncSlider('D')">
-                            <input type="range" class="z-slider" id="slider-D" min="0.1" max="10" step="0.1" value="1" oninput="syncInput('D')">
-                        </div>
-                    </div>
-                    
-                    <div class="z-group">
-                        <div class="z-label">Quantity</div>
-                        <div class="z-input-row">
-                            <input type="number" id="input-Qty" class="z-number" value="1" oninput="syncSlider('Qty')">
-                            <input type="range" class="z-slider" id="slider-Qty" min="1" max="20" value="1" oninput="syncInput('Qty')">
-                        </div>
+                        <div class="z-input-row"><input type="number" id="input-D" class="z-number" value="1" oninput="syncSlider('D')"><input type="range" class="z-slider" id="slider-D" min="0.1" max="15" step="0.1" value="1" oninput="syncInput('D')"></div>
                     </div>
 
-                    <div class="eng-mode">
-                        <div class="eng-toggle" onclick="document.getElementById('eng-panel').classList.toggle('show')">⚙️ Advanced Engineer Mode</div>
-                        <div id="eng-panel" class="eng-panel">
-                            <div><label class="z-label" style="font-size:9px;">Ratio A</label><input type="number" id="ratioA" class="eng-inp" value="3" oninput="runCalc()"></div>
-                            <div><label class="z-label" style="font-size:9px;">Ratio B</label><input type="number" id="ratioB" class="eng-inp" value="1" oninput="runCalc()"></div>
-                            <div><label class="z-label" style="font-size:9px;">Density</label><input type="number" id="density" class="eng-inp" value="1.13" step="0.01" oninput="runCalc()"></div>
-                            <div><label class="z-label" style="font-size:9px;">Brand Limit (cm)</label><input type="number" id="brandLimit" class="eng-inp" value="2.5" oninput="runCalc()"></div>
-                            <div><label class="z-label" style="font-size:9px;">Pigment %</label><input type="number" id="pigment" class="eng-inp" value="0" oninput="runCalc()"></div>
+                    <div class="chem-panel">
+                        <div class="chem-head"><span>🧪 Environment Lab</span></div>
+                        <div class="chem-grid">
+                            <div><div class="z-label" style="font-size:9px;">Temp (°C)</div><input type="range" class="z-slider" id="env-temp" min="10" max="40" value="25" oninput="runCalc(); document.getElementById('val-temp').innerText = this.value + '°C'"><div id="val-temp" style="font-size:11px; color:#fff; margin-top:5px; text-align:right;">25°C</div></div>
+                            <div><div class="z-label" style="font-size:9px;">Humidity (%)</div><input type="range" class="z-slider" id="env-hum" min="20" max="90" value="50" oninput="runCalc(); document.getElementById('val-hum').innerText = this.value + '%'"><div id="val-hum" style="font-size:11px; color:#fff; margin-top:5px; text-align:right;">50%</div></div>
+                        </div>
+                        <div style="margin-top:20px; border-top:1px solid rgba(255,255,255,0.1); padding-top:15px;">
+                            <div class="z-label" style="font-size:9px;">Brand Limit (MM)</div>
+                            <input type="number" id="brandLimitMM" class="z-number" value="25" style="width:100%; text-align:left; font-size:18px;" oninput="runCalc()">
                         </div>
                     </div>
                 </div>
 
                 <div class="z-display">
                     <div>
-                        <span class="z-res-title">Total Mix Required</span>
+                        <span class="z-res-title">Total Mix</span>
                         <div class="z-res-val" id="res-total">0g</div>
-                        <div class="z-res-sub">
-                            Part A: <span style="color:#fff;" id="res-a">0g</span>
-                            Part B: <span style="color:#fff;" id="res-b">0g</span>
-                        </div>
-                        <div class="z-res-sub" style="margin-top:10px;">
-                            Pigment: <span style="color:#fff;" id="res-pig">0g</span>
+                        <div class="z-res-sub">A: <span style="color:#fff;" id="res-a">0g</span> | B: <span style="color:#fff;" id="res-b">0g</span></div>
+                        
+                        <div class="time-box">
+                            <div class="t-card"><span class="t-val" id="time-pot">45m</span><span class="t-lbl">Pot Life</span></div>
+                            <div class="t-card"><span class="t-val" id="time-demold">24h</span><span class="t-lbl">Demold</span></div>
+                            <div class="t-card"><span class="t-val" id="time-cure">7d</span><span class="t-lbl">Full Cure</span></div>
                         </div>
                     </div>
 
                     <div class="z-advisor" id="advisor-box">
                         <div class="z-adv-icon">✅</div>
-                        <div class="z-adv-text" id="advisor-text">Safe Single Pour</div>
-                    </div>
-
-                    <div class="z-cost">
-                        <div style="font-size:10px; color:#888; text-transform:uppercase; font-weight:700;">Est. Cost <br><span style="font-size:9px; color:#555;">(Input ₹/kg)</span></div>
-                        <input type="number" id="costInput" class="cost-inp" placeholder="1000" oninput="runCalc()">
-                        <div style="font-size:24px; font-weight:700; color:#fff;" id="est-cost">₹0</div>
+                        <div class="z-adv-text" id="advisor-text">Safe Conditions</div>
                     </div>
                 </div>
             </div>
@@ -577,14 +535,8 @@
                 <div class="g-item"><img src="at4.png" class="g-img" loading="lazy" style="filter:hue-rotate(45deg);"></div>
             </div>
             <div class="dos-donts" style="margin-top:60px;">
-                <div class="dd-box dos">
-                    <h3 style="color:var(--success); margin-bottom:20px;">✓ The Dos</h3>
-                    <ul style="color:var(--text-dim); list-style:disc; padding-left:20px;"><li>Wear gloves and mask.</li><li>Work at 25°C.</li><li>Seal porous surfaces.</li></ul>
-                </div>
-                <div class="dd-box donts">
-                    <h3 style="color:var(--danger); margin-bottom:20px;">✕ The Don'ts</h3>
-                    <ul style="color:var(--text-dim); list-style:disc; padding-left:20px;"><li>Don't mix by volume.</li><li>Don't scrape cup on pour.</li><li>Avoid water contact.</li></ul>
-                </div>
+                <div class="dd-box dos"><h3 style="color:var(--success); margin-bottom:20px;">✓ The Dos</h3><ul style="color:var(--text-dim); list-style:disc; padding-left:20px;"><li>Wear gloves and mask.</li><li>Work at 25°C.</li><li>Seal porous surfaces.</li></ul></div>
+                <div class="dd-box donts"><h3 style="color:var(--danger); margin-bottom:20px;">✕ The Don'ts</h3><ul style="color:var(--text-dim); list-style:disc; padding-left:20px;"><li>Don't mix by volume.</li><li>Don't scrape cup on pour.</li><li>Avoid water contact.</li></ul></div>
             </div>
         </div>
     </section>
@@ -593,15 +545,9 @@
         <div class="footer-overlay"></div>
         <div class="footer-watermark">M-X</div>
         <div class="container footer-content">
-            <div class="footer-cta">
-                <h2>Ready to Create?</h2>
-                <button class="btn btn-primary" onclick="document.getElementById('shop').scrollIntoView()">Start Your Order</button>
-            </div>
+            <div class="footer-cta"><h2>Ready to Create?</h2><button class="btn btn-primary" onclick="document.getElementById('shop').scrollIntoView()">Start Your Order</button></div>
             <div class="f-grid">
-                <div class="f-col">
-                    <h2 class="logo" style="margin-bottom:20px;">M-X LUMES</h2>
-                    <p style="color:var(--text-dim); font-size:13px; line-height:1.8;">Engineered in Meerut. The professional's choice.</p>
-                </div>
+                <div class="f-col"><h2 class="logo" style="margin-bottom:20px;">M-X LUMES</h2><p style="color:var(--text-dim); font-size:13px; line-height:1.8;">Engineered in Meerut. The professional's choice.</p></div>
                 <div class="f-col"><h4>Products</h4><a href="#" class="f-link">Transparent Plus</a><a href="#" class="f-link">Deep Pour Pro</a></div>
                 <div class="f-col"><h4>Support</h4><a href="#" class="f-link">Track Order</a><a href="#" class="f-link">Shipping Policy</a></div>
                 <div class="f-col"><h4>Contact</h4><a href="#" class="f-link">support@mxlumes.com</a><a href="#" class="f-link">+91 98765 43210</a></div>
@@ -610,21 +556,8 @@
         </div>
     </footer>
 
-    <div class="cart-fab" onclick="toggleCart()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-7-2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2zm-5-10h2l1 14h13"/></svg>
-        <div class="cart-count" id="cartCount">0</div>
-    </div>
-    <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-overlay" onclick="toggleCart()"></div>
-        <div class="cart-inner">
-            <div style="display:flex; justify-content:space-between; align-items:center;"><h2>Cart</h2><button onclick="toggleCart()" style="color:#fff; font-size:24px;">×</button></div>
-            <div id="cartItems" style="flex:1; overflow-y:auto; margin:20px 0;"></div>
-            <div class="cart-summary">
-                <div class="cart-total" style="display:flex; justify-content:space-between; font-size:20px; font-weight:700;"><span>Total</span><span id="cartTotal">₹0</span></div>
-                <button class="btn btn-primary" style="width:100%; margin-top:20px;" onclick="checkoutWhatsApp()">Checkout WhatsApp</button>
-            </div>
-        </div>
-    </div>
+    <div class="cart-fab" onclick="toggleCart()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-7-2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2zm-5-10h2l1 14h13"/></svg><div class="cart-count" id="cartCount">0</div></div>
+    <div class="cart-sidebar" id="cartSidebar"><div class="cart-overlay" onclick="toggleCart()"></div><div class="cart-inner"><div style="display:flex; justify-content:space-between; align-items:center;"><h2>Cart</h2><button onclick="toggleCart()" style="color:#fff; font-size:24px;">×</button></div><div id="cartItems" style="flex:1; overflow-y:auto; margin:20px 0;"></div><div class="cart-summary"><div class="cart-total" style="display:flex; justify-content:space-between; font-size:20px; font-weight:700;"><span>Total</span><span id="cartTotal">₹0</span></div><button class="btn btn-primary" style="width:100%; margin-top:20px;" onclick="checkoutWhatsApp()">Checkout WhatsApp</button></div></div></div>
 
     <script>
         // Scroll & Animation
@@ -633,14 +566,13 @@
         document.querySelectorAll('.reveal, .counter').forEach(el => observer.observe(el));
 
         function countUp(el) {
-            const target = parseInt(el.dataset.target);
-            let count = 0; const inc = target / 30;
-            const timer = setInterval(() => { count += inc; if(count >= target) { count = target; clearInterval(timer); } el.innerText = Math.floor(count) + (el.innerText.includes('%') ? '%' : ''); }, 20);
+            const target = parseInt(el.dataset.target); let count = 0; const inc = target / 30;
+            const timer = setInterval(() => { count += inc; if(count >= target) { count = target; clearInterval(timer); } el.innerText = Math.floor(count) + (el.innerText.includes('%') ? '%' : ''); }, 30);
         }
 
-        // --- TITAN INFINITY CALCULATOR ---
+        // --- CHEMIST CALCULATOR LOGIC ---
         let shape = 'rect';
-        let unitMult = 1; // 1=cm, 2.54=inch
+        let unitMult = 1; 
         
         function setUnit(u) {
             document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
@@ -655,7 +587,6 @@
             if(s === 'rect') document.getElementById('btn-rect').classList.add('active');
             if(s === 'circ') document.getElementById('btn-circ').classList.add('active');
             if(s === 'hex') document.getElementById('btn-hex').classList.add('active');
-            
             document.getElementById('dims-rect').style.display = s === 'rect' ? 'block' : 'none';
             document.getElementById('dims-circ').style.display = s === 'circ' ? 'block' : 'none';
             document.getElementById('dims-hex').style.display = s === 'hex' ? 'block' : 'none';
@@ -666,13 +597,11 @@
         function syncSlider(id) { document.getElementById('slider-'+id).value = document.getElementById('input-'+id).value; runCalc(); }
 
         function setPreset(type) {
-            // Units assumed CM for presets
-            if(type === 'varmala') { setShape('hex'); setAllVals('Side', 15); setAllVals('D', 7.5); } // Deep Pour
-            else if (type === 'clock') { setShape('circ'); setAllVals('Dia', 30); setAllVals('D', 1); } // 12 inch approx
+            // Varmala = Deep Pour, default Square
+            if(type === 'varmala') { setShape('rect'); setAllVals('L', 30); setAllVals('W', 30); setAllVals('D', 7.5); }
+            else if (type === 'clock') { setShape('circ'); setAllVals('Dia', 30); setAllVals('D', 1); }
             else if (type === 'geode') { setShape('circ'); setAllVals('Dia', 10); setAllVals('D', 0.8); }
-            else if (type === 'bookmark') { setShape('rect'); setAllVals('L', 15); setAllVals('W', 3); setAllVals('D', 0.3); }
             else if (type === 'tray') { setShape('rect'); setAllVals('L', 30); setAllVals('W', 20); setAllVals('D', 1.5); }
-            else if (type === 'table') { setShape('rect'); setAllVals('L', 120); setAllVals('W', 60); setAllVals('D', 3); }
             runCalc();
         }
 
@@ -682,7 +611,7 @@
         }
 
         function runCalc() {
-            // Get Values
+            // 1. DIMENSIONS
             let h = parseFloat(document.getElementById('input-D').value) || 0;
             h = h * unitMult; 
             
@@ -699,52 +628,71 @@
                 area = 2.598 * Math.pow(s, 2);
             }
 
-            // Params
-            const rA = parseFloat(document.getElementById('ratioA').value) || 3;
-            const rB = parseFloat(document.getElementById('ratioB').value) || 1;
-            const density = parseFloat(document.getElementById('density').value) || 1.13;
-            const limit = parseFloat(document.getElementById('brandLimit').value) || 2.5;
-            const pigPct = parseFloat(document.getElementById('pigment').value) || 0;
-            const costPerKg = parseFloat(document.getElementById('costInput').value) || 0;
+            const density = 1.13;
+            const limitMM = parseFloat(document.getElementById('brandLimitMM').value) || 25;
+            const limit = limitMM / 10; // Convert to CM for logic
 
             const vol = area * h;
-            // Adjust for quantity
-            const q = parseFloat(document.getElementById('input-Qty').value) || 1;
-            const totalVol = vol * q;
-            const mass = totalVol * density;
+            const mass = vol * density;
             
-            const totalParts = rA + rB;
-            const massA = (mass * rA) / totalParts;
-            const massB = (mass * rB) / totalParts;
-            const pigMass = mass * (pigPct/100);
-
-            // Display
             document.getElementById('res-total').innerText = Math.round(mass) + 'g';
-            document.getElementById('res-a').innerText = Math.round(massA) + 'g';
-            document.getElementById('res-b').innerText = Math.round(massB) + 'g';
-            document.getElementById('res-pig').innerText = pigMass.toFixed(1) + 'g';
-            
-            if(costPerKg > 0) document.getElementById('est-cost').innerText = '₹' + Math.round((mass/1000)*costPerKg).toLocaleString();
+            document.getElementById('res-a').innerText = Math.round(mass * 0.75) + 'g';
+            document.getElementById('res-b').innerText = Math.round(mass * 0.25) + 'g';
 
-            // Advisor
+            // 2. ENVIRONMENT LOGIC
+            const temp = parseFloat(document.getElementById('env-temp').value) || 25;
+            const hum = parseFloat(document.getElementById('env-hum').value) || 50;
+            
+            // Base times @ 25C
+            let potLife = 45; // mins
+            let demold = 24; // hrs
+            let cure = 7; // days
+
+            // Arrhenius Approx: Rate doubles every 10C
+            const rateFactor = Math.pow(2, (temp - 25) / 10);
+            
+            potLife = Math.round(potLife / rateFactor);
+            demold = Math.max(12, Math.round(demold / rateFactor)); // Min 12h demold
+            cure = Math.max(3, Math.round(cure / rateFactor)); // Min 3 days
+
+            document.getElementById('time-pot').innerText = potLife + "m";
+            document.getElementById('time-demold').innerText = demold + "h";
+            document.getElementById('time-cure').innerText = cure + "d";
+
+            // 3. RISK ANALYSIS
             const advBox = document.getElementById('advisor-box');
             const advTxt = document.getElementById('advisor-text');
             const advIcon = document.querySelector('.z-adv-icon');
-
+            
+            let warnings = [];
+            
+            // Limit Check
             if (h > limit) {
                 const layers = Math.ceil(h / limit);
-                const perLayer = (mass / layers).toFixed(0);
+                warnings.push(`EXOTHERM RISK! Depth exceeds brand limit. Pour ${layers} layers of ${(limitMM).toFixed(0)}mm.`);
+            }
+            
+            // Humidity Check
+            if (hum > 70) warnings.push("HIGH HUMIDITY: Risk of Amine Blush/Stickiness.");
+            
+            // Temp Check
+            if (temp > 30 && h > 2) warnings.push("HIGH TEMP + DEPTH: Serious Flash Cure Risk!");
+            if (temp < 18) warnings.push("LOW TEMP: Resin may not cure properly.");
+
+            if (warnings.length > 0) {
                 advBox.classList.add('warn');
                 advIcon.innerText = '⚠️';
-                advTxt.innerHTML = `TOO DEEP! Pour <span style="color:#fff">${layers} layers</span> of <span style="color:#fff">${perLayer}g</span> each.`;
+                advTxt.innerHTML = warnings.join("<br>");
+                advTxt.style.color = "#ef4444";
             } else {
                 advBox.classList.remove('warn');
                 advIcon.innerText = '✅';
-                advTxt.innerText = "Safe Single Pour";
+                advTxt.innerHTML = "Conditions Optimal for Pouring.";
+                advTxt.style.color = "#10b981";
             }
         }
 
-        // Cart
+        // Cart Logic
         let cart = [];
         function addToCart(name, price) { cart.push({name, price}); renderCart(); showToast(); toggleCart(); }
         function renderCart() {
