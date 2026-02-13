@@ -9,7 +9,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;800&family=Space+Grotesk:wght@300;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
     
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
@@ -20,20 +20,21 @@
         :root {
             /* Palette */
             --bg-oled: #000000;
-            --bg-panel: #030303;
-            --text-main: #f4f4f5;
+            --bg-panel: #050505;
+            --text-main: #ffffff;
             --text-dim: #a1a1aa;
             
             /* Accents */
             --accent: #ffffff;
-            --brand-glow: rgba(99, 102, 241, 0.4);
+            --brand-glow: rgba(99, 102, 241, 0.5);
+            --brand-solid: #6366f1;
             
             /* Glass Engine */
-            --border: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(255, 255, 255, 0.25);
-            --glass: rgba(12, 12, 12, 0.7);
-            --blur: blur(20px);
-            --radius: 24px;
+            --border: rgba(255, 255, 255, 0.12);
+            --border-hover: rgba(255, 255, 255, 0.3);
+            --glass: rgba(18, 18, 18, 0.8);
+            --blur: blur(25px);
+            --radius: 28px;
             
             /* Physics */
             --ease-fluid: cubic-bezier(0.25, 0.46, 0.45, 0.94); 
@@ -42,7 +43,6 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        ::selection { background: rgba(99, 102, 241, 0.3); color: #fff; }
         
         html { scroll-behavior: smooth; font-size: 16px; scroll-padding-top: 100px; }
         
@@ -53,7 +53,7 @@
             line-height: 1.6;
             overflow-x: hidden;
             text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: subpixel-antialiased;
+            -webkit-font-smoothing: antialiased;
         }
 
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; line-height: 1.1; letter-spacing: -0.02em; }
@@ -61,7 +61,7 @@
         button { cursor: pointer; border: none; outline: none; background: none; font-family: inherit; }
         img { display: block; max-width: 100%; height: auto; }
 
-        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
 
@@ -77,7 +77,7 @@
             background-size: 65%;
             -webkit-mask-image: radial-gradient(circle at 50% 100%, black 20%, transparent 100%);
             mask-image: radial-gradient(circle at 50% 100%, black 20%, transparent 100%);
-            opacity: 0.8;
+            opacity: 0.85;
             will-change: opacity; transition: opacity 1s var(--ease-fluid);
         }
 
@@ -88,12 +88,12 @@
         }
 
         .grain {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; opacity: 0.03; pointer-events: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; opacity: 0.035; pointer-events: none;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
         /* -----------------------------------------------------------
-           3. UI COMPONENTS & ANIMATION
+           3. UI COMPONENTS
            ----------------------------------------------------------- */
         .container { max-width: 1100px; margin: 0 auto; padding: 0 25px; }
         .section { padding: 140px 0; position: relative; z-index: 2; content-visibility: auto; contain-intrinsic-size: 800px; }
@@ -199,85 +199,77 @@
         .chem-warn { padding: 20px; border: 1px solid var(--warning); border-radius: 12px; background: rgba(245,158,11,0.05); color: var(--text-dim); font-size: 13px; display: flex; gap: 15px; align-items: center; margin-top: 40px; }
 
         /* -----------------------------------------------------------
-           8. TITAN USER-CENTRIC CALCULATOR
+           8. SOVEREIGN CALCULATOR (USER-FRIENDLY)
            ----------------------------------------------------------- */
         .zenith-calc {
             background: var(--bg-panel); border: 1px solid var(--border);
-            border-radius: 40px; overflow: hidden; display: grid; grid-template-columns: 1.2fr 1fr;
+            border-radius: 32px; overflow: hidden; display: grid; grid-template-columns: 1.3fr 1fr;
             box-shadow: 0 40px 80px -20px rgba(0,0,0,0.6);
         }
         
-        .z-controls { padding: 60px; border-right: 1px solid var(--border); }
-        .z-display { padding: 60px; background: rgba(15,15,15,0.95); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+        .z-controls { padding: 50px; border-right: 1px solid var(--border); }
+        .z-display { padding: 50px; background: rgba(15,15,15,0.95); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
         
-        /* Step Card */
-        .step-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 20px; padding: 25px; margin-bottom: 25px; }
-        .step-head { font-size: 11px; font-weight: 800; color: #fff; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between; align-items: center; }
-        .step-num { width: 20px; height: 20px; background: #6366f1; border-radius: 50%; color: #fff; display: flex; justify-content: center; align-items: center; font-size: 10px; margin-right: 10px; }
+        /* Section Headings */
+        .calc-sec-title { font-size: 13px; font-weight: 800; color: #fff; text-transform: uppercase; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; letter-spacing: 1px; }
+        .calc-sec-title::after { content:''; height:1px; flex:1; background: rgba(255,255,255,0.1); }
 
-        /* Unit & Ratio */
-        .unit-wrap { display: flex; gap: 5px; }
-        .unit-btn { padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 800; color: #666; background: rgba(255,255,255,0.05); transition: 0.3s; cursor:pointer; }
-        .unit-btn.active { background: #fff; color: #000; }
-
-        .ratio-grid { display: flex; gap: 10px; margin-bottom: 20px; }
-        .ratio-btn { flex: 1; padding: 12px; border: 1px solid var(--border); border-radius: 12px; font-size: 12px; font-weight: 700; color: #888; background: transparent; transition: 0.3s; cursor: pointer; text-align: center; }
-        .ratio-btn.active { border-color: #6366f1; color: #fff; background: rgba(99,102,241,0.1); }
-
-        /* Shapes */
-        .z-shapes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
-        .z-shape {
-            padding: 20px; border: 1px solid var(--border); border-radius: 16px;
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
-            cursor: pointer; transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); background: rgba(255,255,255,0.01);
-        }
-        .z-shape.active { border-color: #fff; background: rgba(255,255,255,0.08); }
-        .z-shape svg { width: 28px; height: 28px; stroke: #888; stroke-width: 1.5; fill: none; }
-        .z-shape.active svg { stroke: #fff; }
-        .z-shape span { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #666; }
-        .z-shape.active span { color: #fff; }
-
-        .z-group { margin-bottom: 25px; }
-        .z-label { font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 10px; display: block; }
-        .z-input-row { display: flex; align-items: center; gap: 15px; }
-        .z-number { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: #fff; background: transparent; border: none; width: 80px; text-align: right; border-bottom: 1px solid #333; transition: 0.3s; }
-        .z-number:focus { outline: none; border-color: #6366f1; }
-        .z-slider { -webkit-appearance: none; flex: 1; height: 6px; background: #222; border-radius: 3px; outline: none; }
-        .z-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; background: #fff; border-radius: 50%; cursor: grab; transition: 0.2s; box-shadow: 0 0 15px rgba(255,255,255,0.3); }
-
-        .preset-row { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
-        .preset-btn { padding: 8px 16px; border: 1px solid var(--border); border-radius: 20px; font-size: 11px; color: #888; background: transparent; white-space: nowrap; transition: 0.3s; cursor: pointer; }
-        .preset-btn:hover { color: #fff; border-color: #fff; }
-
-        /* Env Panel */
-        .chem-panel { background: rgba(99,102,241,0.03); border: 1px solid var(--border); border-radius: 20px; padding: 20px; }
-        .chem-head { font-size: 11px; font-weight: 700; color: #6366f1; margin-bottom: 15px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+        /* Mix Config Grid */
+        .mix-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px; }
         
-        /* Refine Panel (Collapsible) */
-        .refine-toggle { margin-top: 20px; font-size: 11px; font-weight: 700; color: #888; cursor: pointer; display: flex; align-items: center; gap: 5px; }
-        .refine-toggle:hover { color: #fff; }
-        .refine-panel { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); }
-        .refine-panel.show { display: block; animation: fadeIn 0.3s; }
+        .z-card { background: rgba(255,255,255,0.02); padding: 20px; border-radius: 16px; border: 1px solid var(--border); }
+        .z-label { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; display: block; margin-bottom: 15px; }
         
-        /* Results */
-        .z-res-title { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #666; letter-spacing: 2px; }
-        .z-res-val { font-size: 72px; font-weight: 800; color: #fff; line-height: 1; margin: 10px 0 20px; letter-spacing: -2px; text-shadow: 0 0 30px rgba(99,102,241,0.2); }
+        /* Ratio Buttons */
+        .ratio-row { display: flex; gap: 5px; }
+        .ratio-btn { flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 10px; font-size: 11px; color: #666; background: transparent; transition: 0.3s; cursor: pointer; text-align: center; font-weight: 700; }
+        .ratio-btn.active { border-color: #6366f1; background: rgba(99,102,241,0.1); color: #fff; }
+
+        /* Unit Switch */
+        .unit-toggle { display: flex; background: #000; padding: 4px; border-radius: 10px; border: 1px solid var(--border); width: fit-content; margin-left: auto; }
+        .unit-opt { padding: 6px 12px; font-size: 10px; font-weight: 700; color: #666; cursor: pointer; border-radius: 8px; transition: 0.3s; }
+        .unit-opt.active { background: #fff; color: #000; }
+
+        /* Shape Grid */
+        .shape-grid { display: flex; gap: 15px; margin-bottom: 30px; }
+        .shape-btn { flex: 1; padding: 20px; border: 1px solid var(--border); border-radius: 16px; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.3s; background: rgba(255,255,255,0.01); }
+        .shape-btn:active { transform: scale(0.97); }
+        .shape-btn.active { border-color: #fff; background: rgba(255,255,255,0.08); box-shadow: 0 0 20px rgba(255,255,255,0.05); }
+        .shape-btn svg { width: 28px; height: 28px; stroke: #666; stroke-width: 1.5; fill: none; margin-bottom: 8px; transition: 0.3s; }
+        .shape-btn.active svg { stroke: #fff; }
+        .shape-btn span { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #666; }
+        .shape-btn.active span { color: #fff; }
+
+        /* Big Input Sliders */
+        .slider-group { margin-bottom: 25px; }
+        .slider-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .slider-label { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; }
+        .slider-val { font-family: 'Space Grotesk'; font-size: 18px; font-weight: 700; color: #fff; }
         
-        .parts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 25px; }
-        .part-box div { font-size: 10px; color: #666; text-transform: uppercase; margin-bottom: 5px; font-weight: 700; }
-        .part-box span { font-size: 20px; font-weight: 700; color: #fff; }
+        .range-inp { -webkit-appearance: none; width: 100%; height: 6px; background: #222; border-radius: 3px; outline: none; transition: 0.3s; }
+        .range-inp::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; background: #fff; border-radius: 50%; cursor: grab; box-shadow: 0 0 15px rgba(255,255,255,0.3); transition: 0.2s; }
+        .range-inp::-webkit-slider-thumb:hover { transform: scale(1.1); }
 
-        .z-advisor { padding: 15px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
-        .z-advisor.warn { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); }
-        .z-adv-text { font-size: 12px; font-weight: 700; color: #fff; line-height: 1.4; }
+        /* Presets */
+        .preset-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 30px; scrollbar-width: none; }
+        .pre-btn { padding: 8px 16px; border: 1px solid var(--border); border-radius: 20px; font-size: 11px; color: #888; white-space: nowrap; cursor: pointer; transition: 0.3s; }
+        .pre-btn:hover { color: #fff; border-color: #fff; }
 
-        .z-cost-card { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 16px; border: 1px solid var(--border); }
-        .cost-input-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-        .cost-lbl { font-size: 11px; color: #888; }
-        .cost-inp { background: transparent; border: none; border-bottom: 1px solid #444; width: 80px; color: #fff; text-align: right; font-weight: 700; font-size: 14px; }
-        .final-cost { font-size: 24px; font-weight: 700; color: #fff; text-align: right; }
+        /* Environment Lab */
+        .env-card { background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); padding: 25px; border-radius: 20px; margin-top: 30px; transition: 0.3s; }
+        .env-card.warn { background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2); }
+        .env-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Results Display */
+        .res-big { font-size: 80px; font-weight: 800; color: #fff; line-height: 1; letter-spacing: -3px; margin: 10px 0 20px; text-shadow: 0 0 40px rgba(255,255,255,0.1); }
+        .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; border-top: 1px solid var(--border); padding-top: 25px; margin-bottom: 25px; }
+        .res-box div { font-size: 10px; font-weight: 800; color: #666; text-transform: uppercase; margin-bottom: 5px; }
+        .res-box span { font-size: 24px; font-weight: 700; color: #fff; font-family: 'Space Grotesk'; }
+        
+        .advisor { padding: 15px; border-radius: 12px; background: rgba(255,255,255,0.05); display: flex; align-items: center; gap: 12px; margin-bottom: 20px; font-size: 12px; color: #ddd; line-height: 1.4; border: 1px solid var(--border); }
+        
+        .cost-row { display: flex; justify-content: space-between; align-items: center; background: #000; padding: 15px; border-radius: 12px; border: 1px solid var(--border); }
+        .cost-inp { background: transparent; border: none; width: 80px; text-align: right; color: #fff; font-weight: 700; font-size: 14px; border-bottom: 1px solid #333; padding-bottom: 2px; }
 
         /* -----------------------------------------------------------
            9. FOOTER
@@ -302,7 +294,6 @@
            10. CART
            ----------------------------------------------------------- */
         .cart-fab { position: fixed; bottom: 40px; right: 40px; width: 64px; height: 64px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 2000; box-shadow: 0 0 40px rgba(255,255,255,0.2); transition: transform 0.3s var(--ease-fluid); }
-        .cart-fab:hover { transform: scale(1.1); }
         .cart-count { position: absolute; top: -2px; right: -2px; background: #000; color: #fff; font-size: 10px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; }
         .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; z-index: 3000; pointer-events: none; }
         .cart-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); opacity: 0; transition: 0.3s; }
@@ -446,112 +437,111 @@
             <div class="zenith-calc">
                 <div class="z-controls">
                     
-                    <div class="step-card">
-                        <div class="step-head">
-                            <div style="display:flex; align-items:center;"><span class="step-num">1</span> <span>Resin Setup</span></div>
-                            <div class="unit-wrap">
-                                <button class="unit-btn active" onclick="setUnit('cm')">CM</button>
-                                <button class="unit-btn" onclick="setUnit('in')">IN</button>
+                    <div class="calc-sec-title">1. Mix Configuration <div class="unit-toggle"><div class="unit-opt active" id="unit-cm" onclick="setUnit('cm')">CM</div><div class="unit-opt" id="unit-in" onclick="setUnit('in')">IN</div></div></div>
+                    
+                    <div class="mix-grid">
+                        <div class="z-card">
+                            <span class="z-label">Mixing Ratio</span>
+                            <div class="ratio-row">
+                                <button class="ratio-btn active" onclick="setRatio(3,1)">3:1</button>
+                                <button class="ratio-btn" onclick="setRatio(2,1)">2:1</button>
+                                <button class="ratio-btn" onclick="setRatio(1,1)">1:1</button>
+                            </div>
+                            <div class="z-label" style="margin-top:15px; margin-bottom:5px;">Resin Type (Density)</div>
+                            <input type="range" class="range-inp" id="density" min="1.0" max="1.3" step="0.01" value="1.13" oninput="runCalc(); document.getElementById('den-val').innerText = this.value + ' g/cm³'">
+                            <div id="den-val" style="font-size:10px; color:#888; text-align:right; margin-top:5px;">1.13 g/cm³ (Standard)</div>
+                        </div>
+                        
+                        <div class="z-card">
+                            <span class="z-label">Pigment Loading</span>
+                            <input type="range" class="range-inp" id="pigment" min="0" max="5" step="0.5" value="0" oninput="runCalc(); document.getElementById('pig-val').innerText = this.value + '%'">
+                            <div id="pig-val" style="font-size:10px; color:#888; text-align:right; margin-top:5px;">0% (Clear)</div>
+                            
+                            <span class="z-label" style="margin-top:15px;">Application</span>
+                            <div class="ratio-row">
+                                <button class="ratio-btn active" onclick="setMode('cast')">Casting</button>
+                                <button class="ratio-btn" onclick="setMode('coat')">Coating</button>
                             </div>
                         </div>
-                        
-                        <div class="z-label">Mixing Ratio</div>
-                        <div class="ratio-grid">
-                            <button class="ratio-btn active" onclick="setRatio(3,1)">3:1 (Standard)</button>
-                            <button class="ratio-btn" onclick="setRatio(2,1)">2:1</button>
-                            <button class="ratio-btn" onclick="setRatio(1,1)">1:1</button>
-                            <button class="ratio-btn" onclick="toggleCustomRatio()">Custom</button>
-                        </div>
-                        <div id="custom-ratio" style="display:none; gap:10px; margin-bottom:15px;">
-                            <input type="number" id="ratioA" class="z-number" value="3" style="width:100%; font-size:16px; border:1px solid #333; padding:5px; border-radius:5px;" oninput="runCalc()">
-                            <input type="number" id="ratioB" class="z-number" value="1" style="width:100%; font-size:16px; border:1px solid #333; padding:5px; border-radius:5px;" oninput="runCalc()">
-                        </div>
                     </div>
 
-                    <div class="step-card">
-                        <div class="step-head"><div style="display:flex; align-items:center;"><span class="step-num">2</span> <span>Dimensions</span></div></div>
-                        
-                        <div class="z-shapes">
-                            <div class="z-shape active" id="btn-rect" onclick="setShape('rect')"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/></svg><span>Square</span></div>
-                            <div class="z-shape" id="btn-circ" onclick="setShape('circ')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg><span>Circle</span></div>
-                            <div class="z-shape" id="btn-hex" onclick="setShape('hex')"><svg viewBox="0 0 24 24"><path d="M12 2l10 6v8l-10 6-10-6V8z"/></svg><span>Hex</span></div>
-                        </div>
-
-                        <div class="preset-row">
-                            <button class="preset-btn" onclick="setPreset('varmala')">Varmala</button>
-                            <button class="preset-btn" onclick="setPreset('clock')">Clock</button>
-                            <button class="preset-btn" onclick="setPreset('geode')">Geode</button>
-                            <button class="preset-btn" onclick="setPreset('tray')">Tray</button>
-                        </div>
-
-                        <div id="dims-rect">
-                            <div class="z-group"><div class="z-label">Length</div><div class="z-input-row"><input type="number" id="input-L" class="z-number" value="0" oninput="syncSlider('L')"><input type="range" class="z-slider" id="slider-L" min="0" max="200" value="0" oninput="syncInput('L')"></div></div>
-                            <div class="z-group"><div class="z-label">Width</div><div class="z-input-row"><input type="number" id="input-W" class="z-number" value="0" oninput="syncSlider('W')"><input type="range" class="z-slider" id="slider-W" min="0" max="100" value="0" oninput="syncInput('W')"></div></div>
-                        </div>
-                        <div id="dims-circ" style="display:none;">
-                            <div class="z-group"><div class="z-label">Diameter</div><div class="z-input-row"><input type="number" id="input-Dia" class="z-number" value="0" oninput="syncSlider('Dia')"><input type="range" class="z-slider" id="slider-Dia" min="0" max="100" value="0" oninput="syncInput('Dia')"></div></div>
-                        </div>
-                        <div id="dims-hex" style="display:none;">
-                            <div class="z-group"><div class="z-label">Side</div><div class="z-input-row"><input type="number" id="input-Side" class="z-number" value="0" oninput="syncSlider('Side')"><input type="range" class="z-slider" id="slider-Side" min="0" max="50" value="0" oninput="syncInput('Side')"></div></div>
-                        </div>
-
-                        <div class="z-group"><div class="z-label">Depth</div><div class="z-input-row"><input type="number" id="input-D" class="z-number" value="1" oninput="syncSlider('D')"><input type="range" class="z-slider" id="slider-D" min="0.1" max="15" step="0.1" value="1" oninput="syncInput('D')"></div></div>
+                    <div class="calc-sec-title">2. Dimensions</div>
+                    <div class="shape-grid">
+                        <div class="shape-btn active" id="btn-rect" onclick="setShape('rect')"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/></svg><span>Square</span></div>
+                        <div class="shape-btn" id="btn-circ" onclick="setShape('circ')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg><span>Circle</span></div>
+                        <div class="shape-btn" id="btn-hex" onclick="setShape('hex')"><svg viewBox="0 0 24 24"><path d="M12 2l10 6v8l-10 6-10-6V8z"/></svg><span>Hex</span></div>
                     </div>
 
-                    <div class="step-card">
-                        <div class="step-head"><div style="display:flex; align-items:center;"><span class="step-num">3</span> <span>Environment</span></div></div>
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
-                            <div><div class="z-label" style="font-size:9px;">Temp (°C)</div><input type="range" class="z-slider" id="env-temp" min="10" max="40" value="25" oninput="runCalc(); document.getElementById('val-temp').innerText = this.value + '°C'"><div id="val-temp" style="font-size:11px; color:#fff; margin-top:5px; text-align:right;">25°C</div></div>
-                            <div><div class="z-label" style="font-size:9px;">Humidity (%)</div><input type="range" class="z-slider" id="env-hum" min="20" max="90" value="50" oninput="runCalc(); document.getElementById('val-hum').innerText = this.value + '%'"><div id="val-hum" style="font-size:11px; color:#fff; margin-top:5px; text-align:right;">50%</div></div>
+                    <div class="preset-scroll">
+                        <div class="pre-btn" onclick="setPreset('varmala')">Varmala Block</div>
+                        <div class="pre-btn" onclick="setPreset('clock')">12" Clock</div>
+                        <div class="pre-btn" onclick="setPreset('geode')">Coaster</div>
+                        <div class="pre-btn" onclick="setPreset('tray')">Serving Tray</div>
+                        <div class="pre-btn" onclick="setPreset('table')">River Table</div>
+                    </div>
+
+                    <div id="dims-rect">
+                        <div class="slider-group">
+                            <div class="slider-head"><span class="slider-label">Length</span><span class="slider-val" id="disp-L">0</span></div>
+                            <input type="range" class="range-inp" id="L" min="0" max="200" value="0" oninput="runCalc()">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-head"><span class="slider-label">Width</span><span class="slider-val" id="disp-W">0</span></div>
+                            <input type="range" class="range-inp" id="W" min="0" max="100" value="0" oninput="runCalc()">
                         </div>
                     </div>
                     
-                    <div class="refine-toggle" onclick="document.getElementById('refine-panel').classList.toggle('show')">
-                        <span>⚡ Optional: Refine Calculation</span>
+                    <div id="dims-circ" style="display:none;">
+                        <div class="slider-group">
+                            <div class="slider-head"><span class="slider-label">Diameter</span><span class="slider-val" id="disp-Dia">0</span></div>
+                            <input type="range" class="range-inp" id="Dia" min="0" max="100" value="0" oninput="runCalc()">
+                        </div>
                     </div>
-                    <div id="refine-panel" class="refine-panel">
-                        <div class="z-label">Density (g/cm³)</div>
-                        <select id="densitySelect" onchange="updateDensity()" style="width:100%; background:#111; color:#fff; padding:10px; border:1px solid #333; border-radius:8px; margin-bottom:15px;">
-                            <option value="1.13">Standard Epoxy (1.13)</option>
-                            <option value="1.05">Low Viscosity (1.05)</option>
-                            <option value="1.20">Heavy Casting (1.20)</option>
-                        </select>
-                        <input type="hidden" id="density" value="1.13">
-                        
-                        <div class="z-label">Pigment Loading (%)</div>
-                        <input type="range" class="z-slider" id="pigment" min="0" max="5" step="0.5" value="0" oninput="runCalc(); document.getElementById('pig-val').innerText = this.value + '%'">
-                        <div id="pig-val" style="font-size:11px; color:#888; text-align:right; margin-top:5px;">0%</div>
+
+                    <div id="dims-hex" style="display:none;">
+                        <div class="slider-group">
+                            <div class="slider-head"><span class="slider-label">Side Length</span><span class="slider-val" id="disp-Side">0</span></div>
+                            <input type="range" class="range-inp" id="Side" min="0" max="50" value="0" oninput="runCalc()">
+                        </div>
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-head"><span class="slider-label">Depth</span><span class="slider-val" id="disp-D">1</span></div>
+                        <input type="range" class="range-inp" id="D" min="0.1" max="10" step="0.1" value="1" oninput="runCalc()">
+                    </div>
+
+                    <div class="calc-sec-title" style="margin-top:40px;">3. Environment Lab</div>
+                    <div class="env-card" id="env-card">
+                        <div class="env-grid">
+                            <div><div class="z-label">Temp (°C)</div><input type="range" class="range-inp" id="env-temp" min="10" max="40" value="25" oninput="runCalc()"><div id="val-temp" style="font-size:12px; color:#fff; margin-top:5px; font-weight:700;">25°C</div></div>
+                            <div><div class="z-label">Humidity (%)</div><input type="range" class="range-inp" id="env-hum" min="20" max="90" value="50" oninput="runCalc()"><div id="val-hum" style="font-size:12px; color:#fff; margin-top:5px; font-weight:700;">50%</div></div>
+                        </div>
                     </div>
 
                 </div>
 
                 <div class="z-display">
                     <div>
-                        <span class="z-res-title">Total Mix Required</span>
-                        <div class="z-res-val" id="res-total">0g</div>
+                        <span class="z-res-title">TOTAL WEIGHT REQUIRED</span>
+                        <div class="res-big" id="res-total">0g</div>
                         
-                        <div class="parts-grid">
-                            <div class="part-box"><div>RESIN</div><span id="res-a">0g</span></div>
-                            <div class="part-box"><div>HARDENER</div><span id="res-b">0g</span></div>
+                        <div class="res-grid">
+                            <div class="res-box"><div>RESIN</div><span id="res-a">0g</span></div>
+                            <div class="res-box"><div>HARDENER</div><span id="res-b">0g</span></div>
                         </div>
                         
-                        <div class="z-res-sub" style="margin-top:10px;">Pigment Need: <span style="color:#fff;" id="res-pig">0g</span></div>
+                        <div style="font-size:11px; color:#888; margin-bottom:20px;">+ <span id="res-pig" style="color:#fff;">0g</span> Pigment</div>
                     </div>
 
-                    <div class="z-advisor" id="advisor-box">
-                        <div class="z-adv-text" id="advisor-text">Ready to Calculate</div>
+                    <div class="advisor" id="advisor-box">
+                        <span style="font-size:20px;">✅</span>
+                        <span id="advisor-text">Safe to Pour.</span>
                     </div>
 
-                    <div class="z-cost-card">
-                        <div class="cost-input-row">
-                            <span class="cost-lbl">Price of Resin Kit (₹/kg)</span>
-                            <input type="number" id="costInput" class="cost-inp" placeholder="1000" oninput="runCalc()">
-                        </div>
-                        <div style="border-top:1px solid rgba(255,255,255,0.1); margin:10px 0;"></div>
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <span class="cost-lbl" style="color:#fff; font-weight:700;">PROJECT ESTIMATE</span>
-                            <span class="final-cost" id="est-cost">₹0</span>
-                        </div>
+                    <div class="cost-row">
+                        <div style="font-size:10px; color:#888; font-weight:700; text-transform:uppercase;">Input Kit Price<br>(₹/kg)</div>
+                        <input type="number" id="costInput" class="cost-inp" placeholder="1000" oninput="runCalc()">
+                        <div style="font-size:18px; font-weight:700; color:#fff;" id="est-cost">₹0</div>
                     </div>
                 </div>
             </div>
@@ -595,7 +585,6 @@
     <div class="cart-sidebar" id="cartSidebar"><div class="cart-overlay" onclick="toggleCart()"></div><div class="cart-inner"><div style="display:flex; justify-content:space-between; align-items:center;"><h2>Cart</h2><button onclick="toggleCart()" style="color:#fff; font-size:24px;">×</button></div><div id="cartItems" style="flex:1; overflow-y:auto; margin:20px 0;"></div><div class="cart-summary"><div class="cart-total" style="display:flex; justify-content:space-between; font-size:20px; font-weight:700;"><span>Total</span><span id="cartTotal">₹0</span></div><button class="btn btn-primary" style="width:100%; margin-top:20px;" onclick="checkoutWhatsApp()">Checkout WhatsApp</button></div></div></div>
 
     <script>
-        // Scroll & Animation
         window.addEventListener('scroll', () => { document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50); });
         const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if(entry.isIntersecting) { entry.target.classList.add('active'); if(entry.target.classList.contains('counter')) countUp(entry.target); } }); });
         document.querySelectorAll('.reveal, .counter').forEach(el => observer.observe(el));
@@ -605,13 +594,15 @@
             const timer = setInterval(() => { count += inc; if(count >= target) { count = target; clearInterval(timer); } el.innerText = Math.floor(count) + (el.innerText.includes('%') ? '%' : ''); }, 30);
         }
 
-        // --- TITAN CALCULATOR V6 ---
+        // --- TITAN SOVEREIGN CALCULATOR ---
         let shape = 'rect';
         let unitMult = 1; 
-        
+        let limit = 2.5;
+        let rA = 3; let rB = 1;
+
         function setUnit(u) {
-            document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+            document.querySelectorAll('.unit-opt').forEach(b => b.classList.remove('active'));
+            document.getElementById('unit-'+u).classList.add('active');
             unitMult = u === 'cm' ? 1 : 2.54; 
             runCalc();
         }
@@ -619,32 +610,18 @@
         function setRatio(a, b) {
             document.querySelectorAll('.ratio-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            document.getElementById('custom-ratio').style.display = 'none';
-            document.getElementById('ratioA').value = a;
-            document.getElementById('ratioB').value = b;
+            rA = a; rB = b;
             runCalc();
-        }
-
-        function toggleCustomRatio() {
-            document.querySelectorAll('.ratio-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById('custom-ratio').style.display = 'flex';
         }
 
         function setMode(mode) {
-            document.querySelectorAll('.mode-opt').forEach(opt => opt.classList.remove('active'));
-            document.getElementById('mode-'+mode).classList.add('active');
-            runCalc();
-        }
-
-        function updateDensity() {
-            document.getElementById('density').value = document.getElementById('densitySelect').value;
+            limit = mode === 'coat' ? 0.5 : 2.5;
             runCalc();
         }
 
         function setShape(s) {
             shape = s;
-            document.querySelectorAll('.z-shape').forEach(i => i.classList.remove('active'));
+            document.querySelectorAll('.shape-btn').forEach(i => i.classList.remove('active'));
             if(s === 'rect') document.getElementById('btn-rect').classList.add('active');
             if(s === 'circ') document.getElementById('btn-circ').classList.add('active');
             if(s === 'hex') document.getElementById('btn-hex').classList.add('active');
@@ -654,96 +631,89 @@
             runCalc();
         }
 
-        function syncInput(id) { document.getElementById('input-'+id).value = document.getElementById('slider-'+id).value; runCalc(); }
-        function syncSlider(id) { document.getElementById('slider-'+id).value = document.getElementById('input-'+id).value; runCalc(); }
-
         function setPreset(type) {
-            if(type === 'varmala') { setShape('rect'); setAllVals('L', 30); setAllVals('W', 30); setAllVals('D', 7.5); setMode('cast'); }
-            else if (type === 'clock') { setShape('circ'); setAllVals('Dia', 30); setAllVals('D', 1); setMode('coat'); }
-            else if (type === 'geode') { setShape('circ'); setAllVals('Dia', 10); setAllVals('D', 0.8); setMode('coat'); }
-            else if (type === 'tray') { setShape('rect'); setAllVals('L', 30); setAllVals('W', 20); setAllVals('D', 1.5); setMode('cast'); }
+            if(type === 'varmala') { setShape('rect'); updateSlider('L', 30); updateSlider('W', 30); updateSlider('D', 7.5); limit=2.5; }
+            else if (type === 'clock') { setShape('circ'); updateSlider('Dia', 30); updateSlider('D', 1); limit=0.5; }
+            else if (type === 'geode') { setShape('circ'); updateSlider('Dia', 10); updateSlider('D', 0.8); limit=0.5; }
+            else if (type === 'tray') { setShape('rect'); updateSlider('L', 30); updateSlider('W', 20); updateSlider('D', 1.5); limit=2.5; }
             runCalc();
         }
 
-        function setAllVals(id, val) {
-            if(document.getElementById('input-'+id)) document.getElementById('input-'+id).value = val;
-            if(document.getElementById('slider-'+id)) document.getElementById('slider-'+id).value = val;
+        function updateSlider(id, val) {
+            document.getElementById(id).value = val;
+            runCalc();
         }
 
         function runCalc() {
-            // 1. DIMENSIONS
-            let h = parseFloat(document.getElementById('input-D').value) || 0;
-            h = h * unitMult; 
+            // Update Displays
+            document.getElementById('disp-L').innerText = document.getElementById('L').value;
+            document.getElementById('disp-W').innerText = document.getElementById('W').value;
+            document.getElementById('disp-Dia').innerText = document.getElementById('Dia').value;
+            document.getElementById('disp-Side').innerText = document.getElementById('Side').value;
+            document.getElementById('disp-D').innerText = document.getElementById('D').value;
             
+            document.getElementById('val-temp').innerText = document.getElementById('env-temp').value + '°C';
+            document.getElementById('val-hum').innerText = document.getElementById('env-hum').value + '%';
+            document.getElementById('pig-val').innerText = document.getElementById('pigment').value + '%';
+
+            // Math
+            let h = parseFloat(document.getElementById('D').value) || 0;
+            h = h * unitMult;
             let area = 0;
             if(shape === 'rect') {
-                let l = (parseFloat(document.getElementById('input-L').value)||0) * unitMult;
-                let w = (parseFloat(document.getElementById('input-W').value)||0) * unitMult;
+                let l = (parseFloat(document.getElementById('L').value)||0) * unitMult;
+                let w = (parseFloat(document.getElementById('W').value)||0) * unitMult;
                 area = l * w;
             } else if (shape === 'circ') {
-                let d = (parseFloat(document.getElementById('input-Dia').value)||0) * unitMult;
+                let d = (parseFloat(document.getElementById('Dia').value)||0) * unitMult;
                 area = Math.PI * Math.pow(d/2, 2);
             } else if (shape === 'hex') {
-                let s = (parseFloat(document.getElementById('input-Side').value)||0) * unitMult;
+                let s = (parseFloat(document.getElementById('Side').value)||0) * unitMult;
                 area = 2.598 * Math.pow(s, 2);
             }
 
-            // Params
-            const rA = parseFloat(document.getElementById('ratioA').value) || 3;
-            const rB = parseFloat(document.getElementById('ratioB').value) || 1;
             const density = parseFloat(document.getElementById('density').value) || 1.13;
             const pigPct = parseFloat(document.getElementById('pigment').value) || 0;
             const costPerKg = parseFloat(document.getElementById('costInput').value) || 0;
 
             const vol = area * h;
-            // Quantity multiplier
-            const q = parseFloat(document.getElementById('input-Qty').value) || 1;
-            const totalVol = vol * q;
-            const mass = totalVol * density;
-            
+            const mass = vol * density;
             const totalParts = rA + rB;
             const massA = (mass * rA) / totalParts;
             const massB = (mass * rB) / totalParts;
             const pigMass = mass * (pigPct/100);
-            
-            // UI Updates
+
+            // Render
             document.getElementById('res-total').innerText = Math.round(mass) + 'g';
             document.getElementById('res-a').innerText = Math.round(massA) + 'g';
             document.getElementById('res-b').innerText = Math.round(massB) + 'g';
             document.getElementById('res-pig').innerText = pigMass.toFixed(1) + 'g';
-
             if(costPerKg > 0) document.getElementById('est-cost').innerText = '₹' + Math.round((mass/1000)*costPerKg).toLocaleString();
 
-            // 2. ENV & ADVISOR
-            const temp = parseFloat(document.getElementById('env-temp').value) || 25;
-            const hum = parseFloat(document.getElementById('env-hum').value) || 50;
+            // Environment & Safety Logic
+            const temp = parseFloat(document.getElementById('env-temp').value);
+            const hum = parseFloat(document.getElementById('env-hum').value);
+            const envCard = document.getElementById('env-card');
             const advBox = document.getElementById('advisor-box');
-            const advTxt = document.getElementById('advisor-text');
             
             let warnings = [];
-            // Coating/Casting Logic
-            const isCasting = document.querySelector('#mode-cast').classList.contains('active');
-            const limit = isCasting ? 2.5 : 0.5; // cm
+            
+            if(h > limit) warnings.push(`⚠️ TOO DEEP! Pour ${Math.ceil(h/limit)} layers.`);
+            if(hum > 70) { warnings.push("💧 HUMIDITY WARNING: Blush Risk."); envCard.classList.add('warn'); } 
+            else if(temp > 30 && h > 2) { warnings.push("🔥 HEAT WARNING: Flash Cure Risk."); envCard.classList.add('warn'); }
+            else { envCard.classList.remove('warn'); }
 
-            if (h > limit) {
-                const layers = Math.ceil(h / limit);
-                warnings.push(`EXOTHERM RISK! Depth exceeds limit. Pour ${layers} layers.`);
-            }
-            if (hum > 70) warnings.push("HIGH HUMIDITY: Risk of Amine Blush.");
-            if (temp > 30 && h > 2) warnings.push("HIGH TEMP: Flash Cure Risk!");
-
-            if (warnings.length > 0) {
-                advBox.classList.add('warn');
-                advTxt.innerHTML = warnings.join("<br>");
-                advTxt.style.color = "#ef4444";
+            if(warnings.length > 0) {
+                advBox.style.background = "rgba(239,68,68,0.15)";
+                advBox.style.borderColor = "#ef4444";
+                document.getElementById('advisor-text').innerHTML = warnings.join("<br>");
             } else {
-                advBox.classList.remove('warn');
-                advTxt.innerHTML = "Conditions Optimal for Pouring.";
-                advTxt.style.color = "#10b981";
+                advBox.style.background = "rgba(16,185,129,0.15)";
+                advBox.style.borderColor = "#10b981";
+                document.getElementById('advisor-text').innerText = "Conditions Optimal for Pouring.";
             }
         }
 
-        // Cart Logic
         let cart = [];
         function addToCart(name, price) { cart.push({name, price}); renderCart(); showToast(); toggleCart(); }
         function renderCart() {
