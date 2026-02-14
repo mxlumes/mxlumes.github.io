@@ -9,7 +9,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;800&family=Space+Grotesk:wght@300;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
     
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
@@ -19,19 +19,17 @@
            ----------------------------------------------------------- */
         :root {
             --bg-oled: #000000;
-            --bg-panel: #030303;
+            --bg-panel: #050505;
             --text-main: #f4f4f5;
             --text-dim: #a1a1aa;
             --accent: #ffffff;
             --brand-glow: rgba(99, 102, 241, 0.4);
-            --border: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(255, 255, 255, 0.25);
-            --glass: rgba(12, 12, 12, 0.7);
-            --blur: blur(20px);
-            --radius: 24px;
-            --ease-fluid: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            
-            --success: #10b981; --warning: #f59e0b; --danger: #ef4444; --cold: #3b82f6;
+            --border: rgba(255, 255, 255, 0.1);
+            --glass: rgba(12, 12, 12, 0.85);
+            --blur: blur(15px);
+            --radius: 20px;
+            --ease-fluid: cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+            --success: #10b981; --warning: #f59e0b; --danger: #ef4444;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -45,7 +43,6 @@
             line-height: 1.6;
             overflow-x: hidden;
             text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: subpixel-antialiased;
         }
 
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; line-height: 1.1; letter-spacing: -0.02em; }
@@ -53,7 +50,6 @@
         button { cursor: pointer; border: none; outline: none; background: none; font-family: inherit; }
         img { display: block; max-width: 100%; height: auto; }
 
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
@@ -89,29 +85,24 @@
            3. UI COMPONENTS
            ----------------------------------------------------------- */
         .container { max-width: 1100px; margin: 0 auto; padding: 0 25px; }
-        .section { padding: 140px 0; position: relative; z-index: 2; content-visibility: auto; contain-intrinsic-size: 800px; }
+        .section { padding: 140px 0; position: relative; z-index: 2; }
         
         .reveal { opacity: 0; transform: translateY(30px); filter: blur(5px); transition: all 1s var(--ease-fluid); }
         .reveal.active { opacity: 1; transform: translateY(0); filter: blur(0); }
-        .grid-3 .reveal:nth-child(2) { transition-delay: 0.1s; }
-        .grid-3 .reveal:nth-child(3) { transition-delay: 0.2s; }
 
         .glass {
             background: var(--glass); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
             border: 1px solid var(--border); border-radius: var(--radius);
             position: relative; overflow: hidden; transition: all 0.4s var(--ease-fluid);
         }
-        .glass::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); opacity: 0.5; }
         .glass:hover { border-color: var(--border-hover); box-shadow: 0 20px 60px -10px rgba(0,0,0,0.5); transform: translateY(-5px); }
 
         .btn { padding: 16px 32px; border-radius: 60px; font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 1.5px; transition: 0.3s; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
         .btn-primary { background: #fff; color: #000; box-shadow: 0 5px 20px rgba(255,255,255,0.15); }
-        .btn-primary:active { transform: scale(0.95); } 
-        
+        .btn-primary:hover { background: #e6e6e6; transform: translateY(-2px); }
         .btn-outline { border: 1px solid var(--border); color: #fff; background: rgba(255,255,255,0.02); }
-        .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.05); }
 
-        .toast { position: fixed; top: 100px; right: 20px; background: rgba(15,15,15,0.95); backdrop-filter: blur(10px); border: 1px solid var(--border); padding: 12px 24px; border-radius: 50px; color: #fff; font-size: 12px; font-weight: 700; z-index: 5000; transform: translateX(150%); transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .toast { position: fixed; top: 100px; right: 20px; background: rgba(15,15,15,0.95); backdrop-filter: blur(10px); border: 1px solid var(--border); padding: 12px 24px; border-radius: 50px; color: #fff; font-size: 12px; font-weight: 700; z-index: 5000; transform: translateX(150%); transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); }
         .toast.show { transform: translateX(0); }
 
         /* -----------------------------------------------------------
@@ -123,7 +114,7 @@
         .logo { font-weight: 800; font-size: 18px; letter-spacing: 3px; text-transform: uppercase; color: #fff; }
         .nav-links { display: flex; gap: 40px; }
         .nav-link { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; transition: 0.3s; }
-        .nav-link:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        .nav-link:hover { color: #fff; }
 
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; padding-top: 80px; }
         .hero h1 { font-size: clamp(48px, 6vw, 100px); margin-bottom: 24px; font-weight: 800; background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -136,7 +127,7 @@
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* -----------------------------------------------------------
-           5. STATS & SHOP
+           5. SHOP & STATS
            ----------------------------------------------------------- */
         .stats-bar { border-bottom: 1px solid var(--border); padding: 40px 0; margin-top: -1px; }
         .stats-grid { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; }
@@ -154,7 +145,6 @@
            ----------------------------------------------------------- */
         .gallery-masonry { column-count: 3; column-gap: 20px; }
         .g-item { break-inside: avoid; margin-bottom: 20px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); background: #0a0a0a; position: relative; transition: 0.3s; }
-        .g-item:active { transform: scale(0.98); }
         .g-img { width: 100%; height: auto; display: block; transition: 0.6s var(--ease-fluid); filter: grayscale(100%); }
         @media (hover: hover) { .g-item:hover .g-img { filter: grayscale(0%); transform: scale(1.03); } }
 
@@ -180,27 +170,31 @@
         .t-step { display: flex; align-items: center; margin-bottom: 80px; position: relative; }
         .t-step:nth-child(even) { flex-direction: row-reverse; }
         .t-content { width: 42%; padding: 40px; background: var(--glass); border: 1px solid var(--border); border-radius: 24px; transition: 0.3s; }
-        .t-content:hover { border-color: rgba(255,255,255,0.3); }
         .t-dot { position: absolute; left: 50%; width: 8px; height: 8px; background: #fff; border-radius: 50%; transform: translateX(-50%); box-shadow: 0 0 15px #fff; }
 
         .dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
         .dd-box { padding: 50px; border-radius: 24px; border: 1px solid var(--border); }
         .dd-box.dos { background: rgba(16, 185, 129, 0.03); border-color: rgba(16, 185, 129, 0.2); }
         .dd-box.donts { background: rgba(239, 68, 68, 0.03); border-color: rgba(239, 68, 68, 0.2); }
-        .chem-warn { padding: 20px; border: 1px solid var(--warning); border-radius: 12px; background: rgba(245,158,11,0.05); color: var(--text-dim); font-size: 13px; display: flex; gap: 15px; align-items: center; margin-top: 40px; }
 
         /* -----------------------------------------------------------
-           8. TITAN CALCULATOR (SAFETY ARCHITECT)
+           8. TITAN CALCULATOR (FUNCTIONAL REWRITE)
            ----------------------------------------------------------- */
         .zenith-calc {
             background: var(--bg-panel); border: 1px solid var(--border);
-            border-radius: 40px; overflow: hidden; display: grid; grid-template-columns: 1.3fr 1fr;
+            border-radius: 40px; overflow: hidden; display: grid; grid-template-columns: 1.2fr 1fr;
             box-shadow: 0 40px 80px -20px rgba(0,0,0,0.6);
         }
         
-        .z-controls { padding: 60px; border-right: 1px solid var(--border); }
-        .z-display { padding: 60px; background: rgba(15,15,15,0.95); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+        .z-controls { padding: 50px; border-right: 1px solid var(--border); }
+        .z-display { padding: 50px; background: rgba(15,15,15,0.95); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
         
+        /* Step Cards */
+        .step-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 20px; padding: 25px; margin-bottom: 25px; }
+        .step-head { font-size: 11px; font-weight: 800; color: #fff; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between; align-items: center; }
+        .step-num { width: 20px; height: 20px; background: #6366f1; border-radius: 50%; color: #fff; display: flex; justify-content: center; align-items: center; font-size: 10px; margin-right: 10px; }
+
+        /* Unit & Ratio */
         .unit-wrap { display: flex; gap: 5px; }
         .unit-btn { padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 800; color: #666; background: rgba(255,255,255,0.05); transition: 0.3s; cursor:pointer; }
         .unit-btn.active { background: #fff; color: #000; }
@@ -209,6 +203,12 @@
         .ratio-btn { flex: 1; padding: 12px; border: 1px solid var(--border); border-radius: 12px; font-size: 12px; font-weight: 700; color: #888; background: transparent; transition: 0.3s; cursor: pointer; text-align: center; }
         .ratio-btn.active { border-color: #6366f1; color: #fff; background: rgba(99,102,241,0.1); }
 
+        /* Application Mode */
+        .mode-toggle { display: flex; background: #000; border-radius: 12px; padding: 4px; border: 1px solid var(--border); margin-bottom: 20px; }
+        .mode-opt { flex: 1; text-align: center; padding: 10px; font-size: 11px; font-weight: 700; color: #666; cursor: pointer; border-radius: 8px; transition: 0.3s; }
+        .mode-opt.active { background: #fff; color: #000; }
+
+        /* Shapes */
         .z-shapes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
         .z-shape {
             padding: 20px; border: 1px solid var(--border); border-radius: 16px;
@@ -221,10 +221,12 @@
         .z-shape span { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #666; }
         .z-shape.active span { color: #fff; }
 
+        /* Inputs */
         .z-group { margin-bottom: 25px; }
         .z-label { font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 10px; display: block; }
         .z-input-row { display: flex; align-items: center; gap: 15px; }
-        .z-number { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: #fff; background: transparent; border: none; width: 80px; text-align: right; border-bottom: 1px solid #333; transition: 0.3s; }
+        .z-number { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: #fff; background: transparent; border: none; width: 90px; text-align: right; border-bottom: 1px solid #333; transition: 0.3s; }
+        .z-number:focus { outline: none; border-color: #6366f1; }
         .z-slider { -webkit-appearance: none; flex: 1; height: 6px; background: #222; border-radius: 3px; outline: none; }
         .z-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; background: #fff; border-radius: 50%; cursor: grab; transition: 0.2s; box-shadow: 0 0 15px rgba(255,255,255,0.3); }
 
@@ -232,42 +234,27 @@
         .preset-btn { padding: 8px 16px; border: 1px solid var(--border); border-radius: 20px; font-size: 11px; color: #888; background: transparent; white-space: nowrap; transition: 0.3s; cursor: pointer; }
         .preset-btn:hover { color: #fff; border-color: #fff; }
 
-        /* UPGRADED ENV LAB */
-        .chem-panel { background: rgba(20,20,20,0.5); border: 1px solid var(--border); border-radius: 20px; padding: 25px; margin-top: 30px; }
-        .chem-head { font-size: 12px; font-weight: 800; color: #fff; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
-        .chem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        /* Refine Panel (Collapsible) */
+        .refine-toggle { margin-top: 20px; font-size: 11px; font-weight: 700; color: #888; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .refine-panel { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); }
+        .refine-panel.show { display: block; animation: fadeIn 0.3s; }
         
-        .chem-slider { -webkit-appearance: none; width: 100%; height: 8px; border-radius: 4px; outline: none; margin-top: 10px; background: #222; }
-        .chem-slider.hot::-webkit-slider-thumb { background: var(--danger); box-shadow: 0 0 10px var(--danger); }
-        .chem-slider.cold::-webkit-slider-thumb { background: var(--cold); box-shadow: 0 0 10px var(--cold); }
-        .chem-slider.ok::-webkit-slider-thumb { background: var(--success); box-shadow: 0 0 10px var(--success); }
-        .chem-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; cursor: pointer; transition: 0.3s; }
-        
-        .adv-toggle { font-size: 11px; font-weight: 700; color: #6366f1; cursor: pointer; padding: 10px 0; border-top: 1px solid var(--border); margin-top: 20px; display: flex; align-items: center; gap: 5px; }
-        .adv-panel { display: none; padding-top: 10px; }
-        .adv-panel.show { display: block; animation: fadeIn 0.3s; }
-        .adv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .adv-inp { width: 100%; background: #111; border: 1px solid var(--border); padding: 8px; border-radius: 8px; color: #fff; font-size: 12px; }
-
-        /* RESULTS UPGRADE */
+        /* Results */
         .z-res-title { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #666; letter-spacing: 2px; }
         .z-res-val { font-size: 72px; font-weight: 800; color: #fff; line-height: 1; margin: 10px 0 20px; letter-spacing: -2px; text-shadow: 0 0 30px rgba(99,102,241,0.2); }
+        
         .parts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 25px; }
         .part-box div { font-size: 10px; color: #666; text-transform: uppercase; margin-bottom: 5px; font-weight: 700; }
         .part-box span { font-size: 20px; font-weight: 700; color: #fff; }
 
-        /* SAFETY REPORT CARD */
-        .safety-report { background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
-        .report-head { font-size: 11px; font-weight: 800; color: #888; text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; }
-        .report-status { color: #fff; }
-        .report-list { list-style: none; padding: 0; margin: 0; }
-        .report-item { font-size: 12px; margin-bottom: 8px; color: #ccc; display: flex; align-items: start; gap: 8px; line-height: 1.4; }
-        .report-item.risk { color: var(--danger); font-weight: 700; }
-        .report-item.fix { color: var(--success); }
-        .report-item span { min-width: 15px; }
+        .z-advisor { padding: 15px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
+        .z-advisor.warn { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); }
+        .z-adv-text { font-size: 12px; font-weight: 700; color: #fff; line-height: 1.4; }
 
-        .z-cost { margin-top: auto; padding: 20px; background: rgba(255,255,255,0.02); border-radius: 16px; display: flex; justify-content: space-between; align-items: center; }
-        .cost-inp { background: transparent; border: none; border-bottom: 1px solid #444; width: 60px; color: #fff; text-align: right; font-weight: 700; font-size: 14px; }
+        .z-cost-card { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 16px; border: 1px solid var(--border); }
+        .cost-input-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .cost-lbl { font-size: 11px; color: #888; }
+        .cost-inp { background: transparent; border: none; border-bottom: 1px solid #444; width: 80px; color: #fff; text-align: right; font-weight: 700; font-size: 14px; }
         .final-cost { font-size: 24px; font-weight: 700; color: #fff; text-align: right; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
@@ -280,16 +267,13 @@
         .footer-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #000 0%, rgba(5,5,10,0.85) 40%, rgba(5,5,10,0.4) 100%); pointer-events: none; z-index: 1; }
         .footer-content { position: relative; z-index: 2; }
         .footer-watermark { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); font-size: 30vw; font-weight: 800; color: #fff; opacity: 0.02; pointer-events: none; white-space: nowrap; line-height: 0.8; font-family: 'Space Grotesk', sans-serif; }
+        
         .footer-cta { text-align: center; margin-bottom: 100px; }
         .footer-cta h2 { font-size: clamp(32px, 4vw, 56px); margin-bottom: 20px; }
-        .footer-cta p { color: var(--text-dim); max-width: 400px; margin: 0 auto 30px; }
         .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-top: 80px; }
-        .f-col h4 { font-size: 11px; font-weight: 800; color: #fff; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px; }
-        .f-link { display: block; color: var(--text-dim); margin-bottom: 15px; font-size: 14px; transition: all 0.3s; padding-left: 0; }
-        .f-link:hover { color: #fff; padding-left: 10px; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
         .f-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 40px; margin-top: 80px; display: flex; justify-content: space-between; font-size: 12px; color: #666; }
 
-        .cart-fab { position: fixed; bottom: 40px; right: 40px; width: 64px; height: 64px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 2000; box-shadow: 0 0 40px rgba(255,255,255,0.2); }
+        .cart-fab { position: fixed; bottom: 40px; right: 40px; width: 64px; height: 64px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 2000; box-shadow: 0 0 40px rgba(255,255,255,0.2); transition: transform 0.3s var(--ease-fluid); }
         .cart-count { position: absolute; top: -2px; right: -2px; background: #000; color: #fff; font-size: 10px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; }
         .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; z-index: 3000; pointer-events: none; }
         .cart-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); opacity: 0; transition: 0.3s; }
@@ -302,17 +286,13 @@
            11. MOBILE OPTIMIZATION
            ----------------------------------------------------------- */
         @media (max-width: 900px) {
-            .bg-layer { background-size: cover; background-position: center; opacity: 0.5; mask-image: none; }
+            .bg-layer { background-size: cover; background-position: center; opacity: 0.5; -webkit-mask-image: none; mask-image: none; }
             .grid-3, .specs-layout, .gallery-masonry, .zenith-calc, .dos-donts, .f-grid, .bento-grid { grid-template-columns: 1fr; }
             .gallery-masonry { column-count: 2; column-gap: 10px; }
             .g-img { filter: none !important; }
             .cart-inner { width: 100%; padding: 30px; }
             .z-controls, .z-display { padding: 30px; }
             .z-controls { border-right: none; border-bottom: 1px solid var(--border); }
-            .t-line { left: 20px; }
-            .t-step { flex-direction: column !important; align-items: flex-start; margin-left: 50px; }
-            .t-dot { left: 20px; transform: translateX(-50%); }
-            .t-content { width: 100%; }
             .hero h1 { font-size: 48px; }
             .bento-item.wide { grid-column: span 1; }
         }
@@ -343,16 +323,6 @@
             <div style="margin-top:40px; display:flex; gap:15px; justify-content:center;">
                 <button class="btn btn-primary" onclick="document.getElementById('shop').scrollIntoView()">Shop Now</button>
                 <button class="btn btn-outline" onclick="document.getElementById('calc').scrollIntoView()">Calculator</button>
-            </div>
-        </div>
-        <div class="marquee">
-            <div class="marquee-content">
-                <span class="marquee-item"><span>✦</span> ISO 9001</span>
-                <span class="marquee-item"><span>✦</span> Zero VOC</span>
-                <span class="marquee-item"><span>✦</span> 85 Shore D</span>
-                <span class="marquee-item"><span>✦</span> 120m Pot Life</span>
-                <span class="marquee-item"><span>✦</span> ISO 9001</span>
-                <span class="marquee-item"><span>✦</span> Zero VOC</span>
             </div>
         </div>
     </header>
@@ -389,85 +359,82 @@
         </div>
     </section>
 
-    <section id="specs" class="section">
-        <div class="container">
-            <div class="bento-grid reveal">
-                <div class="bento-item wide"><div class="bento-val">3:1</div><div class="bento-lbl">Mix Ratio</div></div>
-                <div class="bento-item"><div class="bento-val">180</div><div class="bento-lbl">Viscosity (mPas)</div></div>
-                <div class="bento-item"><div class="bento-val">85D</div><div class="bento-lbl">Shore Hardness</div></div>
-            </div>
-            <div class="specs-layout reveal">
-                <div>
-                    <h3 style="margin-bottom:30px;">The Protocol</h3>
-                    <div class="timeline">
-                        <div class="t-line"></div>
-                        <div class="t-step"><div class="t-dot"></div><div class="t-content"><h4>01. Measure</h4><p style="font-size:13px; color:var(--text-dim);">By weight. 3 Parts A, 1 Part B.</p></div></div>
-                        <div class="t-step"><div class="t-dot"></div><div class="t-content"><h4>02. Mix</h4><p style="font-size:13px; color:var(--text-dim);">Stir 3 mins. Scrape sides.</p></div></div>
-                        <div class="t-step"><div class="t-dot"></div><div class="t-content"><h4>03. Pour</h4><p style="font-size:13px; color:var(--text-dim);">Pour. Wait 5 mins. Torch.</p></div></div>
-                    </div>
-                    <div style="margin-top:40px; display:flex; gap:10px;">
-                        <a href="tds.pdf" class="btn btn-outline" style="flex:1;">Download TDS</a>
-                        <a href="sds.pdf" class="btn btn-outline" style="flex:1;">Download SDS</a>
-                    </div>
-                </div>
-                <div class="comp-wrapper">
-                    <h3 style="margin-bottom:30px;">Advantage</h3>
-                    <table class="comp-table">
-                        <thead><tr><th>Feature</th><th class="hl">M-X Lumes</th><th>Generic</th></tr></thead>
-                        <tbody>
-                            <tr><td>Bubble Release</td><td class="hl">Auto-Degas</td><td>Manual</td></tr>
-                            <tr><td>Clarity</td><td class="hl">Crystal Clear</td><td>Hazy</td></tr>
-                            <tr><td>UV Tech</td><td class="hl">Triple HALS</td><td>Single</td></tr>
-                        </tbody>
-                    </table>
-                    <div class="chem-warn">⚠️ <b>Chemical Warning:</b> Causes skin irritation. Avoid breathing fumes. Wear protective gear.</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section id="calc" class="section reveal">
         <div class="container">
             <h2 style="text-align:center; margin-bottom:50px;">Project Calculator</h2>
             
             <div class="zenith-calc">
                 <div class="z-controls">
+                    
                     <div class="step-card">
-                        <div class="step-head"><div style="display:flex; align-items:center;"><span class="step-num">1</span> <span>Resin Setup</span></div><div class="unit-wrap"><button class="unit-btn active" onclick="setUnit('cm')">CM</button><button class="unit-btn" onclick="setUnit('in')">IN</button></div></div>
+                        <div class="step-head">
+                            <div style="display:flex; align-items:center;"><span class="step-num">1</span> <span>Resin Setup</span></div>
+                            <div class="unit-wrap">
+                                <button class="unit-btn active" onclick="updateUnit('cm')">CM</button>
+                                <button class="unit-btn" onclick="updateUnit('in')">IN</button>
+                            </div>
+                        </div>
                         
                         <div class="z-label">Mixing Ratio</div>
                         <div class="ratio-grid">
-                            <button class="ratio-btn active" onclick="setRatio(3,1)">3:1 (Standard)</button>
-                            <button class="ratio-btn" onclick="setRatio(2,1)">2:1</button>
-                            <button class="ratio-btn" onclick="setRatio(1,1)">1:1</button>
-                            <button class="ratio-btn" onclick="toggleCustomRatio()">Custom</button>
+                            <button class="ratio-btn active" onclick="setRatio(3,1, this)">3:1</button>
+                            <button class="ratio-btn" onclick="setRatio(2,1, this)">2:1</button>
+                            <button class="ratio-btn" onclick="setRatio(1,1, this)">1:1</button>
+                            <button class="ratio-btn" onclick="toggleCustomRatio(this)">Custom</button>
                         </div>
-                        <div id="custom-ratio" style="display:none; gap:10px; margin-bottom:15px;"><input type="number" id="ratioA" class="z-number" value="3" style="width:100%; border:1px solid #333;" oninput="runCalc()"><input type="number" id="ratioB" class="z-number" value="1" style="width:100%; border:1px solid #333;" oninput="runCalc()"></div>
-                        <div class="z-label">Application</div>
-                        <div class="mode-toggle"><div class="mode-opt active" id="mode-cast" onclick="setMode('cast')">Casting (Deep)</div><div class="mode-opt" id="mode-coat" onclick="setMode('coat')">Coating (Thin)</div></div>
+                        <div id="custom-ratio" style="display:none; gap:10px; margin-bottom:15px;">
+                            <input type="number" id="ratioA" class="z-number" value="3" style="width:100%; font-size:16px; border:1px solid #333; padding:5px; border-radius:5px;" oninput="runCalc()">
+                            <input type="number" id="ratioB" class="z-number" value="1" style="width:100%; font-size:16px; border:1px solid #333; padding:5px; border-radius:5px;" oninput="runCalc()">
+                        </div>
+
+                        <div class="z-label">Application Type</div>
+                        <div class="mode-toggle">
+                            <div class="mode-opt active" id="mode-cast" onclick="setMode('cast')">Casting (Deep)</div>
+                            <div class="mode-opt" id="mode-coat" onclick="setMode('coat')">Coating (Thin)</div>
+                        </div>
                     </div>
 
                     <div class="step-card">
                         <div class="step-head"><div style="display:flex; align-items:center;"><span class="step-num">2</span> <span>Dimensions</span></div></div>
-                        <div class="z-shapes"><div class="z-shape active" id="btn-rect" onclick="setShape('rect')"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/></svg><span>Square</span></div><div class="z-shape" id="btn-circ" onclick="setShape('circ')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg><span>Circle</span></div><div class="z-shape" id="btn-hex" onclick="setShape('hex')"><svg viewBox="0 0 24 24"><path d="M12 2l10 6v8l-10 6-10-6V8z"/></svg><span>Hex</span></div></div>
-                        <div class="preset-row"><button class="preset-btn" onclick="setPreset('varmala')">Varmala</button><button class="preset-btn" onclick="setPreset('clock')">Clock</button><button class="preset-btn" onclick="setPreset('geode')">Geode</button><button class="preset-btn" onclick="setPreset('tray')">Tray</button></div>
-                        <div id="dims-rect"><div class="z-group"><div class="z-label">Length</div><div class="z-input-row"><input type="number" id="input-L" class="z-number" value="0" oninput="syncSlider('L')"><input type="range" class="z-slider" id="slider-L" min="0" max="200" value="0" oninput="syncInput('L')"></div></div><div class="z-group"><div class="z-label">Width</div><div class="z-input-row"><input type="number" id="input-W" class="z-number" value="0" oninput="syncSlider('W')"><input type="range" class="z-slider" id="slider-W" min="0" max="100" value="0" oninput="syncInput('W')"></div></div></div>
-                        <div id="dims-circ" style="display:none;"><div class="z-group"><div class="z-label">Diameter</div><div class="z-input-row"><input type="number" id="input-Dia" class="z-number" value="0" oninput="syncSlider('Dia')"><input type="range" class="z-slider" id="slider-Dia" min="0" max="100" value="0" oninput="syncInput('Dia')"></div></div></div>
-                        <div id="dims-hex" style="display:none;"><div class="z-group"><div class="z-label">Side</div><div class="z-input-row"><input type="number" id="input-Side" class="z-number" value="0" oninput="syncSlider('Side')"><input type="range" class="z-slider" id="slider-Side" min="0" max="50" value="0" oninput="syncInput('Side')"></div></div></div>
-                        <div class="z-group"><div class="z-label">Depth</div><div class="z-input-row"><input type="number" id="input-D" class="z-number" value="1" oninput="syncSlider('D')"><input type="range" class="z-slider" id="slider-D" min="0.1" max="15" step="0.1" value="1" oninput="syncInput('D')"></div></div>
+                        
+                        <div class="z-shapes">
+                            <div class="z-shape active" id="btn-rect" onclick="setShape('rect')"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/></svg><span>Square</span></div>
+                            <div class="z-shape" id="btn-circ" onclick="setShape('circ')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg><span>Circle</span></div>
+                            <div class="z-shape" id="btn-hex" onclick="setShape('hex')"><svg viewBox="0 0 24 24"><path d="M12 2l10 6v8l-10 6-10-6V8z"/></svg><span>Hex</span></div>
+                        </div>
+
+                        <div class="preset-row">
+                            <button class="preset-btn" onclick="setPreset('varmala')">Varmala</button>
+                            <button class="preset-btn" onclick="setPreset('clock')">Clock</button>
+                            <button class="preset-btn" onclick="setPreset('geode')">Geode</button>
+                            <button class="preset-btn" onclick="setPreset('tray')">Tray</button>
+                        </div>
+
+                        <div id="dims-rect">
+                            <div class="z-group"><div class="z-label">Length</div><div class="z-input-row"><input type="number" id="input-L" class="z-number" value="0" oninput="sync('L')"><input type="range" class="z-slider" id="slider-L" min="0" max="200" value="0" oninput="sync('L', true)"></div></div>
+                            <div class="z-group"><div class="z-label">Width</div><div class="z-input-row"><input type="number" id="input-W" class="z-number" value="0" oninput="sync('W')"><input type="range" class="z-slider" id="slider-W" min="0" max="100" value="0" oninput="sync('W', true)"></div></div>
+                        </div>
+                        <div id="dims-circ" style="display:none;">
+                            <div class="z-group"><div class="z-label">Diameter</div><div class="z-input-row"><input type="number" id="input-Dia" class="z-number" value="0" oninput="sync('Dia')"><input type="range" class="z-slider" id="slider-Dia" min="0" max="100" value="0" oninput="sync('Dia', true)"></div></div>
+                        </div>
+                        <div id="dims-hex" style="display:none;">
+                            <div class="z-group"><div class="z-label">Side</div><div class="z-input-row"><input type="number" id="input-Side" class="z-number" value="0" oninput="sync('Side')"><input type="range" class="z-slider" id="slider-Side" min="0" max="50" value="0" oninput="sync('Side', true)"></div></div>
+                        </div>
+
+                        <div class="z-group"><div class="z-label">Depth</div><div class="z-input-row"><input type="number" id="input-D" class="z-number" value="1" oninput="sync('D')"><input type="range" class="z-slider" id="slider-D" min="0.1" max="15" step="0.1" value="1" oninput="sync('D', true)"></div></div>
                     </div>
 
-                    <div class="chem-panel">
-                        <div class="chem-head"><span>🧪 Environment Lab</span></div>
-                        <div class="chem-grid">
-                            <div><div class="z-label">Temp (°C)</div><input type="range" class="chem-slider ok" id="env-temp" min="5" max="50" value="25" oninput="runCalc(); document.getElementById('val-temp').innerText = this.value + '°C'"><div id="val-temp" style="font-size:11px; color:#fff; margin-top:5px; text-align:right;">25°C</div></div>
-                            <div><div class="z-label">Humidity (%)</div><input type="range" class="chem-slider ok" id="env-hum" min="20" max="90" value="50" oninput="runCalc(); document.getElementById('val-hum').innerText = this.value + '%'"><div id="val-hum" style="font-size:11px; color:#fff; margin-top:5px; text-align:right;">50%</div></div>
+                    <div class="step-card">
+                        <div class="step-head"><div style="display:flex; align-items:center;"><span class="step-num">3</span> <span>Environment</span></div></div>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                            <div><div class="z-label" style="font-size:9px;">Temp (°C)</div><input type="range" class="z-slider" id="env-temp" min="10" max="40" value="25" oninput="runCalc()"><div id="val-temp" style="font-size:11px; color:#fff; margin-top:5px; text-align:right;">25°C</div></div>
+                            <div><div class="z-label" style="font-size:9px;">Humidity (%)</div><input type="range" class="z-slider" id="env-hum" min="20" max="90" value="50" oninput="runCalc()"><div id="val-hum" style="font-size:11px; color:#fff; margin-top:5px; text-align:right;">50%</div></div>
                         </div>
                     </div>
-
+                    
                     <div class="refine-toggle" onclick="document.getElementById('refine-panel').classList.toggle('show')"><span>⚡ Optional: Density & Pigment</span></div>
                     <div id="refine-panel" class="refine-panel">
-                        <div class="z-label">Density</div><select id="densitySelect" onchange="updateDensity()" style="width:100%; background:#111; color:#fff; padding:10px; border:1px solid #333; border-radius:8px; margin-bottom:15px;"><option value="1.13">Standard Epoxy (1.13)</option><option value="1.05">Low Viscosity (1.05)</option><option value="1.20">Heavy Casting (1.20)</option></select><input type="hidden" id="density" value="1.13">
+                        <div class="z-label">Density</div><select id="densitySelect" onchange="runCalc()" style="width:100%; background:#111; color:#fff; padding:10px; border:1px solid #333; border-radius:8px; margin-bottom:15px;"><option value="1.13">Standard Epoxy (1.13)</option><option value="1.05">Low Viscosity (1.05)</option><option value="1.20">Heavy Casting (1.20)</option></select>
                         <div class="z-label">Pigment %</div><input type="range" class="z-slider" id="pigment" min="0" max="5" step="0.5" value="0" oninput="runCalc(); document.getElementById('pig-val').innerText = this.value + '%'">
                         <div id="pig-val" style="font-size:11px; color:#888; text-align:right; margin-top:5px;">0%</div>
                     </div>
@@ -477,21 +444,29 @@
                     <div>
                         <span class="z-res-title">Total Mix Required</span>
                         <div class="z-res-val" id="res-total">0g</div>
-                        <div class="parts-grid"><div class="part-box"><div>RESIN</div><span id="res-a">0g</span></div><div class="part-box"><div>HARDENER</div><span id="res-b">0g</span></div></div>
+                        
+                        <div class="parts-grid">
+                            <div class="part-box"><div>RESIN</div><span id="res-a">0g</span></div>
+                            <div class="part-box"><div>HARDENER</div><span id="res-b">0g</span></div>
+                        </div>
+                        
                         <div class="z-res-sub" style="margin-top:10px;">Pigment Need: <span style="color:#fff;" id="res-pig">0g</span></div>
                     </div>
 
-                    <div class="safety-report">
-                        <div class="report-head"><span>Safety Report</span><span id="report-status" class="report-status">Safe</span></div>
-                        <ul class="report-list" id="safety-list">
-                            <li class="report-item fix"><span>✓</span> Conditions optimal for pouring.</li>
-                        </ul>
+                    <div class="z-advisor" id="advisor-box">
+                        <div class="z-adv-text" id="advisor-text">Ready to Calculate</div>
                     </div>
 
                     <div class="z-cost-card">
-                        <div class="cost-input-row"><span class="cost-lbl">Price of Resin Kit (₹/kg)</span><input type="number" id="costInput" class="cost-inp" placeholder="1000" oninput="runCalc()"></div>
+                        <div class="cost-input-row">
+                            <span class="cost-lbl">Price of Resin Kit (₹/kg)</span>
+                            <input type="number" id="costInput" class="cost-inp" placeholder="1000" oninput="runCalc()">
+                        </div>
                         <div style="border-top:1px solid rgba(255,255,255,0.1); margin:10px 0;"></div>
-                        <div style="display:flex; justify-content:space-between; align-items:center;"><span class="cost-lbl" style="color:#fff; font-weight:700;">EST. COST</span><span class="final-cost" id="est-cost">₹0</span></div>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span class="cost-lbl" style="color:#fff; font-weight:700;">PROJECT ESTIMATE</span>
+                            <span class="final-cost" id="est-cost">₹0</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -509,20 +484,15 @@
                 <div class="g-item"><img src="at5.png" class="g-img" loading="lazy"></div>
                 <div class="g-item"><img src="at4.png" class="g-img" loading="lazy" style="filter:hue-rotate(45deg);"></div>
             </div>
-            <div class="dos-donts" style="margin-top:60px;">
-                <div class="dd-box dos"><h3 style="color:var(--success); margin-bottom:20px;">✓ The Dos</h3><ul style="color:var(--text-dim); list-style:disc; padding-left:20px;"><li>Wear gloves and mask.</li><li>Work at 25°C.</li><li>Seal porous surfaces.</li></ul></div>
-                <div class="dd-box donts"><h3 style="color:var(--danger); margin-bottom:20px;">✕ The Don'ts</h3><ul style="color:var(--text-dim); list-style:disc; padding-left:20px;"><li>Don't mix by volume.</li><li>Don't scrape cup on pour.</li><li>Avoid water contact.</li></ul></div>
-            </div>
         </div>
     </section>
 
     <footer class="footer">
-        <div class="footer-overlay"></div>
-        <div class="footer-watermark">M-X</div>
+        <div class="footer-overlay"></div><div class="footer-watermark">M-X</div>
         <div class="container footer-content">
             <div class="footer-cta"><h2>Ready to Create?</h2><button class="btn btn-primary" onclick="document.getElementById('shop').scrollIntoView()">Start Your Order</button></div>
             <div class="f-grid">
-                <div class="f-col"><h2 class="logo" style="margin-bottom:20px;">M-X LUMES</h2><p style="color:var(--text-dim); font-size:13px; line-height:1.8;">Engineered in Meerut. The professional's choice.</p></div>
+                <div class="f-col"><h2 class="logo" style="margin-bottom:20px;">M-X LUMES</h2><p style="color:var(--text-dim); font-size:13px; line-height:1.8;">Engineered in Meerut.</p></div>
                 <div class="f-col"><h4>Products</h4><a href="#" class="f-link">Transparent Plus</a><a href="#" class="f-link">Deep Pour Pro</a></div>
                 <div class="f-col"><h4>Support</h4><a href="#" class="f-link">Track Order</a><a href="#" class="f-link">Shipping Policy</a></div>
                 <div class="f-col"><h4>Contact</h4><a href="#" class="f-link">support@mxlumes.com</a><a href="#" class="f-link">+91 98765 43210</a></div>
@@ -535,175 +505,196 @@
     <div class="cart-sidebar" id="cartSidebar"><div class="cart-overlay" onclick="toggleCart()"></div><div class="cart-inner"><div style="display:flex; justify-content:space-between; align-items:center;"><h2>Cart</h2><button onclick="toggleCart()" style="color:#fff; font-size:24px;">×</button></div><div id="cartItems" style="flex:1; overflow-y:auto; margin:20px 0;"></div><div class="cart-summary"><div class="cart-total" style="display:flex; justify-content:space-between; font-size:20px; font-weight:700;"><span>Total</span><span id="cartTotal">₹0</span></div><button class="btn btn-primary" style="width:100%; margin-top:20px;" onclick="checkoutWhatsApp()">Checkout WhatsApp</button></div></div></div>
 
     <script>
+        // --- CORE UI LOGIC ---
         window.addEventListener('scroll', () => { document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50); });
         const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if(entry.isIntersecting) { entry.target.classList.add('active'); if(entry.target.classList.contains('counter')) countUp(entry.target); } }); });
         document.querySelectorAll('.reveal, .counter').forEach(el => observer.observe(el));
+        function countUp(el) { const target = parseInt(el.dataset.target); let count = 0; const inc = target / 30; const timer = setInterval(() => { count += inc; if(count >= target) { count = target; clearInterval(timer); } el.innerText = Math.floor(count) + (el.innerText.includes('%') ? '%' : ''); }, 30); }
 
-        function countUp(el) {
-            const target = parseInt(el.dataset.target); let count = 0; const inc = target / 30;
-            const timer = setInterval(() => { count += inc; if(count >= target) { count = target; clearInterval(timer); } el.innerText = Math.floor(count) + (el.innerText.includes('%') ? '%' : ''); }, 30);
+        // --- TITAN PRECISION ENGINE (REWRITTEN) ---
+        let appState = {
+            unit: 'cm', // 'cm' or 'in'
+            shape: 'rect', // 'rect', 'circ', 'hex'
+            ratioA: 3,
+            ratioB: 1,
+            mode: 'cast' // 'cast' or 'coat'
+        };
+
+        // Two-way sync for sliders and inputs
+        function sync(id, isSlider = false) {
+            const input = document.getElementById('input-' + id);
+            const slider = document.getElementById('slider-' + id);
+            
+            if (isSlider) input.value = slider.value;
+            else slider.value = input.value;
+            
+            runCalc();
         }
 
-        // --- TITAN CHEMIST CALCULATOR LOGIC ---
-        let shape = 'rect';
-        let unitMult = 1; 
-        let limit = 2.5;
-        
-        function setUnit(u) {
+        function updateUnit(u) {
+            if (appState.unit === u) return; // No change
+            
+            // Convert current values
+            const factor = u === 'in' ? 0.3937 : 2.54; // CM to IN vs IN to CM
+            
+            ['L', 'W', 'Dia', 'Side', 'D'].forEach(key => {
+                const el = document.getElementById('input-' + key);
+                const sl = document.getElementById('slider-' + key);
+                if (el && el.value) {
+                    let val = parseFloat(el.value);
+                    val = val * factor;
+                    el.value = val.toFixed(2);
+                    sl.value = val;
+                }
+            });
+
+            // Update UI State
             document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
-            unitMult = u === 'cm' ? 1 : 2.54; 
+            appState.unit = u;
             runCalc();
         }
 
-        function setRatio(a, b) {
+        function setRatio(a, b, el) {
             document.querySelectorAll('.ratio-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            el.classList.add('active');
             document.getElementById('custom-ratio').style.display = 'none';
-            document.getElementById('ratioA').value = a;
-            document.getElementById('ratioB').value = b;
+            appState.ratioA = a;
+            appState.ratioB = b;
             runCalc();
         }
 
-        function toggleCustomRatio() {
+        function toggleCustomRatio(el) {
             document.querySelectorAll('.ratio-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            el.classList.add('active');
             document.getElementById('custom-ratio').style.display = 'flex';
+            // Inputs will update ratio on input event
         }
 
         function setMode(mode) {
+            appState.mode = mode;
             document.querySelectorAll('.mode-opt').forEach(opt => opt.classList.remove('active'));
             document.getElementById('mode-'+mode).classList.add('active');
-            limit = mode === 'coat' ? 0.5 : 2.5;
-            runCalc();
-        }
-
-        function updateDensity() {
-            document.getElementById('density').value = document.getElementById('densitySelect').value;
             runCalc();
         }
 
         function setShape(s) {
-            shape = s;
+            appState.shape = s;
             document.querySelectorAll('.z-shape').forEach(i => i.classList.remove('active'));
             if(s === 'rect') document.getElementById('btn-rect').classList.add('active');
             if(s === 'circ') document.getElementById('btn-circ').classList.add('active');
             if(s === 'hex') document.getElementById('btn-hex').classList.add('active');
+            
             document.getElementById('dims-rect').style.display = s === 'rect' ? 'block' : 'none';
             document.getElementById('dims-circ').style.display = s === 'circ' ? 'block' : 'none';
             document.getElementById('dims-hex').style.display = s === 'hex' ? 'block' : 'none';
             runCalc();
         }
 
-        function syncInput(id) { document.getElementById('input-'+id).value = document.getElementById('slider-'+id).value; runCalc(); }
-        function syncSlider(id) { document.getElementById('slider-'+id).value = document.getElementById('input-'+id).value; runCalc(); }
-
         function setPreset(type) {
-            if(type === 'varmala') { setShape('rect'); setAllVals('L', 30); setAllVals('W', 30); setAllVals('D', 7.5); setMode('cast'); }
-            else if (type === 'clock') { setShape('circ'); setAllVals('Dia', 30); setAllVals('D', 1); setMode('coat'); }
-            else if (type === 'geode') { setShape('circ'); setAllVals('Dia', 10); setAllVals('D', 0.8); setMode('coat'); }
-            else if (type === 'tray') { setShape('rect'); setAllVals('L', 30); setAllVals('W', 20); setAllVals('D', 1.5); setMode('cast'); }
+            // Force reset to CM for accurate presets (optional, but safer)
+            if(appState.unit === 'in') updateUnit('cm'); 
+            
+            if(type === 'varmala') { setShape('rect'); syncSet('L', 30); syncSet('W', 30); syncSet('D', 7.5); setMode('cast'); }
+            else if (type === 'clock') { setShape('circ'); syncSet('Dia', 30); syncSet('D', 1); setMode('coat'); }
+            else if (type === 'geode') { setShape('circ'); syncSet('Dia', 10); syncSet('D', 0.8); setMode('coat'); }
+            else if (type === 'tray') { setShape('rect'); syncSet('L', 30); syncSet('W', 20); syncSet('D', 1.5); setMode('cast'); }
             runCalc();
         }
 
-        function setAllVals(id, val) {
-            if(document.getElementById('input-'+id)) document.getElementById('input-'+id).value = val;
-            if(document.getElementById('slider-'+id)) document.getElementById('slider-'+id).value = val;
+        function syncSet(id, val) {
+            document.getElementById('input-'+id).value = val;
+            document.getElementById('slider-'+id).value = val;
         }
 
         function runCalc() {
-            // 1. DIMS
+            // 1. GATHER DATA
             let h = parseFloat(document.getElementById('input-D').value) || 0;
-            h = h * unitMult; 
             
+            // Normalize to CM for calculation
+            let multiplier = appState.unit === 'in' ? 2.54 : 1;
+            let h_cm = h * multiplier;
+
             let area = 0;
-            if(shape === 'rect') {
-                let l = (parseFloat(document.getElementById('input-L').value)||0) * unitMult;
-                let w = (parseFloat(document.getElementById('input-W').value)||0) * unitMult;
+            if (appState.shape === 'rect') {
+                let l = (parseFloat(document.getElementById('input-L').value) || 0) * multiplier;
+                let w = (parseFloat(document.getElementById('input-W').value) || 0) * multiplier;
                 area = l * w;
-            } else if (shape === 'circ') {
-                let d = (parseFloat(document.getElementById('input-Dia').value)||0) * unitMult;
+            } else if (appState.shape === 'circ') {
+                let d = (parseFloat(document.getElementById('input-Dia').value) || 0) * multiplier;
                 area = Math.PI * Math.pow(d/2, 2);
-            } else if (shape === 'hex') {
-                let s = (parseFloat(document.getElementById('input-Side').value)||0) * unitMult;
+            } else if (appState.shape === 'hex') {
+                let s = (parseFloat(document.getElementById('input-Side').value) || 0) * multiplier;
                 area = 2.598 * Math.pow(s, 2);
             }
 
-            // Params
-            const rA = parseFloat(document.getElementById('ratioA').value) || 3;
-            const rB = parseFloat(document.getElementById('ratioB').value) || 1;
-            const density = parseFloat(document.getElementById('density').value) || 1.13;
+            // 2. PHYSICS
+            // If Custom Ratio is visible, grab those values
+            if(document.getElementById('custom-ratio').style.display === 'flex') {
+                appState.ratioA = parseFloat(document.getElementById('ratioA').value) || 3;
+                appState.ratioB = parseFloat(document.getElementById('ratioB').value) || 1;
+            }
+
+            const density = parseFloat(document.getElementById('densitySelect').value) || 1.13;
             const pigPct = parseFloat(document.getElementById('pigment').value) || 0;
             const costPerKg = parseFloat(document.getElementById('costInput').value) || 0;
-            const q = parseFloat(document.getElementById('input-Qty').value) || 1;
 
-            const vol = area * h * q;
-            const mass = vol * density;
-            const totalParts = rA + rB;
-            const massA = (mass * rA) / totalParts;
-            const massB = (mass * rB) / totalParts;
-            const pigMass = mass * (pigPct/100);
+            const vol = area * h_cm; // cm³
+            const mass = vol * density; // grams
             
+            const totalParts = appState.ratioA + appState.ratioB;
+            const massA = (mass * appState.ratioA) / totalParts;
+            const massB = (mass * appState.ratioB) / totalParts;
+            const pigMass = mass * (pigPct / 100);
+
+            // 3. UPDATE UI
             document.getElementById('res-total').innerText = Math.round(mass) + 'g';
             document.getElementById('res-a').innerText = Math.round(massA) + 'g';
             document.getElementById('res-b').innerText = Math.round(massB) + 'g';
             document.getElementById('res-pig').innerText = pigMass.toFixed(1) + 'g';
 
-            if(costPerKg > 0) document.getElementById('est-cost').innerText = '₹' + Math.round((mass/1000)*costPerKg).toLocaleString();
+            if(costPerKg > 0) {
+                document.getElementById('est-cost').innerText = '₹' + Math.round((mass/1000) * costPerKg).toLocaleString();
+            } else {
+                document.getElementById('est-cost').innerText = '₹0';
+            }
 
-            // 2. SAFETY ARCHITECT REPORT
+            // 4. ENVIRONMENT & ADVISOR
             const temp = parseFloat(document.getElementById('env-temp').value);
             const hum = parseFloat(document.getElementById('env-hum').value);
-            const reportList = document.getElementById('safety-list');
-            const reportStatus = document.getElementById('report-status');
-            
-            reportList.innerHTML = ""; // Clear
-            let risks = 0;
+            const advBox = document.getElementById('advisor-box');
+            const advTxt = document.getElementById('advisor-text');
 
-            // Slider Colors
-            const tSlider = document.getElementById('env-temp');
-            const hSlider = document.getElementById('env-hum');
-            tSlider.className = (temp > 30 || temp < 18) ? "chem-slider hot" : "chem-slider ok";
-            if(temp < 18) tSlider.className = "chem-slider cold";
-            hSlider.className = (hum > 70) ? "chem-slider hot" : "chem-slider ok";
+            // Update Labels
+            document.getElementById('val-temp').innerText = temp + '°C';
+            document.getElementById('val-hum').innerText = hum + '%';
 
-            // Checks
-            if (h > limit) {
-                risks++;
-                const layers = Math.ceil(h / limit);
-                reportList.innerHTML += `<li class="report-item risk"><span>⚠️</span> EXOTHERM RISK: Depth exceeds ${limit}cm.</li>`;
-                reportList.innerHTML += `<li class="report-item fix"><span>🛡️</span> FIX: Pour in ${layers} layers of approx ${(h/layers).toFixed(1)}cm each.</li>`;
+            let warnings = [];
+            const limit = appState.mode === 'coat' ? 0.5 : 2.5; // CM
+
+            if (h_cm > limit) {
+                const layers = Math.ceil(h_cm / limit);
+                warnings.push(`⚠️ Depth (${h_cm.toFixed(1)}cm) exceeds safe limit. Pour ${layers} layers.`);
             }
+            if (hum > 70) warnings.push("💧 High Humidity: Risk of Amine Blush.");
+            if (temp > 30 && h_cm > 2) warnings.push("🔥 High Temp: Risk of Flash Cure.");
 
-            if (temp > 30) {
-                risks++;
-                reportList.innerHTML += `<li class="report-item risk"><span>🔥</span> FLASH CURE: High temp will harden resin too fast.</li>`;
-                reportList.innerHTML += `<li class="report-item fix"><span>❄️</span> FIX: Work in AC room or cool resin bottles before mixing.</li>`;
-            } else if (temp < 18) {
-                risks++;
-                reportList.innerHTML += `<li class="report-item risk"><span>❄️</span> STALL RISK: Resin may stay sticky/soft.</li>`;
-                reportList.innerHTML += `<li class="report-item fix"><span>🌡️</span> FIX: Use a space heater or warm water bath for bottles.</li>`;
-            }
-
-            if (hum > 70) {
-                risks++;
-                reportList.innerHTML += `<li class="report-item risk"><span>💧</span> AMINE BLUSH: Moisture will cause cloudy surface.</li>`;
-                reportList.innerHTML += `<li class="report-item fix"><span>🏠</span> FIX: Seal room, use dehumidifier, avoid water contact.</li>`;
-            }
-
-            if (risks === 0) {
-                reportStatus.innerText = "Safe";
-                reportStatus.style.color = "#10b981";
-                reportList.innerHTML = `<li class="report-item fix"><span>✅</span> Conditions are optimal for a perfect pour.</li>`;
+            if (warnings.length > 0) {
+                advTxt.innerHTML = warnings.join("<br>");
+                advTxt.style.color = "#ef4444";
+                advBox.style.borderColor = "#ef4444";
+                advBox.style.background = "rgba(239, 68, 68, 0.1)";
             } else {
-                reportStatus.innerText = "Attention Needed";
-                reportStatus.style.color = "#ef4444";
+                advTxt.innerHTML = "✅ Conditions Optimal for Pouring.";
+                advTxt.style.color = "#10b981";
+                advBox.style.borderColor = "#10b981";
+                advBox.style.background = "rgba(16, 185, 129, 0.1)";
             }
         }
 
-        // Cart Logic
+        // --- CART LOGIC ---
         let cart = [];
-        function addToCart(name, price) { cart.push({name, price}); renderCart(); showToast(); }
+        function addToCart(name, price) { cart.push({name, price}); renderCart(); showToast(); toggleCart(); }
         function renderCart() {
             const container = document.getElementById('cartItems'); container.innerHTML = ''; let total = 0;
             cart.forEach((item, idx) => { total += item.price; container.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:15px; border-bottom:1px solid #222; padding-bottom:10px;"><span>${item.name}</span><span>₹${item.price}</span><span onclick="removeFromCart(${idx})" style="color:red; cursor:pointer;">×</span></div>`; });
