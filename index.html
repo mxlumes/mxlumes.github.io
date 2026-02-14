@@ -9,315 +9,276 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <style>
         /* -----------------------------------------------------------
-           1. CORE PHYSICS & VARIABLES
+           1. CORE SYSTEM & STABILITY
            ----------------------------------------------------------- */
         :root {
-            /* Palette */
-            --bg-oled: #000000;
-            --bg-panel: #050505;
-            --text-main: #ffffff;
-            --text-dim: #a1a1aa;
-            
-            /* Accents */
-            --accent: #ffffff;
-            --brand-glow: rgba(99, 102, 241, 0.5);
-            --brand-solid: #6366f1;
-            
-            /* Glass Engine */
-            --border: rgba(255, 255, 255, 0.12);
-            --border-hover: rgba(255, 255, 255, 0.3);
-            --glass: rgba(18, 18, 18, 0.8);
-            --blur: blur(25px);
-            --radius: 28px;
-            
-            /* Physics */
-            --ease-fluid: cubic-bezier(0.25, 0.46, 0.45, 0.94); 
-            
-            --success: #10b981; --warning: #f59e0b; --danger: #ef4444;
+            --bg: #000000;
+            --panel: #0a0a0a;
+            --text: #ffffff;
+            --dim: #999;
+            --accent: #6366f1;
+            --border: rgba(255, 255, 255, 0.1);
+            --glass: rgba(20, 20, 20, 0.9); /* High opacity for perf */
+            --radius: 20px;
+            --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        html { scroll-behavior: smooth; font-size: 16px; scroll-padding-top: 100px; }
-        
-        body {
-            background-color: var(--bg-oled);
-            color: var(--text-main);
+        html, body {
+            width: 100%;
+            overflow-x: hidden; /* Critical for "Out of Frame" fix */
+            background-color: var(--bg);
+            color: var(--text);
             font-family: 'Manrope', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
+            font-size: 16px;
+            scroll-behavior: smooth;
         }
 
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; line-height: 1.1; letter-spacing: -0.02em; }
-        a { text-decoration: none; color: inherit; transition: color 0.3s; }
+        a { text-decoration: none; color: inherit; }
         button { cursor: pointer; border: none; outline: none; background: none; font-family: inherit; }
         img { display: block; max-width: 100%; height: auto; }
 
-        ::-webkit-scrollbar { width: 6px; }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
 
         /* -----------------------------------------------------------
-           2. BACKGROUND ENGINE
+           2. PERFORMANCE BACKGROUND
            ----------------------------------------------------------- */
         .bg-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -5;
-            background-color: #000;
-            background-image: url('product-1.webp');
-            background-position: center bottom;
-            background-repeat: no-repeat;
+            background: #000 url('product-1.webp') no-repeat center bottom;
             background-size: 65%;
-            -webkit-mask-image: radial-gradient(circle at 50% 100%, black 20%, transparent 100%);
-            mask-image: radial-gradient(circle at 50% 100%, black 20%, transparent 100%);
-            opacity: 0.85;
-            will-change: opacity; transition: opacity 1s var(--ease-fluid);
+            opacity: 0.7;
+            /* Static background for performance */
+            will-change: transform;
         }
-
+        
         .bg-gradient {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -4;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 60%, #000 95%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4), #000 90%);
             pointer-events: none;
-        }
-
-        .grain {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; opacity: 0.035; pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
         /* -----------------------------------------------------------
            3. UI COMPONENTS
            ----------------------------------------------------------- */
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 25px; }
-        .section { padding: 140px 0; position: relative; z-index: 2; content-visibility: auto; contain-intrinsic-size: 800px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .section { padding: 100px 0; }
         
-        .reveal { opacity: 0; transform: translateY(30px); filter: blur(5px); transition: all 1s var(--ease-fluid); }
-        .reveal.active { opacity: 1; transform: translateY(0); filter: blur(0); }
-        .grid-3 .reveal:nth-child(2) { transition-delay: 0.1s; }
-        .grid-3 .reveal:nth-child(3) { transition-delay: 0.2s; }
+        /* Smooth Reveal */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s var(--ease); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
+        /* Glass Card (No Blur on Mobile for Speed) */
         .glass {
-            background: var(--glass); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
-            border: 1px solid var(--border); border-radius: var(--radius);
-            position: relative; overflow: hidden; transition: all 0.4s var(--ease-fluid);
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            position: relative; overflow: hidden;
         }
-        .glass::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); opacity: 0.5; }
-        .glass:hover { border-color: var(--border-hover); box-shadow: 0 20px 60px -10px rgba(0,0,0,0.5); transform: translateY(-5px); }
+        @media (min-width: 900px) {
+            .glass { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: rgba(20,20,20,0.6); }
+        }
 
-        .btn { padding: 16px 32px; border-radius: 60px; font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 1.5px; transition: 0.3s; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
-        .btn-primary { background: #fff; color: #000; box-shadow: 0 5px 20px rgba(255,255,255,0.15); }
-        .btn-primary:hover { background: #e6e6e6; transform: translateY(-2px); }
-        .btn-primary:active { transform: scale(0.95); } 
-        
-        .btn-outline { border: 1px solid var(--border); color: #fff; background: rgba(255,255,255,0.02); }
-        .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.05); }
+        .btn { padding: 14px 28px; border-radius: 50px; font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; }
+        .btn-primary { background: #fff; color: #000; }
+        .btn-primary:active { transform: scale(0.96); }
+        .btn-outline { border: 1px solid var(--border); color: #fff; background: rgba(255,255,255,0.05); }
 
-        .toast { position: fixed; top: 100px; right: 20px; background: rgba(15,15,15,0.95); backdrop-filter: blur(10px); border: 1px solid var(--border); padding: 12px 24px; border-radius: 50px; color: #fff; font-size: 12px; font-weight: 700; z-index: 5000; transform: translateX(150%); transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .toast { position: fixed; top: 90px; right: 20px; background: #111; border: 1px solid #333; padding: 12px 24px; border-radius: 50px; color: #fff; font-size: 12px; font-weight: 700; z-index: 5000; transform: translateX(150%); transition: 0.3s var(--ease); }
         .toast.show { transform: translateX(0); }
 
         /* -----------------------------------------------------------
-           4. NAV, HERO & MARQUEE
+           4. NAV & HERO
            ----------------------------------------------------------- */
-        .navbar { position: fixed; top: 0; width: 100%; height: 80px; z-index: 1000; display: flex; align-items: center; transition: 0.4s var(--ease-fluid); border-bottom: 1px solid transparent; }
-        .navbar.scrolled { background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); height: 70px; }
+        .navbar { position: fixed; top: 0; width: 100%; height: 70px; z-index: 1000; display: flex; align-items: center; transition: 0.3s; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
         .nav-inner { width: 100%; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: 800; font-size: 18px; letter-spacing: 3px; text-transform: uppercase; color: #fff; }
-        .nav-links { display: flex; gap: 40px; }
-        .nav-link { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; transition: 0.3s; }
-        .nav-link:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        .logo { font-weight: 800; font-size: 18px; letter-spacing: 2px; color: #fff; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-link { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--dim); }
 
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; padding-top: 80px; }
-        .hero h1 { font-size: clamp(48px, 6vw, 100px); margin-bottom: 24px; font-weight: 800; background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { color: var(--text-dim); font-size: 18px; max-width: 500px; margin-bottom: 40px; font-weight: 300; }
+        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding-top: 60px; }
+        .hero h1 { font-size: clamp(40px, 5vw, 80px); margin-bottom: 20px; font-weight: 800; color: #fff; }
+        .hero p { color: var(--dim); font-size: 16px; max-width: 500px; margin-bottom: 30px; }
 
-        .marquee { position: absolute; bottom: 0; width: 100%; background: #000; border-top: 1px solid var(--border); padding: 16px 0; overflow: hidden; white-space: nowrap; }
-        .marquee-content { display: inline-block; animation: scroll 40s linear infinite; }
-        .marquee-item { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: var(--text-dim); margin: 0 40px; }
-        .marquee-item span { color: #fff; margin-right: 10px; opacity: 0.5; }
+        .marquee { width: 100%; background: #000; border-top: 1px solid var(--border); padding: 12px 0; overflow: hidden; white-space: nowrap; position: absolute; bottom: 0; }
+        .marquee-content { display: inline-block; animation: scroll 30s linear infinite; }
+        .marquee-item { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--dim); margin: 0 30px; letter-spacing: 2px; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* -----------------------------------------------------------
            5. STATS & SHOP
            ----------------------------------------------------------- */
-        .stats-bar { border-bottom: 1px solid var(--border); padding: 40px 0; margin-top: -1px; }
+        .stats-bar { border-bottom: 1px solid var(--border); padding: 30px 0; }
         .stats-grid { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; }
-        .stat-num { font-size: 32px; font-weight: 800; color: #fff; display: block; margin-bottom: 5px; }
-        .stat-lbl { font-size: 10px; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1.5px; }
+        .stat-num { font-size: 28px; font-weight: 800; color: #fff; display: block; }
+        .stat-lbl { font-size: 10px; text-transform: uppercase; color: var(--dim); }
 
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-        .product-card { padding: 35px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; transition: 0.4s var(--ease-fluid); }
-        .p-img { width: 100%; height: 280px; object-fit: cover; border-radius: 16px; margin-bottom: 25px; opacity: 0.9; transition: 0.6s var(--ease-fluid); }
-        .product-card:hover .p-img { opacity: 1; transform: scale(1.03); }
-        .p-tag { font-size: 10px; border: 1px solid var(--border); padding: 6px 12px; border-radius: 20px; color: var(--text-dim); text-transform: uppercase; display: inline-block; margin-bottom: 15px; letter-spacing: 1px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .product-card { padding: 25px; display: flex; flex-direction: column; justify-content: space-between; }
+        .p-img { width: 100%; height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: 20px; opacity: 0.9; }
+        .p-tag { font-size: 10px; border: 1px solid var(--border); padding: 4px 10px; border-radius: 20px; color: var(--dim); text-transform: uppercase; margin-bottom: 10px; display: inline-block; }
 
         /* -----------------------------------------------------------
-           6. GALLERY (MASONRY)
+           6. GALLERY (Fixed Layout)
            ----------------------------------------------------------- */
-        .gallery-masonry { column-count: 3; column-gap: 20px; }
-        .g-item { break-inside: avoid; margin-bottom: 20px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); background: #0a0a0a; position: relative; transition: 0.3s; }
-        .g-item:active { transform: scale(0.98); }
-        .g-img { width: 100%; height: auto; display: block; transition: 0.6s var(--ease-fluid); filter: grayscale(100%); }
-        @media (hover: hover) { .g-item:hover .g-img { filter: grayscale(0%); transform: scale(1.03); } }
+        .gallery-masonry { column-count: 3; column-gap: 15px; }
+        .g-item { break-inside: avoid; margin-bottom: 15px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #111; }
+        /* No grayscale on mobile to avoid "black and white" issue */
+        .g-img { width: 100%; height: auto; display: block; }
 
         /* -----------------------------------------------------------
            7. FEATURES
            ----------------------------------------------------------- */
-        .bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 50px; }
-        .bento-item { background: var(--glass); border: 1px solid var(--border); border-radius: 24px; padding: 30px; display: flex; flex-direction: column; justify-content: center; transition: 0.3s; }
-        .bento-item:hover { border-color: rgba(255,255,255,0.3); }
+        .bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 40px; }
+        .bento-item { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 25px; }
         .bento-item.wide { grid-column: span 2; }
-        .bento-val { font-size: 36px; font-weight: 800; color: #fff; margin-bottom: 5px; }
-        .bento-lbl { font-size: 11px; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; }
+        .bento-val { font-size: 28px; font-weight: 800; color: #fff; }
+        .bento-lbl { font-size: 10px; text-transform: uppercase; color: var(--dim); }
 
-        .specs-layout { display: grid; grid-template-columns: 1fr; gap: 60px; }
-        .comp-wrapper { overflow-x: auto; margin-bottom: 50px; }
-        .comp-table { width: 100%; min-width: 700px; border-collapse: collapse; background: var(--glass); border-radius: 24px; }
-        .comp-table th { padding: 25px; text-align: left; font-size: 11px; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; border-bottom: 1px solid var(--border); }
-        .comp-table td { padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 15px; }
+        .specs-layout { display: grid; grid-template-columns: 1fr; gap: 40px; }
+        .comp-wrapper { overflow-x: auto; margin-bottom: 40px; }
+        .comp-table { width: 100%; min-width: 600px; border-collapse: collapse; background: var(--glass); border-radius: 20px; }
+        .comp-table th { padding: 20px; text-align: left; font-size: 10px; text-transform: uppercase; color: var(--dim); border-bottom: 1px solid var(--border); }
+        .comp-table td { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
         .hl { color: #fff; font-weight: 700; background: rgba(255,255,255,0.02); }
 
-        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 40px 0; }
-        .t-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.2), transparent); }
-        .t-step { display: flex; align-items: center; margin-bottom: 80px; position: relative; }
-        .t-step:nth-child(even) { flex-direction: row-reverse; }
-        .t-content { width: 42%; padding: 40px; background: var(--glass); border: 1px solid var(--border); border-radius: 24px; transition: 0.3s; }
-        .t-content:hover { border-color: rgba(255,255,255,0.3); }
-        .t-dot { position: absolute; left: 50%; width: 8px; height: 8px; background: #fff; border-radius: 50%; transform: translateX(-50%); box-shadow: 0 0 15px #fff; }
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 30px 0; }
+        .t-line { position: absolute; left: 20px; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,0.2); }
+        .t-step { display: flex; flex-direction: column; margin-left: 40px; margin-bottom: 40px; position: relative; }
+        .t-content { width: 100%; padding: 20px; background: var(--glass); border: 1px solid var(--border); border-radius: 16px; }
+        .t-dot { position: absolute; left: -24px; top: 0; width: 9px; height: 9px; background: #fff; border-radius: 50%; }
 
-        .dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .dd-box { padding: 50px; border-radius: 24px; border: 1px solid var(--border); }
-        .dd-box.dos { background: rgba(16, 185, 129, 0.03); border-color: rgba(16, 185, 129, 0.2); }
-        .dd-box.donts { background: rgba(239, 68, 68, 0.03); border-color: rgba(239, 68, 68, 0.2); }
-
-        .chem-warn { padding: 20px; border: 1px solid var(--warning); border-radius: 12px; background: rgba(245,158,11,0.05); color: var(--text-dim); font-size: 13px; display: flex; gap: 15px; align-items: center; margin-top: 40px; }
+        .dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .dd-box { padding: 30px; border-radius: 20px; border: 1px solid var(--border); }
+        .dd-box.dos { background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.3); }
+        .dd-box.donts { background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.3); }
 
         /* -----------------------------------------------------------
-           8. SOVEREIGN CALCULATOR (USER-FRIENDLY)
+           8. TITAN CALCULATOR (USER FRIENDLY & RESPONSIVE)
            ----------------------------------------------------------- */
         .zenith-calc {
             background: var(--bg-panel); border: 1px solid var(--border);
-            border-radius: 32px; overflow: hidden; display: grid; grid-template-columns: 1.3fr 1fr;
-            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.6);
+            border-radius: 30px; overflow: hidden; display: grid; grid-template-columns: 1.3fr 1fr;
+            box-shadow: 0 30px 60px -20px rgba(0,0,0,0.5);
         }
         
-        .z-controls { padding: 50px; border-right: 1px solid var(--border); }
-        .z-display { padding: 50px; background: rgba(15,15,15,0.95); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+        .z-controls { padding: 40px; border-right: 1px solid var(--border); }
+        .z-display { padding: 40px; background: rgba(15,15,15,0.95); display: flex; flex-direction: column; justify-content: space-between; }
         
-        /* Section Headings */
-        .calc-sec-title { font-size: 13px; font-weight: 800; color: #fff; text-transform: uppercase; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; letter-spacing: 1px; }
-        .calc-sec-title::after { content:''; height:1px; flex:1; background: rgba(255,255,255,0.1); }
+        /* Unit Toggle */
+        .calc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .unit-wrap { display: flex; gap: 5px; background: #000; padding: 4px; border-radius: 10px; border: 1px solid var(--border); }
+        .unit-btn { padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 700; color: #666; transition: 0.2s; }
+        .unit-btn.active { background: #fff; color: #000; }
 
-        /* Mix Config Grid */
-        .mix-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px; }
-        
-        .z-card { background: rgba(255,255,255,0.02); padding: 20px; border-radius: 16px; border: 1px solid var(--border); }
-        .z-label { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; display: block; margin-bottom: 15px; }
-        
-        /* Ratio Buttons */
-        .ratio-row { display: flex; gap: 5px; }
-        .ratio-btn { flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 10px; font-size: 11px; color: #666; background: transparent; transition: 0.3s; cursor: pointer; text-align: center; font-weight: 700; }
-        .ratio-btn.active { border-color: #6366f1; background: rgba(99,102,241,0.1); color: #fff; }
-
-        /* Unit Switch */
-        .unit-toggle { display: flex; background: #000; padding: 4px; border-radius: 10px; border: 1px solid var(--border); width: fit-content; margin-left: auto; }
-        .unit-opt { padding: 6px 12px; font-size: 10px; font-weight: 700; color: #666; cursor: pointer; border-radius: 8px; transition: 0.3s; }
-        .unit-opt.active { background: #fff; color: #000; }
-
-        /* Shape Grid */
-        .shape-grid { display: flex; gap: 15px; margin-bottom: 30px; }
-        .shape-btn { flex: 1; padding: 20px; border: 1px solid var(--border); border-radius: 16px; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.3s; background: rgba(255,255,255,0.01); }
-        .shape-btn:active { transform: scale(0.97); }
-        .shape-btn.active { border-color: #fff; background: rgba(255,255,255,0.08); box-shadow: 0 0 20px rgba(255,255,255,0.05); }
-        .shape-btn svg { width: 28px; height: 28px; stroke: #666; stroke-width: 1.5; fill: none; margin-bottom: 8px; transition: 0.3s; }
+        /* Shape Grid (Responsive) */
+        .shape-grid { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+        .shape-btn { 
+            flex: 1; min-width: 80px; padding: 15px; border: 1px solid var(--border); border-radius: 12px;
+            display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;
+            background: rgba(255,255,255,0.02); transition: 0.2s;
+        }
+        .shape-btn.active { border-color: #fff; background: rgba(255,255,255,0.08); }
+        .shape-btn svg { width: 24px; height: 24px; stroke: #888; fill: none; stroke-width: 2px; }
         .shape-btn.active svg { stroke: #fff; }
-        .shape-btn span { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #666; }
+        .shape-btn span { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #888; }
         .shape-btn.active span { color: #fff; }
 
-        /* Big Input Sliders */
-        .slider-group { margin-bottom: 25px; }
-        .slider-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .slider-label { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; }
-        .slider-val { font-family: 'Space Grotesk'; font-size: 18px; font-weight: 700; color: #fff; }
-        
-        .range-inp { -webkit-appearance: none; width: 100%; height: 6px; background: #222; border-radius: 3px; outline: none; transition: 0.3s; }
-        .range-inp::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; background: #fff; border-radius: 50%; cursor: grab; box-shadow: 0 0 15px rgba(255,255,255,0.3); transition: 0.2s; }
-        .range-inp::-webkit-slider-thumb:hover { transform: scale(1.1); }
+        /* Sliders & Inputs */
+        .z-group { margin-bottom: 25px; }
+        .z-head { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
+        .z-label { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; }
+        .z-input-manual { 
+            background: transparent; border: none; border-bottom: 1px solid #333; 
+            width: 60px; color: #fff; text-align: right; font-weight: 700; font-size: 14px;
+        }
+        .z-slider { -webkit-appearance: none; width: 100%; height: 6px; background: #222; border-radius: 3px; outline: none; }
+        .z-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; background: #fff; border-radius: 50%; cursor: pointer; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
 
         /* Presets */
-        .preset-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 30px; scrollbar-width: none; }
-        .pre-btn { padding: 8px 16px; border: 1px solid var(--border); border-radius: 20px; font-size: 11px; color: #888; white-space: nowrap; cursor: pointer; transition: 0.3s; }
+        .preset-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 25px; scrollbar-width: none; }
+        .pre-btn { padding: 8px 16px; border: 1px solid var(--border); border-radius: 20px; font-size: 10px; color: #888; white-space: nowrap; cursor: pointer; }
         .pre-btn:hover { color: #fff; border-color: #fff; }
 
-        /* Environment Lab */
-        .env-card { background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); padding: 25px; border-radius: 20px; margin-top: 30px; transition: 0.3s; }
-        .env-card.warn { background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2); }
-        .env-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        /* Advanced Accordion */
+        .adv-toggle { font-size: 11px; font-weight: 700; color: #6366f1; cursor: pointer; padding: 10px 0; border-top: 1px solid var(--border); margin-top: 20px; display: flex; align-items: center; gap: 5px; }
+        .adv-panel { display: none; padding-top: 10px; }
+        .adv-panel.show { display: block; }
+        .adv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .adv-inp { width: 100%; background: #111; border: 1px solid var(--border); padding: 8px; border-radius: 8px; color: #fff; font-size: 12px; }
 
-        /* Results Display */
-        .res-big { font-size: 80px; font-weight: 800; color: #fff; line-height: 1; letter-spacing: -3px; margin: 10px 0 20px; text-shadow: 0 0 40px rgba(255,255,255,0.1); }
-        .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; border-top: 1px solid var(--border); padding-top: 25px; margin-bottom: 25px; }
-        .res-box div { font-size: 10px; font-weight: 800; color: #666; text-transform: uppercase; margin-bottom: 5px; }
-        .res-box span { font-size: 24px; font-weight: 700; color: #fff; font-family: 'Space Grotesk'; }
+        /* Results */
+        .z-res-title { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #666; letter-spacing: 1px; }
+        .z-res-val { font-size: 60px; font-weight: 800; color: #fff; line-height: 1; margin: 10px 0; }
+        .z-parts { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 15px; }
+        .z-part span { display: block; font-size: 10px; color: #666; font-weight: 700; }
+        .z-part b { font-size: 18px; color: #fff; }
+
+        /* Environment & Safety */
+        .env-box { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; margin-bottom: 15px; }
+        .env-slider { width: 100%; height: 4px; background: #333; -webkit-appearance: none; margin-top: 5px; }
+        .env-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; background: #888; border-radius: 50%; }
         
-        .advisor { padding: 15px; border-radius: 12px; background: rgba(255,255,255,0.05); display: flex; align-items: center; gap: 12px; margin-bottom: 20px; font-size: 12px; color: #ddd; line-height: 1.4; border: 1px solid var(--border); }
-        
-        .cost-row { display: flex; justify-content: space-between; align-items: center; background: #000; padding: 15px; border-radius: 12px; border: 1px solid var(--border); }
-        .cost-inp { background: transparent; border: none; width: 80px; text-align: right; color: #fff; font-weight: 700; font-size: 14px; border-bottom: 1px solid #333; padding-bottom: 2px; }
+        .advisor { padding: 15px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); margin-bottom: 20px; font-size: 12px; color: #fff; line-height: 1.4; }
+        .advisor.warn { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); }
+
+        .cost-box { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border: 1px solid var(--border); }
+        .cost-inp { width: 60px; background: transparent; border: none; border-bottom: 1px solid #444; color: #fff; text-align: right; font-weight: 700; }
 
         /* -----------------------------------------------------------
            9. FOOTER
            ----------------------------------------------------------- */
-        .footer { position: relative; padding: 150px 0 60px; margin-top: 150px; background: #000 url('last page background.png') no-repeat center bottom; background-size: cover; overflow: hidden; }
-        .footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), transparent); }
-        .footer-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #000 0%, rgba(5,5,10,0.85) 40%, rgba(5,5,10,0.4) 100%); pointer-events: none; z-index: 1; }
+        .footer { position: relative; padding: 100px 0 40px; margin-top: 100px; background: #000 url('last page background.png') no-repeat center bottom; background-size: cover; overflow: hidden; }
+        .footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); }
+        .footer-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #000 0%, rgba(5,5,10,0.9) 100%); pointer-events: none; z-index: 1; }
         .footer-content { position: relative; z-index: 2; }
-        .footer-watermark { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); font-size: 30vw; font-weight: 800; color: #fff; opacity: 0.02; pointer-events: none; white-space: nowrap; line-height: 0.8; font-family: 'Space Grotesk', sans-serif; }
-        
-        .footer-cta { text-align: center; margin-bottom: 100px; }
-        .footer-cta h2 { font-size: clamp(32px, 4vw, 56px); margin-bottom: 20px; }
-        .footer-cta p { color: var(--text-dim); max-width: 400px; margin: 0 auto 30px; }
-
-        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-top: 80px; }
-        .f-col h4 { font-size: 11px; font-weight: 800; color: #fff; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px; }
-        .f-link { display: block; color: var(--text-dim); margin-bottom: 15px; font-size: 14px; transition: all 0.3s; padding-left: 0; }
-        .f-link:hover { color: #fff; padding-left: 10px; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
-        .f-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 40px; margin-top: 80px; display: flex; justify-content: space-between; font-size: 12px; color: #666; }
+        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-top: 40px; }
+        .f-col h4 { font-size: 11px; font-weight: 800; color: #fff; margin-bottom: 20px; text-transform: uppercase; }
+        .f-link { display: block; color: var(--dim); margin-bottom: 10px; font-size: 13px; }
+        .f-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; margin-top: 40px; font-size: 11px; color: #666; }
 
         /* -----------------------------------------------------------
            10. CART
            ----------------------------------------------------------- */
-        .cart-fab { position: fixed; bottom: 40px; right: 40px; width: 64px; height: 64px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 2000; box-shadow: 0 0 40px rgba(255,255,255,0.2); transition: transform 0.3s var(--ease-fluid); }
-        .cart-count { position: absolute; top: -2px; right: -2px; background: #000; color: #fff; font-size: 10px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; }
+        .cart-fab { position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 2000; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
+        .cart-count { position: absolute; top: -2px; right: -2px; background: #000; color: #fff; font-size: 10px; width: 20px; height: 20px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; }
         .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; z-index: 3000; pointer-events: none; }
         .cart-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); opacity: 0; transition: 0.3s; }
-        .cart-inner { position: absolute; right: 0; width: 420px; height: 100%; background: #050505; border-left: 1px solid var(--border); transform: translateX(100%); transition: 0.5s var(--ease-fluid); display: flex; flex-direction: column; padding: 50px; }
+        .cart-inner { position: absolute; right: 0; width: 100%; max-width: 350px; height: 100%; background: #080808; border-left: 1px solid var(--border); transform: translateX(100%); transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column; padding: 30px; }
         .cart-sidebar.active { pointer-events: all; }
         .cart-sidebar.active .cart-overlay { opacity: 1; }
         .cart-sidebar.active .cart-inner { transform: translateX(0); }
 
         /* -----------------------------------------------------------
-           11. MOBILE OPTIMIZATION
+           11. MOBILE RESPONSIVE FIXES
            ----------------------------------------------------------- */
         @media (max-width: 900px) {
-            .bg-layer { background-size: cover; background-position: center; opacity: 0.5; -webkit-mask-image: none; mask-image: none; }
+            /* Fix Background */
+            .bg-layer { background-size: cover; background-position: center; opacity: 0.6; }
+            /* Stack Everything */
             .grid-3, .specs-layout, .gallery-masonry, .zenith-calc, .dos-donts, .f-grid, .bento-grid { grid-template-columns: 1fr; }
             .gallery-masonry { column-count: 2; column-gap: 10px; }
             .g-img { filter: none !important; }
-            .cart-inner { width: 100%; padding: 30px; }
-            .z-controls, .z-display { padding: 30px; }
+            /* Fix Calc Layout on Mobile */
+            .z-controls, .z-display { padding: 25px; }
             .z-controls { border-right: none; border-bottom: 1px solid var(--border); }
-            .t-line { left: 20px; }
-            .t-step { flex-direction: column !important; align-items: flex-start; margin-left: 50px; }
-            .t-dot { left: 20px; transform: translateX(-50%); }
-            .t-content { width: 100%; }
-            .hero h1 { font-size: 48px; }
+            /* Font Sizes */
+            .hero h1 { font-size: 42px; }
+            .z-res-val { font-size: 56px; }
+            /* Reset Shapes Flex */
+            .shape-grid { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 10px; }
+            .shape-btn { min-width: 80px; }
             .bento-item.wide { grid-column: span 1; }
         }
     </style>
@@ -327,7 +288,7 @@
     <div class="bg-layer"></div>
     <div class="bg-gradient"></div>
     <div class="grain"></div>
-    <div id="toast" class="toast">Item added to cart</div>
+    <div id="toast" class="toast">Added to Cart</div>
 
     <nav class="navbar">
         <div class="container nav-inner">
@@ -375,19 +336,19 @@
 
     <section id="shop" class="section">
         <div class="container">
-            <h2 style="text-align:center; font-size:42px; margin-bottom:80px;">Studio Lineup</h2>
+            <h2 style="text-align:center; font-size:32px; margin-bottom:50px;">Studio Lineup</h2>
             <div class="grid-3">
                 <div class="glass product-card reveal">
-                    <div><span class="p-tag">Starter Kit</span><img src="product-1.webp" alt="1.2KG Kit" class="p-img" loading="lazy"><h3>1.2 KG Kit</h3><p style="color:var(--text-dim); font-size:14px; margin-top:5px;">900g Resin + 300g Hardener.</p></div>
-                    <div style="margin-top:20px;"><div style="font-size:24px; font-weight:700; margin-bottom:15px;">₹1,250</div><button class="btn btn-primary" style="width:100%;" onclick="addToCart('Starter Kit', 1250)">Add to Cart</button></div>
+                    <div><span class="p-tag">Starter Kit</span><img src="product-1.webp" alt="1.2KG Kit" class="p-img" loading="lazy"><h3>1.2 KG Kit</h3><p style="color:var(--dim); font-size:13px; margin-top:5px;">900g Resin + 300g Hardener.</p></div>
+                    <div style="margin-top:20px;"><div style="font-size:20px; font-weight:700; margin-bottom:15px;">₹1,250</div><button class="btn btn-primary" style="width:100%;" onclick="addToCart('Starter Kit', 1250)">Add to Cart</button></div>
                 </div>
                 <div class="glass product-card reveal" style="border-color:rgba(255,255,255,0.3);">
-                    <div><span class="p-tag" style="background:#fff; color:#000; border-color:#fff;">Best Seller</span><img src="7.5kg.png" alt="7.5KG Kit" class="p-img" loading="lazy"><h3>7.5 KG Kit</h3><p style="color:var(--text-dim); font-size:14px; margin-top:5px;">5.6KG Resin + 1.9KG Hardener.</p></div>
-                    <div style="margin-top:20px;"><div style="font-size:24px; font-weight:700; margin-bottom:15px;">₹10,999</div><button class="btn btn-primary" style="width:100%;" onclick="addToCart('Studio Pack', 10999)">Add to Cart</button></div>
+                    <div><span class="p-tag" style="background:#fff; color:#000; border-color:#fff;">Best Seller</span><img src="7.5kg.png" alt="7.5KG Kit" class="p-img" loading="lazy"><h3>7.5 KG Kit</h3><p style="color:var(--dim); font-size:13px; margin-top:5px;">5.6KG Resin + 1.9KG Hardener.</p></div>
+                    <div style="margin-top:20px;"><div style="font-size:20px; font-weight:700; margin-bottom:15px;">₹10,999</div><button class="btn btn-primary" style="width:100%;" onclick="addToCart('Studio Pack', 10999)">Add to Cart</button></div>
                 </div>
                 <div class="glass product-card reveal">
-                    <div><span class="p-tag">Industrial</span><img src="30kg.png" alt="30KG Drum" class="p-img" loading="lazy"><h3>30 KG Drum</h3><p style="color:var(--text-dim); font-size:14px; margin-top:5px;">Bulk Supply. Requires mechanical mixing.</p></div>
-                    <div style="margin-top:20px;"><div style="font-size:24px; font-weight:700; margin-bottom:15px;">₹38,999</div><button class="btn btn-primary" style="width:100%;" onclick="addToCart('Industrial Drum', 38999)">Add to Cart</button></div>
+                    <div><span class="p-tag">Industrial</span><img src="30kg.png" alt="30KG Drum" class="p-img" loading="lazy"><h3>30 KG Drum</h3><p style="color:var(--dim); font-size:13px; margin-top:5px;">Bulk Supply. Requires mechanical mixing.</p></div>
+                    <div style="margin-top:20px;"><div style="font-size:20px; font-weight:700; margin-bottom:15px;">₹38,999</div><button class="btn btn-primary" style="width:100%;" onclick="addToCart('Industrial Drum', 38999)">Add to Cart</button></div>
                 </div>
             </div>
         </div>
@@ -405,13 +366,13 @@
                     <h3 style="margin-bottom:30px;">The Protocol</h3>
                     <div class="timeline">
                         <div class="t-line"></div>
-                        <div class="t-step"><div class="t-dot"></div><div class="t-content"><h4>01. Measure</h4><p style="font-size:13px; color:var(--text-dim);">By weight. 3 Parts A, 1 Part B.</p></div></div>
-                        <div class="t-step"><div class="t-dot"></div><div class="t-content"><h4>02. Mix</h4><p style="font-size:13px; color:var(--text-dim);">Stir 3 mins. Scrape sides.</p></div></div>
-                        <div class="t-step"><div class="t-dot"></div><div class="t-content"><h4>03. Pour</h4><p style="font-size:13px; color:var(--text-dim);">Pour. Wait 5 mins. Torch.</p></div></div>
+                        <div class="t-step"><div class="t-dot"></div><div class="t-content"><h4>01. Measure</h4><p style="font-size:13px; color:var(--dim);">By weight. 3 Parts A, 1 Part B.</p></div></div>
+                        <div class="t-step"><div class="t-dot"></div><div class="t-content"><h4>02. Mix</h4><p style="font-size:13px; color:var(--dim);">Stir 3 mins. Scrape sides.</p></div></div>
+                        <div class="t-step"><div class="t-dot"></div><div class="t-content"><h4>03. Pour</h4><p style="font-size:13px; color:var(--dim);">Pour. Wait 5 mins. Torch.</p></div></div>
                     </div>
                     <div style="margin-top:40px; display:flex; gap:10px;">
-                        <a href="tds.pdf" class="btn btn-outline" style="flex:1;">Download TDS</a>
-                        <a href="sds.pdf" class="btn btn-outline" style="flex:1;">Download SDS</a>
+                        <a href="tds.pdf" class="btn btn-outline" style="flex:1; justify-content:center;">Download TDS</a>
+                        <a href="sds.pdf" class="btn btn-outline" style="flex:1; justify-content:center;">Download SDS</a>
                     </div>
                 </div>
                 <div class="comp-wrapper">
@@ -424,7 +385,6 @@
                             <tr><td>UV Tech</td><td class="hl">Triple HALS</td><td>Single</td></tr>
                         </tbody>
                     </table>
-                    <div class="chem-warn">⚠️ <b>Chemical Warning:</b> Causes skin irritation. Avoid breathing fumes. Wear protective gear.</div>
                 </div>
             </div>
         </div>
@@ -436,112 +396,80 @@
             
             <div class="zenith-calc">
                 <div class="z-controls">
-                    
-                    <div class="calc-sec-title">1. Mix Configuration <div class="unit-toggle"><div class="unit-opt active" id="unit-cm" onclick="setUnit('cm')">CM</div><div class="unit-opt" id="unit-in" onclick="setUnit('in')">IN</div></div></div>
-                    
-                    <div class="mix-grid">
-                        <div class="z-card">
-                            <span class="z-label">Mixing Ratio</span>
-                            <div class="ratio-row">
-                                <button class="ratio-btn active" onclick="setRatio(3,1)">3:1</button>
-                                <button class="ratio-btn" onclick="setRatio(2,1)">2:1</button>
-                                <button class="ratio-btn" onclick="setRatio(1,1)">1:1</button>
-                            </div>
-                            <div class="z-label" style="margin-top:15px; margin-bottom:5px;">Resin Type (Density)</div>
-                            <input type="range" class="range-inp" id="density" min="1.0" max="1.3" step="0.01" value="1.13" oninput="runCalc(); document.getElementById('den-val').innerText = this.value + ' g/cm³'">
-                            <div id="den-val" style="font-size:10px; color:#888; text-align:right; margin-top:5px;">1.13 g/cm³ (Standard)</div>
-                        </div>
-                        
-                        <div class="z-card">
-                            <span class="z-label">Pigment Loading</span>
-                            <input type="range" class="range-inp" id="pigment" min="0" max="5" step="0.5" value="0" oninput="runCalc(); document.getElementById('pig-val').innerText = this.value + '%'">
-                            <div id="pig-val" style="font-size:10px; color:#888; text-align:right; margin-top:5px;">0% (Clear)</div>
-                            
-                            <span class="z-label" style="margin-top:15px;">Application</span>
-                            <div class="ratio-row">
-                                <button class="ratio-btn active" onclick="setMode('cast')">Casting</button>
-                                <button class="ratio-btn" onclick="setMode('coat')">Coating</button>
-                            </div>
+                    <div class="calc-header">
+                        <h3 style="font-size:14px; text-transform:uppercase;">1. Select Shape</h3>
+                        <div style="display:flex; gap:5px; background:#000; padding:4px; border-radius:8px; border:1px solid var(--border);">
+                            <button class="unit-btn active" id="unit-cm" onclick="setUnit('cm')">CM</button>
+                            <button class="unit-btn" id="unit-in" onclick="setUnit('in')">IN</button>
                         </div>
                     </div>
 
-                    <div class="calc-sec-title">2. Dimensions</div>
                     <div class="shape-grid">
                         <div class="shape-btn active" id="btn-rect" onclick="setShape('rect')"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/></svg><span>Square</span></div>
                         <div class="shape-btn" id="btn-circ" onclick="setShape('circ')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg><span>Circle</span></div>
                         <div class="shape-btn" id="btn-hex" onclick="setShape('hex')"><svg viewBox="0 0 24 24"><path d="M12 2l10 6v8l-10 6-10-6V8z"/></svg><span>Hex</span></div>
                     </div>
 
-                    <div class="preset-scroll">
-                        <div class="pre-btn" onclick="setPreset('varmala')">Varmala Block</div>
-                        <div class="pre-btn" onclick="setPreset('clock')">12" Clock</div>
-                        <div class="pre-btn" onclick="setPreset('geode')">Coaster</div>
-                        <div class="pre-btn" onclick="setPreset('tray')">Serving Tray</div>
-                        <div class="pre-btn" onclick="setPreset('table')">River Table</div>
+                    <div class="preset-row">
+                        <button class="pre-btn" onclick="setPreset('varmala')">Varmala</button>
+                        <button class="pre-btn" onclick="setPreset('clock')">Clock</button>
+                        <button class="pre-btn" onclick="setPreset('geode')">Geode</button>
+                        <button class="pre-btn" onclick="setPreset('tray')">Tray</button>
                     </div>
 
                     <div id="dims-rect">
-                        <div class="slider-group">
-                            <div class="slider-head"><span class="slider-label">Length</span><span class="slider-val" id="disp-L">0</span></div>
-                            <input type="range" class="range-inp" id="L" min="0" max="200" value="0" oninput="runCalc()">
-                        </div>
-                        <div class="slider-group">
-                            <div class="slider-head"><span class="slider-label">Width</span><span class="slider-val" id="disp-W">0</span></div>
-                            <input type="range" class="range-inp" id="W" min="0" max="100" value="0" oninput="runCalc()">
-                        </div>
+                        <div class="z-group"><div class="z-head"><span class="z-label">Length</span><input type="number" id="input-L" class="z-input-manual" value="0" oninput="syncSlider('L')"></div><input type="range" class="z-slider" id="slider-L" min="0" max="200" value="0" oninput="syncInput('L')"></div>
+                        <div class="z-group"><div class="z-head"><span class="z-label">Width</span><input type="number" id="input-W" class="z-input-manual" value="0" oninput="syncSlider('W')"></div><input type="range" class="z-slider" id="slider-W" min="0" max="100" value="0" oninput="syncInput('W')"></div>
                     </div>
-                    
                     <div id="dims-circ" style="display:none;">
-                        <div class="slider-group">
-                            <div class="slider-head"><span class="slider-label">Diameter</span><span class="slider-val" id="disp-Dia">0</span></div>
-                            <input type="range" class="range-inp" id="Dia" min="0" max="100" value="0" oninput="runCalc()">
-                        </div>
+                        <div class="z-group"><div class="z-head"><span class="z-label">Diameter</span><input type="number" id="input-Dia" class="z-input-manual" value="0" oninput="syncSlider('Dia')"></div><input type="range" class="z-slider" id="slider-Dia" min="0" max="100" value="0" oninput="syncInput('Dia')"></div>
                     </div>
-
                     <div id="dims-hex" style="display:none;">
-                        <div class="slider-group">
-                            <div class="slider-head"><span class="slider-label">Side Length</span><span class="slider-val" id="disp-Side">0</span></div>
-                            <input type="range" class="range-inp" id="Side" min="0" max="50" value="0" oninput="runCalc()">
+                        <div class="z-group"><div class="z-head"><span class="z-label">Side Length</span><input type="number" id="input-Side" class="z-input-manual" value="0" oninput="syncSlider('Side')"></div><input type="range" class="z-slider" id="slider-Side" min="0" max="50" value="0" oninput="syncInput('Side')"></div>
+                    </div>
+
+                    <div class="z-group"><div class="z-head"><span class="z-label">Depth</span><input type="number" id="input-D" class="z-input-manual" value="1" oninput="syncSlider('D')"></div><input type="range" class="z-slider" id="slider-D" min="0.1" max="15" step="0.1" value="1" oninput="syncInput('D')"></div>
+                    <div class="z-group"><div class="z-head"><span class="z-label">Quantity</span><input type="number" id="input-Qty" class="z-input-manual" value="1" oninput="syncSlider('Qty')"></div><input type="range" class="z-slider" id="slider-Qty" min="1" max="20" value="1" oninput="syncInput('Qty')"></div>
+
+                    <div class="adv-toggle" onclick="document.getElementById('adv-panel').classList.toggle('show')"><span>⚙️ Project Settings (Cost, Density, Env)</span></div>
+                    <div id="adv-panel" class="adv-panel">
+                        <div class="adv-grid">
+                            <div><div class="z-label" style="font-size:9px;">Temp (°C)</div><input type="range" class="env-slider" id="env-temp" min="10" max="40" value="25" oninput="runCalc()"></div>
+                            <div><div class="z-label" style="font-size:9px;">Humidity (%)</div><input type="range" class="env-slider" id="env-hum" min="20" max="90" value="50" oninput="runCalc()"></div>
+                            <div><div class="z-label" style="font-size:9px;">Density</div><input type="number" class="adv-inp" id="density" value="1.13" step="0.01" oninput="runCalc()"></div>
+                            <div><div class="z-label" style="font-size:9px;">Pigment %</div><input type="number" class="adv-inp" id="pigment" value="0" oninput="runCalc()"></div>
                         </div>
                     </div>
-
-                    <div class="slider-group">
-                        <div class="slider-head"><span class="slider-label">Depth</span><span class="slider-val" id="disp-D">1</span></div>
-                        <input type="range" class="range-inp" id="D" min="0.1" max="10" step="0.1" value="1" oninput="runCalc()">
-                    </div>
-
-                    <div class="calc-sec-title" style="margin-top:40px;">3. Environment Lab</div>
-                    <div class="env-card" id="env-card">
-                        <div class="env-grid">
-                            <div><div class="z-label">Temp (°C)</div><input type="range" class="range-inp" id="env-temp" min="10" max="40" value="25" oninput="runCalc()"><div id="val-temp" style="font-size:12px; color:#fff; margin-top:5px; font-weight:700;">25°C</div></div>
-                            <div><div class="z-label">Humidity (%)</div><input type="range" class="range-inp" id="env-hum" min="20" max="90" value="50" oninput="runCalc()"><div id="val-hum" style="font-size:12px; color:#fff; margin-top:5px; font-weight:700;">50%</div></div>
-                        </div>
-                    </div>
-
                 </div>
 
                 <div class="z-display">
                     <div>
-                        <span class="z-res-title">TOTAL WEIGHT REQUIRED</span>
-                        <div class="res-big" id="res-total">0g</div>
+                        <span class="z-res-title">TOTAL MIX</span>
+                        <div class="z-res-val" id="res-total">0g</div>
                         
-                        <div class="res-grid">
-                            <div class="res-box"><div>RESIN</div><span id="res-a">0g</span></div>
-                            <div class="res-box"><div>HARDENER</div><span id="res-b">0g</span></div>
+                        <div class="z-parts">
+                            <div class="z-part"><span>RESIN</span><b id="res-a">0g</b></div>
+                            <div class="z-part"><span>HARDENER</span><b id="res-b">0g</b></div>
                         </div>
                         
-                        <div style="font-size:11px; color:#888; margin-bottom:20px;">+ <span id="res-pig" style="color:#fff;">0g</span> Pigment</div>
+                        <div class="env-box">
+                            <div class="z-label" style="margin-bottom:5px;">Est. Cure Time @ <span id="disp-temp">25°C</span></div>
+                            <div style="display:flex; justify-content:space-between; font-size:12px; color:#fff;">
+                                <span>Pot Life: <b id="time-pot">45m</b></span>
+                                <span>Demold: <b id="time-demold">24h</b></span>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="advisor" id="advisor-box">
-                        <span style="font-size:20px;">✅</span>
-                        <span id="advisor-text">Safe to Pour.</span>
-                    </div>
+                    <div>
+                        <div class="advisor" id="advisor-box">
+                            <span id="advisor-text">Safe to Pour</span>
+                        </div>
 
-                    <div class="cost-row">
-                        <div style="font-size:10px; color:#888; font-weight:700; text-transform:uppercase;">Input Kit Price<br>(₹/kg)</div>
-                        <input type="number" id="costInput" class="cost-inp" placeholder="1000" oninput="runCalc()">
-                        <div style="font-size:18px; font-weight:700; color:#fff;" id="est-cost">₹0</div>
+                        <div class="cost-box">
+                            <div><div class="z-label" style="margin:0;">Cost (₹/kg)</div><input type="number" id="costInput" class="cost-inp" placeholder="1000" oninput="runCalc()"></div>
+                            <div style="font-size:20px; font-weight:800; color:#fff;" id="est-cost">₹0</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -559,10 +487,6 @@
                 <div class="g-item"><img src="at5.png" class="g-img" loading="lazy"></div>
                 <div class="g-item"><img src="at4.png" class="g-img" loading="lazy" style="filter:hue-rotate(45deg);"></div>
             </div>
-            <div class="dos-donts" style="margin-top:60px;">
-                <div class="dd-box dos"><h3 style="color:var(--success); margin-bottom:20px;">✓ The Dos</h3><ul style="color:var(--text-dim); list-style:disc; padding-left:20px;"><li>Wear gloves and mask.</li><li>Work at 25°C.</li><li>Seal porous surfaces.</li></ul></div>
-                <div class="dd-box donts"><h3 style="color:var(--danger); margin-bottom:20px;">✕ The Don'ts</h3><ul style="color:var(--text-dim); list-style:disc; padding-left:20px;"><li>Don't mix by volume.</li><li>Don't scrape cup on pour.</li><li>Avoid water contact.</li></ul></div>
-            </div>
         </div>
     </section>
 
@@ -572,7 +496,7 @@
         <div class="container footer-content">
             <div class="footer-cta"><h2>Ready to Create?</h2><button class="btn btn-primary" onclick="document.getElementById('shop').scrollIntoView()">Start Your Order</button></div>
             <div class="f-grid">
-                <div class="f-col"><h2 class="logo" style="margin-bottom:20px;">M-X LUMES</h2><p style="color:var(--text-dim); font-size:13px; line-height:1.8;">Engineered in Meerut. The professional's choice.</p></div>
+                <div class="f-col"><h2 class="logo" style="margin-bottom:20px;">M-X LUMES</h2><p style="color:var(--dim); font-size:13px; line-height:1.8;">Engineered in Meerut.</p></div>
                 <div class="f-col"><h4>Products</h4><a href="#" class="f-link">Transparent Plus</a><a href="#" class="f-link">Deep Pour Pro</a></div>
                 <div class="f-col"><h4>Support</h4><a href="#" class="f-link">Track Order</a><a href="#" class="f-link">Shipping Policy</a></div>
                 <div class="f-col"><h4>Contact</h4><a href="#" class="f-link">support@mxlumes.com</a><a href="#" class="f-link">+91 98765 43210</a></div>
@@ -585,7 +509,18 @@
     <div class="cart-sidebar" id="cartSidebar"><div class="cart-overlay" onclick="toggleCart()"></div><div class="cart-inner"><div style="display:flex; justify-content:space-between; align-items:center;"><h2>Cart</h2><button onclick="toggleCart()" style="color:#fff; font-size:24px;">×</button></div><div id="cartItems" style="flex:1; overflow-y:auto; margin:20px 0;"></div><div class="cart-summary"><div class="cart-total" style="display:flex; justify-content:space-between; font-size:20px; font-weight:700;"><span>Total</span><span id="cartTotal">₹0</span></div><button class="btn btn-primary" style="width:100%; margin-top:20px;" onclick="checkoutWhatsApp()">Checkout WhatsApp</button></div></div></div>
 
     <script>
-        window.addEventListener('scroll', () => { document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50); });
+        // Smooth Scroll Listeners
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50);
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
         const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if(entry.isIntersecting) { entry.target.classList.add('active'); if(entry.target.classList.contains('counter')) countUp(entry.target); } }); });
         document.querySelectorAll('.reveal, .counter').forEach(el => observer.observe(el));
 
@@ -594,28 +529,13 @@
             const timer = setInterval(() => { count += inc; if(count >= target) { count = target; clearInterval(timer); } el.innerText = Math.floor(count) + (el.innerText.includes('%') ? '%' : ''); }, 30);
         }
 
-        // --- TITAN SOVEREIGN CALCULATOR ---
-        let shape = 'rect';
-        let unitMult = 1; 
-        let limit = 2.5;
-        let rA = 3; let rB = 1;
-
+        // --- CALCULATOR LOGIC ---
+        let shape = 'rect'; let unitMult = 1; 
+        
         function setUnit(u) {
-            document.querySelectorAll('.unit-opt').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active')); // Reset UI
             document.getElementById('unit-'+u).classList.add('active');
             unitMult = u === 'cm' ? 1 : 2.54; 
-            runCalc();
-        }
-
-        function setRatio(a, b) {
-            document.querySelectorAll('.ratio-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            rA = a; rB = b;
-            runCalc();
-        }
-
-        function setMode(mode) {
-            limit = mode === 'coat' ? 0.5 : 2.5;
             runCalc();
         }
 
@@ -625,97 +545,104 @@
             if(s === 'rect') document.getElementById('btn-rect').classList.add('active');
             if(s === 'circ') document.getElementById('btn-circ').classList.add('active');
             if(s === 'hex') document.getElementById('btn-hex').classList.add('active');
+            
             document.getElementById('dims-rect').style.display = s === 'rect' ? 'block' : 'none';
             document.getElementById('dims-circ').style.display = s === 'circ' ? 'block' : 'none';
             document.getElementById('dims-hex').style.display = s === 'hex' ? 'block' : 'none';
             runCalc();
         }
 
+        function syncInput(id) { document.getElementById('input-'+id).value = document.getElementById('slider-'+id).value; runCalc(); }
+        function syncSlider(id) { document.getElementById('slider-'+id).value = document.getElementById('input-'+id).value; runCalc(); }
+
         function setPreset(type) {
-            if(type === 'varmala') { setShape('rect'); updateSlider('L', 30); updateSlider('W', 30); updateSlider('D', 7.5); limit=2.5; }
-            else if (type === 'clock') { setShape('circ'); updateSlider('Dia', 30); updateSlider('D', 1); limit=0.5; }
-            else if (type === 'geode') { setShape('circ'); updateSlider('Dia', 10); updateSlider('D', 0.8); limit=0.5; }
-            else if (type === 'tray') { setShape('rect'); updateSlider('L', 30); updateSlider('W', 20); updateSlider('D', 1.5); limit=2.5; }
+            if(type === 'varmala') { setShape('rect'); setAllVals('L', 30); setAllVals('W', 30); setAllVals('D', 7.5); }
+            else if (type === 'clock') { setShape('circ'); setAllVals('Dia', 30); setAllVals('D', 1); }
+            else if (type === 'geode') { setShape('circ'); setAllVals('Dia', 10); setAllVals('D', 0.8); }
+            else if (type === 'tray') { setShape('rect'); setAllVals('L', 30); setAllVals('W', 20); setAllVals('D', 1.5); }
             runCalc();
         }
 
-        function updateSlider(id, val) {
-            document.getElementById(id).value = val;
-            runCalc();
+        function setAllVals(id, val) {
+            if(document.getElementById('input-'+id)) document.getElementById('input-'+id).value = val;
+            if(document.getElementById('slider-'+id)) document.getElementById('slider-'+id).value = val;
         }
 
         function runCalc() {
-            // Update Displays
-            document.getElementById('disp-L').innerText = document.getElementById('L').value;
-            document.getElementById('disp-W').innerText = document.getElementById('W').value;
-            document.getElementById('disp-Dia').innerText = document.getElementById('Dia').value;
-            document.getElementById('disp-Side').innerText = document.getElementById('Side').value;
-            document.getElementById('disp-D').innerText = document.getElementById('D').value;
+            // 1. DIMS
+            let h = parseFloat(document.getElementById('input-D').value) || 0;
+            let displayH = h;
+            h = h * unitMult; // Internal CM
             
-            document.getElementById('val-temp').innerText = document.getElementById('env-temp').value + '°C';
-            document.getElementById('val-hum').innerText = document.getElementById('env-hum').value + '%';
-            document.getElementById('pig-val').innerText = document.getElementById('pigment').value + '%';
-
-            // Math
-            let h = parseFloat(document.getElementById('D').value) || 0;
-            h = h * unitMult;
             let area = 0;
             if(shape === 'rect') {
-                let l = (parseFloat(document.getElementById('L').value)||0) * unitMult;
-                let w = (parseFloat(document.getElementById('W').value)||0) * unitMult;
+                let l = (parseFloat(document.getElementById('input-L').value)||0) * unitMult;
+                let w = (parseFloat(document.getElementById('input-W').value)||0) * unitMult;
                 area = l * w;
             } else if (shape === 'circ') {
-                let d = (parseFloat(document.getElementById('Dia').value)||0) * unitMult;
+                let d = (parseFloat(document.getElementById('input-Dia').value)||0) * unitMult;
                 area = Math.PI * Math.pow(d/2, 2);
             } else if (shape === 'hex') {
-                let s = (parseFloat(document.getElementById('Side').value)||0) * unitMult;
+                let s = (parseFloat(document.getElementById('input-Side').value)||0) * unitMult;
                 area = 2.598 * Math.pow(s, 2);
             }
 
+            // 2. PARAMS
             const density = parseFloat(document.getElementById('density').value) || 1.13;
             const pigPct = parseFloat(document.getElementById('pigment').value) || 0;
             const costPerKg = parseFloat(document.getElementById('costInput').value) || 0;
+            const q = parseFloat(document.getElementById('input-Qty').value) || 1;
 
-            const vol = area * h;
+            const vol = area * h * q;
             const mass = vol * density;
-            const totalParts = rA + rB;
-            const massA = (mass * rA) / totalParts;
-            const massB = (mass * rB) / totalParts;
             const pigMass = mass * (pigPct/100);
-
-            // Render
+            
+            // 3. UI
             document.getElementById('res-total').innerText = Math.round(mass) + 'g';
-            document.getElementById('res-a').innerText = Math.round(massA) + 'g';
-            document.getElementById('res-b').innerText = Math.round(massB) + 'g';
-            document.getElementById('res-pig').innerText = pigMass.toFixed(1) + 'g';
+            document.getElementById('res-a').innerText = Math.round(mass * 0.75) + 'g';
+            document.getElementById('res-b').innerText = Math.round(mass * 0.25) + 'g';
+            
             if(costPerKg > 0) document.getElementById('est-cost').innerText = '₹' + Math.round((mass/1000)*costPerKg).toLocaleString();
 
-            // Environment & Safety Logic
-            const temp = parseFloat(document.getElementById('env-temp').value);
-            const hum = parseFloat(document.getElementById('env-hum').value);
-            const envCard = document.getElementById('env-card');
-            const advBox = document.getElementById('advisor-box');
+            // 4. ENV
+            const temp = parseFloat(document.getElementById('env-temp').value) || 25;
+            document.getElementById('disp-temp').innerText = temp + '°C';
             
-            let warnings = [];
-            
-            if(h > limit) warnings.push(`⚠️ TOO DEEP! Pour ${Math.ceil(h/limit)} layers.`);
-            if(hum > 70) { warnings.push("💧 HUMIDITY WARNING: Blush Risk."); envCard.classList.add('warn'); } 
-            else if(temp > 30 && h > 2) { warnings.push("🔥 HEAT WARNING: Flash Cure Risk."); envCard.classList.add('warn'); }
-            else { envCard.classList.remove('warn'); }
+            // Times
+            let pot = 45, demold = 24, cure = 7;
+            const rate = Math.pow(2, (temp - 25) / 10);
+            document.getElementById('time-pot').innerText = Math.round(pot / rate) + "m";
+            document.getElementById('time-demold').innerText = Math.max(12, Math.round(demold / rate)) + "h";
 
-            if(warnings.length > 0) {
-                advBox.style.background = "rgba(239,68,68,0.15)";
-                advBox.style.borderColor = "#ef4444";
-                document.getElementById('advisor-text').innerHTML = warnings.join("<br>");
-            } else {
-                advBox.style.background = "rgba(16,185,129,0.15)";
-                advBox.style.borderColor = "#10b981";
-                document.getElementById('advisor-text').innerText = "Conditions Optimal for Pouring.";
+            // 5. ADVISOR
+            const advBox = document.getElementById('advisor-box');
+            const advTxt = document.getElementById('advisor-text');
+            const limit = 2.5; // cm standard limit
+            
+            let msg = "Safe to Pour";
+            let color = "#10b981"; // Green
+            let bg = "rgba(16, 185, 129, 0.1)";
+
+            if(h > limit) {
+                const layers = Math.ceil(h/limit);
+                msg = `⚠️ Too Deep! Pour ${layers} layers of ${(h/layers).toFixed(1)}cm`;
+                color = "#ef4444"; // Red
+                bg = "rgba(239, 68, 68, 0.1)";
+            } else if (temp > 30) {
+                msg = "🔥 High Temp: Work Fast (Flash Cure Risk)";
+                color = "#f59e0b"; // Orange
+                bg = "rgba(245, 158, 11, 0.1)";
             }
+
+            advTxt.innerText = msg;
+            advBox.style.borderColor = color;
+            advBox.style.background = bg;
+            advTxt.style.color = color;
         }
 
+        // Cart
         let cart = [];
-        function addToCart(name, price) { cart.push({name, price}); renderCart(); showToast(); toggleCart(); }
+        function addToCart(name, price) { cart.push({name, price}); renderCart(); showToast(); }
         function renderCart() {
             const container = document.getElementById('cartItems'); container.innerHTML = ''; let total = 0;
             cart.forEach((item, idx) => { total += item.price; container.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:15px; border-bottom:1px solid #222; padding-bottom:10px;"><span>${item.name}</span><span>₹${item.price}</span><span onclick="removeFromCart(${idx})" style="color:red; cursor:pointer;">×</span></div>`; });
