@@ -18,34 +18,24 @@
            1. CORE PHYSICS & VARIABLES
            ----------------------------------------------------------- */
         :root {
-            /* Palette */
             --bg-oled: #000000;
             --bg-panel: #050505;
             --text-main: #ffffff;
             --text-dim: #9ca3af;
-            
-            /* Accents */
             --accent: #6366f1;
             --accent-glow: rgba(99, 102, 241, 0.3);
-            
-            /* Glass Engine */
             --border: rgba(255, 255, 255, 0.1);
-            --border-light: rgba(255, 255, 255, 0.2);
             --glass: rgba(18, 18, 18, 0.85);
             --blur: blur(20px);
             --radius: 24px;
+            --ease-fluid: cubic-bezier(0.25, 0.46, 0.45, 0.94);
             
-            /* Physics */
-            --ease-fluid: cubic-bezier(0.25, 0.46, 0.45, 0.94); 
-            
-            /* Status Colors */
             --success: #10b981; --warning: #f59e0b; --danger: #ef4444; --cold: #3b82f6;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        ::selection { background: var(--accent-glow); color: #fff; }
         
-        html { scroll-behavior: smooth; font-size: 16px; scroll-padding-top: 100px; }
+        html { scroll-behavior: smooth; font-size: 16px; scroll-padding-top: 80px; overflow-x: hidden; }
         
         body {
             background-color: var(--bg-oled);
@@ -53,8 +43,7 @@
             font-family: 'Manrope', sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
+            width: 100%;
         }
 
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; line-height: 1.1; letter-spacing: -0.02em; }
@@ -62,7 +51,7 @@
         button { cursor: pointer; border: none; outline: none; background: none; font-family: inherit; }
         img { display: block; max-width: 100%; height: auto; }
 
-        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
 
@@ -71,15 +60,10 @@
            ----------------------------------------------------------- */
         .bg-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -5;
-            background-color: #000;
-            background-image: url('product-1.webp');
-            background-position: center bottom;
-            background-repeat: no-repeat;
+            background: #000 url('product-1.webp') no-repeat center bottom;
             background-size: 65%;
-            -webkit-mask-image: radial-gradient(circle at 50% 100%, black 20%, transparent 100%);
-            mask-image: radial-gradient(circle at 50% 100%, black 20%, transparent 100%);
-            opacity: 0.85;
-            will-change: opacity; transition: opacity 1s var(--ease-fluid);
+            opacity: 0.8;
+            will-change: transform; /* Hardware Acceleration */
         }
 
         .bg-gradient {
@@ -88,208 +72,200 @@
             pointer-events: none;
         }
 
-        .grain {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; opacity: 0.035; pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
-
         /* -----------------------------------------------------------
            3. UI COMPONENTS
            ----------------------------------------------------------- */
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 25px; }
-        .section { padding: 140px 0; position: relative; z-index: 2; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .section { padding: 100px 0; position: relative; z-index: 2; }
         
-        .reveal { opacity: 0; transform: translateY(30px); filter: blur(5px); transition: all 1s var(--ease-fluid); }
-        .reveal.active { opacity: 1; transform: translateY(0); filter: blur(0); }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s var(--ease-fluid); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
         .glass {
-            background: var(--glass); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
-            border: 1px solid var(--border); border-radius: var(--radius);
-            position: relative; overflow: hidden; transition: all 0.4s var(--ease-fluid);
+            background: var(--glass); 
+            border: 1px solid var(--border); 
+            border-radius: var(--radius);
+            position: relative; overflow: hidden;
         }
-        .glass:hover { border-color: var(--border-hover); box-shadow: 0 20px 60px -10px rgba(0,0,0,0.5); transform: translateY(-5px); }
+        
+        /* Desktop Blur Only (Performance) */
+        @media (min-width: 768px) {
+            .glass { backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); }
+        }
 
         .btn { padding: 16px 32px; border-radius: 60px; font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 1.5px; transition: 0.3s; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
         .btn-primary { background: #fff; color: #000; box-shadow: 0 5px 20px rgba(255,255,255,0.15); }
-        .btn-primary:hover { background: #e6e6e6; transform: translateY(-2px); }
-        .btn-primary:active { transform: scale(0.95); } 
+        .btn-primary:active { transform: scale(0.96); } 
+        
         .btn-outline { border: 1px solid var(--border); color: #fff; background: rgba(255,255,255,0.02); }
-        .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.05); }
 
-        .toast { position: fixed; top: 100px; right: 20px; background: rgba(15,15,15,0.95); backdrop-filter: blur(10px); border: 1px solid var(--border); padding: 12px 24px; border-radius: 50px; color: #fff; font-size: 12px; font-weight: 700; z-index: 5000; transform: translateX(150%); transition: transform 0.5s var(--ease-fluid); }
+        .toast { position: fixed; top: 100px; right: 20px; background: #111; border: 1px solid var(--border); padding: 12px 24px; border-radius: 50px; color: #fff; font-size: 12px; font-weight: 700; z-index: 5000; transform: translateX(150%); transition: 0.4s var(--ease-fluid); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .toast.show { transform: translateX(0); }
 
         /* -----------------------------------------------------------
-           4. NAV, HERO & MARQUEE
+           4. NAV & HERO
            ----------------------------------------------------------- */
-        .navbar { position: fixed; top: 0; width: 100%; height: 80px; z-index: 1000; display: flex; align-items: center; transition: 0.4s var(--ease-fluid); border-bottom: 1px solid transparent; }
-        .navbar.scrolled { background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); height: 70px; }
+        .navbar { position: fixed; top: 0; width: 100%; height: 70px; z-index: 1000; display: flex; align-items: center; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); backdrop-filter: blur(10px); }
         .nav-inner { width: 100%; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-weight: 800; font-size: 18px; letter-spacing: 3px; color: #fff; }
-        .nav-links { display: flex; gap: 40px; }
-        .nav-link { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; transition: 0.3s; }
-        .nav-link:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-link { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; }
 
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; padding-top: 80px; }
-        .hero h1 { font-size: clamp(48px, 6vw, 100px); margin-bottom: 24px; font-weight: 800; background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { color: var(--text-dim); font-size: 18px; max-width: 500px; margin-bottom: 40px; font-weight: 300; }
+        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; padding-top: 80px; }
+        .hero h1 { font-size: clamp(40px, 6vw, 80px); margin-bottom: 24px; font-weight: 800; background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { color: var(--text-dim); font-size: 16px; max-width: 500px; margin-bottom: 40px; }
 
-        .marquee { position: absolute; bottom: 0; width: 100%; background: #000; border-top: 1px solid var(--border); padding: 16px 0; overflow: hidden; white-space: nowrap; }
-        .marquee-content { display: inline-block; animation: scroll 40s linear infinite; }
-        .marquee-item { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: var(--text-dim); margin: 0 40px; }
-        .marquee-item span { color: #fff; margin-right: 10px; opacity: 0.5; }
+        .marquee { position: absolute; bottom: 0; width: 100%; background: #000; border-top: 1px solid var(--border); padding: 12px 0; overflow: hidden; white-space: nowrap; }
+        .marquee-content { display: inline-block; animation: scroll 30s linear infinite; }
+        .marquee-item { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: var(--text-dim); margin: 0 30px; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* -----------------------------------------------------------
            5. STATS & SHOP
            ----------------------------------------------------------- */
-        .stats-bar { border-bottom: 1px solid var(--border); padding: 40px 0; margin-top: -1px; }
+        .stats-bar { border-bottom: 1px solid var(--border); padding: 30px 0; }
         .stats-grid { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; }
-        .stat-num { font-size: 32px; font-weight: 800; color: #fff; display: block; margin-bottom: 5px; }
+        .stat-num { font-size: 28px; font-weight: 800; color: #fff; display: block; }
         .stat-lbl { font-size: 10px; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1.5px; }
 
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-        .product-card { padding: 35px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; transition: 0.4s var(--ease-fluid); }
-        .p-img { width: 100%; height: 280px; object-fit: cover; border-radius: 16px; margin-bottom: 25px; opacity: 0.9; transition: 0.6s var(--ease-fluid); }
-        .product-card:hover .p-img { opacity: 1; transform: scale(1.03); }
-        .p-tag { font-size: 10px; border: 1px solid var(--border); padding: 6px 12px; border-radius: 20px; color: var(--text-dim); text-transform: uppercase; display: inline-block; margin-bottom: 15px; letter-spacing: 1px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .product-card { padding: 25px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
+        .p-img { width: 100%; height: 260px; object-fit: cover; border-radius: 16px; margin-bottom: 20px; opacity: 0.9; transition: 0.4s; }
+        .product-card:hover .p-img { opacity: 1; transform: scale(1.02); }
+        .p-tag { font-size: 10px; border: 1px solid var(--border); padding: 5px 10px; border-radius: 20px; color: var(--text-dim); text-transform: uppercase; display: inline-block; margin-bottom: 10px; }
 
         /* -----------------------------------------------------------
-           6. GALLERY (MASONRY)
+           6. GALLERY
            ----------------------------------------------------------- */
-        .gallery-masonry { column-count: 3; column-gap: 20px; }
-        .g-item { break-inside: avoid; margin-bottom: 20px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); background: #0a0a0a; position: relative; transition: 0.3s; }
-        .g-item:active { transform: scale(0.98); }
-        .g-img { width: 100%; height: auto; display: block; transition: 0.6s var(--ease-fluid); filter: grayscale(100%); }
-        @media (hover: hover) { .g-item:hover .g-img { filter: grayscale(0%); transform: scale(1.03); } }
+        .gallery-masonry { column-count: 3; column-gap: 15px; }
+        .g-item { break-inside: avoid; margin-bottom: 15px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); background: #0a0a0a; }
+        .g-img { width: 100%; height: auto; display: block; transition: 0.4s; filter: grayscale(100%); }
+        @media (hover: hover) { .g-item:hover .g-img { filter: grayscale(0%); transform: scale(1.02); } }
 
         /* -----------------------------------------------------------
            7. FEATURES
            ----------------------------------------------------------- */
-        .bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 50px; }
-        .bento-item { background: var(--glass); border: 1px solid var(--border); border-radius: 24px; padding: 30px; display: flex; flex-direction: column; justify-content: center; transition: 0.3s; }
-        .bento-item:hover { border-color: rgba(255,255,255,0.3); }
+        .bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 40px; }
+        .bento-item { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 25px; }
         .bento-item.wide { grid-column: span 2; }
-        .bento-val { font-size: 36px; font-weight: 800; color: #fff; margin-bottom: 5px; }
-        .bento-lbl { font-size: 11px; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; }
+        .bento-val { font-size: 32px; font-weight: 800; color: #fff; margin-bottom: 5px; }
+        .bento-lbl { font-size: 10px; text-transform: uppercase; color: var(--text-dim); }
 
-        .specs-layout { display: grid; grid-template-columns: 1fr; gap: 60px; }
-        .comp-wrapper { overflow-x: auto; margin-bottom: 50px; }
-        .comp-table { width: 100%; min-width: 700px; border-collapse: collapse; background: var(--glass); border-radius: 24px; }
-        .comp-table th { padding: 25px; text-align: left; font-size: 11px; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; border-bottom: 1px solid var(--border); }
-        .comp-table td { padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 15px; }
-        .hl { color: #fff; font-weight: 700; background: rgba(255,255,255,0.02); }
+        .specs-layout { display: grid; grid-template-columns: 1fr; gap: 40px; }
+        .comp-wrapper { overflow-x: auto; margin-bottom: 40px; }
+        .comp-table { width: 100%; min-width: 600px; border-collapse: collapse; background: var(--glass); border-radius: 20px; }
+        .comp-table th { padding: 20px; text-align: left; font-size: 10px; text-transform: uppercase; color: var(--text-dim); border-bottom: 1px solid var(--border); }
+        .comp-table td { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
+        
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 30px 0; }
+        .t-line { position: absolute; left: 20px; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,0.2); }
+        .t-step { display: flex; align-items: center; margin-bottom: 40px; position: relative; margin-left: 40px; }
+        .t-content { width: 100%; padding: 20px; background: var(--glass); border: 1px solid var(--border); border-radius: 16px; }
+        .t-dot { position: absolute; left: -24px; top: 0; width: 9px; height: 9px; background: #fff; border-radius: 50%; }
 
-        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 40px 0; }
-        .t-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.2), transparent); }
-        .t-step { display: flex; align-items: center; margin-bottom: 80px; position: relative; }
-        .t-step:nth-child(even) { flex-direction: row-reverse; }
-        .t-content { width: 42%; padding: 40px; background: var(--glass); border: 1px solid var(--border); border-radius: 24px; transition: 0.3s; }
-        .t-content:hover { border-color: rgba(255,255,255,0.3); }
-        .t-dot { position: absolute; left: 50%; width: 8px; height: 8px; background: #fff; border-radius: 50%; transform: translateX(-50%); box-shadow: 0 0 15px #fff; }
-
-        .dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .dd-box { padding: 50px; border-radius: 24px; border: 1px solid var(--border); }
-        .dd-box.dos { background: rgba(16, 185, 129, 0.03); border-color: rgba(16, 185, 129, 0.2); }
-        .dd-box.donts { background: rgba(239, 68, 68, 0.03); border-color: rgba(239, 68, 68, 0.2); }
-        .chem-warn { padding: 20px; border: 1px solid var(--warning); border-radius: 12px; background: rgba(245,158,11,0.05); color: var(--text-dim); font-size: 13px; display: flex; gap: 15px; align-items: center; margin-top: 40px; }
+        .dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .dd-box { padding: 30px; border-radius: 20px; border: 1px solid var(--border); }
+        .dd-box.dos { background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2); }
+        .dd-box.donts { background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2); }
 
         /* -----------------------------------------------------------
-           8. QUANTUM LAB CALCULATOR (MARKET SHAKER)
+           8. QUANTUM LAB CALCULATOR (MOBILE OPTIMIZED)
            ----------------------------------------------------------- */
         .zenith-calc {
             background: var(--bg-panel); border: 1px solid var(--border);
-            border-radius: 36px; overflow: hidden; display: grid; grid-template-columns: 1.4fr 1fr;
-            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.7);
+            border-radius: 30px; overflow: hidden; display: grid; grid-template-columns: 1.4fr 1fr;
+            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.6);
         }
         
-        .z-controls { padding: 50px; border-right: 1px solid var(--border); position: relative; }
-        .z-display { padding: 50px; background: rgba(10,10,12,0.98); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+        .z-controls { padding: 40px; border-right: 1px solid var(--border); position: relative; }
+        .z-display { padding: 40px; background: #0a0a0c; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
         
-        /* Section Titles */
-        .q-title { font-size: 12px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-bottom: 25px; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
-        .q-title::after { content:''; flex:1; height:1px; background: linear-gradient(90deg, var(--border), transparent); }
-
-        /* Unit Switch */
-        .unit-wrap { display: flex; gap: 5px; position: absolute; top: 50px; right: 50px; }
-        .unit-btn { padding: 8px 16px; border-radius: 12px; font-size: 11px; font-weight: 700; color: #666; background: rgba(255,255,255,0.05); transition: 0.3s; }
-        .unit-btn.active { background: #fff; color: #000; box-shadow: 0 0 15px rgba(255,255,255,0.2); }
+        .q-title { font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-bottom: 20px; letter-spacing: 2px; display: flex; justify-content: space-between; align-items: center; }
+        
+        /* Unit Switch - Absolute on Desktop, Inline on Mobile */
+        .unit-wrap { display: flex; gap: 5px; }
+        .unit-btn { padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 700; color: #666; background: rgba(255,255,255,0.05); transition: 0.3s; }
+        .unit-btn.active { background: #fff; color: #000; }
 
         /* Holographic Shapes */
-        .shape-grid { display: flex; gap: 15px; margin-bottom: 35px; }
+        .shape-grid { display: flex; gap: 10px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
         .shape-btn { 
-            flex: 1; padding: 25px; border: 1px solid var(--border); border-radius: 18px;
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
-            cursor: pointer; transition: 0.4s var(--ease-fluid); background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            flex: 1; min-width: 90px; padding: 20px; border: 1px solid var(--border); border-radius: 16px;
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            cursor: pointer; transition: 0.3s; background: rgba(255,255,255,0.02);
         }
-        .shape-btn:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
-        .shape-btn.active { border-color: var(--accent); background: rgba(99,102,241,0.08); box-shadow: 0 0 30px rgba(99,102,241,0.15); }
-        .shape-btn svg { width: 32px; height: 32px; stroke: #666; stroke-width: 1.5; fill: none; transition: 0.3s; }
+        .shape-btn.active { border-color: var(--accent); background: rgba(99,102,241,0.1); }
+        .shape-btn svg { width: 28px; height: 28px; stroke: #666; stroke-width: 1.5; fill: none; }
         .shape-btn.active svg { stroke: #fff; }
-        .shape-btn span { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #666; }
+        .shape-btn span { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #666; }
         .shape-btn.active span { color: #fff; }
 
         /* Preset Scroller */
-        .preset-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 30px; scrollbar-width: none; }
-        .pre-btn { padding: 10px 20px; border: 1px solid var(--border); border-radius: 25px; font-size: 11px; color: var(--text-dim); background: rgba(255,255,255,0.02); white-space: nowrap; cursor: pointer; transition: 0.3s; font-weight: 600; }
-        .pre-btn:hover { color: #fff; border-color: #fff; background: rgba(255,255,255,0.05); }
+        .preset-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 25px; scrollbar-width: none; }
+        .pre-btn { padding: 8px 16px; border: 1px solid var(--border); border-radius: 20px; font-size: 10px; color: var(--text-dim); background: rgba(255,255,255,0.02); white-space: nowrap; cursor: pointer; }
+        .pre-btn:hover { color: #fff; border-color: #fff; }
 
         /* Quantum Sliders */
-        .q-group { margin-bottom: 30px; }
-        .q-head { display: flex; justify-content: space-between; margin-bottom: 12px; align-items: center; }
-        .q-label { font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
-        .q-val-box { border-bottom: 1px solid #333; padding-bottom: 2px; }
-        .q-input { background: transparent; border: none; width: 70px; text-align: right; color: #fff; font-family: 'Space Grotesk'; font-size: 20px; font-weight: 700; outline: none; }
+        .q-group { margin-bottom: 25px; }
+        .q-head { display: flex; justify-content: space-between; margin-bottom: 10px; align-items: center; }
+        .q-label { font-size: 10px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+        .q-input { background: transparent; border: none; width: 60px; text-align: right; color: #fff; font-family: 'Space Grotesk'; font-size: 18px; font-weight: 700; border-bottom: 1px solid #333; }
         
-        .q-slider { -webkit-appearance: none; width: 100%; height: 6px; background: #1a1a1a; border-radius: 3px; outline: none; transition: 0.3s; }
-        .q-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; background: #fff; border-radius: 50%; cursor: grab; box-shadow: 0 0 20px rgba(255,255,255,0.3); transition: 0.2s; border: 4px solid #000; }
-        .q-slider::-webkit-slider-thumb:hover { transform: scale(1.2); border-width: 2px; }
+        .q-slider { -webkit-appearance: none; width: 100%; height: 6px; background: #222; border-radius: 3px; outline: none; }
+        .q-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; background: #fff; border-radius: 50%; cursor: pointer; box-shadow: 0 0 15px rgba(255,255,255,0.3); }
 
-        /* Environment Lab (The Big Feature) */
-        .env-lab { background: linear-gradient(145deg, rgba(20,20,22,0.8), rgba(10,10,12,0.9)); border: 1px solid var(--border); border-radius: 24px; padding: 30px; margin-top: 40px; position: relative; overflow: hidden; }
-        .env-lab::before { content:''; position: absolute; top:0; left:0; width:100%; height:1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.5; }
+        /* Environment Lab */
+        .env-lab { background: linear-gradient(145deg, rgba(20,20,22,0.8), rgba(10,10,12,0.9)); border: 1px solid var(--border); border-radius: 20px; padding: 25px; margin-top: 30px; position: relative; }
         
-        .auto-detect-btn { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--accent); background: rgba(99,102,241,0.1); color: #fff; font-size: 12px; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 25px; }
-        .auto-detect-btn:hover { background: var(--accent); box-shadow: 0 0 30px var(--accent-glow); }
-        .auto-detect-btn svg { width: 16px; height: 16px; fill: currentColor; }
+        .auto-detect-btn { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--accent); background: rgba(99,102,241,0.1); color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; margin-bottom: 20px; display: flex; justify-content: center; gap: 8px; }
+        .auto-detect-btn svg { width: 14px; height: 14px; fill: currentColor; }
 
-        .env-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .env-track { -webkit-appearance: none; width: 100%; height: 8px; border-radius: 4px; background: #222; outline: none; margin-top: 10px; }
-        .env-track::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #666; cursor: pointer; transition: 0.3s; }
+        .env-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .env-track { -webkit-appearance: none; width: 100%; height: 6px; border-radius: 3px; background: #333; outline: none; margin-top: 8px; }
+        .env-track::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #888; cursor: pointer; }
         
-        /* Dynamic Slider Colors */
-        .env-track.safe::-webkit-slider-thumb { background: var(--success); box-shadow: 0 0 15px var(--success); }
-        .env-track.warn::-webkit-slider-thumb { background: var(--danger); box-shadow: 0 0 15px var(--danger); }
-        .env-track.cold::-webkit-slider-thumb { background: var(--cold); box-shadow: 0 0 15px var(--cold); }
+        /* Dynamic Colors */
+        .env-track.safe::-webkit-slider-thumb { background: var(--success); box-shadow: 0 0 10px var(--success); }
+        .env-track.warn::-webkit-slider-thumb { background: var(--danger); box-shadow: 0 0 10px var(--danger); }
+        .env-track.cold::-webkit-slider-thumb { background: var(--cold); box-shadow: 0 0 10px var(--cold); }
 
         /* Results Panel */
-        .z-res-title { font-size: 11px; font-weight: 800; color: #666; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
-        .z-res-val { font-size: 90px; font-weight: 800; color: #fff; line-height: 0.9; margin-bottom: 30px; letter-spacing: -4px; background: linear-gradient(180deg, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .z-res-title { font-size: 10px; font-weight: 800; color: #666; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; }
+        /* Fluid Typography for Result */
+        .z-res-val { font-size: clamp(48px, 8vw, 80px); font-weight: 800; color: #fff; line-height: 1; margin-bottom: 20px; letter-spacing: -2px; }
         
         .chem-report { display: flex; flex-direction: column; gap: 15px; }
-        .report-card { background: rgba(255,255,255,0.03); border-radius: 16px; padding: 20px; border-left: 4px solid #333; transition: 0.3s; }
+        .report-card { background: rgba(255,255,255,0.03); border-radius: 12px; padding: 15px; border-left: 3px solid #333; }
         .report-card.safe { border-color: var(--success); background: rgba(16,185,129,0.05); }
         .report-card.danger { border-color: var(--danger); background: rgba(239,68,68,0.05); }
-        .rc-head { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #fff; margin-bottom: 8px; display: flex; justify-content: space-between; }
-        .rc-body { font-size: 13px; color: #ccc; line-height: 1.5; }
+        .rc-head { font-size: 10px; font-weight: 800; text-transform: uppercase; color: #fff; margin-bottom: 8px; display: flex; justify-content: space-between; }
         .rc-list { list-style: none; padding: 0; margin: 0; }
-        .rc-list li { margin-bottom: 6px; display: flex; gap: 8px; }
+        .rc-list li { margin-bottom: 5px; display: flex; gap: 8px; font-size: 12px; color: #ccc; line-height: 1.4; }
 
         /* -----------------------------------------------------------
            11. MOBILE OPTIMIZATION
            ----------------------------------------------------------- */
         @media (max-width: 900px) {
+            /* Fix Background */
             .bg-layer { background-size: cover; background-position: center; opacity: 0.6; }
+            
+            /* Stack Everything */
             .grid-3, .specs-layout, .gallery-masonry, .zenith-calc, .dos-donts, .f-grid, .bento-grid { grid-template-columns: 1fr; }
+            
+            /* Calc Specifics */
+            .zenith-calc { display: flex; flex-direction: column; }
+            .z-controls, .z-display { padding: 25px; }
+            .z-controls { border-right: none; border-bottom: 1px solid var(--border); }
+            .env-grid { grid-template-columns: 1fr; gap: 15px; }
+            
+            /* Fonts */
+            .hero h1 { font-size: 42px; }
+            
+            /* Galleries */
             .gallery-masonry { column-count: 2; column-gap: 10px; }
             .g-img { filter: none !important; }
-            .z-controls, .z-display { padding: 30px; }
-            .z-controls { border-right: none; border-bottom: 1px solid var(--border); }
-            .hero h1 { font-size: 48px; }
-            .shape-grid { overflow-x: auto; padding-bottom: 10px; }
-            .shape-btn { min-width: 100px; }
-            .env-grid { grid-template-columns: 1fr; gap: 20px; }
-            .unit-wrap { position: static; margin-bottom: 20px; justify-content: flex-end; }
+            
+            .cart-inner { width: 100%; padding: 25px; }
         }
     </style>
 </head>
@@ -298,7 +274,7 @@
     <div class="bg-layer"></div>
     <div class="bg-gradient"></div>
     <div class="grain"></div>
-    <div id="toast" class="toast">Item added to cart</div>
+    <div id="toast" class="toast">Added to Cart</div>
 
     <nav class="navbar">
         <div class="container nav-inner">
@@ -321,32 +297,20 @@
         </div>
     </header>
 
-    <section class="section">
-        <div class="container">
-            <div class="glass stats-bar">
-                <div class="stats-grid">
-                    <div class="stat-item"><span class="stat-num counter" data-target="15000">0</span><span class="stat-lbl">Liters Poured</span></div>
-                    <div class="stat-item"><span class="stat-num counter" data-target="98">0%</span><span class="stat-lbl">Optical Clarity</span></div>
-                    <div class="stat-item"><span class="stat-num counter" data-target="24">0H</span><span class="stat-lbl">Fast Demold</span></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section id="shop" class="section">
         <div class="container">
-            <h2 style="text-align:center; font-size:42px; margin-bottom:80px;">Studio Lineup</h2>
+            <h2 style="text-align:center; font-size:32px; margin-bottom:60px;">Studio Lineup</h2>
             <div class="grid-3">
                 <div class="glass product-card reveal">
-                    <div><span class="p-tag">Starter Kit</span><img src="product-1.webp" alt="1.2KG Kit" class="p-img" loading="lazy"><h3>1.2 KG Kit</h3><p style="color:var(--text-dim); font-size:14px; margin-top:5px;">900g Resin + 300g Hardener.</p></div>
+                    <div><span class="p-tag">Starter Kit</span><img src="product-1.webp" alt="1.2KG Kit" class="p-img" loading="lazy"><h3>1.2 KG Kit</h3><p style="color:var(--text-dim); font-size:13px; margin-top:5px;">900g Resin + 300g Hardener.</p></div>
                     <div style="margin-top:20px;"><div style="font-size:20px; font-weight:700; margin-bottom:15px;">₹1,250</div><button class="btn btn-primary" style="width:100%;" onclick="addToCart('Starter Kit', 1250)">Add to Cart</button></div>
                 </div>
                 <div class="glass product-card reveal" style="border-color:rgba(255,255,255,0.3);">
-                    <div><span class="p-tag" style="background:#fff; color:#000; border-color:#fff;">Best Seller</span><img src="7.5kg.png" alt="7.5KG Kit" class="p-img" loading="lazy"><h3>7.5 KG Kit</h3><p style="color:var(--text-dim); font-size:14px; margin-top:5px;">5.6KG Resin + 1.9KG Hardener.</p></div>
+                    <div><span class="p-tag" style="background:#fff; color:#000; border-color:#fff;">Best Seller</span><img src="7.5kg.png" alt="7.5KG Kit" class="p-img" loading="lazy"><h3>7.5 KG Kit</h3><p style="color:var(--text-dim); font-size:13px; margin-top:5px;">5.6KG Resin + 1.9KG Hardener.</p></div>
                     <div style="margin-top:20px;"><div style="font-size:20px; font-weight:700; margin-bottom:15px;">₹10,999</div><button class="btn btn-primary" style="width:100%;" onclick="addToCart('Studio Pack', 10999)">Add to Cart</button></div>
                 </div>
                 <div class="glass product-card reveal">
-                    <div><span class="p-tag">Industrial</span><img src="30kg.png" alt="30KG Drum" class="p-img" loading="lazy"><h3>30 KG Drum</h3><p style="color:var(--text-dim); font-size:14px; margin-top:5px;">Bulk Supply. Requires mechanical mixing.</p></div>
+                    <div><span class="p-tag">Industrial</span><img src="30kg.png" alt="30KG Drum" class="p-img" loading="lazy"><h3>30 KG Drum</h3><p style="color:var(--text-dim); font-size:13px; margin-top:5px;">Bulk Supply. Requires mechanical mixing.</p></div>
                     <div style="margin-top:20px;"><div style="font-size:20px; font-weight:700; margin-bottom:15px;">₹38,999</div><button class="btn btn-primary" style="width:100%;" onclick="addToCart('Industrial Drum', 38999)">Add to Cart</button></div>
                 </div>
             </div>
@@ -355,14 +319,16 @@
 
     <section id="calc" class="section reveal">
         <div class="container">
-            <h2 style="text-align:center; margin-bottom:60px;">Quantum Lab</h2>
+            <h2 style="text-align:center; margin-bottom:50px;">Quantum Lab</h2>
             
             <div class="zenith-calc">
                 <div class="z-controls">
-                    <div class="q-title">1. Project Geometry</div>
-                    <div class="unit-wrap">
-                        <button class="unit-btn active" onclick="setUnit('cm')">CM</button>
-                        <button class="unit-btn" onclick="setUnit('in')">IN</button>
+                    <div class="q-title">
+                        <span>Project Setup</span>
+                        <div class="unit-wrap">
+                            <button class="unit-btn active" id="unit-cm" onclick="setUnit('cm')">CM</button>
+                            <button class="unit-btn" id="unit-in" onclick="setUnit('in')">IN</button>
+                        </div>
                     </div>
 
                     <div class="shape-grid">
@@ -394,15 +360,15 @@
                     <div class="env-lab">
                         <button class="auto-detect-btn" onclick="autoDetectWeather()">
                             <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                            Auto-Detect My Lab Conditions
+                            Auto-Detect My Lab
                         </button>
                         <div class="env-grid">
                             <div>
-                                <div class="q-head"><span class="q-label">Temp (°C)</span><span id="disp-temp" style="color:#fff; font-weight:700;">25°C</span></div>
-                                <input type="range" class="env-track ok" id="env-temp" min="0" max="60" value="25" oninput="runCalc()">
+                                <div class="q-head"><span class="q-label">Temp</span><span id="disp-temp" style="color:#fff; font-weight:700;">25°C</span></div>
+                                <input type="range" class="env-track ok" id="env-temp" min="5" max="50" value="25" oninput="runCalc()">
                             </div>
                             <div>
-                                <div class="q-head"><span class="q-label">Humidity (%)</span><span id="disp-hum" style="color:#fff; font-weight:700;">50%</span></div>
+                                <div class="q-head"><span class="q-label">Humidity</span><span id="disp-hum" style="color:#fff; font-weight:700;">50%</span></div>
                                 <input type="range" class="env-track ok" id="env-hum" min="0" max="100" value="50" oninput="runCalc()">
                             </div>
                         </div>
@@ -411,48 +377,34 @@
 
                 <div class="z-display">
                     <div>
-                        <div class="z-res-title">TOTAL MASS</div>
+                        <div class="z-res-title">TOTAL MASS REQUIRED</div>
                         <div class="z-res-val" id="res-total">0g</div>
-                        <div class="z-res-sub">A: <span id="res-a" style="color:#fff; font-weight:700;">0g</span> | B: <span id="res-b" style="color:#fff; font-weight:700;">0g</span></div>
+                        <div style="font-size:12px; color:#888; margin-bottom:20px;">A: <b style="color:#fff" id="res-a">0g</b> &nbsp; | &nbsp; B: <b style="color:#fff" id="res-b">0g</b></div>
                         
                         <div class="chem-report">
                             <div class="report-card" id="safety-card">
-                                <div class="rc-head"><span>Safety Diagnostic</span><span id="safety-status" style="color:var(--success);">OPTIMAL</span></div>
-                                <div class="rc-body">
-                                    <ul class="rc-list" id="safety-list">
-                                        <li><span>✓</span> Temp is perfect for curing.</li>
-                                        <li><span>✓</span> Humidity is low (No blush risk).</li>
-                                    </ul>
-                                </div>
+                                <div class="rc-head"><span>Safety Report</span><span id="safety-status" style="color:var(--success);">SAFE</span></div>
+                                <ul class="rc-list" id="safety-list">
+                                    <li><span>✓</span> Optimal Temp (25°C)</li>
+                                    <li><span>✓</span> Low Humidity (50%)</li>
+                                </ul>
                             </div>
 
                             <div class="report-card" style="border-left-color: #6366f1; background: rgba(99,102,241,0.05);">
-                                <div class="rc-head"><span style="color:#818cf8;">Process Timeline</span></div>
-                                <div class="rc-body">
-                                    <ul class="rc-list">
-                                        <li><span>⏳</span> Pot Life: <b id="time-pot" style="color:#fff;">45m</b></li>
-                                        <li><span>🏗️</span> Demold: <b id="time-demold" style="color:#fff;">24h</b></li>
-                                        <li><span>🛡️</span> Full Cure: <b id="time-cure" style="color:#fff;">7d</b></li>
-                                    </ul>
-                                </div>
+                                <div class="rc-head"><span style="color:#818cf8;">Estimated Timeline</span></div>
+                                <ul class="rc-list">
+                                    <li><span>⏳</span> Work Time: <b id="time-pot" style="color:#fff;">45m</b></li>
+                                    <li><span>🏗️</span> Demold: <b id="time-demold" style="color:#fff;">24h</b></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
+                    
+                    <div style="margin-top:20px; padding-top:20px; border-top:1px solid #222;">
+                        <div class="q-head"><span class="q-label">Input Kit Cost (₹/kg)</span><input type="number" id="costInput" class="q-input" style="font-size:16px; width:80px;" placeholder="1000" oninput="runCalc()"></div>
+                        <div style="font-size:24px; font-weight:800; color:#fff;" id="est-cost">₹0</div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="gallery" class="section reveal">
-        <div class="container">
-            <h2 style="text-align:center; margin-bottom:50px;">Gallery</h2>
-            <div class="gallery-masonry">
-                <div class="g-item"><img src="at3.png" class="g-img" loading="lazy"></div>
-                <div class="g-item"><img src="at1.png" class="g-img" loading="lazy"></div>
-                <div class="g-item"><img src="at2.png" class="g-img" loading="lazy"></div>
-                <div class="g-item"><img src="at4.png" class="g-img" loading="lazy"></div>
-                <div class="g-item"><img src="at5.png" class="g-img" loading="lazy"></div>
-                <div class="g-item"><img src="at4.png" class="g-img" loading="lazy" style="filter:hue-rotate(45deg);"></div>
             </div>
         </div>
     </section>
@@ -482,13 +434,13 @@
         document.querySelectorAll('.reveal, .counter').forEach(el => observer.observe(el));
         function countUp(el) { const target = parseInt(el.dataset.target); let count = 0; const inc = target / 30; const timer = setInterval(() => { count += inc; if(count >= target) { count = target; clearInterval(timer); } el.innerText = Math.floor(count) + (el.innerText.includes('%') ? '%' : ''); }, 30); }
 
-        // --- QUANTUM LAB LOGIC ---
+        // --- QUANTUM MOBILE LOGIC ---
         let shape = 'rect';
         let unitMult = 1; 
         
         function setUnit(u) {
             document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+            document.getElementById('unit-'+u).classList.add('active');
             unitMult = u === 'cm' ? 1 : 2.54; 
             runCalc();
         }
@@ -528,7 +480,7 @@
 
         async function autoDetectWeather() {
             const btn = document.querySelector('.auto-detect-btn');
-            btn.innerHTML = "🛰️ Triangulating Satellite Data...";
+            btn.innerHTML = "🛰️ Triangulating...";
             
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(async (pos) => {
@@ -538,20 +490,14 @@
                         const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
                         const data = await response.json();
                         const temp = data.current_weather.temperature;
-                        // Open-Meteo current_weather doesn't always have humidity, fallback logic
-                        const humidity = 65; // Estimated avg if not provided
-                        
                         document.getElementById('env-temp').value = temp;
-                        document.getElementById('env-hum').value = humidity;
+                        // Simulating humidity as API sometimes omits it in basic endpoint
+                        document.getElementById('env-hum').value = 65; 
                         runCalc();
-                        btn.innerHTML = "✅ Lab Conditions Synced";
+                        btn.innerHTML = "✅ Data Synced";
                         setTimeout(() => btn.innerHTML = "📍 Update Lab Data", 3000);
-                    } catch (e) {
-                        btn.innerHTML = "❌ Satellite Link Failed";
-                    }
-                }, () => { btn.innerHTML = "❌ GPS Permission Denied"; });
-            } else {
-                btn.innerHTML = "❌ Browser Not Supported";
+                    } catch (e) { btn.innerHTML = "❌ Failed"; }
+                }, () => { btn.innerHTML = "❌ Denied"; });
             }
         }
 
@@ -576,19 +522,21 @@
             const mass = (area * h_cm * 1.13);
             const rA = mass * 0.75;
             const rB = mass * 0.25;
+            
+            // 2. COST
+            const costPerKg = parseFloat(document.getElementById('costInput').value) || 0;
+            if(costPerKg > 0) {
+                document.getElementById('est-cost').innerText = '₹' + Math.round((mass/1000) * costPerKg).toLocaleString();
+            }
 
             document.getElementById('res-total').innerText = Math.round(mass) + 'g';
             document.getElementById('res-a').innerText = Math.round(rA) + 'g';
             document.getElementById('res-b').innerText = Math.round(rB) + 'g';
 
-            // 2. SAFETY ENGINE
+            // 3. SAFETY
             const temp = parseFloat(document.getElementById('env-temp').value);
             const hum = parseFloat(document.getElementById('env-hum').value);
             
-            // Dew Point Approx: T - ((100 - RH)/5)
-            const dewPoint = temp - ((100 - hum)/5);
-            const blushRisk = (temp - dewPoint) < 3; // Rule of thumb: Surface must be 3C > Dew Point
-
             document.getElementById('disp-temp').innerText = temp + '°C';
             document.getElementById('disp-hum').innerText = hum + '%';
 
@@ -605,27 +553,24 @@
             sList.innerHTML = '';
             let risk = false;
 
-            if (blushRisk || hum > 75) {
+            if (hum > 70) {
                 risk = true;
-                sList.innerHTML += `<li><span style="color:var(--danger)">⚠️</span> <b>AMINE BLUSH RISK:</b> Moisture is too high.</li>`;
-                sList.innerHTML += `<li><span>💡</span> <b>Suggestion:</b> Use a dehumidifier or heat the room.</li>`;
+                sList.innerHTML += `<li><span style="color:var(--danger)">⚠️</span> <b>BLUSH RISK:</b> High moisture.</li>`;
             }
             if (temp < 18) {
                 risk = true;
-                sList.innerHTML += `<li><span style="color:var(--cold)">❄️</span> <b>STALL RISK:</b> Too cold. Resin won't harden.</li>`;
-                sList.innerHTML += `<li><span>💡</span> <b>Suggestion:</b> Warm bottles in water bath before mixing.</li>`;
+                sList.innerHTML += `<li><span style="color:var(--cold)">❄️</span> <b>STALL RISK:</b> Too cold to cure.</li>`;
             } else if (temp > 30 && h_cm > 2) {
                 risk = true;
-                sList.innerHTML += `<li><span style="color:var(--warning)">🔥</span> <b>FLASH CURE:</b> Deep pour + Heat = Cracking.</li>`;
-                sList.innerHTML += `<li><span>💡</span> <b>Suggestion:</b> Pour in layers of 1cm.</li>`;
+                sList.innerHTML += `<li><span style="color:var(--warning)">🔥</span> <b>FLASH CURE:</b> Deep pour + Heat = Danger.</li>`;
             }
 
             if (!risk) {
-                sList.innerHTML = `<li><span style="color:var(--success)">✓</span> Environment is perfectly calibrated.</li>`;
-                sStatus.innerText = "OPTIMAL"; sStatus.style.color = "var(--success)";
+                sList.innerHTML = `<li><span style="color:var(--success)">✓</span> Optimal conditions.</li>`;
+                sStatus.innerText = "SAFE"; sStatus.style.color = "var(--success)";
                 sCard.className = "report-card safe";
             } else {
-                sStatus.innerText = "CRITICAL"; sStatus.style.color = "var(--danger)";
+                sStatus.innerText = "ALERT"; sStatus.style.color = "var(--danger)";
                 sCard.className = "report-card danger";
             }
 
@@ -633,10 +578,9 @@
             const rate = Math.pow(2, (temp - 25) / 10);
             document.getElementById('time-pot').innerText = Math.round(45/rate) + "m";
             document.getElementById('time-demold').innerText = Math.max(12, Math.round(24/rate)) + "h";
-            document.getElementById('time-cure').innerText = Math.max(3, Math.round(7/rate)) + "d";
         }
 
-        // Cart
+        // Cart Logic
         let cart = [];
         function addToCart(name, price) { cart.push({name, price}); renderCart(); showToast(); }
         function renderCart() {
