@@ -1,264 +1,574 @@
-<!-- MX-LUMES FINAL PRODUCTION ENGINE v2.0 -->
-<!-- FULL READY CODE -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M-X Lumes | Professional Resin Systems</title>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
+<style>
+
+/* ============================
+   CORE DESIGN SYSTEM
+============================ */
+
+:root{
+--bg:#000;
+--panel:#050505;
+--glass:rgba(20,20,20,.85);
+--border:rgba(255,255,255,.12);
+--text:#fff;
+--text-dim:#aaa;
+--accent:#fff;
+}
+
+body{
+margin:0;
+background:#000;
+color:#fff;
+font-family:Manrope,sans-serif;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:30px;
+}
+
+.section{
+padding:100px 0;
+}
+
+h1,h2,h3{
+margin:0 0 20px 0;
+}
+
+/* ============================
+   BUTTONS
+============================ */
+
+.btn{
+padding:14px 28px;
+border-radius:40px;
+border:none;
+cursor:pointer;
+font-weight:700;
+}
+
+.btn-primary{
+background:#fff;
+color:#000;
+}
+
+/* ============================
+   PRODUCTS
+============================ */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:30px;
+}
+
+.product-card{
+background:var(--glass);
+border:1px solid var(--border);
+border-radius:20px;
+padding:30px;
+}
+
+.product-card img{
+width:100%;
+border-radius:14px;
+margin-bottom:15px;
+}
+
+/* ============================
+   CART
+============================ */
+
+.cart-fab{
+position:fixed;
+bottom:30px;
+right:30px;
+background:#fff;
+color:#000;
+width:60px;
+height:60px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+z-index:1000;
+}
+
+.cart-sidebar{
+position:fixed;
+top:0;
+right:0;
+width:400px;
+height:100%;
+background:#050505;
+transform:translateX(100%);
+transition:.4s;
+padding:30px;
+z-index:2000;
+}
+
+.cart-sidebar.active{
+transform:translateX(0);
+}
+
+.cart-item{
+margin-bottom:15px;
+border-bottom:1px solid #222;
+padding-bottom:10px;
+}
+
+/* ============================
+   CALCULATOR
+============================ */
+
+.calc{
+background:#050505;
+padding:30px;
+border-radius:20px;
+border:1px solid var(--border);
+}
+
+input{
+width:100%;
+padding:10px;
+margin-bottom:15px;
+background:#111;
+border:1px solid var(--border);
+color:#fff;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============================
+HERO
+============================ -->
+
+<section class="section container">
+
+<h1>M-X Lumes Resin Systems</h1>
+
+<p class="text-dim">
+Professional epoxy for artists and studios.
+</p>
+
+</section>
+
+
+<!-- ============================
+PRODUCTS
+============================ -->
+
+<section class="section container">
+
+<h2>Products</h2>
+
+<div class="grid">
+
+<div class="product-card">
+
+<img src="product-1.webp">
+
+<h3>Starter Kit</h3>
+
+<p>₹1250</p>
+
+<button class="btn btn-primary"
+onclick="addToCart('Starter Kit',1250)">
+Add to Cart
+</button>
+
+<button class="btn"
+onclick="buyNow('Starter Kit',1250)">
+Buy Now
+</button>
+
+</div>
+
+
+<div class="product-card">
+
+<img src="7.5kg.png">
+
+<h3>Studio Kit</h3>
+
+<p>₹10999</p>
+
+<button class="btn btn-primary"
+onclick="addToCart('Studio Kit',10999)">
+Add to Cart
+</button>
+
+<button class="btn"
+onclick="buyNow('Studio Kit',10999)">
+Buy Now
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ============================
+CALCULATOR
+============================ -->
+
+<section class="section container">
+
+<h2>Resin Calculator</h2>
+
+<div class="calc">
+
+<input id="length" placeholder="Length cm">
+
+<input id="width" placeholder="Width cm">
+
+<input id="depth" placeholder="Depth cm">
+
+<button class="btn btn-primary"
+onclick="calculateResin()">
+Calculate
+</button>
+
+<h3 id="calcResult">0 g</h3>
+
+</div>
+
+</section>
+
+
+<!-- ============================
+CART FAB
+============================ -->
+
+<div class="cart-fab"
+onclick="toggleCart()">
+🛒 <span id="cartCount">0</span>
+</div>
+
+
+<!-- ============================
+CART SIDEBAR
+============================ -->
+
+<div class="cart-sidebar"
+id="cartSidebar">
+
+<h2>Cart</h2>
+
+<div id="cartItems"></div>
+
+<h3 id="cartTotal">₹0</h3>
+
+<button class="btn btn-primary"
+onclick="checkoutSelector()">
+Checkout
+</button>
+
+</div>
+
+
+<!-- ============================
+MASTER SCRIPT ENGINE
+============================ -->
+
 <script>
-/* ================================
-   CONFIG
-================================ */
 
-const RAZORPAY_KEY = "YOUR_RAZORPAY_KEY_HERE";
-const WHATSAPP_NUMBER = "919876543210";
+/* ============================
+CONFIG
+============================ */
 
-/* ================================
-   CART ENGINE (PERSISTENT)
-================================ */
+const RAZORPAY_KEY="YOUR_RAZORPAY_KEY_HERE";
+const WHATSAPP="919876543210";
 
-let cart = JSON.parse(localStorage.getItem("mx_cart")) || [];
+/* ============================
+CART STORAGE
+============================ */
+
+let cart=
+JSON.parse(localStorage.getItem("mx_cart"))||[];
 
 function saveCart(){
-    localStorage.setItem("mx_cart", JSON.stringify(cart));
+
+localStorage.setItem(
+"mx_cart",
+JSON.stringify(cart)
+);
+
 }
 
-function addToCart(name, price){
 
-    const existing = cart.find(i => i.name === name);
+/* ============================
+ADD TO CART
+============================ */
 
-    if(existing){
-        existing.qty++;
-    }else{
-        cart.push({
-            name,
-            price,
-            qty:1
-        });
-    }
+function addToCart(name,price){
 
-    saveCart();
-    renderCart();
-    showToast("Added to cart");
+let item=
+cart.find(i=>i.name==name);
+
+if(item)
+item.qty++;
+
+else
+cart.push({
+name,
+price,
+qty:1
+});
+
+saveCart();
+
+renderCart();
+
 }
 
-function buyNow(name, price){
 
-    cart = [{
-        name,
-        price,
-        qty:1
-    }];
+/* ============================
+BUY NOW
+============================ */
 
-    saveCart();
-    renderCart();
-    openCheckoutSelector();
+function buyNow(name,price){
+
+cart=[{
+name,
+price,
+qty:1
+}];
+
+saveCart();
+
+renderCart();
+
+checkoutSelector();
+
 }
 
-function removeFromCart(index){
 
-    cart.splice(index,1);
-
-    saveCart();
-    renderCart();
-}
-
-function changeQty(index, delta){
-
-    cart[index].qty += delta;
-
-    if(cart[index].qty <=0)
-        cart.splice(index,1);
-
-    saveCart();
-    renderCart();
-}
-
-function getCartTotal(){
-
-    return cart.reduce((t,i)=> t + (i.price * i.qty),0);
-}
+/* ============================
+RENDER CART
+============================ */
 
 function renderCart(){
 
-    const container =
-        document.getElementById("cartItems");
+let html="";
+let total=0;
+let count=0;
 
-    if(!container) return;
+cart.forEach((item,i)=>{
 
-    container.innerHTML="";
+let t=item.price*item.qty;
 
-    let total = 0;
-    let count = 0;
+total+=t;
+count+=item.qty;
 
-    cart.forEach((item,index)=>{
+html+=`
+<div class="cart-item">
 
-        const itemTotal =
-            item.price * item.qty;
+${item.name}
+<br>
 
-        total += itemTotal;
-        count += item.qty;
+₹${item.price} × ${item.qty}
 
-        container.innerHTML += `
-        <div style="margin-bottom:15px;border-bottom:1px solid #222;padding-bottom:10px;">
-        
-            <div style="display:flex;justify-content:space-between;">
-                <b>${item.name}</b>
-                <span>₹${itemTotal}</span>
-            </div>
+<br>
 
-            <div style="display:flex;justify-content:space-between;margin-top:6px;">
+<button onclick="removeItem(${i})">
+Remove
+</button>
 
-                <div>
-                    <button onclick="changeQty(${index},-1)">−</button>
-                    <span style="margin:0 10px">${item.qty}</span>
-                    <button onclick="changeQty(${index},1)">+</button>
-                </div>
+</div>
+`;
 
-                <button onclick="removeFromCart(${index})"
-                style="color:red;">Remove</button>
+});
 
-            </div>
+document.getElementById(
+"cartItems"
+).innerHTML=html;
 
-        </div>
-        `;
-    });
+document.getElementById(
+"cartTotal"
+).innerText="₹"+total;
 
-    document.getElementById("cartTotal").innerText =
-        "₹" + total.toLocaleString();
+document.getElementById(
+"cartCount"
+).innerText=count;
 
-    document.getElementById("cartCount").innerText =
-        count;
 }
 
-/* ================================
-   WHATSAPP CHECKOUT
-================================ */
 
-function checkoutWhatsApp(){
+/* ============================
+REMOVE ITEM
+============================ */
 
-    if(cart.length===0){
-        alert("Cart empty");
-        return;
-    }
+function removeItem(i){
 
-    let msg="Order Request:%0A";
+cart.splice(i,1);
 
-    cart.forEach(item=>{
-        msg += `${item.name} x${item.qty} = ₹${item.price*item.qty}%0A`;
-    });
+saveCart();
 
-    msg += `%0ATotal: ₹${getCartTotal()}`;
+renderCart();
 
-    window.open(
-        `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`,
-        "_blank"
-    );
 }
 
-/* ================================
-   RAZORPAY CHECKOUT
-================================ */
 
-function checkoutRazorpay(){
-
-    if(cart.length===0){
-        alert("Cart empty");
-        return;
-    }
-
-    if(RAZORPAY_KEY==="YOUR_RAZORPAY_KEY_HERE"){
-        alert("Add Razorpay Key first");
-        return;
-    }
-
-    const total =
-        getCartTotal() * 100;
-
-    const options = {
-
-        key: RAZORPAY_KEY,
-
-        amount: total,
-
-        currency:"INR",
-
-        name:"M-X LUMES",
-
-        description:"Resin Order",
-
-        handler:function(response){
-
-            showToast("Payment Successful");
-
-            cart=[];
-            saveCart();
-            renderCart();
-        },
-
-        theme:{
-            color:"#ffffff"
-        }
-
-    };
-
-    const rzp =
-        new Razorpay(options);
-
-    rzp.open();
-}
-
-/* ================================
-   CHECKOUT SELECTOR
-================================ */
-
-function openCheckoutSelector(){
-
-    if(cart.length===0){
-        alert("Cart empty");
-        return;
-    }
-
-    const choice =
-        confirm(
-            "Press OK for Razorpay Payment\nCancel for WhatsApp Order"
-        );
-
-    if(choice)
-        checkoutRazorpay();
-    else
-        checkoutWhatsApp();
-}
-
-/* ================================
-   UI HELPERS
-================================ */
+/* ============================
+TOGGLE CART
+============================ */
 
 function toggleCart(){
 
-    document
-        .getElementById("cartSidebar")
-        .classList.toggle("active");
+document.getElementById(
+"cartSidebar"
+).classList.toggle("active");
+
 }
 
-function showToast(msg){
 
-    const t =
-        document.getElementById("toast");
+/* ============================
+CHECKOUT SELECTOR
+============================ */
 
-    if(!t) return;
+function checkoutSelector(){
 
-    t.innerText = msg;
+let choice=
+confirm(
+"OK=Pay via Razorpay\nCancel=WhatsApp"
+);
 
-    t.classList.add("show");
+if(choice)
+checkoutRazorpay();
 
-    setTimeout(()=>{
-        t.classList.remove("show");
-    },2000);
+else
+checkoutWhatsApp();
+
 }
 
-/* ================================
-   INIT
-================================ */
+
+/* ============================
+WHATSAPP CHECKOUT
+============================ */
+
+function checkoutWhatsApp(){
+
+let msg="Order:%0A";
+
+let total=0;
+
+cart.forEach(i=>{
+
+msg+=`${i.name} x${i.qty} ₹${i.price*i.qty}%0A`;
+
+total+=i.price*i.qty;
+
+});
+
+msg+=`Total ₹${total}`;
+
+window.open(
+`https://wa.me/${WHATSAPP}?text=${msg}`
+);
+
+}
+
+
+/* ============================
+RAZORPAY CHECKOUT
+============================ */
+
+function checkoutRazorpay(){
+
+if(RAZORPAY_KEY==="YOUR_RAZORPAY_KEY_HERE"){
+
+alert("Add Razorpay key");
+
+return;
+
+}
+
+let total=0;
+
+cart.forEach(i=>{
+
+total+=i.price*i.qty;
+
+});
+
+let rzp=
+new Razorpay({
+
+key:RAZORPAY_KEY,
+
+amount:total*100,
+
+currency:"INR",
+
+name:"M-X Lumes",
+
+handler:function(){
+
+alert("Payment Success");
+
+cart=[];
+
+saveCart();
+
+renderCart();
+
+}
+
+});
+
+rzp.open();
+
+}
+
+
+/* ============================
+CALCULATOR
+============================ */
+
+function calculateResin(){
+
+let l=
+parseFloat(length.value)||0;
+
+let w=
+parseFloat(width.value)||0;
+
+let d=
+parseFloat(depth.value)||0;
+
+let volume=l*w*d;
+
+let grams=
+volume*1.13;
+
+calcResult.innerText=
+Math.round(grams)+" g";
+
+}
+
+
+/* ============================
+INIT
+============================ */
 
 renderCart();
 
 </script>
+
+</body>
+</html>
