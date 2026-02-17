@@ -134,6 +134,7 @@
         .btn-primary { background: #fff; color: #000; box-shadow: 0 5px 20px rgba(255,255,255,0.15); }
         .btn-primary:active { transform: scale(0.96); } 
         .btn-outline { border: 1px solid var(--border); color: #fff; background: rgba(255,255,255,0.02); }
+        .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
 
         .toast { 
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-150%);
@@ -219,32 +220,51 @@
         .g-img { width: 100%; height: auto; display: block; }
 
         /* -----------------------------------------------------------
-           7. FEATURES
+           7. FEATURES & COMPARISON (THE FOMO ENGINE)
            ----------------------------------------------------------- */
-        .bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 50px; }
+        .bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 80px; }
         .bento-item { background: var(--glass); border: 1px solid var(--border); border-radius: 24px; padding: 30px; display: flex; flex-direction: column; justify-content: center; }
         .bento-item.wide { grid-column: span 2; }
         .bento-val { font-size: 36px; font-weight: 800; color: #fff; margin-bottom: 5px; }
         .bento-lbl { font-size: 11px; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; }
 
-        .specs-layout { display: grid; grid-template-columns: 1fr; gap: 60px; }
-        .comp-wrapper { overflow-x: auto; margin-bottom: 50px; border-radius: 24px; border: 1px solid var(--border); -webkit-overflow-scrolling: touch; }
-        .comp-table { width: 100%; min-width: 600px; border-collapse: separate; border-spacing: 0; background: var(--glass); }
-        .comp-table th { padding: 25px; text-align: left; font-size: 11px; text-transform: uppercase; color: var(--text-dim); border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.3); }
-        .comp-table td { padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 15px; }
-        .hl { color: #fff; font-weight: 700; background: rgba(255,255,255,0.02); }
+        /* The Premium Comparison Table */
+        .specs-header { text-align: center; margin-bottom: 60px; }
+        .specs-header h2 { font-size: 36px; margin-bottom: 10px; }
+        .specs-header p { color: var(--text-dim); font-size: 14px; text-transform: uppercase; letter-spacing: 2px; }
 
-        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 40px 0; }
-        .t-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.2), transparent); }
-        .t-step { display: flex; align-items: center; margin-bottom: 80px; position: relative; }
-        .t-step:nth-child(even) { flex-direction: row-reverse; }
-        .t-content { width: 42%; padding: 40px; background: var(--glass); border: 1px solid var(--border); border-radius: 24px; }
-        .t-dot { position: absolute; left: 50%; width: 10px; height: 10px; background: #000; border: 2px solid #fff; border-radius: 50%; transform: translateX(-50%); box-shadow: 0 0 15px rgba(255,255,255,0.5); z-index: 2; }
+        .comp-container { 
+            background: #050505; border: 1px solid var(--border); border-radius: 30px; 
+            padding: 40px; overflow: hidden; position: relative; 
+        }
+        .comp-container::before {
+            content:''; position: absolute; top:0; right:0; width: 50%; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent));
+        }
 
-        .dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .dd-box { padding: 50px; border-radius: 24px; border: 1px solid var(--border); }
-        .dd-box.dos { background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2); }
-        .dd-box.donts { background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2); }
+        .comp-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        .comp-table th { 
+            text-align: left; padding: 20px; color: var(--text-dim); font-size: 11px; 
+            text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.1); 
+        }
+        /* Highlight the M-X Column */
+        .comp-table th.col-mx, .comp-table td.col-mx { 
+            width: 40%; background: rgba(99,102,241,0.03); border-right: 1px solid rgba(99,102,241,0.1); 
+            border-left: 1px solid rgba(99,102,241,0.1); 
+        }
+        
+        .comp-row { transition: 0.2s; }
+        .comp-row:hover { background: rgba(255,255,255,0.02); }
+        
+        .comp-cell { padding: 25px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 15px; color: #fff; }
+        .comp-cell.dim { color: #555; font-weight: 500; }
+        .comp-cell.bright { color: #fff; font-weight: 700; text-shadow: 0 0 15px rgba(99,102,241,0.3); }
+        .comp-cell.bright span { color: var(--accent); margin-right: 8px; }
+
+        .comp-footer { 
+            margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--border); 
+            display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; 
+        }
 
         /* -----------------------------------------------------------
            8. TITAN FUSION CALCULATOR (MOBILE RESPONSIVE)
@@ -252,7 +272,6 @@
         .zenith-calc {
             background: var(--bg-panel); border: 1px solid var(--border);
             border-radius: 40px; overflow: hidden; 
-            /* Flex layout for mobile stacking */
             display: flex; flex-direction: column;
             box-shadow: 0 40px 100px -30px rgba(0,0,0,0.8);
         }
@@ -260,7 +279,6 @@
         .z-controls { padding: 40px; border-bottom: 1px solid var(--border); position: relative; }
         .z-display { padding: 40px; background: rgba(10,10,10,0.98); display: flex; flex-direction: column; justify-content: space-between; }
         
-        /* Desktop override */
         @media (min-width: 900px) {
             .zenith-calc { display: grid; grid-template-columns: 1.3fr 1fr; }
             .z-controls { border-right: 1px solid var(--border); border-bottom: none; padding: 60px; }
@@ -290,7 +308,6 @@
         .z-slider { -webkit-appearance: none; width: 100%; height: 6px; background: #222; border-radius: 3px; outline: none; transition: 0.3s; cursor: pointer; display: block; margin-top: 10px; }
         .z-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; background: #fff; border-radius: 50%; cursor: grab; transition: 0.2s; box-shadow: 0 0 20px rgba(255,255,255,0.15); border: 4px solid #000; }
 
-        /* Shape Grid - Horizontal Scroll on Mobile */
         .shape-grid { display: flex; gap: 15px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 15px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         .shape-grid::-webkit-scrollbar { display: none; }
         .shape-btn { 
@@ -536,6 +553,8 @@
             .f-top-grid { grid-template-columns: 1fr; gap: 50px; }
             .f-bottom-row { flex-direction: column; align-items: flex-start; gap: 20px; }
             .f-nav { flex-wrap: wrap; gap: 20px; }
+            .f-vision-text { font-size: 24px; }
+            .comp-wrapper { margin-right: -20px; } /* Pull to edge */
         }
     </style>
 </head>
@@ -605,31 +624,67 @@
                 <div class="bento-item"><div class="bento-val">180</div><div class="bento-lbl">Viscosity (mPas)</div></div>
                 <div class="bento-item"><div class="bento-val">85D</div><div class="bento-lbl">Shore Hardness</div></div>
             </div>
-            <div class="specs-layout reveal">
-                <div>
-                    <h3 style="margin-bottom:30px;">The Protocol</h3>
-                    <div class="timeline">
-                        <div class="t-line"></div>
-                        <div class="t-step"><div class="t-dot"></div><div class="t-content"><h4>01. Measure</h4><p style="font-size:13px; color:var(--text-dim);">By weight. 3 Parts A, 1 Part B.</p></div></div>
-                        <div class="t-step"><div class="t-dot"></div><div class="t-content"><h4>02. Mix</h4><p style="font-size:13px; color:var(--text-dim);">Stir 3 mins. Scrape sides.</p></div></div>
-                        <div class="t-step"><div class="t-dot"></div><div class="t-content"><h4>03. Pour</h4><p style="font-size:13px; color:var(--text-dim);">Pour. Wait 5 mins. Torch.</p></div></div>
-                    </div>
-                    <div style="margin-top:40px; display:flex; gap:10px;">
-                        <a href="tds.pdf" class="btn btn-outline" style="flex:1;">Download TDS</a>
-                        <a href="sds.pdf" class="btn btn-outline" style="flex:1;">Download SDS</a>
-                    </div>
+            
+            <div class="reveal">
+                <div class="specs-header">
+                    <h2>The Specification</h2>
+                    <p>Why professionals switch to M-X Lumes</p>
                 </div>
+                
                 <div class="comp-wrapper">
-                    <h3 style="margin-bottom:30px;">Advantage</h3>
-                    <table class="comp-table">
-                        <thead><tr><th>Feature</th><th class="hl">M-X Lumes</th><th>Generic</th></tr></thead>
-                        <tbody>
-                            <tr><td>Bubble Release</td><td class="hl">Auto-Degas</td><td>Manual</td></tr>
-                            <tr><td>Clarity</td><td class="hl">Crystal Clear</td><td>Hazy</td></tr>
-                            <tr><td>UV Tech</td><td class="hl">Triple HALS</td><td>Single</td></tr>
-                        </tbody>
-                    </table>
-                    <div style="margin-top:20px; font-size:12px; color:var(--warning); background:rgba(245, 158, 11, 0.1); padding:15px; border-radius:12px; border:1px solid rgba(245, 158, 11, 0.2);">⚠️ <b>Chemical Warning:</b> Causes skin irritation. Avoid breathing fumes. Wear protective gear.</div>
+                    <div class="comp-container">
+                        <table class="comp-table">
+                            <thead>
+                                <tr>
+                                    <th>Parameter</th>
+                                    <th class="col-mx">M-X Lumes (Crystal Series)</th>
+                                    <th>Generic Epoxy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="comp-row">
+                                    <td class="comp-cell dim">Optical Clarity</td>
+                                    <td class="comp-cell bright col-mx"><span>✦</span> Diamond Clear (Refractive Index 1.56)</td>
+                                    <td class="comp-cell dim">Slight Haze / Blue Tint</td>
+                                </tr>
+                                <tr class="comp-row">
+                                    <td class="comp-cell dim">Bubble Release</td>
+                                    <td class="comp-cell bright col-mx"><span>✦</span> Auto-Degassing (Zero-Bubble Tech)</td>
+                                    <td class="comp-cell dim">Requires Vacuum Chamber / Torch</td>
+                                </tr>
+                                <tr class="comp-row">
+                                    <td class="comp-cell dim">UV Resistance</td>
+                                    <td class="comp-cell bright col-mx"><span>✦</span> HALS + UV Absorbers (Archival Grade)</td>
+                                    <td class="comp-cell dim">Yellows after 6 months</td>
+                                </tr>
+                                <tr class="comp-row">
+                                    <td class="comp-cell dim">Hardness</td>
+                                    <td class="comp-cell bright col-mx"><span>✦</span> 85 Shore D (Rock Hard)</td>
+                                    <td class="comp-cell dim">70-75 Shore D (Prone to dents)</td>
+                                </tr>
+                                <tr class="comp-row">
+                                    <td class="comp-cell dim">Heat Deflection</td>
+                                    <td class="comp-cell bright col-mx"><span>✦</span> 85°C (Coaster Safe)</td>
+                                    <td class="comp-cell dim">50°C (Softens with hot mugs)</td>
+                                </tr>
+                                <tr class="comp-row">
+                                    <td class="comp-cell dim">Safety</td>
+                                    <td class="comp-cell bright col-mx"><span>✦</span> Zero VOC, BPA-Free, Non-Toxic</td>
+                                    <td class="comp-cell dim">High Fumes / Chemical Odor</td>
+                                </tr>
+                                <tr class="comp-row">
+                                    <td class="comp-cell dim">Cure Time</td>
+                                    <td class="comp-cell bright col-mx"><span>✦</span> 24 Hours (Demold)</td>
+                                    <td class="comp-cell dim">48+ Hours</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="comp-footer">
+                            <a href="tds.pdf" class="btn btn-outline" download>Download Technical Data Sheet (TDS)</a>
+                            <a href="sds.pdf" class="btn btn-outline" download>Download Safety Data Sheet (SDS)</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
