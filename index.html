@@ -44,7 +44,6 @@
         html { 
             font-size: 16px; 
             scroll-behavior: smooth; 
-            /* CRITICAL FIX: Stops the website from shaking sideways on mobile */
             overflow-x: hidden; 
             width: 100%;
         }
@@ -85,7 +84,6 @@
             will-change: transform;
         }
 
-        /* Mobile specific background adjustment */
         @media (max-width: 900px) {
             .bg-layer { background-size: cover; opacity: 0.4; }
         }
@@ -132,7 +130,7 @@
             display: inline-flex; 
             align-items: center; 
             justify-content: center; 
-            min-height: 48px; /* Touch target fix */
+            min-height: 48px; 
         }
         .btn-primary { background: #fff; color: #000; box-shadow: 0 5px 20px rgba(255,255,255,0.15); }
         .btn-primary:active { transform: scale(0.96); } 
@@ -172,11 +170,8 @@
         
         .nav-inner { 
             width: 100%; display: flex; justify-content: space-between; align-items: center; 
-            overflow-x: auto; /* Allow horizontal scroll on small screens */
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: 0;
+            overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 0;
         }
-        /* Hide scrollbar on nav */
         .nav-inner::-webkit-scrollbar { display: none; }
 
         .logo { font-weight: 800; font-size: 18px; letter-spacing: 3px; color: #fff; mix-blend-mode: exclusion; flex-shrink: 0; margin-right: 20px; }
@@ -186,8 +181,7 @@
         .nav-link:hover { color: #fff; }
 
         .hero { 
-            min-height: 100vh; /* Fallback */
-            min-height: 100dvh; /* Mobile viewport fix */
+            min-height: 100vh; min-height: 100dvh;
             display: flex; flex-direction: column; justify-content: center; align-items: center; 
             text-align: center; z-index: 10; padding-top: 80px; padding-bottom: 60px; 
         }
@@ -358,28 +352,101 @@
         .cost-inp { width: 70px; background: transparent; border: none; border-bottom: 1px solid #444; color: #fff; text-align: right; font-weight: 700; padding-bottom: 2px; }
 
         /* -----------------------------------------------------------
-           9. FOOTER & CART
+           9. PREMIUM FOOTER (TITAN ONYX)
            ----------------------------------------------------------- */
-        .footer { position: relative; padding: 150px 0 60px; margin-top: 150px; background: #000; overflow: hidden; }
-        .footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), transparent); }
-        .footer-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #000 0%, rgba(5,5,10,0.85) 40%, rgba(5,5,10,0.4) 100%); pointer-events: none; z-index: 1; }
-        .footer-content { position: relative; z-index: 2; }
-        .footer-watermark { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); font-size: 30vw; font-weight: 800; color: #fff; opacity: 0.03; pointer-events: none; white-space: nowrap; line-height: 0.8; font-family: 'Space Grotesk', sans-serif; }
-        .footer-cta { text-align: center; margin-bottom: 100px; }
-        .footer-cta h2 { font-size: clamp(32px, 4vw, 56px); margin-bottom: 20px; }
-        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-top: 80px; }
-        .f-col h4 { font-size: 11px; font-weight: 800; color: #fff; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px; }
-        .f-link { display: block; color: var(--text-dim); margin-bottom: 15px; font-size: 14px; transition: all 0.3s; padding-left: 0; }
-        .f-link:hover { color: #fff; padding-left: 10px; }
-        .f-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 40px; margin-top: 80px; display: flex; justify-content: space-between; font-size: 12px; color: #666; }
-
-        .cart-fab { position: fixed; bottom: 40px; right: 40px; width: 64px; height: 64px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 2000; box-shadow: 0 10px 40px rgba(255,255,255,0.15); transition: all 0.3s; }
-        .cart-fab:hover { transform: scale(1.1); }
-        .cart-count { position: absolute; top: -2px; right: -2px; background: #000; color: #fff; font-size: 10px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; font-weight: 700; }
+        .footer { 
+            position: relative; 
+            padding: 100px 20px 40px; 
+            margin-top: 120px; 
+            background: radial-gradient(circle at 50% 0%, #111 0%, #000 70%); 
+            overflow: hidden; 
+            border-top: 1px solid var(--border);
+        }
         
+        /* Subtle holographic watermark */
+        .footer-watermark { 
+            position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); 
+            font-size: 30vw; font-weight: 800; color: #fff; opacity: 0.02; 
+            pointer-events: none; white-space: nowrap; line-height: 0.8; 
+            font-family: 'Space Grotesk', sans-serif; 
+        }
+
+        .footer-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; }
+
+        /* Top Grid */
+        .f-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 50px; 
+            margin-bottom: 80px; 
+        }
+
+        .f-brand h2 { font-size: 20px; font-weight: 800; letter-spacing: 2px; color: #fff; margin-bottom: 20px; }
+        .f-brand p { font-size: 13px; color: var(--text-dim); line-height: 1.6; max-width: 250px; }
+        
+        .f-title { font-size: 11px; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; opacity: 0.8; }
+        
+        .f-links { list-style: none; padding: 0; }
+        .f-links li { margin-bottom: 15px; }
+        .f-link { 
+            font-size: 14px; color: var(--text-dim); transition: 0.3s; position: relative; 
+            padding-left: 0; display: inline-block;
+        }
+        .f-link:hover { color: #fff; padding-left: 8px; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+        .f-link::before { content:'›'; position:absolute; left:0; opacity:0; transition:0.3s; }
+        .f-link:hover::before { opacity:1; left:-12px; color:var(--accent); }
+
+        /* Newsletter Input */
+        .f-input-group { position: relative; max-width: 300px; }
+        .f-input { 
+            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); 
+            padding: 16px; border-radius: 12px; color: #fff; outline: none; transition: 0.3s; 
+        }
+        .f-input:focus { border-color: var(--accent); background: rgba(255,255,255,0.08); }
+        .f-submit { 
+            position: absolute; right: 8px; top: 8px; background: #fff; color: #000; 
+            border: none; width: 36px; height: 36px; border-radius: 8px; 
+            cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s;
+        }
+        .f-submit:hover { transform: scale(1.05); }
+
+        /* Bottom Bar */
+        .f-bottom { 
+            border-top: 1px solid rgba(255,255,255,0.05); 
+            padding-top: 40px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            flex-wrap: wrap; gap: 20px;
+        }
+        .f-copy { font-size: 12px; color: #555; }
+        .f-socials { display: flex; gap: 15px; }
+        .f-icon { 
+            width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.05); 
+            display: flex; justify-content: center; align-items: center; color: #fff; 
+            transition: 0.3s; cursor: pointer; border: 1px solid transparent;
+        }
+        .f-icon:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-3px); }
+
+        /* -----------------------------------------------------------
+           10. CART SIDEBAR & FAB
+           ----------------------------------------------------------- */
+        .cart-fab { 
+            position: fixed; bottom: 30px; right: 20px; 
+            width: 60px; height: 60px; background: #fff; border-radius: 50%; 
+            display: flex; justify-content: center; align-items: center; 
+            z-index: 2000; box-shadow: 0 10px 30px rgba(255,255,255,0.2); 
+            transition: transform 0.3s ease;
+        }
+        .cart-fab:active { transform: scale(0.9); }
+        .cart-count { position: absolute; top: -2px; right: -2px; background: #000; color: #fff; font-size: 10px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; font-weight: 700; }
+
         .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; z-index: 3000; pointer-events: none; }
-        .cart-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); opacity: 0; transition: 0.4s; }
-        .cart-inner { position: absolute; right: 0; width: 420px; height: 100%; background: #050505; border-left: 1px solid var(--border); transform: translateX(100%); transition: 0.5s var(--ease-fluid); display: flex; flex-direction: column; padding: 50px; box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
+        .cart-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); opacity: 0; transition: 0.3s; }
+        .cart-inner { 
+            position: absolute; right: 0; width: 100%; max-width: 420px; height: 100%; 
+            background: #050505; border-left: 1px solid var(--border); 
+            transform: translateX(100%); transition: 0.4s cubic-bezier(0.2, 0.0, 0, 1.0); 
+            display: flex; flex-direction: column; padding: 40px; box-shadow: -20px 0 50px rgba(0,0,0,0.5); 
+        }
         .cart-sidebar.active { pointer-events: all; }
         .cart-sidebar.active .cart-overlay { opacity: 1; }
         .cart-sidebar.active .cart-inner { transform: translateX(0); }
@@ -394,7 +461,7 @@
         .c-price { font-weight: 700; color: #fff; font-size: 14px; }
         
         .qty-control { display: flex; align-items: center; background: #000; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
-        .qty-btn { width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 12px; cursor: pointer; transition: 0.2s; }
+        .qty-btn { width: 28px; height: 28px; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 12px; cursor: pointer; transition: 0.2s; }
         .qty-btn:active { background: rgba(255,255,255,0.1); }
         .qty-val { width: 20px; text-align: center; font-size: 11px; font-weight: 700; color: #fff; }
 
@@ -420,6 +487,8 @@
             .refine-grid { grid-template-columns: 1fr; }
             .z-res-val { font-size: 56px; }
             .section { padding: 80px 0; }
+            .f-grid { gap: 40px; }
+            .f-bottom { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
@@ -650,15 +719,45 @@
     <footer class="footer">
         <div class="footer-overlay"></div>
         <div class="footer-watermark">M-X</div>
-        <div class="container footer-content">
+        <div class="footer-content">
             <div class="footer-cta"><h2>Ready to Create?</h2><button class="btn btn-primary" onclick="smoothScroll('shop')">Start Your Order</button></div>
             <div class="f-grid">
-                <div class="f-col"><h2 class="logo" style="margin-bottom:20px;">M-X LUMES</h2><p style="color:var(--text-dim); font-size:13px; line-height:1.8;">Engineered in Meerut.</p></div>
-                <div class="f-col"><h4>Products</h4><a href="#" class="f-link">Transparent Plus</a><a href="#" class="f-link">Deep Pour Pro</a></div>
-                <div class="f-col"><h4>Support</h4><a href="#" class="f-link">Track Order</a><a href="#" class="f-link">Shipping Policy</a></div>
-                <div class="f-col"><h4>Contact</h4><a href="#" class="f-link">support@mxlumes.com</a><a href="#" class="f-link">+91 98765 43210</a></div>
+                <div class="f-col f-brand">
+                    <h2>M-X LUMES</h2>
+                    <p>Engineered in Meerut for professional artisans. The definitive epoxy system.</p>
+                </div>
+                <div class="f-col">
+                    <div class="f-title">Products</div>
+                    <ul class="f-links">
+                        <li><a href="#" class="f-link">Transparent Plus</a></li>
+                        <li><a href="#" class="f-link">Deep Pour Pro</a></li>
+                        <li><a href="#" class="f-link">Pigments</a></li>
+                    </ul>
+                </div>
+                <div class="f-col">
+                    <div class="f-title">Support</div>
+                    <ul class="f-links">
+                        <li><a href="#" class="f-link">Track Order</a></li>
+                        <li><a href="#" class="f-link">Shipping Policy</a></li>
+                        <li><a href="#" class="f-link">Returns</a></li>
+                    </ul>
+                </div>
+                <div class="f-col">
+                    <div class="f-title">Stay in the flow</div>
+                    <div class="f-input-group">
+                        <input type="email" class="f-input" placeholder="Enter your email">
+                        <button class="f-submit">➝</button>
+                    </div>
+                </div>
             </div>
-            <div class="f-bottom"><div>© 2026 M-X Lumes. All Rights Reserved.</div></div>
+            <div class="f-bottom">
+                <div class="f-copy">© 2026 M-X Lumes. All Rights Reserved.</div>
+                <div class="f-socials">
+                    <div class="f-icon">IG</div>
+                    <div class="f-icon">WA</div>
+                    <div class="f-icon">YT</div>
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -901,13 +1000,13 @@
                 let ph = (parseFloat(document.getElementById('input-PH').value)||0) * factor;
                 // Volume of pyramid: (Base Area * Height) / 3. Assuming square base.
                 vol = (Math.pow(b, 2) * ph) / 3;
-                h_cm = ph; // For safety check
+                h_cm = ph; 
             } else if (appState.shape === 'sph') {
                 let d = (parseFloat(document.getElementById('input-SD').value)||0) * factor;
                 let r = d / 2;
                 // Volume sphere: 4/3 * pi * r^3
                 vol = (4/3) * Math.PI * Math.pow(r, 3);
-                h_cm = d; // For safety check
+                h_cm = d; 
             }
 
             let rA = appState.ratioA; let rB = appState.ratioB;
