@@ -13,7 +13,7 @@
     
     <style>
         /* -----------------------------------------------------------
-           1. CORE PHYSICS & VARIABLES (TITAN ENGINE v2.4 - INDOOR PHYSICS)
+           1. CORE PHYSICS & VARIABLES (TITAN ENGINE v3.0 - ARCHITECT)
            ----------------------------------------------------------- */
         :root {
             --bg-oled: #000000;
@@ -108,15 +108,31 @@
         .container { max-width: 1100px; margin: 0 auto; padding: 0 25px; }
         .section { padding: 140px 0; position: relative; z-index: 2; }
         
-        .reveal { opacity: 0; transform: translateY(40px); filter: blur(10px); transition: all 1.2s var(--ease-fluid); will-change: opacity, transform, filter; }
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(40px); 
+            filter: blur(10px); 
+            transition: all 1.2s var(--ease-fluid); 
+            will-change: opacity, transform, filter;
+        }
         .reveal.active { opacity: 1; transform: translateY(0); filter: blur(0); }
 
         .glass {
-            background: var(--glass); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
-            border: 1px solid var(--border); border-radius: var(--radius); position: relative; overflow: hidden; 
-            transition: transform 0.4s var(--ease-fluid), border-color 0.4s; will-change: transform;
+            background: var(--glass); 
+            backdrop-filter: var(--blur); 
+            -webkit-backdrop-filter: var(--blur);
+            border: 1px solid var(--border); 
+            border-radius: var(--radius);
+            position: relative; 
+            overflow: hidden; 
+            transition: transform 0.4s var(--ease-fluid), border-color 0.4s;
+            will-change: transform;
         }
-        .glass:hover { border-color: rgba(255, 255, 255, 0.25); box-shadow: 0 20px 60px -10px rgba(0,0,0,0.7); transform: translateY(-5px); }
+        .glass:hover { 
+            border-color: rgba(255, 255, 255, 0.25); 
+            box-shadow: 0 20px 60px -10px rgba(0,0,0,0.7); 
+            transform: translateY(-5px); 
+        }
 
         .btn { padding: 16px 32px; border-radius: 60px; font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 1.5px; transition: 0.3s; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; user-select: none; }
         .btn-primary { background: #fff; color: #000; box-shadow: 0 5px 20px rgba(255,255,255,0.15); transition: transform 0.2s var(--ease-fluid), box-shadow 0.2s; }
@@ -126,10 +142,17 @@
         .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
 
         .toast { 
-            position: fixed; top: 100px; right: 20px; background: rgba(20,20,20,0.95); backdrop-filter: blur(15px); 
-            border: 1px solid rgba(255,255,255,0.1); padding: 14px 28px; border-radius: 50px; color: #fff; font-size: 12px; font-weight: 700; 
-            z-index: 5000; transform: translateX(150%) scale(0.9); opacity: 0; transition: all 0.6s var(--ease-bounce); 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 10px;
+            position: fixed; top: 100px; right: 20px; 
+            background: rgba(20,20,20,0.95); backdrop-filter: blur(15px); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            padding: 14px 28px; border-radius: 50px; 
+            color: #fff; font-size: 12px; font-weight: 700; 
+            z-index: 5000; 
+            transform: translateX(150%) scale(0.9); 
+            opacity: 0;
+            transition: all 0.6s var(--ease-bounce); 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
+            display: flex; align-items: center; gap: 10px;
         }
         .toast::before { content:'✓'; display:inline-block; color:var(--success); font-size:14px; }
         .toast.show { transform: translateX(0) scale(1); opacity: 1; }
@@ -290,6 +313,22 @@
         .refine-inp { width: 100%; background: #111; border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: #fff; font-size: 12px; outline: none; transition: 0.3s; }
         .refine-inp:focus { border-color: #6366f1; }
 
+        /* WEATHER INTELLIGENCE STRIP */
+        #weather-intelligence {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 11px;
+            color: var(--text-dim);
+            background: rgba(0,0,0,0.4);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 15px;
+            display: none; /* Hidden by default, shown by JS */
+            border: 1px dashed var(--border);
+            text-align: center;
+            line-height: 1.6;
+        }
+        #weather-intelligence b { color: #fff; }
+
         .z-res-title { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #666; letter-spacing: 2px; }
         .z-res-val { font-size: 80px; font-weight: 800; color: #fff; line-height: 1; margin: 15px 0 25px; letter-spacing: -3px; text-shadow: 0 0 40px rgba(255,255,255,0.1); transition: 0.2s; }
         .parts-box { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 20px; }
@@ -312,7 +351,7 @@
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* -----------------------------------------------------------
-           9. FOOTER & CART
+           9. FOOTER & CART (PREMIUM OVERHAUL)
            ----------------------------------------------------------- */
         .footer { position: relative; padding: 150px 0 60px; margin-top: 150px; background: #000; overflow: hidden; }
         .footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), transparent); }
@@ -340,6 +379,7 @@
         .cart-sidebar.active .cart-overlay { opacity: 1; }
         .cart-sidebar.active .cart-inner { transform: translateX(0); }
 
+        /* Premium Cart Items */
         .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
         .cart-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; animation: slideInRight 0.4s ease forwards; opacity: 0; transform: translateX(20px); }
         .cart-item:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); }
@@ -347,6 +387,7 @@
 
         .c-info h4 { font-size: 14px; color: #fff; font-weight: 700; margin-bottom: 4px; }
         .c-info p { font-size: 12px; color: var(--text-dim); }
+        
         .c-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
         .c-price { font-weight: 700; color: #fff; font-size: 14px; }
         
@@ -374,13 +415,16 @@
             .z-controls { border-right: none; border-bottom: 1px solid var(--border); }
             .hero h1 { font-size: 48px; }
             .bento-item.wide { grid-column: span 1; }
+            
             .nav-inner { justify-content: flex-start; gap: 20px; overflow-x: auto; padding-bottom: 0; }
             .nav-links { gap: 20px; }
             .logo { flex-shrink: 0; margin-right: auto; }
+            
             .shape-grid { overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
             .shape-btn { min-width: 90px; }
             .refine-grid { grid-template-columns: 1fr; }
             .z-res-val { font-size: 56px; }
+            
             .container { padding: 0 20px; }
             .section { padding: 80px 0; }
         }
@@ -555,16 +599,18 @@
                         <div class="z-group"><div class="z-head"><span class="z-label">Diameter</span><input type="number" id="input-SD" class="z-number" value="0" oninput="sync('SD')"></div><input type="range" class="z-slider" id="slider-SD" min="0" max="100" value="0" oninput="sync('SD', true)"></div>
                     </div>
 
+
                     <div class="z-group" id="group-depth"><div class="z-head"><span class="z-label">Depth (Thickness)</span><input type="number" id="input-D" class="z-number" value="1" oninput="sync('D')"></div><input type="range" class="z-slider" id="slider-D" min="0.1" max="15" step="0.1" value="1" oninput="sync('D', true)"></div>
 
                     <div class="z-head-title" style="margin-top:40px;">3. Environment Lab</div>
                     <div class="env-card" id="env-card">
-                        <button class="auto-btn" onclick="autoDetectWeather()"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Auto-Detect Indoor Climate</button>
-                        <div id="weather-status" style="font-size:11px; text-align:center; color:var(--text-dim); margin-bottom:15px; display:none;">Initializing satellite link...</div>
+                        <button class="auto-btn" onclick="autoDetectWeather()"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Auto-Detect Conditions</button>
+                        <div id="weather-status" style="font-size:11px; text-align:center; color:var(--text-dim); margin-bottom:15px; display:none;">Searching for satellites...</div>
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-                            <div><div class="z-label">Indoor Temp (°C)</div><input type="range" class="z-slider" id="env-temp" min="5" max="50" value="25" oninput="runCalc(); document.getElementById('val-temp').innerText=this.value+'°C'"><div id="val-temp" style="font-size:11px; text-align:right; margin-top:5px;">25°C</div></div>
-                            <div><div class="z-label">Indoor Hum (%)</div><input type="range" class="z-slider" id="env-hum" min="20" max="90" value="50" oninput="runCalc(); document.getElementById('val-hum').innerText=this.value+'%'"><div id="val-hum" style="font-size:11px; text-align:right; margin-top:5px;">50%</div></div>
+                            <div><div class="z-label">Est. Indoor Temp</div><input type="range" class="z-slider" id="env-temp" min="5" max="50" value="25" oninput="runCalc(); document.getElementById('val-temp').innerText=this.value+'°C'"><div id="val-temp" style="font-size:11px; text-align:right; margin-top:5px;">25°C</div></div>
+                            <div><div class="z-label">Est. Indoor RH</div><input type="range" class="z-slider" id="env-hum" min="20" max="90" value="50" oninput="runCalc(); document.getElementById('val-hum').innerText=this.value+'%'"><div id="val-hum" style="font-size:11px; text-align:right; margin-top:5px;">50%</div></div>
                         </div>
+                        <div id="weather-intelligence"></div>
                     </div>
 
                     <div class="refine-toggle" onclick="document.getElementById('refine-panel').classList.toggle('show')"><span>⚙️ Advanced Settings</span></div>
@@ -696,8 +742,12 @@
             document.querySelectorAll('.shape-btn').forEach(i => i.classList.remove('active'));
             document.getElementById('btn-'+s).classList.add('active');
             
+            // Hide all
             ['rect', 'circ', 'tri', 'pyr', 'sph'].forEach(k => document.getElementById('dims-'+k).style.display = 'none');
+            // Show active
             document.getElementById('dims-'+s).style.display = 'block';
+            
+            // Hide/Show Depth Slider (Sphere has no separate depth)
             document.getElementById('group-depth').style.display = (s === 'sph' || s === 'pyr') ? 'none' : 'block';
             
             runCalc();
@@ -747,92 +797,93 @@
             document.getElementById('slider-'+id).value = val;
         }
 
-        // --- NEW: URBAN HVAC & PSYCHROMETRIC ALGORITHM ---
+        // --- INTELLIGENT INDOOR CLIMATE ENGINE (PHYSICS BASED) ---
         async function autoDetectWeather() {
             const btn = document.querySelector('.auto-btn');
             const status = document.getElementById('weather-status');
+            const intelligence = document.getElementById('weather-intelligence');
             
-            btn.innerHTML = "🛰️ Connecting to Satellite...";
+            btn.innerHTML = "🛰️ Connecting to Satellites...";
             status.style.display = 'block';
-            status.style.color = "var(--text-dim)";
-            status.innerText = "Requesting GPS coordinates...";
+            status.innerText = "Requesting precise geolocation...";
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(async (pos) => {
-                    status.innerText = "Fetching outdoor weather data...";
                     const lat = pos.coords.latitude; 
                     const lon = pos.coords.longitude;
+                    status.innerText = "Analyzing atmospheric pressure...";
                     
                     try {
-                        // Open-Meteo API for real-time temperature and humidity
-                        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m`);
-                        if (!response.ok) throw new Error("API Offline");
+                        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=relativehumidity_2m`);
+                        if (!response.ok) throw new Error("Link Failed");
 
                         const data = await response.json();
-                        const outTemp = data.current.temperature_2m;
-                        const outHum = data.current.relative_humidity_2m;
+                        const tOut = data.current_weather.temperature;
+                        // Get current hour humidity from hourly array
+                        const currentHour = new Date().getHours();
+                        const rhOut = data.hourly.relativehumidity_2m[currentHour] || 50;
+
+                        // --- PHYSICS ENGINE: OUTDOOR TO INDOOR CONVERSION ---
                         
-                        status.innerText = "Applying Indoor Psychrometric Conversion...";
-
-                        let inTemp, inHum;
-
-                        // 1. Cold Weather (Winter Model - Artificial Heating)
-                        if (outTemp <= 15) {
-                            inTemp = 21.0; // Standard heated room
-                            // Magnus-Tetens formula to calculate how heating drops Relative Humidity
-                            let outVp = outHum * Math.exp((17.625 * outTemp) / (243.04 + outTemp));
-                            let baseInHum = outVp / Math.exp((17.625 * inTemp) / (243.04 + inTemp));
-                            inHum = baseInHum + 10; // +10% buffer for indoor moisture (breathing, cooking)
-                        } 
-                        // 2. Mild Weather (Spring/Fall Model - Passive Ventilation)
-                        else if (outTemp > 15 && outTemp <= 26) {
-                            inTemp = outTemp + 1.5; // Internal heat gain from bodies/electronics
-                            inHum = outHum + 5; // Slight moisture buildup indoors
-                        } 
-                        // 3. Hot Weather (Summer Model - Air Conditioning)
-                        else {
-                            inTemp = 24.5 + (outTemp - 26) * 0.2; // AC mitigates extreme heat
-                            inHum = 50 + (outHum - 50) * 0.2; // AC dehumidifies and stabilizes around 50%
-                        }
-
-                        // Clamp values to realistic bounds
-                        inHum = Math.min(Math.max(Math.round(inHum), 20), 80);
-                        inTemp = Math.round(inTemp);
-
-                        // Update the UI Sliders
-                        document.getElementById('env-temp').value = inTemp;
-                        document.getElementById('val-temp').innerText = inTemp + '°C';
-                        document.getElementById('env-hum').value = inHum;
-                        document.getElementById('val-hum').innerText = inHum + '%';
+                        // 1. Estimate Indoor Temp (Thermal Lag of Concrete)
+                        // Indian concrete homes retain heat at night and stay cooler during peak day.
+                        let tIn = tOut; 
+                        if (tOut > 30) { tIn = tOut - ( (tOut - 25) * 0.4 ); } // Cooling dampening factor
+                        else if (tOut < 20) { tIn = tOut + ( (20 - tOut) * 0.5 ); } // Heat retention factor
                         
-                        runCalc();
+                        // 2. Estimate Indoor Humidity (Conservation of Absolute Humidity)
+                        // Calculate Saturation Vapor Pressure (August-Roche-Magnus approximation)
+                        const getSVP = (t) => 6.112 * Math.exp((17.67 * t) / (t + 243.5));
+                        
+                        const svpOut = getSVP(tOut);
+                        const actualVP = (rhOut * svpOut) / 100; // Actual vapor pressure outside
+                        
+                        const svpIn = getSVP(tIn); // Saturation VP inside at new temp
+                        let rhIn = (actualVP / svpIn) * 100; // New Relative Humidity
+                        
+                        // Clamp values
+                        rhIn = Math.min(Math.max(rhIn, 20), 99);
+
+                        // Update UI
+                        document.getElementById('env-temp').value = Math.round(tIn);
+                        document.getElementById('val-temp').innerText = Math.round(tIn) + '°C';
+                        
+                        document.getElementById('env-hum').value = Math.round(rhIn);
+                        document.getElementById('val-hum').innerText = Math.round(rhIn) + '%';
+                        
+                        runCalc(); // Updates safety logic
                         
                         btn.innerHTML = "✅ Indoor Climate Synced"; 
-                        status.innerText = `Outdoor: ${outTemp}°C, ${outHum}% RH → Indoor Estimated: ${inTemp}°C, ${inHum}% RH`;
-                        status.style.color = "var(--success)";
+                        status.style.display = 'none';
+                        
+                        // Show Intelligence Strip
+                        intelligence.style.display = "block";
+                        intelligence.innerHTML = `
+                            🛰️ Outdoor: <b>${tOut}°C</b> / <b>${rhOut}%</b><br>
+                            🏠 Indoor Est: <b>${Math.round(tIn)}°C</b> / <b>${Math.round(rhIn)}%</b>
+                        `;
                         
                         setTimeout(() => {
-                            btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg> Auto-Detect Indoor Climate';
-                            status.style.display = 'none';
+                            btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg> Auto-Detect Conditions';
                         }, 5000);
 
                     } catch (e) { 
-                        handleWeatherError(btn, status, "Connection Lost");
+                        handleWeatherError(btn, status, "Signal Lost");
                     }
                 }, (err) => {
-                    handleWeatherError(btn, status, "GPS Permission Denied");
+                    handleWeatherError(btn, status, "GPS Denied");
                 });
             } else {
-                handleWeatherError(btn, status, "GPS Hardware Missing");
+                handleWeatherError(btn, status, "No GPS Found");
             }
         }
 
         function handleWeatherError(btn, status, msg) {
-            btn.innerHTML = "⚠️ Manual Mode Active";
+            btn.innerHTML = "⚠️ Manual Mode";
             status.innerText = msg + ". Please use sliders.";
             status.style.color = "var(--warning)";
             setTimeout(() => {
-                btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg> Auto-Detect Indoor Climate';
+                btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg> Auto-Detect Conditions';
                 status.style.display = 'none';
             }, 3000);
         }
@@ -897,6 +948,7 @@
             let limit = appState.mode === 'coat' ? 0.5 : 2.5; 
             let risks = 0; sList.innerHTML = '';
 
+            // Smart Safety Logic
             if (h_cm > limit && appState.shape !== 'sph') { 
                 risks++;
                 const layers = Math.ceil(h_cm / limit);
@@ -905,8 +957,8 @@
             }
             if (hum > 70) {
                 risks++;
-                sList.innerHTML += `<li class="sr-item" style="color:var(--danger)">💧 <b>BLUSH RISK:</b> High humidity.</li>`;
-                sList.innerHTML += `<li class="sr-item">💡 Use dehumidifier or heat room.</li>`;
+                sList.innerHTML += `<li class="sr-item" style="color:var(--danger)">💧 <b>BLUSH RISK:</b> High humidity inside.</li>`;
+                sList.innerHTML += `<li class="sr-item">💡 Use AC (Dry Mode) or Dehumidifier.</li>`;
             }
             if (temp > 30 && h_cm > 2) {
                 risks++;
@@ -916,7 +968,7 @@
             if(risks === 0) {
                 sStatus.innerText = "SAFE"; sStatus.style.color = "var(--success)";
                 sCard.className = "safety-report safe";
-                sList.innerHTML = `<li class="sr-item"><span>✓</span> Conditions optimal. Safe to pour.</li>`;
+                sList.innerHTML = `<li class="sr-item"><span>✓</span> Indoor conditions optimal. Safe to pour.</li>`;
             } else {
                 sStatus.innerText = "ALERT"; sStatus.style.color = "var(--danger)";
                 sCard.className = "safety-report danger";
