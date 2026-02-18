@@ -28,7 +28,7 @@
             
             --border: rgba(255, 255, 255, 0.1);
             --glass: rgba(15, 15, 15, 0.9);
-            --blur: blur(25px);
+            --blur: blur(25px); /* Desktop Blur */
             --radius: 24px;
             
             --ease-fluid: cubic-bezier(0.2, 0.0, 0, 1.0);
@@ -67,7 +67,7 @@
         input[type=number] { -moz-appearance: textfield; }
 
         /* -----------------------------------------------------------
-           2. BACKGROUND ENGINE
+           2. BACKGROUND ENGINE (GPU ACCELERATED)
            ----------------------------------------------------------- */
         .bg-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -5;
@@ -80,16 +80,15 @@
             mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
             -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
             will-change: transform;
-        }
-
-        @media (max-width: 900px) {
-            .bg-layer { background-size: cover; opacity: 0.4; }
+            /* SPEED: Force GPU Layer */
+            transform: translateZ(0); 
         }
 
         .bg-gradient {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -4;
             background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 60%, #000 100%);
             pointer-events: none;
+            transform: translateZ(0);
         }
 
         .grain {
@@ -101,7 +100,15 @@
            3. UI COMPONENTS
            ----------------------------------------------------------- */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .section { padding: 100px 0; position: relative; z-index: 2; }
+        
+        /* SPEED: Content-Visibility skips rendering off-screen content */
+        .section { 
+            padding: 100px 0; 
+            position: relative; 
+            z-index: 2; 
+            content-visibility: auto; 
+            contain-intrinsic-size: 800px; 
+        }
         
         .reveal { opacity: 0; transform: translateY(30px); transition: all 1s var(--ease-fluid); }
         .reveal.active { opacity: 1; transform: translateY(0); }
@@ -142,7 +149,7 @@
             padding: 15px 30px; border-radius: 50px; 
             color: #fff; font-size: 13px; font-weight: 700; 
             z-index: 9999; 
-            transition: all 0.5s var(--ease-bounce); 
+            transition: all 0.5s var(--ease-fluid); 
             box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
             display: flex; align-items: center; gap: 10px;
             width: 90%; max-width: 350px; justify-content: center;
@@ -180,7 +187,9 @@
         .nav-link:hover { color: #fff; }
 
         .hero { 
-            min-height: 100vh; min-height: 100dvh;
+            min-height: 100vh; 
+            /* ASPECT RATIO FIX: Uses Dynamic Viewport Height for Mobile */
+            min-height: 100dvh; 
             display: flex; flex-direction: column; justify-content: center; align-items: center; 
             text-align: center; z-index: 10; padding-top: 80px; padding-bottom: 60px; 
         }
@@ -208,6 +217,7 @@
 
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .product-card { padding: 30px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
+        /* ASPECT RATIO FIX: Ensure images don't stretch */
         .p-img { width: 100%; height: 280px; object-fit: cover; border-radius: 16px; margin-bottom: 25px; opacity: 0.9; }
         .p-tag { font-size: 10px; border: 1px solid var(--border); padding: 6px 12px; border-radius: 20px; color: var(--text-dim); text-transform: uppercase; display: inline-block; margin-bottom: 15px; letter-spacing: 1px; }
 
@@ -421,10 +431,23 @@
         .empty-cart { text-align: center; color: var(--text-dim); margin-top: 50px; font-size: 14px; }
 
         /* -----------------------------------------------------------
-           12. MOBILE BREAKPOINTS
+           12. MOBILE BREAKPOINTS (OPTIMIZED)
            ----------------------------------------------------------- */
         @media (max-width: 900px) {
-            .bg-layer { background-size: cover; opacity: 0.5; mask-image: none; background-attachment: scroll; }
+            /* ASPECT RATIO FIX: Use generic cover to prevent squashing, but fix attachment for performance */
+            .bg-layer { 
+                background-size: cover; 
+                opacity: 0.4; 
+                background-attachment: scroll; 
+                background-position: center center;
+            }
+            
+            /* PERFORMANCE: Reduce blur radius on mobile to save GPU */
+            :root { --blur: blur(10px); }
+            
+            /* ASPECT RATIO FIX: 100dvh handles address bar resize */
+            .hero { min-height: 100dvh; }
+
             .grid-3, .specs-layout, .gallery-masonry, .zenith-calc, .dos-donts, .refine-grid { grid-template-columns: 1fr; }
             .gallery-masonry { column-count: 2; column-gap: 10px; }
             .cart-inner { width: 100%; max-width: 100%; padding: 25px; }
