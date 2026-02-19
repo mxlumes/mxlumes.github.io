@@ -43,8 +43,8 @@
         html { 
             font-size: 16px; 
             scroll-behavior: smooth; 
-            overflow-x: hidden; 
             width: 100%;
+            /* FIX: Removed overflow-x hidden from HTML to allow sticky touch events */
         }
         
         body {
@@ -52,9 +52,8 @@
             color: var(--text-main);
             font-family: 'Manrope', sans-serif;
             line-height: 1.6;
-            overflow-x: hidden; 
             width: 100%;
-            max-width: 100vw; /* CRITICAL FIX: Stops page from overflowing sideways */
+            overflow-x: hidden; /* Kept only on body for animation safety */
             position: relative;
         }
 
@@ -105,8 +104,7 @@
             padding: 100px 0; 
             position: relative; 
             z-index: 2; 
-            content-visibility: auto; 
-            contain-intrinsic-size: 800px; 
+            /* FIX: Removed content-visibility: auto as it breaks scroll width calculation on mobile */
         }
         
         .reveal { opacity: 0; transform: translateY(30px); transition: all 1s var(--ease-fluid); }
@@ -266,17 +264,27 @@
             border: 1px solid var(--border); 
             position: relative;
             z-index: 5;
+            /* FIX: Explicitly allow horizontal touch actions */
+            touch-action: pan-x; 
         }
 
         .comp-table { 
             width: 100%; 
             border-collapse: collapse; 
-            /* FIX: Min-width ensures table is WIDER than phone screen, forcing scroll */
             min-width: 650px; 
+            /* FIX: Fixed layout prevents collapsing */
+            table-layout: fixed; 
         }
         
-        .comp-table th { text-align: left; padding: 20px; color: var(--text-dim); font-size: 11px; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.1); white-space: nowrap; }
-        .comp-table th.col-mx, .comp-table td.col-mx { width: 40%; background: rgba(99,102,241,0.03); border-right: 1px solid rgba(99,102,241,0.1); border-left: 1px solid rgba(99,102,241,0.1); }
+        .comp-table th { 
+            text-align: left; padding: 20px; color: var(--text-dim); font-size: 11px; text-transform: uppercase; 
+            border-bottom: 1px solid rgba(255,255,255,0.1); 
+            /* FIX: Force width on headers */
+            width: 30%; 
+        }
+        .comp-table th.col-mx { width: 40%; }
+        
+        .comp-table th.col-mx, .comp-table td.col-mx { background: rgba(99,102,241,0.03); border-right: 1px solid rgba(99,102,241,0.1); border-left: 1px solid rgba(99,102,241,0.1); }
         
         .comp-row { transition: 0.2s; }
         .comp-row:hover { background: rgba(255,255,255,0.02); }
@@ -441,7 +449,6 @@
             :root { --blur: blur(10px); }
             .hero { min-height: 100dvh; }
 
-            /* FIX: Grid columns now shrink to fit screen instead of forcing 300px min width */
             .grid-3 { grid-template-columns: 100%; } 
             
             .specs-layout, .gallery-masonry, .zenith-calc, .dos-donts, .refine-grid { grid-template-columns: 1fr; }
