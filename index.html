@@ -481,33 +481,34 @@
         .checkout-btn:active { transform: scale(0.98); }
         .empty-cart { text-align: center; color: var(--text-dim); margin-top: 50px; font-size: 14px; }
 
-        /* Vijeta AI Assistant CSS */
-        .vijeta-fab { position: fixed; bottom: 30px; left: 20px; width: 60px; height: 60px; background: rgba(15, 15, 15, 0.9); backdrop-filter: blur(10px); border: 1px solid var(--accent); border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 2000; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3); transition: all 0.4s var(--ease-fluid); cursor: pointer; }
-        .vijeta-fab:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(99, 102, 241, 0.5); background: var(--accent); }
-        .vijeta-fab:hover svg { stroke: #fff; }
-        .vijeta-fab:active { transform: scale(0.9); }
+        /* Vijeta AI Assistant CSS Upgraded */
+        .vijeta-fab { position: fixed; bottom: 30px; left: 20px; width: 65px; height: 65px; background: #000; border: 2px solid var(--accent); border-radius: 50%; z-index: 2000; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4); transition: all 0.4s var(--ease-fluid); cursor: pointer; padding: 2px; }
+        .vijeta-fab:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6); }
+        .vijeta-fab:active { transform: scale(0.95); }
+        .v-avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+        .v-online-dot { position: absolute; bottom: 2px; right: 2px; width: 14px; height: 14px; background: var(--success); border-radius: 50%; border: 2px solid #000; box-shadow: 0 0 10px var(--success); }
         
-        .vijeta-panel { position: fixed; bottom: 100px; left: 20px; width: 350px; height: 450px; background: rgba(5,5,5,0.95); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 24px; z-index: 2001; display: flex; flex-direction: column; overflow: hidden; opacity: 0; transform: translateY(20px) scale(0.95); pointer-events: none; transition: all 0.5s var(--ease-spring); box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
+        .vijeta-panel { position: fixed; bottom: 105px; left: 20px; width: 380px; height: 500px; background: rgba(5,5,5,0.95); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 24px; z-index: 2001; display: flex; flex-direction: column; overflow: hidden; opacity: 0; transform: translateY(20px) scale(0.95); pointer-events: none; transition: all 0.5s var(--ease-spring); box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
         .vijeta-panel.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
         
         .v-header { background: rgba(99, 102, 241, 0.1); border-bottom: 1px solid var(--border); padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .v-title { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; color: #fff; }
+        .v-title { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
         .v-title span { display: block; width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 10px var(--success); }
-        .v-close { background: none; border: none; color: var(--text-dim); font-size: 20px; cursor: pointer; transition: 0.3s; }
-        .v-close:hover { color: #fff; }
+        .v-close { background: none; border: none; color: var(--text-dim); font-size: 24px; cursor: pointer; transition: 0.3s; line-height: 1; }
+        .v-close:hover { color: #fff; transform: scale(1.2); }
         
         .v-chat { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none; }
         .v-chat::-webkit-scrollbar { display: none; }
-        .msg { max-width: 85%; padding: 12px 16px; border-radius: 16px; font-size: 13px; line-height: 1.5; animation: popIn 0.4s var(--ease-spring) forwards; }
+        .msg { max-width: 88%; padding: 14px 18px; border-radius: 16px; font-size: 13px; line-height: 1.6; animation: popIn 0.4s var(--ease-spring) forwards; }
         @keyframes popIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .msg.bot { background: rgba(255,255,255,0.05); color: #fff; align-self: flex-start; border-bottom-left-radius: 4px; }
-        .msg.user { background: var(--accent); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .msg.bot { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .msg.user { background: var(--accent); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
         
         .v-input-area { padding: 15px; border-top: 1px solid var(--border); display: flex; gap: 10px; background: rgba(0,0,0,0.5); }
-        .v-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid transparent; border-radius: 20px; padding: 10px 15px; color: #fff; font-size: 13px; outline: none; transition: 0.3s; font-family: 'Manrope', sans-serif; }
+        .v-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid transparent; border-radius: 20px; padding: 12px 18px; color: #fff; font-size: 13px; outline: none; transition: 0.3s; font-family: 'Manrope', sans-serif; }
         .v-input:focus { border-color: var(--accent); background: rgba(0,0,0,0.8); }
-        .v-send { background: var(--accent); border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; cursor: pointer; transition: 0.3s; }
-        .v-send:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--accent-glow); }
+        .v-send { background: var(--accent); border: none; width: 42px; height: 42px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; cursor: pointer; transition: 0.3s; }
+        .v-send:hover { transform: scale(1.08); box-shadow: 0 0 15px var(--accent-glow); }
         .v-send:active { transform: scale(0.95); }
 
         /* =========================================
@@ -544,7 +545,7 @@
             .comp-container::after { display: none; }
             
             /* Mobile Vijeta Panel Adjustments */
-            .vijeta-panel { width: calc(100% - 40px); left: 20px; right: 20px; height: 400px; bottom: 100px; }
+            .vijeta-panel { width: calc(100% - 40px); left: 20px; right: 20px; height: 450px; bottom: 105px; }
         }
     </style>
 </head>
@@ -951,7 +952,8 @@
     </footer>
 
     <div class="vijeta-fab" onclick="toggleVijeta()" title="Ask Vijeta">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: stroke 0.3s;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <img src="vijeta.jpg" alt="Vijeta" class="v-avatar">
+        <div class="v-online-dot"></div>
     </div>
 
     <div class="vijeta-panel" id="vijetaPanel">
@@ -960,7 +962,7 @@
             <button class="v-close" onclick="toggleVijeta()">×</button>
         </div>
         <div class="v-chat" id="vChatBox">
-            <div class="msg bot">Namaste! 🙏 I am Vijeta, your M-X Lumes Assistant. How can I help you with our pricing or project calculator today?</div>
+            <div class="msg bot">Namaste! 🙏 I am Vijeta, your M-X Lumes expert. I am here to help you with in-depth knowledge of our products and the advanced Project Calculator. What would you like to know?</div>
         </div>
         <div class="v-input-area">
             <input type="text" id="vInput" class="v-input" placeholder="Type a question..." onkeypress="handleVijetaEnter(event)">
@@ -1358,10 +1360,27 @@
         }
 
         // =========================================
-        // VIJETA AI ASSISTANT LOGIC
+        // VIJETA AI ASSISTANT LOGIC (PRO-EXPERT NEURAL CORE)
         // =========================================
+        let vTimer;
+        let vPromoSent = false;
+
+        function resetVTimer() {
+            clearTimeout(vTimer);
+            if(!vPromoSent) {
+                // Smart Idle Closing Algorithm (Triggers after 20 seconds of silence)
+                vTimer = setTimeout(() => {
+                    const chatBox = document.getElementById('vChatBox');
+                    chatBox.innerHTML += `<div class="msg bot" style="white-space: pre-wrap;">I highly recommend you use our 1.2KG Starter Kit once and compare the quality difference yourself. You will not regret trusting us! 💎\n\nIs there anything else I can help you with?</div>`;
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                    vPromoSent = true; 
+                }, 20000); 
+            }
+        }
+
         function toggleVijeta() {
             document.getElementById('vijetaPanel').classList.toggle('active');
+            resetVTimer(); // Start tracking conversation pace when opened
         }
 
         function handleVijetaEnter(e) {
@@ -1378,21 +1397,26 @@
             input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // Neural Simulation Delay
-            setTimeout(() => { generateVijetaResponse(text.toLowerCase(), chatBox); }, 600);
+            resetVTimer(); // User is typing, reset the idle timer
+
+            // Neural Simulation Delay (Makes her feel like she is thinking)
+            setTimeout(() => { generateVijetaResponse(text.toLowerCase(), chatBox); }, 750);
         }
 
         function generateVijetaResponse(text, chatBox) {
             const knowledgeBase = [
-                { keys: ['price', 'cost', 'kit', 'buy', 'order', 'much'], reply: "Our premium line includes:\n• 1.2KG Starter Kit: ₹1,250\n• 4.8KG Master Kit: ₹4,400\n• 20KG Super Saver: ₹17,000 (just ₹850/kg!).\nAll include free shipping! You can add them to your cart directly from the lineup." },
-                { keys: ['calc', 'measure', 'weight', 'dimension', 'how much resin'], reply: "Our Project Calculator is an advanced tool! You select your shape, input the dimensions, and it calculates the exact weight of Resin (Part A) and Hardener (Part B) you need. It even factors in your local temperature and humidity for a safe pour!" },
-                { keys: ['deep', 'thick', 'pour', 'layer'], reply: "For Deep Casting, you can pour up to 2.5cm per layer safely. For thin Coating, stick to 0.5cm. Our calculator will actually warn you if your entered depth is unsafe for a single pour!" },
-                { keys: ['bubble', 'yellow', 'quality', 'clear', 'voc', 'hard'], reply: "M-X Lumes is engineered for professionals. It features auto-degassing (zero bubbles), HALS UV protection (no yellowing for 10+ years), cures rock hard (85 Shore D), and is 100% VOC and BPA-free!" },
-                { keys: ['hi', 'hello', 'hey', 'namaste'], reply: "Namaste! 🙏 I am Vijeta, your AI assistant for M-X Lumes. How can I help you elevate your resin art today?" },
-                { keys: ['contact', 'support', 'help', 'whatsapp', 'talk', 'issue', 'mix'], reply: "You can reach our 24/7 expert artist support directly via WhatsApp by clicking the green 'Chat with an Expert' button on our page, or through your cart checkout!" }
+                { keys: ['calc', 'calculator', 'how to use', 'features', 'help'], reply: "Here is an in-depth breakdown of my Project Calculator:\n\n• Shapes & Dimensions: Select Square, Circle, Triangle, Pyramid, or Orb. Input exact measurements in CM or IN.\n• Environment Lab: Click 'Auto-Detect' to fetch local satellite weather and convert it to indoor conditions.\n• Safety Engine: I calculate exact exotherm risks, blush risks (if humidity > 70%), and flash cures based on your pour depth.\n• Advanced Tuning: Adjust epoxy density (1.13 default), pigment %, and track exact ₹ costs per pour.\n\nAsk me about any specific feature!" },
+                { keys: ['weather', 'environment', 'temp', 'humidity', 'auto', 'satellite'], reply: "The Environment Lab is revolutionary:\n\n• Satellite Sync: I use GPS (or IP fallback) to pull real-time exterior weather.\n• Indoor Conversion: My physics algorithm calculates your exact indoor Temperature and Relative Humidity (RH).\n• Pro Safety Alerts: If indoor humidity is high, I warn you about 'Blush Risk'. If it's hot and you pour deep, I alert you to 'Flash Curing'." },
+                { keys: ['shape', 'preset', 'varmala', 'geode', 'tray', 'clock'], reply: "I built 1-click Presets for top resin projects:\n\n• Varmala Block: Auto-sets to Square (30x30x7.5cm) + Deep Casting mode.\n• Wall Clock: Auto-sets to Circle (30cm, 1cm depth) + Coating mode.\n• Geode Art: Auto-sets to Circle (10cm, 0.8cm depth).\n• Resin Tray: Auto-sets to Rect (30x20x1.5cm)." },
+                { keys: ['safety', 'danger', 'exotherm', 'crack', 'blush', 'deep', 'thick'], reply: "My Safety Report protects your art:\n\n• Exotherm Limit: If you try to pour deeper than 2.5cm in Casting mode, I calculate exactly how many separate layers you must pour to prevent the resin from boiling.\n• Blush Risk: I warn you if humidity exceeds 70%.\n• Flash Cure: I alert you if your room temp (>30°C) combined with a deep pour will cause cracking." },
+                { keys: ['advanced', 'density', 'pigment', 'cost'], reply: "In the Advanced Settings (⚙️), you can:\n\n• Modify Density: Default is 1.13g/cm³. Low Viscosity systems can be dropped to 1.05.\n• Pigment %: Accounts for the extra weight of your colors.\n• Cost Tracking: Input your Kit price (e.g., ₹1000/kg), and I instantly calculate the exact ₹ cost of the current pour." },
+                { keys: ['ratio', 'mixing', 'proportion'], reply: "By default, M-X Lumes uses a 3:1 ratio by weight.\n\n• You can quickly toggle to 2:1 or 1:1 if testing other brands.\n• Use 'Custom' to input any specific ratio.\n• I instantly break down the Total Weight into exact Part A (Resin) and Part B (Hardener) grams." },
+                { keys: ['spec', 'quality', 'tech', 'hals', 'bubble', 'voc', 'hard'], reply: "M-X Lumes Crystal Series Specifications:\n\n• HALS Tech: 99.8% UV Blocking for 10+ years of anti-yellowing.\n• Fluid Dynamics: 28 dynes/cm surface tension guarantees 100% auto-degassing (no torch needed).\n• Viscosity: Ultra-thin 180 mPas.\n• Pot Life: 120 stress-free minutes.\n• Safety: Zero VOC, BPA-Free, food-safe when cured." },
+                { keys: ['product', 'starter', 'master', 'super saver', 'kit', 'price', 'buy'], reply: "Here is our Studio Lineup (No Extra Shipping Charges!):\n\n• 1.2KG Starter Kit (₹1,250): Perfect for testing. (900g Resin + 300g Hardener).\n• 4.8KG Master Kit (₹4,400): The bestseller. (3.6kg Resin + 1.2kg Hardener).\n• 20KG Super Saver (₹17,000): Just ₹850/kg! (15kg Resin + 5kg Hardener)." },
+                { keys: ['hello', 'hi', 'hey', 'namaste'], reply: "Namaste! 🙏 I am Vijeta. I am here to help you with in-depth knowledge of our M-X Lumes products and the advanced Project Calculator. What would you like to know?" }
             ];
 
-            let response = "I'm still learning! But for complex artistic questions, you can click the green 'Chat with an Expert' button on our site to speak directly with our 24/7 WhatsApp support team.";
+            let response = "That is a great question! For highly specific artistic queries, you can click the green 'Chat with an Expert' button on our site to speak directly with our human 24/7 WhatsApp support team.\n\nCan I help you calculate a pour dimension instead?";
 
             for (let item of knowledgeBase) {
                 if (item.keys.some(key => text.includes(key))) {
@@ -1403,6 +1427,7 @@
 
             chatBox.innerHTML += `<div class="msg bot" style="white-space: pre-wrap;">${response}</div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
+            resetVTimer(); 
         }
     </script>
 </body>
