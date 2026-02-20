@@ -49,16 +49,13 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        /* CRITICAL SCROLL FIX: 
-           Removed overscroll-behavior constraints.
-           Forced smooth scroll-behavior on the HTML root.
-        */
+        /* CRITICAL SCROLL FIX */
         html { 
             font-size: 16px; 
             scroll-behavior: smooth; 
             width: 100%;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased; /* Polish font rendering */
+            -webkit-font-smoothing: antialiased; 
         }
         
         body {
@@ -405,7 +402,7 @@
         .empty-cart { text-align: center; color: var(--text-dim); margin-top: 50px; font-size: 14px; }
 
         /* =========================================
-           12. VIJETA AI ASSISTANT (TYPING LAG FIXED)
+           12. VIJETA AI ASSISTANT & GREETING BUBBLE
            ========================================= */
         .vijeta-fab { position: fixed; bottom: 30px; left: 20px; width: 65px; height: 65px; background: #000; border: 2px solid var(--accent); border-radius: 50%; z-index: 2000; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4); transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; cursor: pointer; padding: 2px; transform: translate3d(0,0,0); }
         .vijeta-fab:hover { transform: translate3d(0,-5px,0) scale(1.05); box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6); }
@@ -413,6 +410,32 @@
         .v-avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
         .v-online-dot { position: absolute; bottom: 2px; right: 2px; width: 14px; height: 14px; background: var(--success); border-radius: 50%; border: 2px solid #000; box-shadow: 0 0 10px var(--success); }
         
+        /* NEW: Greeting Bubble UI */
+        .v-greeting {
+            position: fixed;
+            bottom: 105px;
+            left: 20px;
+            width: 250px;
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid var(--accent);
+            border-radius: 16px 16px 16px 4px;
+            padding: 15px;
+            color: #fff;
+            font-size: 13px;
+            line-height: 1.5;
+            z-index: 1999;
+            opacity: 0;
+            transform: translate3d(0, 20px, 0) scale(0.9);
+            transition: opacity 0.5s var(--ease-spring), transform 0.5s var(--ease-spring);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            pointer-events: none;
+            will-change: transform, opacity;
+        }
+        .v-greeting.show {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1);
+        }
+
         .vijeta-panel { position: fixed; bottom: 105px; left: 20px; width: 380px; height: 500px; background: #0a0a0a; border: 1px solid var(--border); border-radius: 24px; z-index: 2001; display: flex; flex-direction: column; overflow: hidden; opacity: 0; transform: translate3d(0, 20px, 0) scale(0.95); pointer-events: none; transition: transform 0.5s var(--ease-spring), opacity 0.5s; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
         .vijeta-panel.active { opacity: 1; transform: translate3d(0, 0, 0) scale(1); pointer-events: all; }
         
@@ -474,6 +497,7 @@
             .comp-container::after { display: none; }
             
             .vijeta-panel { width: calc(100% - 40px); left: 20px; right: 20px; height: 450px; bottom: 105px; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: #0a0a0a !important; }
+            .v-greeting { width: calc(100% - 110px); }
         }
     </style>
 </head>
@@ -878,6 +902,10 @@
             </div>
         </div>
     </footer>
+
+    <div class="v-greeting" id="vGreeting">
+        Hey, I am Vijeta! I can solve all your queries about our resin products or calculator use. 👋
+    </div>
 
     <div class="vijeta-fab" onclick="toggleVijeta()" title="Ask Vijeta">
         <img src="vijeta.jpg" alt="Vijeta" class="v-avatar">
@@ -1300,6 +1328,19 @@
         let vTimer;
         let vPromoSent = false;
 
+        // NEW: Auto-Greeting Startup Engine
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const greeting = document.getElementById('vGreeting');
+                const panel = document.getElementById('vijetaPanel');
+                if(greeting && !panel.classList.contains('active')) {
+                    greeting.classList.add('show');
+                    // Auto dismiss the bubble after 6 seconds so it doesn't annoy the user
+                    setTimeout(() => { greeting.classList.remove('show'); }, 6000);
+                }
+            }, 2000); // 2 seconds after page load
+        });
+
         function resetVTimer() {
             clearTimeout(vTimer);
             if(!vPromoSent) {
@@ -1314,6 +1355,8 @@
         }
 
         function toggleVijeta() {
+            // Dismiss greeting instantly if they click the avatar
+            document.getElementById('vGreeting').classList.remove('show');
             document.getElementById('vijetaPanel').classList.toggle('active');
             resetVTimer(); 
         }
