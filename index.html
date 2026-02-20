@@ -1328,23 +1328,21 @@
         let vTimer;
         let vPromoSent = false;
 
-        // NEW: Auto-Greeting Startup Engine
+        // Auto-Greeting Startup Engine
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const greeting = document.getElementById('vGreeting');
                 const panel = document.getElementById('vijetaPanel');
                 if(greeting && !panel.classList.contains('active')) {
                     greeting.classList.add('show');
-                    // Auto dismiss the bubble after 6 seconds so it doesn't annoy the user
                     setTimeout(() => { greeting.classList.remove('show'); }, 6000);
                 }
-            }, 2000); // 2 seconds after page load
+            }, 2000); 
         });
 
         function resetVTimer() {
             clearTimeout(vTimer);
             if(!vPromoSent) {
-                // Smart Idle Closing Algorithm
                 vTimer = setTimeout(() => {
                     const chatBox = document.getElementById('vChatBox');
                     chatBox.innerHTML += `<div class="msg bot" style="white-space: pre-wrap;">I highly recommend you use our 1.2KG Starter Kit once and compare the quality difference yourself. You will not regret trusting us! 💎\n\nIs there anything else I can help you with?</div>`;
@@ -1355,7 +1353,6 @@
         }
 
         function toggleVijeta() {
-            // Dismiss greeting instantly if they click the avatar
             document.getElementById('vGreeting').classList.remove('show');
             document.getElementById('vijetaPanel').classList.toggle('active');
             resetVTimer(); 
@@ -1377,24 +1374,27 @@
 
             resetVTimer(); 
 
-            // Neural Simulation Delay
             setTimeout(() => { generateVijetaResponse(text.toLowerCase(), chatBox); }, 750);
         }
 
         function generateVijetaResponse(text, chatBox) {
             const knowledgeBase = [
+                { keys: ['sticky', 'soft', 'not curing', 'wet', 'tacky', 'runny', 'not hard'], reply: "I understand how frustrating sticky resin can be! Let's fix this together. 👩‍🔬\n\nFirst, tell me: Did you measure by WEIGHT or VOLUME? (Our 3:1 ratio must be by weight!).\n\n🧪 The Chemical Cause:\nUncured spots happen when resin and hardener molecules don't perfectly cross-link. This is usually caused by:\n• Measuring by volume instead of weight on a digital scale.\n• Scraping the sides of your mixing cup while pouring (which drags unmixed chemicals into your art).\n• Room temperature being too cold (below 20°C).\n\n✨ The Fix:\nUnfortunately, you must scrape out the gooey parts, clean with rubbing alcohol, and do a fresh top-coat pour. Next time, try the 'Double-Cup' mixing method for a flawless cure!" },
+                { keys: ['bubble', 'bubbles', 'frothy', 'cloudy inside', 'microbubbles', 'foam'], reply: "Bubbles can ruin a beautiful piece! Let's look at the fluid dynamics. 🫧\n\nFirst, what is your room temperature? Cold resin gets thick like honey, trapping air.\n\n🧪 The Chemical Cause:\n• Cold temperatures increase the resin's viscosity.\n• Whipping the mixture too aggressively folds air into the polymer matrix.\n• Pouring on porous surfaces (like unsealed wood) that 'breathe' air into the resin.\n\n✨ The Fix:\n• Give your sealed resin/hardener bottles a warm water bath for 10 mins before mixing.\n• Stir slowly and steadily.\n• Seal porous objects with a thin coat first.\n\n(Note: M-X Lumes naturally drops surface tension to 28 dynes/cm to auto-release most bubbles!)" },
+                { keys: ['hot', 'smoke', 'smoking', 'cracked', 'cracking', 'flash cure', 'boil', 'heat'], reply: "Whoa! That is called 'Flash Curing' or an Exothermic runaway. 🔥\n\n🧪 The Chemical Cause:\nResin curing is an exothermic reaction (it creates its own heat). If you mix too large a mass, or pour too deep in a warm room, the heat gets trapped. The molecules react too fast, causing the resin to literally boil, smoke, and crack.\n\n✨ The Fix:\n• Never leave a large mixed batch sitting in the mixing cup.\n• Check our Project Calculator! If you pour deeper than 2.5cm, pour in multiple smaller layers instead.\n• Lower your room temperature to around 22°C-25°C." },
+                { keys: ['cloudy surface', 'greasy', 'blush', 'dull', 'matte finish', 'film', 'white film'], reply: "Ah, it sounds like you're experiencing 'Amine Blush'. Let's check your environment! 🌧️\n\nWas your room humidity above 60-70%?\n\n🧪 The Chemical Cause:\nWhen the hardener (amine) reacts with moisture and carbon dioxide in the air before it can completely cross-link with the resin, it creates a waxy, cloudy, or greasy film on the surface.\n\n✨ The Fix:\n• Once cured, you can wash the blush off with warm soapy water, lightly sand it, and pour a fresh clear topcoat.\n• Prevention: Turn on your AC (Dry Mode) or a dehumidifier while pouring and curing." },
+                { keys: ['yellow', 'yellowing', 'uv', 'sun', 'sunlight'], reply: "Yellowing is a common enemy of resin artists, but we engineered a defense against it! 🛡️\n\n🧪 The Chemical Cause:\nStandard epoxies degrade when exposed to UV light, breaking the polymer chains and turning the plastic yellow or amber.\n\n✨ The Solution:\nM-X Lumes Crystal Series uses advanced HALS (Hindered Amine Light Stabilizers). These actively scavenge free radicals generated by UV exposure, interrupting the degradation cycle for 10+ years of clarity! (However, we still recommend keeping cured art out of direct, continuous sunlight)." },
                 { keys: ['calc', 'calculator', 'how to use', 'features', 'help'], reply: "Here is an in-depth breakdown of my Project Calculator:\n\n• Shapes & Dimensions: Select Square, Circle, Triangle, Pyramid, or Orb. Input exact measurements in CM or IN.\n• Environment Lab: Click 'Auto-Detect' to fetch local satellite weather and convert it to indoor conditions.\n• Safety Engine: I calculate exact exotherm risks, blush risks (if humidity > 70%), and flash cures based on your pour depth.\n• Advanced Tuning: Adjust epoxy density (1.13 default), pigment %, and track exact ₹ costs per pour.\n\nAsk me about any specific feature!" },
-                { keys: ['weather', 'environment', 'temp', 'humidity', 'auto', 'satellite'], reply: "The Environment Lab is revolutionary:\n\n• Satellite Sync: I use GPS (or IP fallback) to pull real-time exterior weather.\n• Indoor Conversion: My physics algorithm calculates your exact indoor Temperature and Relative Humidity (RH).\n• Pro Safety Alerts: If indoor humidity is high, I warn you about 'Blush Risk'. If it's hot and you pour deep, I alert you to 'Flash Curing'." },
+                { keys: ['weather', 'environment', 'temp', 'humidity', 'auto', 'satellite'], reply: "The Environment Lab is revolutionary:\n\n• Satellite Sync: I use GPS to pull real-time exterior weather.\n• Indoor Conversion: My physics algorithm calculates your exact indoor Temperature and Relative Humidity (RH).\n• Pro Safety Alerts: If indoor humidity is high, I warn you about 'Blush Risk'. If it's hot and you pour deep, I alert you to 'Flash Curing'." },
                 { keys: ['shape', 'preset', 'varmala', 'geode', 'tray', 'clock'], reply: "I built 1-click Presets for top resin projects:\n\n• Varmala Block: Auto-sets to Square (30x30x7.5cm) + Deep Casting mode.\n• Wall Clock: Auto-sets to Circle (30cm, 1cm depth) + Coating mode.\n• Geode Art: Auto-sets to Circle (10cm, 0.8cm depth).\n• Resin Tray: Auto-sets to Rect (30x20x1.5cm)." },
-                { keys: ['safety', 'danger', 'exotherm', 'crack', 'blush', 'deep', 'thick'], reply: "My Safety Report protects your art:\n\n• Exotherm Limit: If you try to pour deeper than 2.5cm in Casting mode, I calculate exactly how many separate layers you must pour to prevent the resin from boiling.\n• Blush Risk: I warn you if humidity exceeds 70%.\n• Flash Cure: I alert you if your room temp (>30°C) combined with a deep pour will cause cracking." },
                 { keys: ['advanced', 'density', 'pigment', 'cost'], reply: "In the Advanced Settings (⚙️), you can:\n\n• Modify Density: Default is 1.13g/cm³. Low Viscosity systems can be dropped to 1.05.\n• Pigment %: Accounts for the extra weight of your colors.\n• Cost Tracking: Input your Kit price (e.g., ₹1000/kg), and I instantly calculate the exact ₹ cost of the current pour." },
-                { keys: ['ratio', 'mixing', 'proportion'], reply: "By default, M-X Lumes uses a 3:1 ratio by weight.\n\n• You can quickly toggle to 2:1 or 1:1 if testing other brands.\n• Use 'Custom' to input any specific ratio.\n• I instantly break down the Total Weight into exact Part A (Resin) and Part B (Hardener) grams." },
-                { keys: ['spec', 'quality', 'tech', 'hals', 'bubble', 'voc', 'hard'], reply: "M-X Lumes Crystal Series Specifications:\n\n• HALS Tech: 99.8% UV Blocking for 10+ years of anti-yellowing.\n• Fluid Dynamics: 28 dynes/cm surface tension guarantees 100% auto-degassing (no torch needed).\n• Viscosity: Ultra-thin 180 mPas.\n• Pot Life: 120 stress-free minutes.\n• Safety: Zero VOC, BPA-Free, food-safe when cured." },
+                { keys: ['ratio', 'mixing', 'proportion', 'how much to mix'], reply: "By default, M-X Lumes uses a 3:1 ratio by WEIGHT.\n\n• Use a digital kitchen scale.\n• If the calculator says Total Weight 400g, it will automatically break it down to 300g Resin (Part A) and 100g Hardener (Part B).\n• You can toggle to 2:1 or 1:1 in the calculator if testing other brands." },
+                { keys: ['spec', 'quality', 'tech', 'hals', 'voc', 'hard', 'food safe'], reply: "M-X Lumes Crystal Series Specifications:\n\n• HALS Tech: 99.8% UV Blocking for 10+ years of anti-yellowing.\n• Fluid Dynamics: 28 dynes/cm surface tension (auto-degassing).\n• Viscosity: Ultra-thin 180 mPas.\n• Pot Life: 120 stress-free minutes.\n• Safety: Zero VOC, BPA-Free, food-safe when fully cured." },
                 { keys: ['product', 'starter', 'master', 'super saver', 'kit', 'price', 'buy'], reply: "Here is our Studio Lineup (No Extra Shipping Charges!):\n\n• 1.2KG Starter Kit (₹1,250): Perfect for testing. (900g Resin + 300g Hardener).\n• 4.8KG Master Kit (₹4,400): The bestseller. (3.6kg Resin + 1.2kg Hardener).\n• 20KG Super Saver (₹17,000): Just ₹850/kg! (15kg Resin + 5kg Hardener)." },
-                { keys: ['hello', 'hi', 'hey', 'namaste'], reply: "Namaste! 🙏 I am Vijeta. I am here to help you with in-depth knowledge of our M-X Lumes products and the advanced Project Calculator. What would you like to know?" }
+                { keys: ['hello', 'hi', 'hey', 'namaste'], reply: "Namaste! 🙏 I am Vijeta. I am here to help you with in-depth knowledge of our M-X Lumes products, resin chemistry, and the advanced Project Calculator. What are you working on today?" }
             ];
 
-            let response = "That is a great question! For highly specific artistic queries, you can click the green 'Chat with an Expert' button on our site to speak directly with our human 24/7 WhatsApp support team.\n\nCan I help you calculate a pour dimension instead?";
+            let response = "Oh no, let's fix your resin art together! 👩‍🔬 As a chemical expert, I need a few details to diagnose the exact issue. Could you tell me:\n\n• What exactly went wrong (sticky, bubbles, cloudy, overheated)?\n• What was your room temperature and humidity?\n• Did you measure exactly by weight?\n\nTell me the symptoms, and I will give you the chemical cause and the exact solution!";
 
             for (let item of knowledgeBase) {
                 if (item.keys.some(key => text.includes(key))) {
