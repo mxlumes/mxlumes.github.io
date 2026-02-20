@@ -191,15 +191,18 @@
             color: #fff;
             font-size: 9px;
             font-weight: 800;
-            padding: 5px 10px;
-            border-radius: 4px;
+            padding: 8px 12px;
+            border-radius: 6px;
             text-transform: uppercase;
             letter-spacing: 1px;
             pointer-events: none;
             opacity: 0;
             z-index: 11;
             box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
-            white-space: nowrap;
+            white-space: normal;
+            max-width: 180px;
+            text-align: center;
+            line-height: 1.4;
             border: 1px solid rgba(255,255,255,0.2);
         }
         #hardness-popup::after {
@@ -550,7 +553,7 @@
                 <a href="#" class="logo" id="mx-logo" style="padding-right: 2px;">M-X LUME<span id="resin-s">S</span></a>
                 
                 <div class="barasingha-wrapper">
-                    <div id="hardness-popup">85 Shore D Hardness!</div>
+                    <div id="hardness-popup">Ouch it hurts, because it is made up of rock solid 85 Shore D resin material</div>
                     
                     <svg id="barasingha-svg" viewBox="0 0 100 100" style="width: 100%; height: 100%; overflow: visible; opacity: 0;">
                         <g id="b-thigh-r" transform-origin="85px 48px">
@@ -1593,65 +1596,67 @@
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const deerSvg = document.getElementById('barasingha-svg');
+                
                 const frontThighL = document.getElementById('f-thigh-l');
                 const frontCalfL = document.getElementById('f-calf-l');
-                
                 const frontThighR = document.getElementById('f-thigh-r');
                 const frontCalfR = document.getElementById('f-calf-r');
                 
                 const backThighL = document.getElementById('b-thigh-l');
+                const backCalfL = document.getElementById('b-calf-l');
                 const backThighR = document.getElementById('b-thigh-r');
+                const backCalfR = document.getElementById('b-calf-r');
                 
                 const resinS = document.getElementById('resin-s');
                 const popup = document.getElementById('hardness-popup');
                 
-                // Set initial state - It naturally faces left now.
+                // Set initial state
                 gsap.set(deerSvg, { x: 150, opacity: 1 });
 
                 const mainTimeline = gsap.timeline();
 
-                // 1. Walk Cycle (Slow, deliberate, majestic)
-                const walkCycle = gsap.timeline({ repeat: 4 }); 
-                walkCycle.to([frontThighL, backThighR], { rotation: 25, duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
-                         .to([frontThighR, backThighL], { rotation: -15, duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
-                         .to(frontCalfL, { rotation: -15, duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
-                         .to(deerSvg, { y: -2, duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0); 
+                // 1. Walk Cycle (Slower, heavier, driven by lower limbs to avoid joint breaking)
+                const walkCycle = gsap.timeline({ repeat: 3 }); 
+                walkCycle.to([frontThighL, backThighR], { rotation: 8, duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
+                         .to([frontThighR, backThighL], { rotation: -8, duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
+                         .to([frontCalfL, backCalfR], { rotation: -20, duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
+                         .to([frontCalfR, backCalfL], { rotation: 20, duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
+                         .to(deerSvg, { y: -1.5, duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0); 
 
                 mainTimeline.add(walkCycle, 0);
-                
-                // Walks to x: -8 so the hoof physically penetrates the S on the kick.
-                mainTimeline.to(deerSvg, { x: 5, duration: 4, ease: "power1.out" }, 0);
+                mainTimeline.to(deerSvg, { x: 0, duration: 3.6, ease: "none" }, 0);
 
                 // 2. The Anticipation (Wind up like a spring)
-                mainTimeline.to(deerSvg, { x: 10, rotation: 5, duration: 0.4, ease: "power2.inOut" }, ">") // Body leans back
-                            .to(frontThighL, { rotation: -35, duration: 0.4, ease: "power2.inOut" }, "<") // Thigh pulls back
-                            .to(frontCalfL, { rotation: -50, duration: 0.4, ease: "power2.inOut" }, "<"); // Calf tucks tight
+                mainTimeline.to(deerSvg, { x: 5, rotation: 3, duration: 0.4, ease: "power2.inOut" }, ">") 
+                            .to(frontThighL, { rotation: -12, duration: 0.4, ease: "power2.inOut" }, "<") 
+                            .to(frontCalfL, { rotation: -25, duration: 0.4, ease: "power2.inOut" }, "<"); 
 
-                // 3. The Strike (Lightning fast 0.04s snap into the letter)
-                mainTimeline.to(deerSvg, { x: -8, rotation: -2, duration: 0.04, ease: "power4.in" }, ">") // Body lunges into S
-                            .to(frontThighL, { rotation: 75, duration: 0.04, ease: "power4.in" }, "<") // Thigh snaps up/forward
-                            .to(frontCalfL, { rotation: 20, duration: 0.04, ease: "power4.in" }, "<"); // Calf extends
+                // 3. The Strike (Lightning fast 0.04s snap into the letter - whole body lunges to close the gap)
+                mainTimeline.to(deerSvg, { x: -6, rotation: -1, duration: 0.04, ease: "power4.in" }, ">") 
+                            .to(frontThighL, { rotation: 20, duration: 0.04, ease: "power4.in" }, "<") 
+                            .to(frontCalfL, { rotation: 10, duration: 0.04, ease: "power4.in" }, "<"); 
 
                 // 4. The Impact (Zero-gap connection)
-                mainTimeline.to(resinS, { x: -4, duration: 0.04, yoyo: true, repeat: 7, ease: "rough" }, "<") // Hard vibration
-                            .to(popup, { opacity: 1, y: 5, duration: 0.3, ease: "back.out(1.7)" }, "<") // Popup drops down safely
-                            .to(frontThighL, { rotation: 30, duration: 0.2, ease: "bounce.out" }, "<") // Bounce off hard resin
-                            .to(frontCalfL, { rotation: -20, duration: 0.2, ease: "bounce.out" }, "<")
-                            .to(deerSvg, { x: 8, rotation: 0, duration: 0.2, ease: "power2.out" }, "<"); // Body recoils
+                mainTimeline.to(resinS, { x: -4, duration: 0.04, yoyo: true, repeat: 7, ease: "rough" }, "<") 
+                            .to(popup, { opacity: 1, y: 5, duration: 0.3, ease: "back.out(1.7)" }, "<") 
+                            .to(frontThighL, { rotation: 8, duration: 0.2, ease: "bounce.out" }, "<") 
+                            .to(frontCalfL, { rotation: -10, duration: 0.2, ease: "bounce.out" }, "<")
+                            .to(deerSvg, { x: 6, rotation: 0, duration: 0.2, ease: "power2.out" }, "<"); 
 
                 // 5. The Retreat
-                mainTimeline.to(deerSvg, { scaleX: -1, duration: 0.15 }, "+=1.5"); // Pause in shock, flip around
+                mainTimeline.to(deerSvg, { scaleX: -1, duration: 0.2 }, "+=1.5");
 
-                // Limp Cycle (Now facing right, so we reverse the physics)
-                const limpCycle = gsap.timeline({ repeat: 6 });
-                limpCycle.to(frontThighL, { rotation: -15, duration: 0.45, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0)
-                         .to(frontCalfL, { rotation: 10, duration: 0.45, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0)
-                         .to([frontThighR, backThighL, backThighR], { rotation: 20, duration: 0.45, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
-                         .to(deerSvg, { y: -5, duration: 0.45, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0); 
+                // Limp Cycle (Driven mostly by calves)
+                const limpCycle = gsap.timeline({ repeat: 5 });
+                limpCycle.to(frontThighL, { rotation: -5, duration: 0.6, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0)
+                         .to(frontCalfL, { rotation: 15, duration: 0.6, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0)
+                         .to([frontThighR, backThighL, backThighR], { rotation: 8, duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
+                         .to([frontCalfR, backCalfL, backCalfR], { rotation: -15, duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
+                         .to(deerSvg, { y: -3, duration: 0.6, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0); 
 
                 mainTimeline.add(limpCycle, ">");
-                mainTimeline.to(deerSvg, { x: 150, duration: 5.4, ease: "power1.inOut" }, "<"); // Limp away slowly
-                mainTimeline.to(popup, { opacity: 0, duration: 0.4 }, "-=4.5"); // Fade out popup early
+                mainTimeline.to(deerSvg, { x: 150, duration: 6, ease: "power1.inOut" }, "<"); // Limp away slowly
+                mainTimeline.to(popup, { opacity: 0, duration: 0.4 }, "-=1.5"); // Keep visible much longer!
 
             }, 2500); 
         });
