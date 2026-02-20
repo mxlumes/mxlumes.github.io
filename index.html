@@ -154,7 +154,7 @@
         .toast.show { transform: translate3d(-50%, 0, 0); opacity: 1; }
 
         /* =========================================
-           4. NAVIGATION & HERO
+           4. NAVIGATION & HERO (WITH PREMIUM DEER)
            ========================================= */
         .navbar { 
             position: fixed; top: 0; width: 100%; height: 80px; z-index: 1000; 
@@ -173,43 +173,44 @@
         
         .barasingha-wrapper {
             position: absolute;
-            left: 100%;
+            left: 100%; /* Positions the deer exactly at the right edge of the logo */
             top: 50%;
             transform: translateY(-50%);
-            width: 70px;
-            height: 70px;
+            width: 50px;
+            height: 50px;
             pointer-events: none;
             z-index: 10;
         }
 
-        /* REFINED POPUP (BELOW TEXT) */
+        /* REFINED POPUP (STRICTLY BELOW TEXT) */
         #hardness-popup {
             position: absolute;
-            top: 40px; /* Shifted to render below the logo */
-            right: 0px;
-            background: rgba(239, 68, 68, 0.9);
+            top: 120%; /* Safely pushed below the brand name */
+            right: -20px; /* Aligned near the final 'S' */
+            background: rgba(239, 68, 68, 0.95);
             color: #fff;
             font-size: 9px;
             font-weight: 800;
-            padding: 4px 8px;
+            padding: 5px 10px;
             border-radius: 4px;
             text-transform: uppercase;
             letter-spacing: 1px;
             pointer-events: none;
             opacity: 0;
             z-index: 11;
-            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
             white-space: nowrap;
+            border: 1px solid rgba(255,255,255,0.2);
         }
         #hardness-popup::after {
             content: '';
             position: absolute;
-            top: -4px; /* Arrow now points UP */
+            top: -5px; /* Arrow pointing UP */
             left: 50%;
             transform: translateX(-50%);
-            border-width: 0 4px 4px 4px;
+            border-width: 0 5px 5px 5px;
             border-style: solid;
-            border-color: transparent transparent rgba(239, 68, 68, 0.9) transparent;
+            border-color: transparent transparent rgba(239, 68, 68, 0.95) transparent;
         }
 
         .nav-links { display: flex; gap: 30px; align-items: center; margin-left: auto; }
@@ -546,32 +547,44 @@
         <div class="container nav-inner">
             
             <div class="logo-wrapper">
-                <a href="#" class="logo" id="mx-logo">M-X LUME<span id="resin-s">S</span></a>
+                <a href="#" class="logo" id="mx-logo" style="padding-right: 2px;">M-X LUME<span id="resin-s">S</span></a>
                 
                 <div class="barasingha-wrapper">
-                    <div id="hardness-popup">Ouch! 85 Shore D Hardness!</div>
+                    <div id="hardness-popup">85 Shore D Hardness!</div>
                     
                     <svg id="barasingha-svg" viewBox="0 0 100 100" style="width: 100%; height: 100%; overflow: visible; opacity: 0;">
-                        <g id="b-leg-l" transform-origin="45px 55px">
-                            <path d="M45 55 L40 85 L35 85" stroke="#666" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                        <g id="b-thigh-r" transform-origin="85px 48px">
+                            <path d="M 85 48 C 80 58, 80 63, 83 70" stroke="#555" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                            <g id="b-calf-r" transform-origin="83px 70px">
+                                <path d="M 83 70 C 87 78, 85 88, 83 93 L 80 93" stroke="#555" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
                         </g>
-                        <g id="b-leg-r" transform-origin="50px 55px">
-                            <path d="M50 55 L48 85 L43 85" stroke="#444" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                        </g>
-                        
-                        <path id="torso" d="M35 40 Q55 35 70 45 Q75 55 65 60 L40 60 Q30 55 35 40 Z" fill="#ccc"/>
-                        
-                        <g id="head-group" transform-origin="70px 45px">
-                            <path d="M65 45 L75 25 L85 28 L75 48 Z" fill="#ccc"/>
-                            <path d="M75 25 Q85 20 88 25 Q82 30 75 28 Z" fill="#bbb"/>
-                            <path d="M78 22 Q75 5 85 5 Q90 10 95 0 M82 12 L90 15 M80 7 L72 0" stroke="#fff" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                        <g id="f-thigh-r" transform-origin="45px 50px">
+                            <path d="M 45 50 C 43 60, 42 65, 41 70" stroke="#555" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                            <g id="f-calf-r" transform-origin="41px 70px">
+                                <path d="M 41 70 C 40 80, 38 90, 35 95 L 32 95" stroke="#555" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
                         </g>
 
-                        <g id="f-leg-l" transform-origin="65px 55px">
-                            <path d="M65 55 L65 85 L70 85" stroke="#ccc" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                        <path id="torso" d="M 8 22 C 12 16, 16 14, 18 14 C 25 20, 30 30, 45 32 C 60 32, 75 35, 85 40 C 90 45, 88 55, 82 60 C 70 55, 55 52, 42 55 C 35 48, 30 40, 25 35 C 20 30, 12 25, 8 22 Z" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+                        
+                        <path d="M 18 14 C 22 10, 26 12, 25 16 C 22 17, 18 16, 18 14 Z" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+                        
+                        <path d="M 18 14 C 25 4, 40 2, 45 10 M 22 10 L 15 2 M 28 6 L 25 -2 M 35 4 L 35 -4 M 42 7 L 45 0" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M 20 14 C 28 6, 42 4, 47 12 M 24 10 L 18 4" stroke="#555" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+                        <g id="b-thigh-l" transform-origin="80px 50px">
+                            <path d="M 80 50 C 75 60, 75 65, 78 72" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                            <g id="b-calf-l" transform-origin="78px 72px">
+                                <path d="M 78 72 C 82 80, 80 90, 78 95 L 75 95" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
                         </g>
-                        <g id="f-leg-r" transform-origin="70px 55px">
-                            <path d="M70 55 L72 85 L77 85" stroke="#999" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                        
+                        <g id="f-thigh-l" transform-origin="38px 50px">
+                            <path d="M 38 50 C 36 60, 35 65, 34 70" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                            <g id="f-calf-l" transform-origin="34px 70px">
+                                <path d="M 34 70 C 33 80, 31 90, 28 95 L 25 95" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
                         </g>
                     </svg>
                 </div>
@@ -1144,7 +1157,7 @@
         }
 
         // =========================================
-        // ENHANCED WEATHER ENGINE (GPS + IP FALLBACK)
+        // ENHANCED WEATHER ENGINE
         // =========================================
         async function autoDetectWeather() {
             const btn = document.querySelector('.auto-btn');
@@ -1575,53 +1588,70 @@
         }
 
         // =========================================
-        // BARASINGHA GSAP ANIMATION LOGIC (REFINED PHYSICS)
+        // PREMIUM BARASINGHA GSAP ENGINE
         // =========================================
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const deerSvg = document.getElementById('barasingha-svg');
-                const frontLegL = document.getElementById('f-leg-l');
-                const frontLegR = document.getElementById('f-leg-r');
-                const backLegL = document.getElementById('b-leg-l');
-                const backLegR = document.getElementById('b-leg-r');
+                const frontThighL = document.getElementById('f-thigh-l');
+                const frontCalfL = document.getElementById('f-calf-l');
+                
+                const frontThighR = document.getElementById('f-thigh-r');
+                const frontCalfR = document.getElementById('f-calf-r');
+                
+                const backThighL = document.getElementById('b-thigh-l');
+                const backThighR = document.getElementById('b-thigh-r');
+                
                 const resinS = document.getElementById('resin-s');
                 const popup = document.getElementById('hardness-popup');
                 
-                // Set initial state
-                gsap.set(deerSvg, { x: 250, opacity: 1, scaleX: -1 });
+                // Set initial state - It naturally faces left now.
+                gsap.set(deerSvg, { x: 150, opacity: 1 });
 
                 const mainTimeline = gsap.timeline();
 
-                // 1. Walk Cycle (Slower, heavier, more majestic pacing)
+                // 1. Walk Cycle (Slow, deliberate, majestic)
                 const walkCycle = gsap.timeline({ repeat: 4 }); 
-                walkCycle.to([frontLegL, backLegR], { rotation: 20, duration: 0.45, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
-                         .to([frontLegR, backLegL], { rotation: -20, duration: 0.45, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
-                         .to(deerSvg, { y: -3, duration: 0.45, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0); 
+                walkCycle.to([frontThighL, backThighR], { rotation: 25, duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
+                         .to([frontThighR, backThighL], { rotation: -15, duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
+                         .to(frontCalfL, { rotation: -15, duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
+                         .to(deerSvg, { y: -2, duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0); 
 
                 mainTimeline.add(walkCycle, 0);
-                mainTimeline.to(deerSvg, { x: 10, duration: 3.6, ease: "none" }, 0);
+                
+                // Walks to x: -8 so the hoof physically penetrates the S on the kick.
+                mainTimeline.to(deerSvg, { x: 5, duration: 4, ease: "power1.out" }, 0);
 
-                // 2. The Impact (Anticipation -> Snap)
-                mainTimeline.to(frontLegL, { rotation: -45, duration: 0.5, ease: "power2.inOut" }, ">") // Slow pull back (Anticipation)
-                            .to(frontLegL, { rotation: 45, duration: 0.05, ease: "power4.in" }, ">"); // Lightning fast strike
+                // 2. The Anticipation (Wind up like a spring)
+                mainTimeline.to(deerSvg, { x: 10, rotation: 5, duration: 0.4, ease: "power2.inOut" }, ">") // Body leans back
+                            .to(frontThighL, { rotation: -35, duration: 0.4, ease: "power2.inOut" }, "<") // Thigh pulls back
+                            .to(frontCalfL, { rotation: -50, duration: 0.4, ease: "power2.inOut" }, "<"); // Calf tucks tight
 
-                // 3. The Reaction
-                mainTimeline.to(resinS, { x: 3, duration: 0.03, yoyo: true, repeat: 7, ease: "rough" }, "<") // Hard vibration
-                            .to(popup, { opacity: 1, y: 5, duration: 0.3, ease: "back.out(1.7)" }, "<") // Popup appears below
-                            .to(frontLegL, { rotation: -15, duration: 0.15, ease: "bounce.out" }, "<"); // Leg recoil from impact
+                // 3. The Strike (Lightning fast 0.04s snap into the letter)
+                mainTimeline.to(deerSvg, { x: -8, rotation: -2, duration: 0.04, ease: "power4.in" }, ">") // Body lunges into S
+                            .to(frontThighL, { rotation: 75, duration: 0.04, ease: "power4.in" }, "<") // Thigh snaps up/forward
+                            .to(frontCalfL, { rotation: 20, duration: 0.04, ease: "power4.in" }, "<"); // Calf extends
 
-                // 4. The Retreat
-                mainTimeline.to(deerSvg, { scaleX: 1, duration: 0.15 }, "+=1.2"); // Pause in shock, then flip
+                // 4. The Impact (Zero-gap connection)
+                mainTimeline.to(resinS, { x: -4, duration: 0.04, yoyo: true, repeat: 7, ease: "rough" }, "<") // Hard vibration
+                            .to(popup, { opacity: 1, y: 5, duration: 0.3, ease: "back.out(1.7)" }, "<") // Popup drops down safely
+                            .to(frontThighL, { rotation: 30, duration: 0.2, ease: "bounce.out" }, "<") // Bounce off hard resin
+                            .to(frontCalfL, { rotation: -20, duration: 0.2, ease: "bounce.out" }, "<")
+                            .to(deerSvg, { x: 8, rotation: 0, duration: 0.2, ease: "power2.out" }, "<"); // Body recoils
 
-                // Limp Cycle
+                // 5. The Retreat
+                mainTimeline.to(deerSvg, { scaleX: -1, duration: 0.15 }, "+=1.5"); // Pause in shock, flip around
+
+                // Limp Cycle (Now facing right, so we reverse the physics)
                 const limpCycle = gsap.timeline({ repeat: 6 });
-                limpCycle.to(frontLegL, { rotation: -20, y: -5, duration: 0.4, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0)
-                         .to([frontLegR, backLegL, backLegR], { rotation: 20, duration: 0.4, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
-                         .to(deerSvg, { y: -5, duration: 0.4, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0); 
+                limpCycle.to(frontThighL, { rotation: -15, duration: 0.45, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0)
+                         .to(frontCalfL, { rotation: 10, duration: 0.45, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0)
+                         .to([frontThighR, backThighL, backThighR], { rotation: 20, duration: 0.45, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
+                         .to(deerSvg, { y: -5, duration: 0.45, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0); 
 
                 mainTimeline.add(limpCycle, ">");
-                mainTimeline.to(deerSvg, { x: 250, duration: 4.8, ease: "power1.inOut" }, "<"); // Limp away slowly
-                mainTimeline.to(popup, { opacity: 0, duration: 0.4 }, "-=4"); // Fade out popup early
+                mainTimeline.to(deerSvg, { x: 150, duration: 5.4, ease: "power1.inOut" }, "<"); // Limp away slowly
+                mainTimeline.to(popup, { opacity: 0, duration: 0.4 }, "-=4.5"); // Fade out popup early
 
             }, 2500); 
         });
