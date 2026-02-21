@@ -32,7 +32,7 @@
             /* Light Theme Variables */
             --bg-milky: #fafafa;
             --bg-pure: #ffffff;
-            --text-dark: #111827;
+            --text-dark: #050505; /* Deepened for UX contrast */
             --text-muted: #4b5563;
             --border-light: #e5e7eb;
             
@@ -185,39 +185,43 @@
             left: 100%; 
             top: 50%;
             transform: translateY(-50%);
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             pointer-events: none;
             z-index: 10;
         }
 
-        /* CRISP, PUNCHY POPUP */
+        /* UX PERFECTED RESPONSIVE POPUP */
         #hardness-popup {
             position: absolute;
-            top: 130%; 
-            right: -10px; 
+            top: calc(100% + 12px); /* Anchored safely below */
+            right: -5px; /* Aligns flush with the end of the text */
             background: rgba(239, 68, 68, 0.95);
             color: #fff;
             font-size: 10px;
             font-weight: 800;
-            padding: 6px 12px;
-            border-radius: 4px;
+            padding: 8px 12px;
+            border-radius: 6px;
             text-transform: uppercase;
             letter-spacing: 1px;
             pointer-events: none;
             opacity: 0;
             z-index: 11;
-            box-shadow: 0 5px 20px rgba(239, 68, 68, 0.5);
-            white-space: nowrap;
+            box-shadow: 0 5px 20px rgba(239, 68, 68, 0.4);
+            white-space: normal; /* Allows wrapping on mobile */
+            width: max-content;
+            max-width: 220px;
+            text-align: right;
+            line-height: 1.4;
             border: 1px solid rgba(255,255,255,0.2);
         }
+        /* The little arrow pointing up to the S */
         #hardness-popup::after {
             content: '';
             position: absolute;
-            top: -5px; 
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 0 5px 5px 5px;
+            top: -6px; 
+            right: 15px; /* Locks the arrow under the 'S' */
+            border-width: 0 6px 6px 6px;
             border-style: solid;
             border-color: transparent transparent rgba(239, 68, 68, 0.95) transparent;
         }
@@ -346,7 +350,7 @@
            9. TITAN FUSION CALCULATOR (HIGH-CONTRAST FROSTED GLASS)
            ========================================= */
         .zenith-calc { 
-            background: rgba(255, 255, 255, 0.85); /* Increased opacity for maximum text visibility */
+            background: rgba(255, 255, 255, 0.85); /* Increased opacity for maximum UX visibility */
             backdrop-filter: blur(24px); 
             -webkit-backdrop-filter: blur(24px);
             border: 1px solid rgba(255, 255, 255, 0.5); 
@@ -364,8 +368,8 @@
             .z-display { padding: 60px; }
         }
         
-        /* Typography Upgrades for Visibility */
-        .z-head-title { font-size: 16px; font-weight: 800; color: #000; text-transform: uppercase; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; letter-spacing: 1px; }
+        /* Typography Upgrades for UX Visibility */
+        .z-head-title { font-size: 16px; font-weight: 800; color: var(--text-dark); text-transform: uppercase; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; letter-spacing: 1px; }
         .z-head-title::after { content:''; flex:1; height:2px; background: #ccc; }
         
         .ratio-grid { display: flex; gap: 10px; margin-bottom: 20px; }
@@ -390,8 +394,8 @@
         .z-number { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800; color: #000; background: transparent; border: none; width: 100px; text-align: right; border-bottom: 2px solid #aaa; transition: border-color 0.3s; padding-bottom: 5px; }
         .z-number:focus { border-color: var(--accent); outline: none; }
         
-        .z-slider { -webkit-appearance: none; width: 100%; height: 6px; background: #ccc; border-radius: 3px; outline: none; display: block; margin-top: 10px; }
-        .z-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; background: #000; border-radius: 50%; cursor: grab; transition: transform 0.2s var(--ease-spring); border: 4px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        .z-slider { -webkit-appearance: none; width: 100%; height: 8px; background: #ccc; border-radius: 4px; outline: none; display: block; margin-top: 10px; }
+        .z-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 32px; height: 32px; background: #000; border-radius: 50%; cursor: grab; transition: transform 0.2s var(--ease-spring); border: 4px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         .z-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
         .z-slider::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(0.9); }
         
@@ -408,7 +412,7 @@
         .shape-btn.active span { color: #000; }
         
         .preset-row { display: flex; gap: 10px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; mask-image: linear-gradient(to right, black 90%, transparent 100%); }
-        .preset-btn { padding: 10px 20px; border: 2px solid #aaa; border-radius: 30px; font-size: 13px; font-weight: 800; color: #333; background: #fff; white-space: nowrap; transition: all 0.3s; cursor: pointer; }
+        .preset-btn { padding: 12px 24px; border: 2px solid #aaa; border-radius: 30px; font-size: 13px; font-weight: 800; color: #333; background: #fff; white-space: nowrap; transition: all 0.3s; cursor: pointer; }
         .preset-btn:hover { color: #000; border-color: #000; background: #f3f4f6; transform: translate3d(0,-2px,0); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
         /* ANIMATED ENVIRONMENT ICONS */
@@ -436,7 +440,7 @@
         .refine-panel.show { display: block; animation: slideDown 0.3s var(--ease-fluid) forwards; }
         @keyframes slideDown { from { opacity: 0; transform: translate3d(0,-10px,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
         .refine-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .refine-inp { width: 100%; background: #fff; border: 2px solid #aaa; padding: 12px; border-radius: 10px; color: #000; font-weight: 800; font-size: 13px; outline: none; transition: border-color 0.3s; }
+        .refine-inp { width: 100%; background: #fff; border: 2px solid #aaa; padding: 12px; border-radius: 10px; color: #000; font-weight: 800; font-size: 14px; outline: none; transition: border-color 0.3s; }
         .refine-inp:focus { border-color: var(--accent); }
         #weather-intelligence { font-family: 'Space Grotesk', monospace; font-size: 13px; font-weight: 800; color: #000; background: #fff; border-radius: 8px; padding: 12px; margin-top: 15px; display: none; border: 2px dashed #aaa; text-align: center; line-height: 1.6; }
         
@@ -447,14 +451,14 @@
         .p-item b { font-size: 28px; color: #000; font-weight: 800; font-variant-numeric: tabular-nums; }
         
         .safety-report { background: rgba(255,255,255,0.8); border-radius: 16px; padding: 20px; border-left: 6px solid #aaa; margin-bottom: 20px; transition: border-color 0.4s, background-color 0.4s; border-top: 1px solid #ccc; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; }
-        .safety-report.safe { border-left-color: var(--success); background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.2); }
-        .safety-report.danger { border-left-color: var(--danger); background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.2); }
+        .safety-report.safe { border-left-color: var(--success); background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); }
+        .safety-report.danger { border-left-color: var(--danger); background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); }
         .sr-head { font-size: 14px; font-weight: 800; color: #000; text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; }
         .sr-list { list-style: none; padding: 0; margin: 0; }
-        .sr-item { font-size: 14px; color: #111; font-weight: 700; margin-bottom: 6px; display: flex; gap: 8px; line-height: 1.4; }
+        .sr-item { font-size: 14px; color: #111; font-weight: 800; margin-bottom: 6px; display: flex; gap: 8px; line-height: 1.4; }
         
         .cost-card { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px; border-radius: 12px; border: 2px solid #ccc; margin-top: auto; }
-        .cost-inp { width: 80px; background: transparent; border: none; border-bottom: 2px solid #aaa; color: #000; text-align: right; font-weight: 800; font-size: 18px; padding-bottom: 2px; transition: border-color 0.3s; }
+        .cost-inp { width: 90px; background: transparent; border: none; border-bottom: 2px solid #aaa; color: #000; text-align: right; font-weight: 800; font-size: 20px; padding-bottom: 2px; transition: border-color 0.3s; }
         .cost-inp:focus { border-color: var(--accent); outline: none; }
 
         /* =========================================
@@ -481,10 +485,10 @@
         /* =========================================
            11. CART & REMINDER HAND 
            ========================================= */
-        .cart-fab { position: fixed; bottom: 30px; right: 20px; width: 60px; height: 60px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 2000; box-shadow: 0 10px 30px rgba(255,255,255,0.2); transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; cursor: pointer; transform: translate3d(0,0,0); }
+        .cart-fab { position: fixed; bottom: 30px; right: 20px; width: 65px; height: 65px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 2000; box-shadow: 0 10px 30px rgba(255,255,255,0.2); transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; cursor: pointer; transform: translate3d(0,0,0); }
         .cart-fab:hover { transform: translate3d(0,-5px,0); box-shadow: 0 15px 40px rgba(255,255,255,0.3); }
         .cart-fab:active { transform: scale(0.9) translate3d(0,0,0); }
-        .cart-count { position: absolute; top: -2px; right: -2px; background: #000; color: #fff; font-size: 10px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; font-weight: 700; transition: transform 0.4s var(--ease-spring); }
+        .cart-count { position: absolute; top: -2px; right: -2px; background: #000; color: #fff; font-size: 11px; width: 24px; height: 24px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; font-weight: 800; transition: transform 0.4s var(--ease-spring); }
         
         .cart-reminder { position: fixed; bottom: 100px; right: 32px; font-size: 35px; z-index: 1999; opacity: 0; pointer-events: none; transform: translate3d(0, 20px, 0); transition: transform 0.5s var(--ease-spring), opacity 0.5s; animation: bounceHand 1s infinite alternate; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); }
         .cart-reminder.show { opacity: 1; transform: translate3d(0, 0, 0); }
@@ -507,12 +511,13 @@
         .c-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
         .c-price { font-weight: 700; color: #fff; font-size: 14px; }
         .qty-control { display: flex; align-items: center; background: #000; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
-        .qty-btn { width: 28px; height: 28px; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 12px; cursor: pointer; transition: background 0.2s; }
+        /* Touch friendly sizing */
+        .qty-btn { width: 34px; height: 34px; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 14px; font-weight: 800; cursor: pointer; transition: background 0.2s; }
         .qty-btn:hover { background: rgba(255,255,255,0.15); }
         .qty-btn:active { background: rgba(255,255,255,0.3); }
-        .qty-val { width: 20px; text-align: center; font-size: 11px; font-weight: 700; color: #fff; }
+        .qty-val { width: 24px; text-align: center; font-size: 12px; font-weight: 800; color: #fff; }
         
-        .checkout-btn { width: 100%; padding: 16px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer; border: none; }
+        .checkout-btn { width: 100%; padding: 16px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer; border: none; }
         .checkout-btn:hover { transform: translate3d(0,-2px,0); box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3); }
         .checkout-btn:active { transform: scale(0.98) translate3d(0,0,0); }
         .empty-cart { text-align: center; color: var(--text-dim); margin-top: 50px; font-size: 14px; }
@@ -604,6 +609,14 @@
             .v-greeting { width: calc(100% - 110px); }
             
             .premium-stamp { top: 12%; right: 5%; width: 100px; height: 100px; }
+            
+            /* MOBILE POPUP FIX */
+            #hardness-popup {
+                right: -10px; /* Bleed slightly safely */
+                max-width: 170px;
+                font-size: 9px;
+            }
+            #hardness-popup::after { right: 20px; }
         }
     </style>
 </head>
@@ -622,34 +635,24 @@
                 
                 <div class="animal-wrapper" id="animal-container">
                     
-                    <div id="hardness-popup">OUCH! 85 SHORE D ROCK SOLID RESIN.</div>
+                    <div id="hardness-popup">Ouch it hurts, because it is made up of rock solid 85 Shore D resin material</div>
                     
                     <svg id="animal-svg" viewBox="0 0 100 100" style="width: 100%; height: 100%; overflow: visible; opacity: 0;">
-                        <g id="leg-bl" transform-origin="75 50">
-                            <polygon points="70,50 65,85 72,90 77,50" fill="#888"/>
-                        </g>
-                        <g id="leg-fl" transform-origin="35 50">
-                            <polygon points="30,50 25,85 32,90 37,50" fill="#888"/>
-                        </g>
+                        <path id="leg-bl" d="M75,45 L65,90 L70,90 L80,45 Z" fill="#444" style="transform-origin: 75px 45px;"/>
+                        <path id="leg-fl" d="M35,48 L25,90 L30,90 L40,48 Z" fill="#444" style="transform-origin: 35px 48px;"/>
                         
-                        <polygon points="15,25 25,15 35,45 80,45 90,35 85,55 70,60 30,60" fill="#111"/>
-                        <polygon points="25,15 5,20 10,30 25,25 35,45 15,25" fill="#111"/>
+                        <path id="torso" d="M15,20 L25,10 L35,15 L30,35 L40,45 L80,45 L90,35 L85,55 L75,60 L35,60 L20,40 Z" fill="#111"/>
                         
-                        <polyline points="20,15 15,0 25,-10 35,-5" stroke="#111" stroke-width="2" fill="none" stroke-linejoin="round"/>
-                        <polyline points="15,0 5,-5" stroke="#111" stroke-width="2" fill="none" stroke-linejoin="round"/>
+                        <path d="M20,15 L10,-5 M15,5 L25,-2 M12,0 L5,2" stroke="#111" stroke-width="2" fill="none" stroke-linecap="round"/>
                         
-                        <g id="leg-br" transform-origin="80 50">
-                            <polygon points="75,50 70,85 77,90 82,50" fill="#111"/>
-                        </g>
-                        <g id="leg-fr" transform-origin="40 50">
-                            <polygon points="35,50 30,85 37,90 42,50" fill="#111"/>
-                        </g>
+                        <path id="leg-br" d="M80,45 L75,95 L80,95 L85,45 Z" fill="#111" style="transform-origin: 80px 45px;"/>
+                        <path id="leg-fr" d="M40,48 L35,95 L40,95 L45,48 Z" fill="#111" style="transform-origin: 40px 48px;"/>
                     </svg>
                 </div>
             </div>
 
             <div class="nav-links">
-                <a href="#shop" class="nav-link" style="color: var(--accent); border-bottom: 1px solid var(--accent);">Order Now</a>
+                <a href="#shop" class="nav-link" style="color: var(--accent); border-bottom: 2px solid var(--accent);">Order Now</a>
                 <a href="#shop" class="nav-link">Lineup</a>
                 <a href="#specs" class="nav-link">Specs</a>
                 <a href="#calc" class="nav-link">Calc</a>
@@ -945,8 +948,8 @@
                         <button class="auto-btn" onclick="autoDetectWeather()"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Auto-Detect Conditions</button>
                         <div id="weather-status" style="font-size:11px; text-align:center; color:var(--text-muted); margin-bottom:15px; display:none;">Searching for satellites...</div>
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-                            <div><div class="z-label">Est. Indoor Temp</div><input type="range" class="z-slider" id="env-temp" min="5" max="50" value="25" oninput="runCalc(); document.getElementById('val-temp').innerText=this.value+'°C'"><div id="val-temp" style="font-size:14px; font-weight:800; text-align:right; margin-top:5px; color:#000;">25°C</div></div>
-                            <div><div class="z-label">Est. Indoor RH</div><input type="range" class="z-slider" id="env-hum" min="20" max="90" value="50" oninput="runCalc(); document.getElementById('val-hum').innerText=this.value+'%'"><div id="val-hum" style="font-size:14px; font-weight:800; text-align:right; margin-top:5px; color:#000;">50%</div></div>
+                            <div><div class="z-label">Est. Indoor Temp</div><input type="range" class="z-slider" id="env-temp" min="5" max="50" value="25" oninput="runCalc(); document.getElementById('val-temp').innerText=this.value+'°C'"><div id="val-temp" style="font-size:14px; font-weight:800; text-align:right; margin-top:5px; color:var(--text-dark);">25°C</div></div>
+                            <div><div class="z-label">Est. Indoor RH</div><input type="range" class="z-slider" id="env-hum" min="20" max="90" value="50" oninput="runCalc(); document.getElementById('val-hum').innerText=this.value+'%'"><div id="val-hum" style="font-size:14px; font-weight:800; text-align:right; margin-top:5px; color:var(--text-dark);">50%</div></div>
                         </div>
                         <div id="weather-intelligence"></div>
                     </div>
@@ -979,7 +982,7 @@
 
                     <div class="cost-card">
                         <div><div class="z-label" style="margin:0;">Cost (₹/kg)</div><input type="number" id="costInput" class="cost-inp" placeholder="1000" oninput="runCalc()"></div>
-                        <div style="font-size:20px; font-weight:800; color: #000;" id="est-cost">₹0</div>
+                        <div style="font-size:20px; font-weight:800; color: var(--text-dark);" id="est-cost">₹0</div>
                     </div>
                 </div>
             </div>
@@ -1369,12 +1372,12 @@
                 risks++;
                 const layers = Math.ceil(h_cm / limit);
                 sList.innerHTML += `<li class="sr-item" style="color:var(--danger)">⚠️ <b>EXOTHERM:</b> Too deep (${h_cm.toFixed(1)}cm).</li>`;
-                sList.innerHTML += `<li class="sr-item">💡 <b>FIX:</b> Pour ${layers} layers of ${(h_cm/layers).toFixed(1)}cm.</li>`;
+                sList.innerHTML += `<li class="sr-item" style="color:var(--text-dark)">💡 <b>FIX:</b> Pour ${layers} layers of ${(h_cm/layers).toFixed(1)}cm.</li>`;
             }
             if (hum > 70) {
                 risks++;
                 sList.innerHTML += `<li class="sr-item" style="color:var(--danger)">💧 <b>BLUSH RISK:</b> High humidity inside.</li>`;
-                sList.innerHTML += `<li class="sr-item">💡 Use AC (Dry Mode) or Dehumidifier.</li>`;
+                sList.innerHTML += `<li class="sr-item" style="color:var(--text-dark)">💡 Use AC (Dry Mode) or Dehumidifier.</li>`;
             }
             if (temp > 30 && h_cm > 2) {
                 risks++;
@@ -1660,7 +1663,7 @@
         }
 
         // =========================================
-        // FLAWLESS BARASINGHA GSAP ENGINE (FIXED IDs)
+        // UX-PERFECTED BARASINGHA GSAP ENGINE
         // =========================================
         window.addEventListener('load', () => {
             setTimeout(() => {
@@ -1682,29 +1685,29 @@
 
                 const mainTimeline = gsap.timeline();
 
-                // 2. PERFECT QUADRUPEDAL TROT (No jumping, solid joints)
+                // 2. PERFECT QUADRUPEDAL TROT (Zero detachment, natural bobbing)
                 const walkDuration = 0.8;
                 const walkCycle = gsap.timeline({ repeat: 4 }); 
                 
-                // Pair 1: Front-Left & Back-Right swing forward
-                walkCycle.to([frontLegL, backLegR], { rotation: 12, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
-                // Pair 2: Front-Right & Back-Left swing back
-                         .to([frontLegR, backLegL], { rotation: -12, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0);
+                // Front-Left & Back-Right move together, Torso bobs slightly
+                walkCycle.to([frontLegL, backLegR], { rotation: 15, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
+                         .to([frontLegR, backLegL], { rotation: -15, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
+                         .to(deerSvg, { y: -1.5, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0);
 
                 mainTimeline.add(walkCycle, 0);
                 
-                // Walks from off-screen all the way to x: 0 (Right beside the 'S')
+                // Walks from off-screen to precisely beside the 'S'
                 mainTimeline.to(deerSvg, { x: 0, duration: 8, ease: "none" }, 0); 
 
                 // 3. THE ANTICIPATION (Coils back like a spring)
                 mainTimeline.to(deerSvg, { x: 5, rotation: 3, duration: 0.5, ease: "power2.inOut" }, ">") 
                             .to(frontLegL, { rotation: -15, duration: 0.5, ease: "power2.inOut" }, "<"); 
 
-                // 4. TRUE ZERO-GAP STRIKE (Body lunges to -22px to physically overlap the text)
-                mainTimeline.to(deerSvg, { x: -22, rotation: -2, duration: 0.04, ease: "power4.in" }, ">") 
+                // 4. TRUE ZERO-GAP STRIKE (Heavy lunge into the negative space of the text)
+                mainTimeline.to(deerSvg, { x: -20, rotation: -2, duration: 0.04, ease: "power4.in" }, ">") 
                             .to(frontLegL, { rotation: 25, duration: 0.04, ease: "power4.in" }, "<"); 
 
-                // 5. THE IMPACT (Violent vibration, leg recoil, popup trigger)
+                // 5. THE IMPACT (Violent vibration, popup drop)
                 mainTimeline.to(resinS, { x: -4, duration: 0.04, yoyo: true, repeat: 7, ease: "rough" }, "<") 
                             .to(popup, { opacity: 1, y: 5, duration: 0.3, ease: "back.out(1.7)" }, "<") 
                             .to(frontLegL, { rotation: 5, duration: 0.2, ease: "bounce.out" }, "<") 
@@ -1713,15 +1716,16 @@
                 // 6. PAUSE AND FLIP
                 mainTimeline.to(deerSvg, { scaleX: -1, duration: 0.2 }, "+=1.5");
 
-                // 7. LIMP CYCLE (Walks continuously off the screen entirely)
+                // 7. LIMP CYCLE (Walks continuously until 120% off screen)
                 const limpCycle = gsap.timeline({ repeat: 6 });
-                limpCycle.to(frontLegL, { rotation: -8, duration: walkDuration, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0) // Stiff leg
-                         .to([frontLegR, backLegL], { rotation: 12, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
-                         .to(backLegR, { rotation: -12, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0); 
+                limpCycle.to(frontLegL, { rotation: -8, duration: walkDuration, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0) // Drag hurt leg
+                         .to([frontLegR, backLegL], { rotation: 15, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
+                         .to(backLegR, { rotation: -15, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
+                         .to(deerSvg, { y: -2, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0); 
 
                 mainTimeline.add(limpCycle, ">");
-                mainTimeline.to(deerSvg, { x: screenWidth, duration: 9.6, ease: "none" }, "<"); 
-                mainTimeline.to(popup, { opacity: 0, duration: 0.8 }, "-=2"); // Stays visible until almost off screen
+                mainTimeline.to(deerSvg, { x: screenWidth * 1.2, duration: 9.6, ease: "none" }, "<"); 
+                mainTimeline.to(popup, { opacity: 0, duration: 0.8 }, "-=3"); // Fades right before it leaves screen
 
             }, 2000); 
         });
