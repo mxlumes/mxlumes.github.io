@@ -258,7 +258,7 @@
         @keyframes scroll { 0% { transform: translate3d(0,0,0); } 100% { transform: translate3d(-50%,0,0); } }
 
         /* =========================================
-           5. SHOP & GRIDS (SILVERISH GLASS)
+           5. SHOP & GRIDS
            ========================================= */
         .stats-bar { border-bottom: 1px solid var(--border); padding: 40px 0; margin-top: -1px; }
         .stats-grid { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 30px; text-align: center; }
@@ -302,43 +302,46 @@
         }
 
         /* =========================================
-           6. TECHNOLOGY & SPECS
+           14. SMART CAMERA SCANNER MODAL UI
            ========================================= */
-        .tech-card { padding: 40px; border-top: 1px solid rgba(255,255,255,0.15); transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; height: 100%; display: flex; flex-direction: column; }
-        .tech-card:hover { background: rgba(255,255,255,0.03); border-color: var(--accent); transform: translate3d(0, -8px, 0); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .tech-icon { font-size: 40px; margin-bottom: 20px; }
-        .tech-sub { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 15px; font-weight: 700; }
-        .tech-list { margin-top: 30px; list-style: none; padding: 0; }
-        .tech-list li { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; color: var(--text-dim); }
-        .tech-list li span { color: #fff; font-weight: 700; font-size: 16px; font-family: 'Space Grotesk', sans-serif; }
-        .tech-list li:last-child { border-bottom: none; }
+        .scanner-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            z-index: 9999; display: none; justify-content: center; align-items: center;
+            padding: 20px; opacity: 0; transition: opacity 0.4s var(--ease-fluid);
+        }
+        .scanner-overlay.active { opacity: 1; }
+        .scanner-ui {
+            background: #fff; border-radius: 24px; overflow: hidden; width: 100%; max-width: 450px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5); display: flex; flex-direction: column;
+            transform: scale(0.95); transition: transform 0.4s var(--ease-spring);
+        }
+        .scanner-overlay.active .scanner-ui { transform: scale(1); }
+        .scanner-header {
+            padding: 20px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #e5e7eb; background: #fafafa;
+        }
+        .scanner-header h3 { font-size: 16px; font-weight: 800; color: #000; margin: 0; display:flex; align-items:center; gap:8px;}
+        .scanner-close { background: none; border: none; font-size: 28px; color: #666; cursor: pointer; line-height: 1; padding: 5px; }
+        .scanner-view { position: relative; width: 100%; height: 350px; background: #000; overflow: hidden; }
+        .scanner-view video { width: 100%; height: 100%; object-fit: cover; }
+        .scanner-view canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+        
+        .scan-target {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 60%; height: 60%; border: 2px dashed rgba(255,255,255,0.7); border-radius: 12px;
+            pointer-events: none; transition: all 0.3s;
+        }
+        .scan-target::before { content:'Place mould inside box'; position:absolute; top:-30px; left:0; width:100%; text-align:center; color:#fff; font-size:12px; font-weight:800; text-shadow:0 2px 4px rgba(0,0,0,0.8);}
 
-        .gallery-masonry { column-count: 3; column-gap: 20px; }
-        .g-item { break-inside: avoid; margin-bottom: 20px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); background: #0a0a0a; transition: transform 0.4s var(--ease-fluid), border-color 0.4s; }
-        .g-item:hover { transform: scale(1.02); border-color: rgba(255,255,255,0.3); }
-        .g-img { width: 100%; height: auto; display: block; }
-
-        .comp-container { background: #050505; border: 1px solid var(--border); border-radius: 30px; padding: 40px; overflow: hidden; position: relative; }
-        .comp-container::before { content:''; position: absolute; top:0; right:0; width: 50%; height: 1px; background: linear-gradient(90deg, transparent, var(--accent)); }
-        .comp-wrapper { width: 100%; display: block; margin-bottom: 50px; border-radius: 24px; border: 1px solid var(--border); background: #0a0a0a; }
-        .comp-table { width: 100%; border-collapse: collapse; table-layout: auto; }
-        .comp-table th { text-align: left; padding: 20px; color: var(--text-dim); font-size: 11px; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .comp-table th.col-mx, .comp-table td.col-mx { width: 40%; background: rgba(99,102,241,0.03); border-right: 1px solid rgba(99,102,241,0.1); border-left: 1px solid rgba(99,102,241,0.1); }
-        .comp-row { transition: background-color 0.2s; }
-        .comp-row:hover { background: rgba(255,255,255,0.03); }
-        .comp-cell { padding: 25px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 15px; color: #fff; }
-        .comp-cell.dim { color: #555; font-weight: 500; }
-        .comp-cell.bright { color: #fff; font-weight: 700; text-shadow: 0 0 15px rgba(99,102,241,0.3); }
-        .comp-cell.bright span { color: var(--accent); margin-right: 8px; }
-        .comp-footer { margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--border); display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
-
-        .dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .dd-box { padding: 50px; border-radius: 24px; border: 1px solid var(--border); transition: transform 0.4s var(--ease-fluid), border-color 0.4s, box-shadow 0.4s; }
-        .dd-box:hover { transform: translate3d(0,-5px,0); }
-        .dd-box.dos { background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2); }
-        .dd-box.dos:hover { border-color: rgba(16, 185, 129, 0.4); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1); }
-        .dd-box.donts { background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2); }
-        .dd-box.donts:hover { border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1); }
+        .scanner-controls { padding: 25px; background: #fafafa; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        
+        .scan-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+        .scan-inputs input, .scan-inputs select { 
+            border: 2px solid #ccc; padding: 12px; font-size: 14px; font-weight: 800; 
+            border-radius: 8px; width: 100%; outline: none; background: #fff; color: #000;
+        }
+        .scan-inputs input:focus, .scan-inputs select:focus { border-color: var(--accent); }
 
         /* =========================================
            9. TITAN FUSION CALCULATOR (UX OPTIMIZED)
@@ -388,16 +391,16 @@
         .z-number:focus { border-color: var(--accent); outline: none; }
         
         .z-slider { -webkit-appearance: none; width: 100%; height: 8px; background: #ccc; border-radius: 4px; outline: none; display: block; margin-top: 10px; }
-        .z-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 32px; height: 32px; background: #000; border-radius: 50%; cursor: grab; transition: transform 0.2s var(--ease-spring); border: 4px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        .z-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 34px; height: 34px; background: #000; border-radius: 50%; cursor: grab; transition: transform 0.2s var(--ease-spring); border: 4px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         .z-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
         .z-slider::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(0.9); }
         
         .shape-grid { display: flex; gap: 15px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 15px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         .shape-grid::-webkit-scrollbar { display: none; }
-        .shape-btn { min-width: 90px; padding: 20px; border: 2px solid #aaa; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: all 0.3s; background: rgba(255, 255, 255, 0.7); }
+        .shape-btn { min-width: 95px; padding: 20px 15px; border: 2px solid #aaa; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: all 0.3s; background: rgba(255, 255, 255, 0.7); }
         .shape-btn:hover { border-color: #555; background: #fff; transform: translate3d(0,-2px,0); }
         .shape-btn.active { background: #fff; border-color: #000; transform: translate3d(0,0,0); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
-        .shape-btn svg { width: 26px; height: 26px; stroke: #333; fill: none; stroke-width: 2.5; transition: stroke 0.3s; }
+        .shape-btn svg { width: 28px; height: 28px; stroke: #333; fill: none; stroke-width: 2.5; transition: stroke 0.3s; }
         .shape-btn:hover svg { stroke: #000; }
         .shape-btn.active svg { stroke: #000; }
         .shape-btn span { font-size: 13px; font-weight: 800; color: #333; text-transform: uppercase; transition: color 0.3s; }
@@ -408,18 +411,11 @@
         .preset-btn { padding: 12px 24px; border: 2px solid #aaa; border-radius: 30px; font-size: 13px; font-weight: 800; color: #333; background: #fff; white-space: nowrap; transition: all 0.3s; cursor: pointer; }
         .preset-btn:hover { color: #000; border-color: #000; background: #f3f4f6; transform: translate3d(0,-2px,0); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        /* ANIMATED ENVIRONMENT ICONS */
         .env-icons { display: inline-flex; align-items: center; gap: 10px; margin-left: auto; }
         .icon-temp { width: 18px; height: 18px; stroke: #ef4444; fill: none; animation: tempPulse 2s infinite alternate ease-in-out; }
         .icon-drop { width: 18px; height: 18px; stroke: #3b82f6; fill: none; animation: dropPulse 2s infinite alternate ease-in-out; animation-delay: 1s; }
-        @keyframes tempPulse { 
-            0% { transform: scale(1) translateY(0); filter: drop-shadow(0 0 2px rgba(239,68,68,0)); } 
-            100% { transform: scale(1.15) translateY(-2px); filter: drop-shadow(0 0 8px rgba(239,68,68,0.7)); } 
-        }
-        @keyframes dropPulse { 
-            0% { transform: scale(1) translateY(0); filter: drop-shadow(0 0 2px rgba(59,130,246,0)); } 
-            100% { transform: scale(1.15) translateY(-2px); filter: drop-shadow(0 0 8px rgba(59,130,246,0.7)); } 
-        }
+        @keyframes tempPulse { 0% { transform: scale(1) translateY(0); filter: drop-shadow(0 0 2px rgba(239,68,68,0)); } 100% { transform: scale(1.15) translateY(-2px); filter: drop-shadow(0 0 8px rgba(239,68,68,0.7)); } }
+        @keyframes dropPulse { 0% { transform: scale(1) translateY(0); filter: drop-shadow(0 0 2px rgba(59,130,246,0)); } 100% { transform: scale(1.15) translateY(-2px); filter: drop-shadow(0 0 8px rgba(59,130,246,0.7)); } }
 
         .env-card { background: rgba(16, 185, 129, 0.1); border: 2px solid rgba(16, 185, 129, 0.3); padding: 25px; border-radius: 20px; transition: background-color 0.3s, border-color 0.3s; }
         .auto-btn { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid var(--accent); color: var(--accent); font-size: 13px; font-weight: 800; text-transform: uppercase; cursor: pointer; background: rgba(99,102,241,0.1); margin-bottom: 20px; display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.3s; }
@@ -455,48 +451,7 @@
         .cost-inp:focus { border-color: var(--accent); outline: none; }
 
         /* =========================================
-           14. SMART CAMERA SCANNER MODAL UI
-           ========================================= */
-        .scanner-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            z-index: 9999; display: none; justify-content: center; align-items: center;
-            padding: 20px;
-        }
-        .scanner-ui {
-            background: #fff; border-radius: 24px; overflow: hidden; width: 100%; max-width: 450px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5); display: flex; flex-direction: column;
-        }
-        .scanner-header {
-            padding: 20px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #e5e7eb; background: #fafafa;
-        }
-        .scanner-header h3 { font-size: 16px; font-weight: 800; color: #000; margin: 0; display:flex; align-items:center; gap:8px;}
-        .scanner-close { background: none; border: none; font-size: 24px; color: #666; cursor: pointer; line-height: 1; }
-        .scanner-view { position: relative; width: 100%; height: 400px; background: #000; overflow: hidden; }
-        .scanner-view video { width: 100%; height: 100%; object-fit: cover; }
-        .scanner-view canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-        
-        .scan-target {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 70%; height: 60%; border: 2px solid rgba(255,255,255,0.5); border-radius: 12px;
-            pointer-events: none; box-shadow: 0 0 0 9999px rgba(0,0,0,0.4);
-        }
-        .scan-target::before { content:'Place mould here'; position:absolute; top:-25px; left:0; width:100%; text-align:center; color:#fff; font-size:12px; font-weight:700; letter-spacing:1px; text-shadow:0 2px 4px rgba(0,0,0,0.8);}
-        
-        .scan-line-overlay {
-            position: absolute; top: 50%; left: 15%; width: 70%; height: 2px;
-            background: #ef4444; z-index: 10; display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 0 10px #ef4444; display: none;
-        }
-        .scan-line-overlay::before, .scan-line-overlay::after { content:''; position:absolute; width:2px; height:20px; background:#ef4444; }
-        .scan-line-overlay::before { left: 0; }
-        .scan-line-overlay::after { right: 0; }
-
-        .scanner-controls { padding: 25px; background: #fafafa; display: flex; flex-direction: column; align-items: center; gap: 15px; }
-
-        /* =========================================
-           10. FOOTER (MILKY WHITE ANCHOR)
+           10. FOOTER
            ========================================= */
         .footer { position: relative; padding: 120px 20px 60px; margin-top: 150px; background: var(--bg-milky); overflow: hidden; border-top: 1px solid var(--border-light); }
         .footer-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; }
@@ -609,9 +564,6 @@
             :root { --blur: blur(0px); } 
             .glass, .comp-container, .comp-wrapper { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: #0a0a0a !important; box-shadow: none !important; }
             
-            .reveal { filter: none !important; }
-            .reveal.active { filter: none !important; }
-            
             .hero { min-height: 80dvh; }
             .grid-3 { grid-template-columns: 100%; } 
             .specs-layout, .gallery-masonry, .zenith-calc, .dos-donts, .refine-grid { grid-template-columns: 1fr; }
@@ -619,7 +571,6 @@
             .cart-inner { width: 100%; max-width: 100%; padding: 25px; }
             .z-controls, .z-display { padding: 30px; }
             .hero h1 { font-size: 48px; }
-            .bento-item.wide { grid-column: span 1; }
             .nav-inner { justify-content: flex-start; gap: 20px; }
             .nav-links { gap: 25px; }
             .shape-btn { min-width: 85px; }
@@ -636,7 +587,6 @@
             .comp-table th:nth-child(1) { width: 20%; } 
             .comp-table th:nth-child(2) { width: 45%; } 
             .comp-table th:nth-child(3) { width: 35%; } 
-            .comp-container::after { display: none; }
             
             .vijeta-panel { width: calc(100% - 40px); left: 20px; right: 20px; height: 500px; bottom: 105px; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: #0a0a0a !important; }
             .v-greeting { width: calc(100% - 110px); }
@@ -644,12 +594,12 @@
             .premium-stamp { top: 12%; right: 5%; width: 100px; height: 100px; }
             
             /* MOBILE POPUP FIX */
-            #hardness-popup {
-                right: -10px; 
-                max-width: 170px;
-                font-size: 9px;
-            }
+            #hardness-popup { right: -10px; max-width: 170px; font-size: 9px; }
             #hardness-popup::after { right: 20px; }
+            
+            /* MOBILE SCANNER FIX */
+            .scanner-ui { max-width: 95%; }
+            .scan-inputs { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -668,21 +618,24 @@
                 <video id="camera-feed" autoplay playsinline></video>
                 <canvas id="scanner-canvas"></canvas>
                 <div class="scan-target" id="scan-target-box"></div>
-                
-                <div id="scan-line-overlay" class="scan-line-overlay">
-                    <div style="position:absolute; top:-25px; width:100%; text-align:center; color:#ef4444; font-size:10px; font-weight:800; letter-spacing:1px; background:rgba(255,255,255,0.9); padding:2px 0; border-radius:4px;">REFERENCE WIDTH</div>
-                </div>
             </div>
             <div class="scanner-controls">
-                <button id="btn-capture" class="btn btn-primary" style="width:100%; background:#111; color:#fff;" onclick="captureScanFrame()">Capture Mould</button>
+                <button id="btn-capture" class="btn btn-primary" style="width:100%; background:#111; color:#fff; font-size:13px;" onclick="captureScanFrame()">Capture Mould</button>
                 
                 <div id="scan-prompt" style="display:none; width:100%;">
-                    <p style="font-size:13px; font-weight:800; margin-bottom:10px; color:#000; line-height:1.4;">
-                        AI isolated the irregular shape. <br><span style="color:var(--accent);">Enter the real-world length of the RED LINE to establish scale:</span>
+                    <p style="font-size:12px; font-weight:800; margin-bottom:15px; color:#000; line-height:1.5;">
+                        <span style="color:var(--success);">✓ Shape detected.</span><br>
+                        Enter the real-world dimensions of the <span style="color:#ef4444;">RED BOUNDING BOX</span> to establish perfect scale:
                     </p>
-                    <div style="display:flex; gap:10px;">
-                        <input type="number" id="scan-real-width" class="z-number" style="flex:1; border:2px solid #ccc; padding:10px 15px; font-size:16px; border-radius:8px; text-align:left;" placeholder="Length (e.g. 15)">
-                        <button class="btn btn-primary" style="background:var(--accent); color:#fff; border:none;" onclick="processScanArea()">Calculate</button>
+                    <div class="scan-inputs">
+                        <input type="number" id="scan-w" placeholder="Width (X)">
+                        <input type="number" id="scan-h" placeholder="Height (Y)">
+                        <select id="scan-unit">
+                            <option value="cm">Centimeters (cm)</option>
+                            <option value="mm">Millimeters (mm)</option>
+                            <option value="in">Inches (in)</option>
+                        </select>
+                        <button class="btn btn-primary" style="background:var(--accent); color:#fff; border:none; width:100%; grid-column: 1 / -1; margin-top:5px;" onclick="processScanArea()">Calculate Exact Volume</button>
                     </div>
                 </div>
             </div>
@@ -1392,23 +1345,26 @@
         }
 
         // =========================================
-        // AI SMART SCANNER LOGIC (CLIENT-SIDE CV)
+        // AI SMART SCANNER (DUAL-AXIS PRECISION)
         // =========================================
         let camStream = null;
         let scannedPixelArea = 0;
         let scannedPixelWidth = 0;
+        let scannedPixelHeight = 0;
 
         async function openScanner() {
             setShape('scan');
-            document.getElementById('smart-scanner').style.display = 'flex';
+            const overlay = document.getElementById('smart-scanner');
+            overlay.style.display = 'flex';
+            setTimeout(()=> overlay.classList.add('active'), 10); // smooth entry
+            
             document.getElementById('btn-capture').style.display = 'block';
             document.getElementById('scan-prompt').style.display = 'none';
-            document.getElementById('scan-line-overlay').style.display = 'none';
             
             const video = document.getElementById('camera-feed');
             const canvas = document.getElementById('scanner-canvas');
             const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // clear previous scans
+            ctx.clearRect(0, 0, canvas.width, canvas.height); 
             
             try {
                 camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
@@ -1416,12 +1372,15 @@
             } catch (err) {
                 alert("Camera access is required for the AI Scanner. Please enable it in your browser settings.");
                 closeScanner();
-                setShape('rect'); // fallback
+                setShape('rect'); 
             }
         }
 
         function closeScanner() {
-            document.getElementById('smart-scanner').style.display = 'none';
+            const overlay = document.getElementById('smart-scanner');
+            overlay.classList.remove('active');
+            setTimeout(() => { overlay.style.display = 'none'; }, 400);
+            
             if (camStream) { 
                 camStream.getTracks().forEach(track => track.stop()); 
                 camStream = null; 
@@ -1436,22 +1395,20 @@
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             
-            // Draw current frame to canvas
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             video.pause();
             
-            // AI SIMULATION: Lightweight Thresholding Algorithm for the Browser
             let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             let d = imgData.data;
             
-            // Sample the corners to establish "background" color
             let bgR = (d[0] + d[4] + d[(canvas.width-1)*4] + d[(canvas.height*canvas.width - 1)*4]) / 4;
             let bgG = (d[1] + d[5] + d[(canvas.width-1)*4 + 1] + d[(canvas.height*canvas.width - 1)*4 + 1]) / 4;
             let bgB = (d[2] + d[6] + d[(canvas.width-1)*4 + 2] + d[(canvas.height*canvas.width - 1)*4 + 2]) / 4;
             
             let minX = canvas.width, maxX = 0;
+            let minY = canvas.height, maxY = 0;
             let pixelCount = 0;
-            const tolerance = 45; // Color distance threshold
+            const tolerance = 45; 
             
             for(let y = 0; y < canvas.height; y+=2) { 
                 for(let x = 0; x < canvas.width; x+=2) {
@@ -1459,50 +1416,71 @@
                     let diff = Math.abs(d[i]-bgR) + Math.abs(d[i+1]-bgG) + Math.abs(d[i+2]-bgB);
                     
                     if(diff > tolerance * 3) {
-                        pixelCount++; // It's part of the mould
+                        pixelCount++; 
                         if(x < minX) minX = x;
                         if(x > maxX) maxX = x;
+                        if(y < minY) minY = y;
+                        if(y > maxY) maxY = y;
                         
-                        // Visually highlight the detected shape in Red
-                        d[i] = Math.min(255, d[i] + 70); 
+                        d[i] = Math.min(255, d[i] + 70); // Highlight
                     } else {
-                        // Darken the background to make the shape pop
-                        d[i] = d[i] * 0.4;
-                        d[i+1] = d[i+1] * 0.4;
-                        d[i+2] = d[i+2] * 0.4;
+                        // Darken Background
+                        d[i] = d[i] * 0.4; d[i+1] = d[i+1] * 0.4; d[i+2] = d[i+2] * 0.4;
                     }
                 }
             }
             
-            // Fallback if background was too messy or no contrast found
-            if(pixelCount < 500 || minX >= maxX) {
-                minX = canvas.width * 0.25; 
-                maxX = canvas.width * 0.75;
-                pixelCount = (maxX - minX) * (canvas.height * 0.5) / 4; 
+            if(pixelCount < 500 || minX >= maxX || minY >= maxY) {
+                // Fallback Box if scan fails
+                minX = canvas.width * 0.25; maxX = canvas.width * 0.75;
+                minY = canvas.height * 0.25; maxY = canvas.height * 0.75;
+                pixelCount = (maxX - minX) * (maxY - minY) / 4; 
             }
             
             ctx.putImageData(imgData, 0, 0);
             
-            // Save pixel data globally (*4 because we stepped by 2x2 grid)
+            // Draw Perfect Bounding Box on Canvas
+            ctx.strokeStyle = '#ef4444';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(minX, minY, maxX - minX, maxY - minY);
+            
+            // Draw Crosshairs
+            ctx.beginPath();
+            ctx.moveTo(minX, minY + (maxY-minY)/2); ctx.lineTo(maxX, minY + (maxY-minY)/2);
+            ctx.moveTo(minX + (maxX-minX)/2, minY); ctx.lineTo(minX + (maxX-minX)/2, maxY);
+            ctx.stroke();
+
+            // Label the box
+            ctx.font = "bold 40px 'Manrope'";
+            ctx.fillStyle = "#ef4444";
+            ctx.fillText("X", minX + (maxX-minX)/2 + 10, minY + (maxY-minY)/2 - 10);
+            ctx.fillText("Y", minX + (maxX-minX)/2 + 10, minY + (maxY-minY)/2 + 40);
+
             scannedPixelArea = pixelCount * 4; 
             scannedPixelWidth = maxX - minX;
+            scannedPixelHeight = maxY - minY;
             
-            // Update UI to ask for real-world dimension
             document.getElementById('btn-capture').style.display = 'none';
+            document.getElementById('scan-target-box').style.display = 'none';
             document.getElementById('scan-prompt').style.display = 'block';
-            document.getElementById('scan-line-overlay').style.display = 'flex';
         }
 
         function processScanArea() {
-            const realWidth = parseFloat(document.getElementById('scan-real-width').value);
-            if(!realWidth || realWidth <= 0) return alert('Please enter a valid length to establish scale.');
+            const inputW = parseFloat(document.getElementById('scan-w').value);
+            const inputH = parseFloat(document.getElementById('scan-h').value);
+            const unit = document.getElementById('scan-unit').value;
             
-            // THE PHYSICS: Convert Irregular Pixel Area to True Square Centimeters
-            let factor = appState.unit === 'in' ? 2.54 : 1; 
-            let widthCm = realWidth * factor;
+            if(!inputW || inputW <= 0 || !inputH || inputH <= 0) {
+                return alert('Please enter valid measurements for both Width and Height.');
+            }
             
-            // Math: Real Area = PixelArea * (RealWidth / PixelWidth)^2
-            let areaCm2 = scannedPixelArea * Math.pow(widthCm / scannedPixelWidth, 2);
+            // DUAL-AXIS PERSPECTIVE CORRECTION MATH
+            let factor = (unit === 'in') ? 2.54 : ((unit === 'mm') ? 0.1 : 1);
+            let realW_cm = inputW * factor;
+            let realH_cm = inputH * factor;
+            
+            // Scale X and Scale Y are calculated independently!
+            let areaCm2 = scannedPixelArea * (realW_cm / scannedPixelWidth) * (realH_cm / scannedPixelHeight);
             
             appState.scannedArea = areaCm2;
             document.getElementById('scan-area-display').innerText = areaCm2.toFixed(1) + ' cm²';
@@ -1871,7 +1849,6 @@
         // =========================================
         window.addEventListener('load', () => {
             setTimeout(() => {
-                const animalContainer = document.getElementById('animal-container');
                 const deerSvg = document.getElementById('animal-svg');
                 
                 const frontLegL = document.getElementById('leg-fl');
@@ -1903,7 +1880,7 @@
                             .to(frontLegL, { rotation: -15, duration: 0.5, ease: "power2.inOut" }, "<"); 
 
                 // 4. TRUE ZERO-GAP STRIKE
-                mainTimeline.to(deerSvg, { x: -22, rotation: -2, duration: 0.04, ease: "power4.in" }, ">") 
+                mainTimeline.to(deerSvg, { x: -20, rotation: -2, duration: 0.04, ease: "power4.in" }, ">") 
                             .to(frontLegL, { rotation: 25, duration: 0.04, ease: "power4.in" }, "<"); 
 
                 // 5. THE IMPACT
@@ -1922,8 +1899,8 @@
                          .to(backLegR, { rotation: -12, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0); 
 
                 mainTimeline.add(limpCycle, ">");
-                mainTimeline.to(deerSvg, { x: screenWidth, duration: 9.6, ease: "none" }, "<"); 
-                mainTimeline.to(popup, { opacity: 0, duration: 0.8 }, "-=2"); 
+                mainTimeline.to(deerSvg, { x: screenWidth * 1.2, duration: 9.6, ease: "none" }, "<"); 
+                mainTimeline.to(popup, { opacity: 0, duration: 0.8 }, "-=3"); 
 
             }, 2000); 
         });
