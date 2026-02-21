@@ -29,7 +29,7 @@
             --text-main: #ffffff;
             --text-dim: #9ca3af;
             
-            /* NEW: Light Theme Variables */
+            /* Light Theme Variables */
             --bg-milky: #fafafa;
             --bg-pure: #ffffff;
             --text-dark: #111827;
@@ -166,7 +166,7 @@
         .navbar { 
             position: fixed; top: 0; width: 100%; height: 80px; z-index: 1000; 
             display: flex; align-items: center; transition: box-shadow 0.4s var(--ease-fluid), height 0.4s var(--ease-fluid); 
-            background-color: var(--bg-milky); /* High-contrast white strip */
+            background-color: var(--bg-milky); 
             border-bottom: 1px solid var(--border-light); 
             padding-top: var(--safe-top);
         }
@@ -228,7 +228,7 @@
 
         .hero { 
             min-height: 80dvh; display: flex; flex-direction: column; justify-content: center; 
-            align-items: center; text-align: center; z-index: 10; padding-top: 80px; padding-bottom: 40px; 
+            align-items: center; text-align: center; z-index: 10; padding-top: 80px; padding-bottom: 40px; position: relative;
         }
         .hero h1 { 
             font-size: clamp(42px, 10vw, 100px); margin-bottom: 24px; font-weight: 800; 
@@ -237,13 +237,28 @@
         }
         .hero p { color: var(--text-dim); font-size: 18px; max-width: 500px; margin-bottom: 40px; padding: 0 20px; }
 
+        /* ROTATING PREMIUM RED STAMP */
+        .premium-stamp {
+            position: absolute;
+            top: 20%;
+            right: 12%;
+            width: 140px;
+            height: 140px;
+            animation: spinStamp 15s linear infinite;
+            z-index: 5;
+            pointer-events: none;
+            opacity: 0.9;
+            filter: drop-shadow(0 10px 20px rgba(239, 68, 68, 0.3));
+        }
+        @keyframes spinStamp { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
         .marquee { position: absolute; bottom: 0; width: 100%; background: #000; border-top: 1px solid var(--border); padding: 16px 0; overflow: hidden; white-space: nowrap; user-select: none; }
         .marquee-content { display: inline-block; animation: scroll 40s linear infinite; transform: translateZ(0); }
         .marquee-item { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: var(--text-dim); margin: 0 40px; opacity: 0.7; }
         @keyframes scroll { 0% { transform: translate3d(0,0,0); } 100% { transform: translate3d(-50%,0,0); } }
 
         /* =========================================
-           5. SHOP & GRIDS
+           5. SHOP & GRIDS (SILVERISH GLASS)
            ========================================= */
         .stats-bar { border-bottom: 1px solid var(--border); padding: 40px 0; margin-top: -1px; }
         .stats-grid { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 30px; text-align: center; }
@@ -255,10 +270,18 @@
         .product-card { 
             padding: 30px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; 
             transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s var(--ease-fluid), border-color 0.4s; 
+            
+            /* NEW: Translucent Silverish Aesthetic */
+            background: linear-gradient(135deg, rgba(230, 230, 240, 0.15) 0%, rgba(180, 180, 190, 0.05) 100%) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-radius: var(--radius);
         }
         .product-card:hover {
             transform: translate3d(0, -10px, 0);
-            border-color: rgba(255,255,255,0.4) !important;
+            border-color: rgba(255,255,255,0.5) !important;
+            background: linear-gradient(135deg, rgba(230, 230, 240, 0.25) 0%, rgba(180, 180, 190, 0.1) 100%) !important;
             box-shadow: 0 25px 50px rgba(0,0,0,0.6);
         }
         
@@ -320,11 +343,21 @@
         .dd-box.donts:hover { border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1); }
 
         /* =========================================
-           9. TITAN FUSION CALCULATOR (MILKY WHITE LAB THEME)
+           9. TITAN FUSION CALCULATOR (TRANSLUCENT WHITE GLASS)
            ========================================= */
-        .zenith-calc { background: var(--bg-milky); border: 1px solid var(--border-light); border-radius: 40px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 40px 100px -30px rgba(0,0,0,0.5); }
+        .zenith-calc { 
+            background: rgba(250, 250, 250, 0.65); /* Translucent Glass */
+            backdrop-filter: blur(24px); 
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.5); 
+            border-radius: 40px; 
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            box-shadow: 0 40px 100px -30px rgba(0,0,0,0.6); 
+        }
         .z-controls { padding: 40px; border-bottom: 1px solid var(--border-light); position: relative; }
-        .z-display { padding: 40px; background: var(--bg-pure); display: flex; flex-direction: column; justify-content: space-between; }
+        .z-display { padding: 40px; background: rgba(255, 255, 255, 0.4); display: flex; flex-direction: column; justify-content: space-between; }
         @media (min-width: 900px) {
             .zenith-calc { display: grid; grid-template-columns: 1.3fr 1fr; }
             .z-controls { border-right: 1px solid var(--border-light); border-bottom: none; padding: 60px; }
@@ -337,12 +370,12 @@
         .ratio-btn:hover { color: var(--text-dark); border-color: #9ca3af; }
         .ratio-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(99,102,241,0.1); }
         
-        .mode-toggle { display: flex; background: #e5e7eb; border-radius: 14px; padding: 5px; border: 1px solid var(--border-light); }
+        .mode-toggle { display: flex; background: rgba(229, 231, 235, 0.5); border-radius: 14px; padding: 5px; border: 1px solid var(--border-light); }
         .mode-opt { flex: 1; text-align: center; padding: 12px; font-size: 11px; font-weight: 700; color: var(--text-muted); cursor: pointer; border-radius: 10px; transition: all 0.3s; }
         .mode-opt:hover { color: var(--text-dark); }
         .mode-opt.active { background: var(--bg-pure); color: var(--text-dark); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         
-        .unit-wrap { display: flex; gap: 5px; margin-left: auto; background: #e5e7eb; padding: 3px; border-radius: 10px; border: 1px solid var(--border-light); }
+        .unit-wrap { display: flex; gap: 5px; margin-left: auto; background: rgba(229, 231, 235, 0.5); padding: 3px; border-radius: 10px; border: 1px solid var(--border-light); }
         .unit-btn { padding: 6px 12px; border-radius: 7px; font-size: 10px; font-weight: 800; color: var(--text-muted); background: transparent; transition: all 0.3s; cursor:pointer; }
         .unit-btn:hover { color: var(--text-dark); }
         .unit-btn.active { background: var(--bg-pure); color: var(--text-dark); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
@@ -361,9 +394,9 @@
         
         .shape-grid { display: flex; gap: 15px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 15px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         .shape-grid::-webkit-scrollbar { display: none; }
-        .shape-btn { min-width: 90px; padding: 20px; border: 1px solid var(--border-light); border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: transform 0.3s var(--ease-fluid), border-color 0.3s, background-color 0.3s; background: var(--bg-pure); }
-        .shape-btn:hover { border-color: #9ca3af; background: var(--bg-milky); transform: translate3d(0,-2px,0); }
-        .shape-btn.active { background: #f3f4f6; border-color: var(--text-dark); transform: translate3d(0,0,0); }
+        .shape-btn { min-width: 90px; padding: 20px; border: 1px solid var(--border-light); border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: transform 0.3s var(--ease-fluid), border-color 0.3s, background-color 0.3s; background: rgba(255, 255, 255, 0.4); }
+        .shape-btn:hover { border-color: #9ca3af; background: rgba(255, 255, 255, 0.7); transform: translate3d(0,-2px,0); }
+        .shape-btn.active { background: rgba(255, 255, 255, 0.9); border-color: var(--text-dark); transform: translate3d(0,0,0); }
         .shape-btn svg { width: 24px; height: 24px; stroke: var(--text-muted); fill: none; stroke-width: 2; transition: stroke 0.3s; }
         .shape-btn:hover svg { stroke: var(--text-dark); }
         .shape-btn.active svg { stroke: var(--text-dark); }
@@ -373,8 +406,21 @@
         
         .preset-row { display: flex; gap: 10px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; mask-image: linear-gradient(to right, black 90%, transparent 100%); }
         .preset-btn { padding: 10px 20px; border: 1px solid var(--border-light); border-radius: 30px; font-size: 11px; color: var(--text-muted); background: transparent; white-space: nowrap; transition: transform 0.3s var(--ease-fluid), color 0.3s, border-color 0.3s, background-color 0.3s; cursor: pointer; font-weight: 700; }
-        .preset-btn:hover { color: var(--text-dark); border-color: var(--text-dark); background: #f3f4f6; transform: translate3d(0,-2px,0); }
+        .preset-btn:hover { color: var(--text-dark); border-color: var(--text-dark); background: rgba(255,255,255,0.8); transform: translate3d(0,-2px,0); }
         
+        /* ANIMATED ENVIRONMENT ICONS */
+        .env-icons { display: inline-flex; align-items: center; gap: 10px; margin-left: auto; }
+        .icon-temp { width: 16px; height: 16px; stroke: #ef4444; fill: none; animation: tempPulse 2s infinite alternate ease-in-out; }
+        .icon-drop { width: 16px; height: 16px; stroke: #3b82f6; fill: none; animation: dropPulse 2s infinite alternate ease-in-out; animation-delay: 1s; }
+        @keyframes tempPulse { 
+            0% { transform: scale(1) translateY(0); filter: drop-shadow(0 0 2px rgba(239,68,68,0)); } 
+            100% { transform: scale(1.15) translateY(-2px); filter: drop-shadow(0 0 8px rgba(239,68,68,0.7)); } 
+        }
+        @keyframes dropPulse { 
+            0% { transform: scale(1) translateY(0); filter: drop-shadow(0 0 2px rgba(59,130,246,0)); } 
+            100% { transform: scale(1.15) translateY(-2px); filter: drop-shadow(0 0 8px rgba(59,130,246,0.7)); } 
+        }
+
         .env-card { background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); padding: 25px; border-radius: 20px; transition: background-color 0.3s, border-color 0.3s; }
         .auto-btn { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--accent); color: var(--accent); font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; background: rgba(99,102,241,0.1); margin-bottom: 20px; display: flex; justify-content: center; align-items: center; gap: 8px; transition: transform 0.3s var(--ease-fluid), background-color 0.3s; }
         .auto-btn:hover { background: rgba(99,102,241,0.2); transform: translate3d(0,-2px,0); }
@@ -398,7 +444,7 @@
         .p-item span { font-size: 11px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 5px; }
         .p-item b { font-size: 24px; color: var(--text-dark); font-weight: 700; font-variant-numeric: tabular-nums; }
         
-        .safety-report { background: var(--bg-milky); border-radius: 16px; padding: 20px; border-left: 4px solid #d1d5db; margin-bottom: 20px; transition: border-color 0.4s, background-color 0.4s; border-top: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; }
+        .safety-report { background: rgba(255,255,255,0.6); border-radius: 16px; padding: 20px; border-left: 4px solid #d1d5db; margin-bottom: 20px; transition: border-color 0.4s, background-color 0.4s; border-top: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; }
         .safety-report.safe { border-left-color: var(--success); background: rgba(16,185,129,0.05); }
         .safety-report.danger { border-left-color: var(--danger); background: rgba(239,68,68,0.05); }
         .sr-head { font-size: 11px; font-weight: 800; color: var(--text-dark); text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; }
@@ -554,6 +600,8 @@
             
             .vijeta-panel { width: calc(100% - 40px); left: 20px; right: 20px; height: 500px; bottom: 105px; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: #0a0a0a !important; }
             .v-greeting { width: calc(100% - 110px); }
+            
+            .premium-stamp { top: 12%; right: 5%; width: 100px; height: 100px; }
         }
     </style>
 </head>
@@ -608,6 +656,15 @@
     </nav>
 
     <header class="hero">
+        <div class="premium-stamp">
+            <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; overflow: visible;">
+                <path id="stamp-curve" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="none" />
+                <text font-size="11" font-weight="800" fill="#ef4444" letter-spacing="3" font-family="'Space Grotesk', sans-serif">
+                    <textPath href="#stamp-curve" startOffset="0%" textLength="219">PREMIUM PRODUCT ✦ PREMIUM PRODUCT ✦ </textPath>
+                </text>
+            </svg>
+        </div>
+
         <div class="reveal active">
             <h1>Molecular Clarity.<br>OLED Contrast.</h1>
             <p>The definitive 3:1 epoxy system. Engineered for professional artisans.</p>
@@ -633,7 +690,7 @@
             <h2 style="text-align:center; font-size:42px; margin-bottom:80px;">Studio Lineup</h2>
             <div class="grid-3">
                 
-                <div class="glass product-card reveal">
+                <div class="product-card reveal">
                     <div>
                         <span class="p-tag">Starter Kit</span>
                         <img src="product-1.webp" alt="1.2 KG Kit" class="p-img" loading="lazy" decoding="async">
@@ -650,7 +707,7 @@
                     </div>
                 </div>
 
-                <div class="glass product-card reveal" style="border-color:rgba(255,255,255,0.3);">
+                <div class="product-card reveal" style="border-color:rgba(255,255,255,0.4) !important;">
                     <div>
                         <span class="p-tag" style="background:#fff; color:#000; border-color:#fff;">Best Seller</span>
                         <img src="MX_LUMES_4_8kg_Master_Kit.png" alt="4.8 KG Kit" class="p-img" loading="lazy" decoding="async">
@@ -667,7 +724,7 @@
                     </div>
                 </div>
 
-                <div class="glass product-card reveal" style="position:relative; overflow:hidden;">
+                <div class="product-card reveal" style="position:relative; overflow:hidden;">
                     <div style="position:absolute; top:20px; right:-30px; background:var(--accent); padding:5px 30px; transform:rotate(45deg); font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:1px; z-index:2;">Super Saver</div>
                     <div>
                         <span class="p-tag" style="color:var(--accent); border-color:var(--accent);">Monthly Pack</span>
@@ -875,7 +932,13 @@
 
                     <div class="z-group" id="group-depth"><div class="z-head"><span class="z-label">Depth (Thickness)</span><input type="number" id="input-D" class="z-number" value="1" oninput="sync('D')"></div><input type="range" class="z-slider" id="slider-D" min="0.1" max="15" step="0.1" value="1" oninput="sync('D', true)"></div>
 
-                    <div class="z-head-title" style="margin-top:40px;">3. Environment Lab</div>
+                    <div class="z-head-title" style="margin-top:40px;">
+                        3. Environment Lab
+                        <div class="env-icons">
+                            <svg class="icon-temp" viewBox="0 0 24 24"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <svg class="icon-drop" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                    </div>
                     <div class="env-card" id="env-card">
                         <button class="auto-btn" onclick="autoDetectWeather()"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Auto-Detect Conditions</button>
                         <div id="weather-status" style="font-size:11px; text-align:center; color:var(--text-muted); margin-bottom:15px; display:none;">Searching for satellites...</div>
@@ -914,7 +977,7 @@
 
                     <div class="cost-card">
                         <div><div class="z-label" style="margin:0;">Cost (₹/kg)</div><input type="number" id="costInput" class="cost-inp" placeholder="1000" oninput="runCalc()"></div>
-                        <div style="font-size:20px; font-weight:800;" id="est-cost">₹0</div>
+                        <div style="font-size:20px; font-weight:800; color: var(--text-dark);" id="est-cost">₹0</div>
                     </div>
                 </div>
             </div>
@@ -941,14 +1004,14 @@
 
     <footer class="footer">
         <div class="footer-overlay"></div>
-        <div class="footer-watermark">M-X</div>
+        <div class="footer-watermark" style="opacity: 0.05;">M-X</div>
         
         <div class="footer-content">
             <div class="f-top-grid">
                 <div>
                     <div class="f-vision-title">The Vision</div>
                     <div class="f-vision-text">
-                        "We refused to accept that Indian artists deserved anything less than the <span>world's best</span>. Bridging the gap between foreign precision and Indian artistry."
+                        "We refused to accept that Indian artists deserved anything less than the <span style="font-weight: 800; color: #000;">world's best</span>. Bridging the gap between foreign precision and Indian artistry."
                     </div>
                     <div class="f-founders">
                         <div>
@@ -1309,7 +1372,7 @@
             if (hum > 70) {
                 risks++;
                 sList.innerHTML += `<li class="sr-item" style="color:var(--danger)">💧 <b>BLUSH RISK:</b> High humidity inside.</li>`;
-                sList.innerHTML += `<li class="sr-item">💡 Use AC (Dry Mode) or Dehumidifier.</li>`;
+                sList.innerHTML += `<li class="sr-item" style="color:var(--text-dark)">💡 Use AC (Dry Mode) or Dehumidifier.</li>`;
             }
             if (temp > 30 && h_cm > 2) {
                 risks++;
@@ -1599,9 +1662,9 @@
         // =========================================
         window.addEventListener('load', () => {
             setTimeout(() => {
+                const animalContainer = document.getElementById('animal-container');
                 const deerSvg = document.getElementById('animal-svg');
                 
-                // FIXED: IDs now perfectly match the HTML
                 const frontLegL = document.getElementById('leg-fl');
                 const frontLegR = document.getElementById('leg-fr');
                 const backLegL = document.getElementById('leg-bl');
