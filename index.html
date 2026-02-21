@@ -154,7 +154,7 @@
         .toast.show { transform: translate3d(-50%, 0, 0); opacity: 1; }
 
         /* =========================================
-           4. NAVIGATION & HERO (WITH GEOMETRIC DEER)
+           4. NAVIGATION & HERO (WITH GEOMETRIC ANIMAL)
            ========================================= */
         .navbar { 
             position: fixed; top: 0; width: 100%; height: 80px; z-index: 1000; 
@@ -171,38 +171,35 @@
         .logo { font-weight: 800; font-size: 18px; letter-spacing: 3px; color: #fff; mix-blend-mode: exclusion; flex-shrink: 0; margin-right: 20px; z-index: 2;}
         #resin-s { display: inline-block; transform-origin: center; }
         
-        .barasingha-wrapper {
+        .animal-wrapper {
             position: absolute;
             left: 100%; 
             top: 50%;
             transform: translateY(-50%);
-            width: 55px;
-            height: 55px;
+            width: 45px;
+            height: 45px;
             pointer-events: none;
             z-index: 10;
         }
 
-        /* REFINED POPUP (STRICTLY BELOW TEXT) */
+        /* CRISP, PUNCHY POPUP */
         #hardness-popup {
             position: absolute;
             top: 130%; 
             right: -10px; 
             background: rgba(239, 68, 68, 0.95);
             color: #fff;
-            font-size: 9px;
+            font-size: 10px;
             font-weight: 800;
-            padding: 8px 12px;
-            border-radius: 6px;
+            padding: 6px 12px;
+            border-radius: 4px;
             text-transform: uppercase;
             letter-spacing: 1px;
             pointer-events: none;
             opacity: 0;
             z-index: 11;
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
-            white-space: normal;
-            max-width: 200px;
-            text-align: center;
-            line-height: 1.4;
+            box-shadow: 0 5px 20px rgba(239, 68, 68, 0.5);
+            white-space: nowrap;
             border: 1px solid rgba(255,255,255,0.2);
         }
         #hardness-popup::after {
@@ -552,41 +549,29 @@
             <div class="logo-wrapper">
                 <a href="#" class="logo" id="mx-logo" style="padding-right: 2px;">M-X LUME<span id="resin-s">S</span></a>
                 
-                <div class="barasingha-wrapper">
-                    <div id="hardness-popup">Ouch it hurts, because it is made up of rock solid 85 Shore D resin material</div>
+                <div class="animal-wrapper" id="animal-container">
                     
-                    <svg id="barasingha-svg" viewBox="0 0 100 100" style="width: 100%; height: 100%; overflow: visible; opacity: 0;">
-                        <g id="b-thigh-r" transform-origin="75px 50px">
-                            <polyline points="75,50 78,65 82,75" stroke="#555" stroke-width="1.5" fill="none" stroke-linejoin="miter"/>
-                            <g id="b-calf-r" transform-origin="82px 75px">
-                                <polyline points="82,75 80,95 76,95" stroke="#555" stroke-width="1.5" fill="none" stroke-linejoin="miter"/>
-                            </g>
+                    <div id="hardness-popup">OUCH! 85 SHORE D ROCK SOLID RESIN.</div>
+                    
+                    <svg id="animal-svg" viewBox="0 0 100 100" style="width: 100%; height: 100%; overflow: visible; opacity: 0;">
+                        <g id="leg-bl" transform-origin="75 50">
+                            <polygon points="70,50 65,85 72,90 77,50" fill="#555"/>
                         </g>
-                        <g id="f-thigh-r" transform-origin="35px 55px">
-                            <polyline points="35,55 38,70 36,80" stroke="#555" stroke-width="1.5" fill="none" stroke-linejoin="miter"/>
-                            <g id="f-calf-r" transform-origin="36px 80px">
-                                <polyline points="36,80 34,95 30,95" stroke="#555" stroke-width="1.5" fill="none" stroke-linejoin="miter"/>
-                            </g>
-                        </g>
-
-                        <polygon points="12,25 22,12 30,15 28,28 42,45 78,45 88,38 90,45 82,58 72,52 50,60 35,55 25,35" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="miter"/>
-                        <polygon points="22,12 28,8 30,15" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="miter"/> <polyline points="26,13 35,2 45,5 50,-2" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="miter"/>
-                        <polyline points="35,2 30,-5" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="miter"/>
-                        <polyline points="45,5 40,-3" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="miter"/>
-                        <polyline points="28,14 40,8 48,12" stroke="#777" stroke-width="1" fill="none" stroke-linejoin="miter"/>
-
-                        <g id="b-thigh-l" transform-origin="72px 52px">
-                            <polyline points="72,52 75,68 80,78" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="miter"/>
-                            <g id="b-calf-l" transform-origin="80px 78px">
-                                <polyline points="80,78 78,95 74,95" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="miter"/>
-                            </g>
+                        <g id="leg-fl" transform-origin="35 50">
+                            <polygon points="30,50 25,85 32,90 37,50" fill="#555"/>
                         </g>
                         
-                        <g id="f-thigh-l" transform-origin="30px 52px">
-                            <polyline points="30,52 32,65 30,78" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="miter"/>
-                            <g id="f-calf-l" transform-origin="30px 78px">
-                                <polyline points="30,78 28,95 24,95" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="miter"/>
-                            </g>
+                        <polygon points="15,25 25,15 35,45 80,45 90,35 85,55 70,60 30,60" fill="#fff"/>
+                        <polygon points="25,15 5,20 10,30 25,25 35,45 15,25" fill="#fff"/>
+                        
+                        <polyline points="20,15 15,0 25,-10 35,-5" stroke="#fff" stroke-width="2" fill="none" stroke-linejoin="round"/>
+                        <polyline points="15,0 5,-5" stroke="#fff" stroke-width="2" fill="none" stroke-linejoin="round"/>
+                        
+                        <g id="leg-br" transform-origin="80 50">
+                            <polygon points="75,50 70,85 77,90 82,50" fill="#fff"/>
+                        </g>
+                        <g id="leg-fr" transform-origin="40 50">
+                            <polygon points="35,50 30,85 37,90 42,50" fill="#fff"/>
                         </g>
                     </svg>
                 </div>
@@ -1594,74 +1579,66 @@
         // =========================================
         window.addEventListener('load', () => {
             setTimeout(() => {
-                const deerSvg = document.getElementById('barasingha-svg');
+                const animalContainer = document.getElementById('animal-container');
+                const deerSvg = document.getElementById('animal-svg');
                 
-                const frontThighL = document.getElementById('f-thigh-l');
-                const frontCalfL = document.getElementById('f-calf-l');
-                const frontThighR = document.getElementById('f-thigh-r');
-                const frontCalfR = document.getElementById('f-calf-r');
-                
-                const backThighL = document.getElementById('b-thigh-l');
-                const backCalfL = document.getElementById('b-calf-l');
-                const backThighR = document.getElementById('b-thigh-r');
-                const backCalfR = document.getElementById('b-calf-r');
+                const frontLegL = document.getElementById('f-leg-l');
+                const frontLegR = document.getElementById('f-leg-r');
+                const backLegL = document.getElementById('b-leg-l');
+                const backLegR = document.getElementById('b-leg-r');
                 
                 const resinS = document.getElementById('resin-s');
                 const popup = document.getElementById('hardness-popup');
                 
-                // Start far right, fully visible
-                gsap.set(deerSvg, { x: 180, opacity: 1 });
+                const screenWidth = window.innerWidth;
+                
+                // 1. Spawns completely off-screen to the right
+                gsap.set(deerSvg, { x: screenWidth, opacity: 1 });
 
                 const mainTimeline = gsap.timeline();
 
-                // 1. PERFECT QUADRUPEDAL TROT (Like a dog walk)
-                // Opposing legs move together. Thighs barely move, Calves do the work.
+                // 2. PERFECT QUADRUPEDAL TROT (No jumping, solid joints)
                 const walkDuration = 0.8;
-                const walkCycle = gsap.timeline({ repeat: 3 }); 
+                const walkCycle = gsap.timeline({ repeat: 4 }); 
                 
                 // Pair 1: Front-Left & Back-Right swing forward
-                walkCycle.to([frontThighL, backThighR], { rotation: 10, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
-                         .to([frontCalfL, backCalfR], { rotation: -15, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
+                walkCycle.to([frontLegL, backLegR], { rotation: 12, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
                 // Pair 2: Front-Right & Back-Left swing back
-                         .to([frontThighR, backThighL], { rotation: -10, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
-                         .to([frontCalfR, backCalfL], { rotation: 15, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0);
+                         .to([frontLegR, backLegL], { rotation: -12, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0);
 
                 mainTimeline.add(walkCycle, 0);
-                mainTimeline.to(deerSvg, { x: 0, duration: 6.4, ease: "none" }, 0); // Slower, heavier walk
+                
+                // Walks from off-screen all the way to x: 0 (Right beside the 'S')
+                mainTimeline.to(deerSvg, { x: 0, duration: 8, ease: "none" }, 0); 
 
-                // 2. THE ANTICIPATION (Coil back)
+                // 3. THE ANTICIPATION (Coils back like a spring)
                 mainTimeline.to(deerSvg, { x: 5, rotation: 3, duration: 0.5, ease: "power2.inOut" }, ">") 
-                            .to(frontThighL, { rotation: -5, duration: 0.5, ease: "power2.inOut" }, "<") 
-                            .to(frontCalfL, { rotation: -20, duration: 0.5, ease: "power2.inOut" }, "<"); 
+                            .to(frontLegL, { rotation: -15, duration: 0.5, ease: "power2.inOut" }, "<"); 
 
-                // 3. TRUE ZERO-GAP STRIKE
-                // The body lunges deep into negative space (x: -14) so the foot physically hits the S box.
-                mainTimeline.to(deerSvg, { x: -14, rotation: -2, duration: 0.04, ease: "power4.in" }, ">") 
-                            .to(frontThighL, { rotation: 15, duration: 0.04, ease: "power4.in" }, "<") 
-                            .to(frontCalfL, { rotation: 5, duration: 0.04, ease: "power4.in" }, "<"); 
+                // 4. TRUE ZERO-GAP STRIKE (Body lunges to -22px to physically overlap the text)
+                mainTimeline.to(deerSvg, { x: -22, rotation: -2, duration: 0.04, ease: "power4.in" }, ">") 
+                            .to(frontLegL, { rotation: 25, duration: 0.04, ease: "power4.in" }, "<"); 
 
-                // 4. THE IMPACT (Violent vibration)
+                // 5. THE IMPACT (Violent vibration, leg recoil, popup trigger)
                 mainTimeline.to(resinS, { x: -4, duration: 0.04, yoyo: true, repeat: 7, ease: "rough" }, "<") 
                             .to(popup, { opacity: 1, y: 5, duration: 0.3, ease: "back.out(1.7)" }, "<") 
-                            .to(frontThighL, { rotation: 5, duration: 0.2, ease: "bounce.out" }, "<") 
-                            .to(frontCalfL, { rotation: -10, duration: 0.2, ease: "bounce.out" }, "<")
-                            .to(deerSvg, { x: 6, rotation: 0, duration: 0.2, ease: "power2.out" }, "<"); // Body recoils back
+                            .to(frontLegL, { rotation: 5, duration: 0.2, ease: "bounce.out" }, "<") 
+                            .to(deerSvg, { x: 8, rotation: 0, duration: 0.2, ease: "power2.out" }, "<"); 
 
-                // 5. PAUSE AND RETREAT
+                // 6. PAUSE AND FLIP
                 mainTimeline.to(deerSvg, { scaleX: -1, duration: 0.2 }, "+=1.5");
 
-                // 6. LIMP CYCLE (Quadrupedal limp, NO body jumping)
-                const limpCycle = gsap.timeline({ repeat: 4 });
-                limpCycle.to(frontThighL, { rotation: -5, duration: walkDuration, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0)
-                         .to(frontCalfL, { rotation: 10, duration: walkDuration, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0)
-                         .to([frontThighR, backThighL, backThighR], { rotation: 10, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
-                         .to([frontCalfR, backCalfL, backCalfR], { rotation: -10, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0); 
+                // 7. LIMP CYCLE (Walks continuously off the screen entirely)
+                const limpCycle = gsap.timeline({ repeat: 6 });
+                limpCycle.to(frontLegL, { rotation: -8, duration: walkDuration, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0) // Stiff leg
+                         .to([frontLegR, backLegL], { rotation: 12, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
+                         .to(backLegR, { rotation: -12, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0); 
 
                 mainTimeline.add(limpCycle, ">");
-                mainTimeline.to(deerSvg, { x: 180, duration: 6.4, ease: "power1.inOut" }, "<"); // Limp slowly
-                mainTimeline.to(popup, { opacity: 0, duration: 0.8 }, "-=1"); // Popup stays until very end
+                mainTimeline.to(deerSvg, { x: screenWidth, duration: 9.6, ease: "none" }, "<"); 
+                mainTimeline.to(popup, { opacity: 0, duration: 0.8 }, "-=2"); // Stays visible until almost off screen
 
-            }, 2500); 
+            }, 2000); 
         });
 
     </script>
