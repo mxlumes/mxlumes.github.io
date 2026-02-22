@@ -29,6 +29,7 @@
             --text-main: #ffffff;
             --text-dim: #9ca3af;
             
+            /* Light Theme Variables */
             --bg-milky: #fafafa;
             --bg-pure: #ffffff;
             --text-dark: #050505;
@@ -111,7 +112,7 @@
         #hardness-popup::after { content: ''; position: absolute; top: -6px; right: 15px; border-width: 0 6px 6px 6px; border-style: solid; border-color: transparent transparent rgba(239, 68, 68, 0.95) transparent; }
 
         .nav-links { display: flex; gap: 30px; align-items: center; margin-left: auto; }
-        .nav-link { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; white-space: nowrap; transition: color 0.3s;}
+        .nav-link { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; white-space: nowrap; transition: color 0.3s;}
         .nav-link:hover { color: var(--text-dark); }
 
         .hero { min-height: 80dvh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; padding-top: 80px; padding-bottom: 40px; position: relative; }
@@ -144,7 +145,7 @@
         .support-card:hover { border-color: rgba(37, 211, 102, 0.5); box-shadow: 0 20px 50px rgba(37, 211, 102, 0.1); transform: translate3d(0, -5px, 0); }
 
         /* =========================================
-           6. TECHNOLOGY & SPECS (RESTORED LAYOUTS)
+           6. TECHNOLOGY & SPECS
            ========================================= */
         .tech-card { padding: 40px; border-top: 1px solid rgba(255,255,255,0.15); transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; height: 100%; display: flex; flex-direction: column; }
         .tech-card:hover { background: rgba(255,255,255,0.03); border-color: var(--accent); transform: translate3d(0, -8px, 0); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
@@ -254,6 +255,7 @@
         .auto-btn:active { transform: scale(0.98); }
         
         .refine-toggle { margin-top: 25px; font-size: 13px; font-weight: 800; color: #000; cursor: pointer; display: flex; align-items: center; gap: 8px; padding-top: 20px; border-top: 2px solid #ccc; transition: color 0.3s; }
+        .refine-toggle:hover { color: var(--accent); }
         .refine-panel { display: none; padding-top: 20px; }
         .refine-panel.show { display: block; animation: slideDown 0.3s var(--ease-fluid) forwards; }
         @keyframes slideDown { from { opacity: 0; transform: translate3d(0,-10px,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
@@ -266,7 +268,7 @@
         .p-item span { font-size: 13px; font-weight: 800; color: #333; display: block; margin-bottom: 5px; }
         .p-item b { font-size: 28px; color: #000; font-weight: 800; font-variant-numeric: tabular-nums; }
         
-        .safety-report { background: rgba(255,255,255,0.8); border-radius: 16px; padding: 20px; border-left: 6px solid #aaa; margin-bottom: 20px; border-top: 1px solid #ccc; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+        .safety-report { background: rgba(255,255,255,0.8); border-radius: 16px; padding: 20px; border-left: 6px solid #aaa; margin-bottom: 20px; transition: border-color 0.4s; border-top: 1px solid #ccc; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; }
         .safety-report.safe { border-left-color: var(--success); background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); }
         .safety-report.danger { border-left-color: var(--danger); background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); }
         .sr-head { font-size: 14px; font-weight: 800; color: #000; text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; }
@@ -277,7 +279,7 @@
         .cost-inp { width: 90px; background: transparent; border: none; border-bottom: 2px solid #aaa; color: #000; text-align: right; font-weight: 800; font-size: 20px; padding-bottom: 2px; transition: border-color 0.3s; }
 
         /* =========================================
-           14. THE ULTIMATE SMART SCANNER (MANUAL NODE DRAGGING)
+           14. SMART CAMERA SCANNER MODAL (DRAGGABLE ADOBE-STYLE MESH)
            ========================================= */
         .scanner-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; background: rgba(0,0,0,0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 9999; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.4s var(--ease-fluid); }
         .scanner-overlay.active { opacity: 1; display: flex; }
@@ -296,8 +298,8 @@
 
         .scanner-controls { padding: 25px; background: #fafafa; display: flex; flex-direction: column; align-items: center; gap: 15px; border-top: 1px solid #ccc; }
         
-        .scan-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
-        .scan-inputs input { border: 2px solid #aaa; padding: 14px; font-size: 14px; font-weight: 800; border-radius: 12px; outline: none; background: #fff; color: #000; width: 100%;}
+        .scan-inputs { display: grid; grid-template-columns: 1fr 100px; gap: 10px; width: 100%; }
+        .scan-inputs input { border: 2px solid #aaa; padding: 14px; font-size: 16px; font-weight: 800; border-radius: 12px; outline: none; background: #fff; color: #000; width: 100%;}
         .scan-inputs select { border: 2px solid #aaa; padding: 14px; font-size: 14px; font-weight: 800; border-radius: 12px; outline: none; background: #fff; color: #000; cursor: pointer; width: 100%;}
         .scan-inputs input:focus, .scan-inputs select:focus { border-color: var(--accent); }
 
@@ -429,7 +431,6 @@
             
             .premium-stamp { top: 12%; right: 5%; width: 100px; height: 100px; }
             
-            /* MOBILE POPUP FIX */
             #hardness-popup { right: -10px; max-width: 170px; font-size: 9px; }
             #hardness-popup::after { right: 20px; }
             
@@ -461,16 +462,15 @@
                 
                 <div id="scan-prompt" style="display:none; width:100%;">
                     <p style="font-size:13px; font-weight:800; margin-bottom:15px; color:#000; line-height:1.5;">
-                        <span style="color:var(--success);">✓ Shape mapped. Drag points to refine.</span><br>
-                        Enter the real-world Width and Height of the <span style="color:#ef4444; text-decoration: underline;">RED/BLUE BOX</span>:
+                        <span style="color:var(--success);">✓ Shape mapped. Drag points to perfectly trace your mould.</span><br>
+                        Enter the exact real-world length of the <span style="color:#ef4444; text-decoration: underline;">RED CALIBRATION LINE</span>:
                     </p>
                     <div class="scan-inputs">
-                        <input type="number" id="scan-w" placeholder="Width (Red)">
-                        <input type="number" id="scan-h" placeholder="Height (Blue)">
-                        <select id="scan-unit" style="grid-column: 1 / -1;">
-                            <option value="cm">Centimeters (cm)</option>
-                            <option value="mm">Millimeters (mm)</option>
-                            <option value="in">Inches (in)</option>
+                        <input type="number" id="scan-line-length" placeholder="Length (e.g. 15)">
+                        <select id="scan-unit">
+                            <option value="cm">cm</option>
+                            <option value="mm">mm</option>
+                            <option value="in">inch</option>
                         </select>
                     </div>
                     <button class="btn btn-primary" style="background:var(--accent); color:#fff; border:none; width:100%; margin-top:10px; font-size: 14px;" onclick="processCalibration()">Calculate Area</button>
@@ -743,16 +743,16 @@
 
                     <div class="z-head-title">2. Dimensions</div>
                     <div class="shape-grid">
+                        <div class="shape-btn" id="btn-scan" onclick="openScanner()" style="border-color: var(--accent); background: rgba(99,102,241,0.05);">
+                            <svg viewBox="0 0 24 24" stroke="var(--accent)"><path d="M3 3h6v2H5v4H3V3zm18 0h-6v2h4v4h2V3zM3 21h6v-2H5v-4H3v6zm18 0h-6v-2h4v-4h2v6z" fill="currentColor"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
+                            <span style="color: var(--accent);">Smart Scan</span>
+                        </div>
+                        
                         <div class="shape-btn active" id="btn-rect" onclick="setShape('rect')"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/></svg><span>Square</span></div>
                         <div class="shape-btn" id="btn-circ" onclick="setShape('circ')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg><span>Circle</span></div>
                         <div class="shape-btn" id="btn-tri" onclick="setShape('tri')"><svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/></svg><span>Triangle</span></div>
                         <div class="shape-btn" id="btn-pyr" onclick="setShape('pyr')"><svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z" fill="none" stroke="currentColor"/><path d="M12 2v20"/></svg><span>Pyramid</span></div>
                         <div class="shape-btn" id="btn-sph" onclick="setShape('sph')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><span>Orb</span></div>
-                        
-                        <div class="shape-btn" id="btn-scan" onclick="openScanner()" style="border-color: var(--accent); background: rgba(99,102,241,0.05);">
-                            <svg viewBox="0 0 24 24" stroke="var(--accent)"><path d="M3 3h6v2H5v4H3V3zm18 0h-6v2h4v4h2V3zM3 21h6v-2H5v-4H3v6zm18 0h-6v-2h4v-4h2v6z" fill="currentColor"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
-                            <span style="color: var(--accent);">Smart Scan</span>
-                        </div>
                     </div>
 
                     <div class="preset-row">
@@ -1159,9 +1159,9 @@
             const video = document.getElementById('camera-feed');
             const canvas = document.getElementById('scanner-canvas');
             const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height); 
             
-            // Remove previous event listeners if they exist to prevent duplicates
+            // Clean up to prevent ghosting
+            ctx.clearRect(0, 0, canvas.width, canvas.height); 
             canvas.onmousedown = null; canvas.onmousemove = null; canvas.onmouseup = null;
             canvas.ontouchstart = null; canvas.ontouchmove = null; canvas.ontouchend = null;
             
@@ -1173,6 +1173,8 @@
             try {
                 camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
                 video.srcObject = camStream;
+                // Wait for video to be fully ready before allowing capture
+                video.onloadedmetadata = () => { video.play(); };
             } catch (err) {
                 alert("Please allow camera access to use the AI Scanner.");
                 closeScanner(); setShape('rect'); 
@@ -1191,14 +1193,15 @@
             const canvas = document.getElementById('scanner-canvas');
             const ctx = canvas.getContext('2d');
             
-            canvas.width = video.videoWidth || 600;
-            canvas.height = video.videoHeight || 800;
+            // Set canvas exact pixel resolution to match display size for 1:1 mapping on Retina
+            canvas.width = video.clientWidth;
+            canvas.height = video.clientHeight;
             
             // Draw frozen frame
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             video.pause();
             
-            // Initialize 8 Draggable Nodes in an Octagon to cover the object
+            // Initialize 8 Draggable Nodes in an Octagon
             const cx = canvas.width / 2;
             const cy = canvas.height / 2;
             const r = Math.min(cx, cy) * 0.6;
@@ -1208,7 +1211,6 @@
                 polyNodes.push({ x: cx + Math.cos(angle)*r, y: cy + Math.sin(angle)*r });
             }
             
-            // UI Transitions
             document.getElementById('btn-capture').style.display = 'none';
             document.getElementById('scan-instruction').style.display = 'none';
             document.getElementById('scan-prompt').style.display = 'block';
@@ -1220,10 +1222,8 @@
         function setupCanvasInteraction(canvas, ctx, video) {
             const getPointerPos = (e) => {
                 let rect = canvas.getBoundingClientRect();
-                // Handle both touch and mouse
                 let clientX = e.touches ? e.touches[0].clientX : e.clientX;
                 let clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                // Convert CSS display scale to true Canvas pixel scale
                 return {
                     x: (clientX - rect.left) * (canvas.width / rect.width),
                     y: (clientY - rect.top) * (canvas.height / rect.height)
@@ -1231,10 +1231,10 @@
             };
 
             const downHandler = (e) => {
-                e.preventDefault(); // Stop scrolling
+                e.preventDefault(); 
                 let pos = getPointerPos(e);
-                // Find clicked node (large hit radius for fat fingers)
-                draggingNode = polyNodes.find(p => Math.hypot(p.x - pos.x, p.y - pos.y) < 60);
+                // Large hit radius for mobile dragging
+                draggingNode = polyNodes.find(p => Math.hypot(p.x - pos.x, p.y - pos.y) < 50);
             };
 
             const moveHandler = (e) => {
@@ -1258,10 +1258,8 @@
         }
 
         function renderInteractivePolygon(canvas, ctx, video) {
-            // 1. Redraw Base Image
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             
-            // 2. Darken area OUTSIDE the polygon
             ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
             ctx.beginPath();
             ctx.rect(0, 0, canvas.width, canvas.height); 
@@ -1270,7 +1268,6 @@
             ctx.closePath();
             ctx.fill("evenodd");
 
-            // 3. Draw Polygon Edge (Green)
             ctx.beginPath();
             ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
             for(let i=1; i<polyNodes.length; i++) ctx.lineTo(polyNodes[i].x, polyNodes[i].y);
@@ -1279,7 +1276,7 @@
             ctx.lineWidth = 4;
             ctx.stroke();
 
-            // 4. Find the Longest Edge dynamically for the Calibration Line
+            // Calculate Dynamic Red Calibration Line
             let maxDist = 0; let pA = polyNodes[0], pB = polyNodes[1];
             for(let i=0; i<polyNodes.length; i++) {
                 for(let j=i+1; j<polyNodes.length; j++) {
@@ -1288,7 +1285,6 @@
                 }
             }
 
-            // 5. Draw Red Calibration Line
             ctx.beginPath();
             ctx.moveTo(pA.x, pA.y);
             ctx.lineTo(pB.x, pB.y);
@@ -1296,10 +1292,9 @@
             ctx.lineWidth = 4;
             ctx.stroke();
 
-            // 6. Draw Nodes (Draggable Handles)
             polyNodes.forEach(p => {
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, 14, 0, Math.PI*2);
+                ctx.arc(p.x, p.y, 12, 0, Math.PI*2);
                 ctx.fillStyle = (p === pA || p === pB) ? "#ef4444" : "#ffffff";
                 ctx.fill();
                 ctx.lineWidth = 3;
@@ -1314,7 +1309,6 @@
             
             if(!inputLen || inputLen <= 0) return alert('Please enter the real-world length of the red line.');
             
-            // Shoelace Formula for final dragged pixel area
             let area = 0;
             for (let i = 0; i < polyNodes.length; i++) {
                 let j = (i + 1) % polyNodes.length;
@@ -1323,7 +1317,6 @@
             }
             let pixelArea = Math.abs(area / 2);
 
-            // Longest axis pixel length
             let maxDist = 0;
             for(let i=0; i<polyNodes.length; i++) {
                 for(let j=i+1; j<polyNodes.length; j++) {
@@ -1332,7 +1325,7 @@
                 }
             }
 
-            // MATH: Convert Irregular Pixel Area to Real Area using calibration ratio
+            // Real Area Calculation
             let factor = (unit === 'in') ? 2.54 : ((unit === 'mm') ? 0.1 : 1);
             let realLen_cm = inputLen * factor;
             let areaCm2 = pixelArea * Math.pow(realLen_cm / maxDist, 2);
@@ -1373,7 +1366,7 @@
                 vol = (4/3) * Math.PI * Math.pow(r, 3);
                 h_cm = d; 
             } else if (appState.shape === 'scan') {
-                vol = (appState.scannedArea || 0) * h_cm; // Uses AI generated area
+                vol = (appState.scannedArea || 0) * h_cm; // Uses Custom Area
             }
 
             let rA = appState.ratioA; let rB = appState.ratioB;
@@ -1598,7 +1591,7 @@
 
                 const mainTimeline = gsap.timeline();
 
-                // 1. PERFECT QUADRUPEDAL TROT (Zero joint breaking, smooth bobbing)
+                // 1. PERFECT QUADRUPEDAL TROT
                 const walkDuration = 0.8;
                 const walkCycle = gsap.timeline({ repeat: 4 }); 
                 
@@ -1609,15 +1602,15 @@
                 mainTimeline.add(walkCycle, 0);
                 mainTimeline.to(deerSvg, { x: 0, duration: 8, ease: "none" }, 0); 
 
-                // 2. THE ANTICIPATION (Coils back like a spring)
+                // 2. THE ANTICIPATION
                 mainTimeline.to(deerSvg, { x: 5, rotation: 3, duration: 0.5, ease: "power2.inOut" }, ">") 
                             .to(frontLegL, { rotation: -15, duration: 0.5, ease: "power2.inOut" }, "<"); 
 
-                // 3. TRUE ZERO-GAP STRIKE (Heavy lunge into the negative space of the text)
+                // 3. TRUE ZERO-GAP STRIKE (Heavy lunge)
                 mainTimeline.to(deerSvg, { x: -20, rotation: -2, duration: 0.04, ease: "power4.in" }, ">") 
                             .to(frontLegL, { rotation: 25, duration: 0.04, ease: "power4.in" }, "<"); 
 
-                // 4. THE IMPACT (Violent vibration, popup drop)
+                // 4. THE IMPACT
                 mainTimeline.to(resinS, { x: -4, duration: 0.04, yoyo: true, repeat: 7, ease: "rough" }, "<") 
                             .to(popup, { opacity: 1, y: 5, duration: 0.3, ease: "back.out(1.7)" }, "<") 
                             .to(frontLegL, { rotation: 5, duration: 0.2, ease: "bounce.out" }, "<") 
@@ -1626,7 +1619,7 @@
                 // 5. PAUSE AND FLIP
                 mainTimeline.to(deerSvg, { scaleX: -1, duration: 0.2 }, "+=1.5");
 
-                // 6. LIMP CYCLE (Walks continuously until 120% off screen)
+                // 6. LIMP CYCLE
                 const limpCycle = gsap.timeline({ repeat: 6 });
                 limpCycle.to(frontLegL, { rotation: -8, duration: walkDuration, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0) 
                          .to([frontLegR, backLegL], { rotation: 15, duration: walkDuration, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
@@ -1635,11 +1628,10 @@
 
                 mainTimeline.add(limpCycle, ">");
                 mainTimeline.to(deerSvg, { x: screenWidth * 1.2, duration: 9.6, ease: "none" }, "<"); 
-                mainTimeline.to(popup, { opacity: 0, duration: 0.8 }, "-=3"); // Fades right before it leaves screen
+                mainTimeline.to(popup, { opacity: 0, duration: 0.8 }, "-=3"); 
 
             }, 2000); 
         });
-
     </script>
 </body>
 </html>
