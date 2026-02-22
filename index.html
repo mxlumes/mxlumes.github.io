@@ -29,7 +29,6 @@
             --text-main: #ffffff;
             --text-dim: #9ca3af;
             
-            /* Light Theme Variables */
             --bg-milky: #fafafa;
             --bg-pure: #ffffff;
             --text-dark: #050505;
@@ -112,7 +111,7 @@
         #hardness-popup::after { content: ''; position: absolute; top: -6px; right: 15px; border-width: 0 6px 6px 6px; border-style: solid; border-color: transparent transparent rgba(239, 68, 68, 0.95) transparent; }
 
         .nav-links { display: flex; gap: 30px; align-items: center; margin-left: auto; }
-        .nav-link { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; white-space: nowrap; transition: color 0.3s;}
+        .nav-link { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; white-space: nowrap; transition: color 0.3s;}
         .nav-link:hover { color: var(--text-dark); }
 
         .hero { min-height: 80dvh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; padding-top: 80px; padding-bottom: 40px; position: relative; }
@@ -230,7 +229,7 @@
         .shape-btn span { font-size: 13px; font-weight: 800; color: #333; text-transform: uppercase; transition: color 0.3s; }
         .shape-btn.active span { color: #000; }
 
-        /* SMART SCAN DISPLAY BLOCK IN CALCULATOR */
+        /* SMART SCAN RESULT DISPLAY */
         .scanned-area-display { display:none; flex-direction:column; align-items:center; margin-bottom:30px; padding:25px; background:rgba(16,185,129,0.1); border:2px dashed var(--success); border-radius:16px; transition: all 0.3s; }
         .scanned-area-display.active { display: flex; animation: popIn 0.4s var(--ease-spring); }
         .scanned-lbl { font-size:12px; font-weight:800; color:var(--success); text-transform:uppercase; letter-spacing:1px; margin-bottom:5px; }
@@ -268,7 +267,7 @@
         .p-item span { font-size: 13px; font-weight: 800; color: #333; display: block; margin-bottom: 5px; }
         .p-item b { font-size: 28px; color: #000; font-weight: 800; font-variant-numeric: tabular-nums; }
         
-        .safety-report { background: rgba(255,255,255,0.8); border-radius: 16px; padding: 20px; border-left: 6px solid #aaa; margin-bottom: 20px; transition: border-color 0.4s; border-top: 1px solid #ccc; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+        .safety-report { background: rgba(255,255,255,0.8); border-radius: 16px; padding: 20px; border-left: 6px solid #aaa; margin-bottom: 20px; border-top: 1px solid #ccc; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; }
         .safety-report.safe { border-left-color: var(--success); background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); }
         .safety-report.danger { border-left-color: var(--danger); background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); }
         .sr-head { font-size: 14px; font-weight: 800; color: #000; text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; }
@@ -279,7 +278,7 @@
         .cost-inp { width: 90px; background: transparent; border: none; border-bottom: 2px solid #aaa; color: #000; text-align: right; font-weight: 800; font-size: 20px; padding-bottom: 2px; transition: border-color 0.3s; }
 
         /* =========================================
-           14. SMART CAMERA SCANNER MODAL (DRAGGABLE ADOBE-STYLE MESH)
+           14. THE ULTIMATE SMART SCANNER (MANUAL NODE DRAGGING)
            ========================================= */
         .scanner-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; background: rgba(0,0,0,0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 9999; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.4s var(--ease-fluid); }
         .scanner-overlay.active { opacity: 1; display: flex; }
@@ -298,9 +297,9 @@
 
         .scanner-controls { padding: 25px; background: #fafafa; display: flex; flex-direction: column; align-items: center; gap: 15px; border-top: 1px solid #ccc; }
         
-        .scan-inputs { display: grid; grid-template-columns: 1fr 100px; gap: 10px; width: 100%; }
-        .scan-inputs input { border: 2px solid #aaa; padding: 14px; font-size: 16px; font-weight: 800; border-radius: 12px; outline: none; background: #fff; color: #000; width: 100%;}
-        .scan-inputs select { border: 2px solid #aaa; padding: 14px; font-size: 14px; font-weight: 800; border-radius: 12px; outline: none; background: #fff; color: #000; cursor: pointer; width: 100%;}
+        .scan-inputs { display: flex; gap: 10px; width: 100%; }
+        .scan-inputs input { flex: 1; border: 2px solid #aaa; padding: 14px; font-size: 16px; font-weight: 800; border-radius: 12px; outline: none; background: #fff; color: #000; }
+        .scan-inputs select { width: 90px; border: 2px solid #aaa; padding: 14px; font-size: 14px; font-weight: 800; border-radius: 12px; outline: none; background: #fff; color: #000; cursor: pointer; }
         .scan-inputs input:focus, .scan-inputs select:focus { border-color: var(--accent); }
 
         /* =========================================
@@ -435,7 +434,6 @@
             #hardness-popup::after { right: 20px; }
             
             .scanner-ui { max-width: 95%; }
-            .scan-inputs { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
@@ -496,11 +494,8 @@
                     <svg id="animal-svg" viewBox="0 0 100 100" style="width: 100%; height: 100%; overflow: visible; opacity: 0;">
                         <path id="leg-bl" d="M75,45 L65,90 L70,90 L80,45 Z" fill="#444" style="transform-origin: 75px 45px;"/>
                         <path id="leg-fl" d="M35,48 L25,90 L30,90 L40,48 Z" fill="#444" style="transform-origin: 35px 48px;"/>
-                        
                         <path id="torso" d="M15,20 L25,10 L35,15 L30,35 L40,45 L80,45 L90,35 L85,55 L75,60 L35,60 L20,40 Z" fill="#111"/>
-                        
                         <path d="M20,15 L10,-5 M15,5 L25,-2 M12,0 L5,2" stroke="#111" stroke-width="2" fill="none" stroke-linecap="round"/>
-                        
                         <path id="leg-br" d="M80,45 L75,95 L80,95 L85,45 Z" fill="#111" style="transform-origin: 80px 45px;"/>
                         <path id="leg-fr" d="M40,48 L35,95 L40,95 L45,48 Z" fill="#111" style="transform-origin: 40px 48px;"/>
                     </svg>
@@ -1140,7 +1135,7 @@
         }
 
         // =========================================
-        // DRAGGABLE ADOBE-STYLE SMART SCANNER
+        // AI SMART SCANNER (ADOBE STYLE CONTOUR)
         // =========================================
         let camStream = null;
         let polyNodes = [];
@@ -1166,14 +1161,15 @@
             canvas.ontouchstart = null; canvas.ontouchmove = null; canvas.ontouchend = null;
             
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                alert("Camera access is blocked or unsupported.");
-                closeScanner(); setShape('rect'); return;
+                alert("Camera access is blocked or unsupported. Please use HTTPS.");
+                closeScanner();
+                setShape('rect');
+                return;
             }
 
             try {
                 camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
                 video.srcObject = camStream;
-                // Wait for video to be fully ready before allowing capture
                 video.onloadedmetadata = () => { video.play(); };
             } catch (err) {
                 alert("Please allow camera access to use the AI Scanner.");
@@ -1193,22 +1189,62 @@
             const canvas = document.getElementById('scanner-canvas');
             const ctx = canvas.getContext('2d');
             
-            // Set canvas exact pixel resolution to match display size for 1:1 mapping on Retina
+            // Map 1:1 pixel resolution
             canvas.width = video.clientWidth;
             canvas.height = video.clientHeight;
             
-            // Draw frozen frame
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             video.pause();
             
-            // Initialize 8 Draggable Nodes in an Octagon
-            const cx = canvas.width / 2;
-            const cy = canvas.height / 2;
-            const r = Math.min(cx, cy) * 0.6;
+            let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            let d = imgData.data;
+            let w = canvas.width, h = canvas.height;
+            
+            // Sample corners to establish background baseline
+            let corners = [0, (w-1)*4, (h-1)*w*4, ((h-1)*w + (w-1))*4];
+            let bgR = 0, bgG = 0, bgB = 0;
+            corners.forEach(c => { bgR += d[c]; bgG += d[c+1]; bgB += d[c+2]; });
+            bgR /= 4; bgG /= 4; bgB /= 4;
+            
+            const cx = w / 2;
+            const cy = h / 2;
             polyNodes = [];
+            
+            // OUTSIDE-IN RAYCASTING (Adobe Style Edge Tracing)
             for(let i=0; i<8; i++) {
-                let angle = (i * Math.PI * 2) / 8;
-                polyNodes.push({ x: cx + Math.cos(angle)*r, y: cy + Math.sin(angle)*r });
+                let angle = i * (Math.PI / 4);
+                let maxR = Math.max(w, h);
+                let startX = cx + Math.cos(angle) * maxR;
+                let startY = cy + Math.sin(angle) * maxR;
+                
+                startX = Math.max(0, Math.min(w-1, startX));
+                startY = Math.max(0, Math.min(h-1, startY));
+                
+                let nodePlaced = false;
+                let dx = cx - startX;
+                let dy = cy - startY;
+                let steps = Math.max(Math.abs(dx), Math.abs(dy));
+                let xInc = dx / steps;
+                let yInc = dy / steps;
+                
+                let currX = startX, currY = startY;
+                
+                for(let s=0; s<steps; s+=2) {
+                    let px = Math.floor(currX);
+                    let py = Math.floor(currY);
+                    let idx = (py * w + px) * 4;
+                    
+                    let diff = Math.abs(d[idx]-bgR) + Math.abs(d[idx+1]-bgG) + Math.abs(d[idx+2]-bgB);
+                    
+                    if(diff > 45) { // Hit the object
+                        polyNodes.push({x: px, y: py});
+                        nodePlaced = true;
+                        break;
+                    }
+                    currX += xInc * 2;
+                    currY += yInc * 2;
+                }
+                if(!nodePlaced) polyNodes.push({x: cx + Math.cos(angle)*w*0.3, y: cy + Math.sin(angle)*h*0.3});
             }
             
             document.getElementById('btn-capture').style.display = 'none';
@@ -1233,8 +1269,7 @@
             const downHandler = (e) => {
                 e.preventDefault(); 
                 let pos = getPointerPos(e);
-                // Large hit radius for mobile dragging
-                draggingNode = polyNodes.find(p => Math.hypot(p.x - pos.x, p.y - pos.y) < 50);
+                draggingNode = polyNodes.find(p => Math.hypot(p.x - pos.x, p.y - pos.y) < 50); // Generous touch target
             };
 
             const moveHandler = (e) => {
@@ -1246,7 +1281,7 @@
                 renderInteractivePolygon(canvas, ctx, video);
             };
 
-            const upHandler = () => { draggingNode = null; };
+            const upHandler = () => { draggingNode = null; renderInteractivePolygon(canvas, ctx, video); };
 
             canvas.addEventListener('mousedown', downHandler);
             canvas.addEventListener('mousemove', moveHandler);
@@ -1260,7 +1295,8 @@
         function renderInteractivePolygon(canvas, ctx, video) {
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             
-            ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+            // Darken OUTSIDE
+            ctx.fillStyle = "rgba(0, 0, 0, 0.65)";
             ctx.beginPath();
             ctx.rect(0, 0, canvas.width, canvas.height); 
             ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
@@ -1268,15 +1304,24 @@
             ctx.closePath();
             ctx.fill("evenodd");
 
+            // Tint INSIDE
+            ctx.fillStyle = "rgba(16, 185, 129, 0.15)";
+            ctx.beginPath();
+            ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
+            for(let i=1; i<polyNodes.length; i++) ctx.lineTo(polyNodes[i].x, polyNodes[i].y);
+            ctx.closePath();
+            ctx.fill();
+
+            // Border
             ctx.beginPath();
             ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
             for(let i=1; i<polyNodes.length; i++) ctx.lineTo(polyNodes[i].x, polyNodes[i].y);
             ctx.closePath();
             ctx.strokeStyle = "#10b981"; 
-            ctx.lineWidth = 4;
+            ctx.lineWidth = 3;
             ctx.stroke();
 
-            // Calculate Dynamic Red Calibration Line
+            // Dynamic Red Calibration Line
             let maxDist = 0; let pA = polyNodes[0], pB = polyNodes[1];
             for(let i=0; i<polyNodes.length; i++) {
                 for(let j=i+1; j<polyNodes.length; j++) {
@@ -1290,15 +1335,19 @@
             ctx.lineTo(pB.x, pB.y);
             ctx.strokeStyle = "#ef4444";
             ctx.lineWidth = 4;
+            ctx.shadowColor = "#ef4444";
+            ctx.shadowBlur = 10;
             ctx.stroke();
+            ctx.shadowBlur = 0; // reset
 
+            // Draggable Nodes
             polyNodes.forEach(p => {
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, 12, 0, Math.PI*2);
-                ctx.fillStyle = (p === pA || p === pB) ? "#ef4444" : "#ffffff";
+                ctx.arc(p.x, p.y, 14, 0, Math.PI*2);
+                ctx.fillStyle = "#fff";
                 ctx.fill();
-                ctx.lineWidth = 3;
-                ctx.strokeStyle = "#000";
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = (p === draggingNode) ? "#10b981" : "#000";
                 ctx.stroke();
             });
         }
@@ -1325,7 +1374,7 @@
                 }
             }
 
-            // Real Area Calculation
+            // Math: Pixel to Real-world Scaling
             let factor = (unit === 'in') ? 2.54 : ((unit === 'mm') ? 0.1 : 1);
             let realLen_cm = inputLen * factor;
             let areaCm2 = pixelArea * Math.pow(realLen_cm / maxDist, 2);
@@ -1366,7 +1415,7 @@
                 vol = (4/3) * Math.PI * Math.pow(r, 3);
                 h_cm = d; 
             } else if (appState.shape === 'scan') {
-                vol = (appState.scannedArea || 0) * h_cm; // Uses Custom Area
+                vol = (appState.scannedArea || 0) * h_cm; 
             }
 
             let rA = appState.ratioA; let rB = appState.ratioB;
@@ -1606,7 +1655,7 @@
                 mainTimeline.to(deerSvg, { x: 5, rotation: 3, duration: 0.5, ease: "power2.inOut" }, ">") 
                             .to(frontLegL, { rotation: -15, duration: 0.5, ease: "power2.inOut" }, "<"); 
 
-                // 3. TRUE ZERO-GAP STRIKE (Heavy lunge)
+                // 3. TRUE ZERO-GAP STRIKE
                 mainTimeline.to(deerSvg, { x: -20, rotation: -2, duration: 0.04, ease: "power4.in" }, ">") 
                             .to(frontLegL, { rotation: 25, duration: 0.04, ease: "power4.in" }, "<"); 
 
@@ -1632,6 +1681,7 @@
 
             }, 2000); 
         });
+
     </script>
 </body>
 </html>
