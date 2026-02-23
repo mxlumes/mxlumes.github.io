@@ -99,8 +99,7 @@
         .navbar.scrolled { box-shadow: 0 10px 30px rgba(0,0,0,0.1); height: 70px; }
         .nav-inner { width: 100%; display: flex; justify-content: space-between; align-items: center; overflow-x: visible; padding-bottom: 0; }
         
-        .logo-wrapper { position: relative; display: flex; align-items: center; }
-        .logo { font-weight: 800; font-size: 18px; letter-spacing: 3px; color: var(--text-dark); flex-shrink: 0; margin-right: 20px; z-index: 2; mix-blend-mode: normal;}
+        .logo { font-weight: 800; font-size: 18px; letter-spacing: 3px; color: var(--text-dark); flex-shrink: 0; margin-right: 20px; z-index: 2; transition: color 0.3s;}
         #resin-s { display: inline-block; color: var(--accent); }
 
         .nav-links { display: flex; gap: 30px; align-items: center; margin-left: auto; }
@@ -732,6 +731,13 @@
                         <div class="shape-btn" id="btn-sph" onclick="setShape('sph')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><span>Orb</span></div>
                     </div>
 
+                    <div class="preset-row">
+                        <button class="preset-btn" onclick="setPreset('varmala')">Varmala</button>
+                        <button class="preset-btn" onclick="setPreset('clock')">Clock</button>
+                        <button class="preset-btn" onclick="setPreset('geode')">Geode</button>
+                        <button class="preset-btn" onclick="setPreset('tray')">Tray</button>
+                    </div>
+
                     <div id="dims-rect">
                         <div class="z-group"><div class="z-head"><span class="z-label">Length</span><input type="number" id="input-L" class="z-number" value="0" oninput="sync('L')"></div><input type="range" class="z-slider" id="slider-L" min="0" max="200" value="0" oninput="sync('L', true)"></div>
                         <div class="z-group"><div class="z-head"><span class="z-label">Width</span><input type="number" id="input-W" class="z-number" value="0" oninput="sync('W')"></div><input type="range" class="z-slider" id="slider-W" min="0" max="100" value="0" oninput="sync('W', true)"></div>
@@ -821,6 +827,10 @@
                 <div class="g-item"><img src="at4.png" class="g-img" loading="lazy" decoding="async"></div>
                 <div class="g-item"><img src="at5.png" class="g-img" loading="lazy" decoding="async"></div>
                 <div class="g-item"><img src="at4.png" class="g-img" loading="lazy" decoding="async" style="filter:hue-rotate(45deg);"></div>
+            </div>
+            <div class="dos-donts" style="margin-top:60px;">
+                <div class="dd-box dos"><h3 style="color:var(--success); margin-bottom:20px;">✓ The Dos</h3><ul style="color:var(--text-dim); list-style:disc; padding-left:20px;"><li>Wear gloves and mask.</li><li>Work at 25°C.</li><li>Seal porous surfaces.</li></ul></div>
+                <div class="dd-box donts"><h3 style="color:var(--danger); margin-bottom:20px;">✕ The Don'ts</h3><ul style="color:var(--text-dim); list-style:disc; padding-left:20px;"><li>Don't mix by volume.</li><li>Don't scrape cup on pour.</li><li>Avoid water contact.</li></ul></div>
             </div>
         </div>
     </section>
@@ -950,6 +960,17 @@
             }); 
         }, {threshold: 0.1});
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        
+        function countUp(el) { 
+            const target = parseInt(el.dataset.target); 
+            let count = 0; 
+            const inc = target / 30; 
+            const timer = setInterval(() => { 
+                count += inc; 
+                if(count >= target) { count = target; clearInterval(timer); } 
+                el.innerText = Math.floor(count) + (el.innerText.includes('%') ? '%' : ''); 
+            }, 30); 
+        }
 
         // =========================================
         // TITAN FUSION CALCULATOR LOGIC
@@ -1049,20 +1070,29 @@
                 const position = await new Promise((resolve, reject) => {
                     navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 });
                 });
-                await fetchWeatherData(position.coords.latitude, position.coords.longitude, btn, status, intelligence);
+                await fetchWeatherData(position.coords.latitude, position.coords.longitude, btn, status, intelligence, "GPS Satellite");
             } catch (gpsError) {
                 status.innerText = "GPS blocked or timed out. Using IP Fallback...";
+                
+                // IP FALLBACK 1: GEOJS (Extremely Reliable & CORS friendly)
                 try {
-                    const ipResponse = await fetch('https://ipapi.co/json/');
+                    const ipResponse = await fetch('https://get.geojs.io/v1/ip/geo.json');
                     const ipData = await ipResponse.json();
-                    await fetchWeatherData(ipData.latitude, ipData.longitude, btn, status, intelligence);
+                    await fetchWeatherData(ipData.latitude, ipData.longitude, btn, status, intelligence, ipData.city || "IP Match");
                 } catch (ipError) {
-                    handleWeatherError(btn, status, "Location Unavailable");
+                    // ULTIMATE IP FALLBACK 2: IPWHOIS
+                    try {
+                        const fallbackRes = await fetch('https://ipwho.is/');
+                        const fallbackData = await fallbackRes.json();
+                        await fetchWeatherData(fallbackData.latitude, fallbackData.longitude, btn, status, intelligence, fallbackData.city || "Network Match");
+                    } catch(finalError) {
+                        handleWeatherError(btn, status, "Connection Blocked");
+                    }
                 }
             }
         }
 
-        async function fetchWeatherData(lat, lon, btn, status, intelligence) {
+        async function fetchWeatherData(lat, lon, btn, status, intelligence, sourceLabel) {
             status.innerText = "Downloading Atmospheric Data...";
             try {
                 // Direct exact real-time call
@@ -1093,10 +1123,11 @@
                 
                 runCalc(); 
                 
-                btn.innerHTML = "✅ Indoor Climate Synced"; 
+                btn.innerHTML = "✅ Climate Synced"; 
                 status.style.display = 'none';
                 intelligence.style.display = "block";
-                intelligence.innerHTML = `🛰️ Ext: <b>${tOut}°C</b> / <b>${rhOut}%</b><br>🏠 Int: <b>${Math.round(tIn)}°C</b> / <b>${Math.round(rhIn)}%</b>`;
+                // Show the user exactly what we locked onto
+                intelligence.innerHTML = `📍 <b>${sourceLabel}</b> | 🛰️ Ext: <b>${tOut}°C</b> / <b>${rhOut}%</b><br>🏠 Int: <b>${Math.round(tIn)}°C</b> / <b>${Math.round(rhIn)}%</b>`;
                 setTimeout(() => { btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg> Auto-Detect Conditions'; }, 5000);
             } catch (e) { handleWeatherError(btn, status, "Weather API Offline"); }
         }
@@ -1123,6 +1154,7 @@
             
             document.getElementById('btn-capture').style.display = 'block';
             document.getElementById('scan-actions').style.display = 'none';
+            document.getElementById('scan-instruction').style.display = 'block';
             
             const video = document.getElementById('camera-feed');
             const canvas = document.getElementById('scanner-canvas');
@@ -1140,6 +1172,7 @@
             try {
                 camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
                 video.srcObject = camStream;
+                video.onloadedmetadata = () => { video.play(); };
             } catch (err) {
                 alert("Please allow camera access to use the AI Scanner.");
                 closeScanner(); setShape('rect'); 
@@ -1156,6 +1189,7 @@
         function retakeScan() {
             document.getElementById('scan-actions').style.display = 'none';
             document.getElementById('btn-capture').style.display = 'block';
+            document.getElementById('scan-instruction').style.display = 'block';
             
             const video = document.getElementById('camera-feed');
             const canvas = document.getElementById('scanner-canvas');
@@ -1179,7 +1213,7 @@
             let d = imgData.data;
             let w = canvas.width, h = canvas.height;
             
-            // Sample background
+            // Sample background dynamically
             let bgR = 0, bgG = 0, bgB = 0;
             let corners = [0, (w-1)*4, (h-1)*w*4, ((h-1)*w + w - 1)*4];
             corners.forEach(c => { bgR+=d[c]; bgG+=d[c+1]; bgB+=d[c+2]; });
@@ -1188,6 +1222,7 @@
             let minX = w, maxX = 0, minY = h, maxY = 0;
             const tolerance = 40;
             
+            // Search frame for edge breaks
             for(let y=0; y<h; y+=4) { 
                 for(let x=0; x<w; x+=4) {
                     let i = (y*w + x)*4;
@@ -1199,13 +1234,19 @@
                 }
             }
 
-            // Fallback if detection fails
+            // Fallback Quad if detection fails
             if (minX >= maxX || minY >= maxY || (maxX - minX) < 50) {
                 minX = w * 0.2; maxX = w * 0.8;
                 minY = h * 0.3; maxY = h * 0.7;
+            } else {
+                // Add a small 10px buffer to the detected edge so we don't clip the mould
+                minX = Math.max(0, minX - 10);
+                maxX = Math.min(w, maxX + 10);
+                minY = Math.max(0, minY - 10);
+                maxY = Math.min(h, maxY + 10);
             }
 
-            // Set 4 corners (Quadrilateral) like Adobe Scan
+            // Exactly 4 corners (Adobe Scan Style Quadrilateral)
             polyNodes = [
                 {x: minX, y: minY}, // Top Left
                 {x: maxX, y: minY}, // Top Right
@@ -1213,6 +1254,7 @@
                 {x: minX, y: maxY}  // Bottom Left
             ];
             
+            document.getElementById('scan-instruction').style.display = 'none';
             document.getElementById('btn-capture').style.display = 'none';
             document.getElementById('scan-actions').style.display = 'flex';
 
@@ -1287,7 +1329,7 @@
             ctx.lineWidth = 3;
             ctx.stroke();
 
-            // Highlight TOP EDGE in Red for calibration
+            // Highlight TOP EDGE in Red for calibration (Node 0 to Node 1)
             ctx.beginPath();
             ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
             ctx.lineTo(polyNodes[1].x, polyNodes[1].y);
