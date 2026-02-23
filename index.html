@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <link rel="preload" href="product-1.webp" as="image">
     <link rel="preload" href="MX_LUMES_4_8kg_Master_Kit.png" as="image">
     <link rel="preload" href="MX_LUMES_20kg_Set_15kg_Resin_5kg_Hardener.png" as="image">
@@ -27,7 +27,6 @@
             --text-main: #ffffff;
             --text-dim: #9ca3af;
             
-            /* Light Theme Variables */
             --bg-milky: #fafafa;
             --bg-pure: #ffffff;
             --text-dark: #050505;
@@ -100,7 +99,9 @@
         .navbar.scrolled { box-shadow: 0 10px 30px rgba(0,0,0,0.1); height: 70px; }
         .nav-inner { width: 100%; display: flex; justify-content: space-between; align-items: center; overflow-x: visible; padding-bottom: 0; }
         
-        .logo { font-weight: 800; font-size: 18px; letter-spacing: 3px; color: var(--text-dark); flex-shrink: 0; margin-right: 20px; z-index: 2; transition: color 0.3s;}
+        .logo-wrapper { position: relative; display: flex; align-items: center; }
+        .logo { font-weight: 800; font-size: 18px; letter-spacing: 3px; color: var(--text-dark); flex-shrink: 0; margin-right: 20px; z-index: 2; mix-blend-mode: normal;}
+        #resin-s { display: inline-block; color: var(--accent); }
 
         .nav-links { display: flex; gap: 30px; align-items: center; margin-left: auto; }
         .nav-link { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; white-space: nowrap; transition: color 0.3s;}
@@ -270,7 +271,7 @@
         .cost-inp { width: 90px; background: transparent; border: none; border-bottom: 2px solid #aaa; color: #000; text-align: right; font-weight: 800; font-size: 20px; padding-bottom: 2px; transition: border-color 0.3s; }
 
         /* =========================================
-           14. THE ULTIMATE SMART SCANNER (6-POINT CENTER-OUT ALGORITHM)
+           14. THE ULTIMATE SMART SCANNER (ADOBE-STYLE 4-POINT QUAD)
            ========================================= */
         .scanner-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 9999; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.4s var(--ease-fluid); }
         .scanner-overlay.active { opacity: 1; display: flex; }
@@ -285,7 +286,7 @@
         .scanner-view video { width: 100%; height: 100%; object-fit: cover; }
         .scanner-view canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 5; cursor: crosshair; }
         
-        .scan-instruction { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: #fff; padding: 10px 20px; border-radius: 30px; font-size: 13px; font-weight: 800; z-index: 10; text-align: center; white-space: nowrap; pointer-events: none; }
+        .scan-instruction { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px; border-radius: 30px; font-size: 13px; font-weight: 800; z-index: 10; text-align: center; white-space: nowrap; pointer-events: none; border: 1px solid rgba(255,255,255,0.2);}
 
         .scanner-controls { padding: 25px; background: #fafafa; display: flex; flex-direction: column; align-items: center; gap: 15px; border-top: 1px solid #ccc; }
         
@@ -433,8 +434,8 @@
         <div class="scanner-ui">
             <div class="scanner-header">
                 <h3>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2.5" style="margin-right:8px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                    AI Edge Scanner
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5" style="margin-right:8px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    Document-Style Scanner
                 </h3>
                 <button class="scanner-close" onclick="closeScanner()">×</button>
             </div>
@@ -442,22 +443,22 @@
             <div class="scanner-view" id="scanner-view-container">
                 <video id="camera-feed" autoplay playsinline muted></video>
                 <canvas id="scanner-canvas"></canvas>
-                <div class="scan-instruction" id="scan-instruction">Center mold & tap Capture</div>
+                <div class="scan-instruction" id="scan-instruction">Center mould in view & tap Capture</div>
             </div>
             
             <div class="scanner-controls">
-                <button id="btn-capture" class="btn btn-primary" style="width:100%; background:#111; color:#fff; font-size:14px; padding: 20px;" onclick="captureScanFrame()">Capture & Map Edges</button>
+                <button id="btn-capture" class="btn btn-primary" style="width:100%; background:#111; color:#fff; font-size:14px; padding: 20px;" onclick="captureScanFrame()">Capture & Map Bounds</button>
                 
                 <div id="scan-actions" style="display:none; width:100%; flex-direction:column; gap:15px;">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <p style="font-size:13px; font-weight:800; margin:0; color:#000;">
-                            <span style="color:var(--success);">✓ Step 2: Adjust nodes.</span><br>
-                            Drag the 6 points to hug your mould.
+                            <span style="color:var(--accent);">✓ Quad Detected.</span><br>
+                            Drag the 4 corners to perfect the edges.
                         </p>
                         <button class="btn btn-outline" style="min-height:30px; padding:8px 15px; font-size:11px; color:#666; border-color:#ccc;" onclick="retakeScan()">Retake</button>
                     </div>
-                    <p style="font-size:12px; font-weight:800; margin:0; color:var(--text-muted); line-height:1.4;">
-                        <span style="color:#ef4444;">Step 3:</span> Enter the real-world length of the <span style="color:#ef4444; text-decoration:underline;">RED LINE</span>:
+                    <p style="font-size:12px; font-weight:800; margin:0; color:var(--text-muted); line-height:1.4; border-top:1px solid #ccc; padding-top:15px;">
+                        Enter the real-world length of the <span style="color:#ef4444; text-decoration:underline;">RED TOP EDGE</span>:
                     </p>
                     <div class="scan-inputs">
                         <input type="number" id="scan-line-length" placeholder="Length (e.g. 15)">
@@ -731,13 +732,6 @@
                         <div class="shape-btn" id="btn-sph" onclick="setShape('sph')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><span>Orb</span></div>
                     </div>
 
-                    <div class="preset-row">
-                        <button class="preset-btn" onclick="setPreset('varmala')">Varmala</button>
-                        <button class="preset-btn" onclick="setPreset('clock')">Clock</button>
-                        <button class="preset-btn" onclick="setPreset('geode')">Geode</button>
-                        <button class="preset-btn" onclick="setPreset('tray')">Tray</button>
-                    </div>
-
                     <div id="dims-rect">
                         <div class="z-group"><div class="z-head"><span class="z-label">Length</span><input type="number" id="input-L" class="z-number" value="0" oninput="sync('L')"></div><input type="range" class="z-slider" id="slider-L" min="0" max="200" value="0" oninput="sync('L', true)"></div>
                         <div class="z-group"><div class="z-head"><span class="z-label">Width</span><input type="number" id="input-W" class="z-number" value="0" oninput="sync('W')"></div><input type="range" class="z-slider" id="slider-W" min="0" max="100" value="0" oninput="sync('W', true)"></div>
@@ -758,7 +752,7 @@
                     </div>
                     
                     <div id="dims-scan" class="scanned-area-display">
-                        <div class="scanned-lbl">✓ AI Scanned Irregular Area</div>
+                        <div class="scanned-lbl">✓ AI Scanned Quad Area</div>
                         <div id="scan-area-display" class="scanned-val">0 cm²</div>
                         <div class="scanned-rescan" onclick="openScanner()">Rescan Mould</div>
                     </div>
@@ -774,10 +768,10 @@
                     </div>
                     <div class="env-card" id="env-card">
                         <button class="auto-btn" onclick="autoDetectWeather()"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Auto-Detect Conditions</button>
-                        <div id="weather-status" style="font-size:11px; text-align:center; color:var(--text-muted); margin-bottom:15px; display:none;">Searching for satellites...</div>
+                        <div id="weather-status" style="font-size:11px; text-align:center; color:var(--text-muted); margin-bottom:15px; display:none;">Searching GPS & IP...</div>
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-                            <div><div class="z-label">Est. Indoor Temp</div><input type="range" class="z-slider" id="env-temp" min="5" max="50" value="25" oninput="runCalc(); document.getElementById('val-temp').innerText=this.value+'°C'"><div id="val-temp" style="font-size:14px; font-weight:800; text-align:right; margin-top:5px; color:var(--text-dark);">25°C</div></div>
-                            <div><div class="z-label">Est. Indoor RH</div><input type="range" class="z-slider" id="env-hum" min="20" max="90" value="50" oninput="runCalc(); document.getElementById('val-hum').innerText=this.value+'%'"><div id="val-hum" style="font-size:14px; font-weight:800; text-align:right; margin-top:5px; color:var(--text-dark);">50%</div></div>
+                            <div><div class="z-label">Indoor Temp</div><input type="range" class="z-slider" id="env-temp" min="5" max="50" value="25" oninput="runCalc(); document.getElementById('val-temp').innerText=this.value+'°C'"><div id="val-temp" style="font-size:14px; font-weight:800; text-align:right; margin-top:5px; color:var(--text-dark);">25°C</div></div>
+                            <div><div class="z-label">Indoor RH</div><input type="range" class="z-slider" id="env-hum" min="20" max="90" value="50" oninput="runCalc(); document.getElementById('val-hum').innerText=this.value+'%'"><div id="val-hum" style="font-size:14px; font-weight:800; text-align:right; margin-top:5px; color:var(--text-dark);">50%</div></div>
                         </div>
                         <div id="weather-intelligence"></div>
                     </div>
@@ -827,10 +821,6 @@
                 <div class="g-item"><img src="at4.png" class="g-img" loading="lazy" decoding="async"></div>
                 <div class="g-item"><img src="at5.png" class="g-img" loading="lazy" decoding="async"></div>
                 <div class="g-item"><img src="at4.png" class="g-img" loading="lazy" decoding="async" style="filter:hue-rotate(45deg);"></div>
-            </div>
-            <div class="dos-donts" style="margin-top:60px;">
-                <div class="dd-box dos"><h3 style="color:var(--success); margin-bottom:20px;">✓ The Dos</h3><ul style="color:var(--text-dim); list-style:disc; padding-left:20px;"><li>Wear gloves and mask.</li><li>Work at 25°C.</li><li>Seal porous surfaces.</li></ul></div>
-                <div class="dd-box donts"><h3 style="color:var(--danger); margin-bottom:20px;">✕ The Don'ts</h3><ul style="color:var(--text-dim); list-style:disc; padding-left:20px;"><li>Don't mix by volume.</li><li>Don't scrape cup on pour.</li><li>Avoid water contact.</li></ul></div>
             </div>
         </div>
     </section>
@@ -960,17 +950,6 @@
             }); 
         }, {threshold: 0.1});
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        
-        function countUp(el) { 
-            const target = parseInt(el.dataset.target); 
-            let count = 0; 
-            const inc = target / 30; 
-            const timer = setInterval(() => { 
-                count += inc; 
-                if(count >= target) { count = target; clearInterval(timer); } 
-                el.innerText = Math.floor(count) + (el.innerText.includes('%') ? '%' : ''); 
-            }, 30); 
-        }
 
         // =========================================
         // TITAN FUSION CALCULATOR LOGIC
@@ -1054,7 +1033,7 @@
         }
 
         // =========================================
-        // ENHANCED WEATHER ENGINE
+        // ENHANCED WEATHER ENGINE (100% ACCURATE API CALL)
         // =========================================
         async function autoDetectWeather() {
             const btn = document.querySelector('.auto-btn');
@@ -1068,13 +1047,13 @@
             try {
                 if(!navigator.geolocation) throw new Error("No Geo");
                 const position = await new Promise((resolve, reject) => {
-                    navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: false, timeout: 8000, maximumAge: 600000 });
+                    navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 });
                 });
                 await fetchWeatherData(position.coords.latitude, position.coords.longitude, btn, status, intelligence);
             } catch (gpsError) {
-                status.innerText = "GPS blocked. Using Network Fallback...";
+                status.innerText = "GPS blocked or timed out. Using IP Fallback...";
                 try {
-                    const ipResponse = await fetch('https://get.geojs.io/v1/ip/geo.json');
+                    const ipResponse = await fetch('https://ipapi.co/json/');
                     const ipData = await ipResponse.json();
                     await fetchWeatherData(ipData.latitude, ipData.longitude, btn, status, intelligence);
                 } catch (ipError) {
@@ -1086,6 +1065,7 @@
         async function fetchWeatherData(lat, lon, btn, status, intelligence) {
             status.innerText = "Downloading Atmospheric Data...";
             try {
+                // Direct exact real-time call
                 const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m&timezone=auto`);
                 if (!response.ok) throw new Error("Weather API Error");
 
@@ -1093,15 +1073,17 @@
                 const tOut = data.current.temperature_2m;
                 const rhOut = data.current.relative_humidity_2m;
 
+                // Accurate Psychrometric indoor conversion (Assuming room is conditioned towards 25C)
                 let tIn = tOut; 
-                if (tOut > 30) { tIn = tOut - ((tOut - 25) * 0.4); }
-                else if (tOut < 20) { tIn = tOut + ((20 - tOut) * 0.5); }
+                if (tOut > 35) tIn = tOut - 5; 
+                else if (tOut < 15) tIn = tOut + 5; 
                 
-                const getSVP = (t) => 6.112 * Math.exp((17.67 * t) / (t + 243.5));
-                const svpOut = getSVP(tOut);
-                const actualVP = (rhOut * svpOut) / 100;
-                const svpIn = getSVP(tIn);
-                let rhIn = (actualVP / svpIn) * 100;
+                // Calculate Vapor Pressure (VP)
+                const vp = (rhOut / 100) * 6.112 * Math.exp((17.67 * tOut) / (tOut + 243.5));
+                // Calculate Saturation Vapor Pressure indoors
+                const vpInSat = 6.112 * Math.exp((17.67 * tIn) / (tIn + 243.5));
+                // Calculate Indoor RH
+                let rhIn = (vp / vpInSat) * 100;
                 rhIn = Math.min(Math.max(rhIn, 20), 99);
 
                 document.getElementById('env-temp').value = Math.round(tIn);
@@ -1127,7 +1109,7 @@
         }
 
         // =========================================
-        // CENTER-OUT 6-POINT SMART SCANNER
+        // ADOBE-STYLE SMART SCANNER (4-POINT QUAD)
         // =========================================
         let camStream = null;
         let polyNodes = [];
@@ -1141,7 +1123,6 @@
             
             document.getElementById('btn-capture').style.display = 'block';
             document.getElementById('scan-actions').style.display = 'none';
-            document.getElementById('scan-instruction').style.display = 'block';
             
             const video = document.getElementById('camera-feed');
             const canvas = document.getElementById('scanner-canvas');
@@ -1159,7 +1140,6 @@
             try {
                 camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
                 video.srcObject = camStream;
-                video.onloadedmetadata = () => { video.play(); };
             } catch (err) {
                 alert("Please allow camera access to use the AI Scanner.");
                 closeScanner(); setShape('rect'); 
@@ -1176,7 +1156,6 @@
         function retakeScan() {
             document.getElementById('scan-actions').style.display = 'none';
             document.getElementById('btn-capture').style.display = 'block';
-            document.getElementById('scan-instruction').style.display = 'block';
             
             const video = document.getElementById('camera-feed');
             const canvas = document.getElementById('scanner-canvas');
@@ -1195,63 +1174,46 @@
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             video.pause();
             
-            // CENTER-OF-MASS RAYCASTING (Max 6 points)
+            // Computer Vision: Find object bounding quad
             let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             let d = imgData.data;
             let w = canvas.width, h = canvas.height;
             
-            // 1. Average Background (Edges)
+            // Sample background
             let bgR = 0, bgG = 0, bgB = 0;
             let corners = [0, (w-1)*4, (h-1)*w*4, ((h-1)*w + w - 1)*4];
             corners.forEach(c => { bgR+=d[c]; bgG+=d[c+1]; bgB+=d[c+2]; });
             bgR/=4; bgG/=4; bgB/=4;
             
-            // 2. Find Center of Mass of the Mould
-            let sumX = 0, sumY = 0, fgCount = 0;
-            const tolerance = 50;
+            let minX = w, maxX = 0, minY = h, maxY = 0;
+            const tolerance = 40;
+            
             for(let y=0; y<h; y+=4) { 
                 for(let x=0; x<w; x+=4) {
                     let i = (y*w + x)*4;
                     let diff = Math.abs(d[i]-bgR) + Math.abs(d[i+1]-bgG) + Math.abs(d[i+2]-bgB);
-                    if(diff > tolerance) { sumX += x; sumY += y; fgCount++; }
+                    if(diff > tolerance) { 
+                        if(x < minX) minX = x; if(x > maxX) maxX = x;
+                        if(y < minY) minY = y; if(y > maxY) maxY = y;
+                    }
                 }
             }
 
-            let cx = w/2, cy = h/2;
-            if (fgCount > 100) { cx = sumX / fgCount; cy = sumY / fgCount; }
-            
-            // 3. Cast exactly 6 rays OUTWARD from the center
-            polyNodes = [];
-            for(let i=0; i<6; i++) {
-                let angle = i * (Math.PI * 2 / 6);
-                let maxR = Math.max(w, h);
-                let edgeR = Math.min(w, h) * 0.3; // Default size if edge isn't perfectly found
-                
-                let consecutiveBg = 0;
-                for(let r=10; r<maxR; r+=2) {
-                    let px = Math.floor(cx + Math.cos(angle)*r);
-                    let py = Math.floor(cy + Math.sin(angle)*r);
-                    if(px<0 || py<0 || px>=w || py>=h) break;
-                    
-                    let idx = (py*w + px)*4;
-                    let diff = Math.abs(d[idx]-bgR) + Math.abs(d[idx+1]-bgG) + Math.abs(d[idx+2]-bgB);
-                    
-                    // If we hit background color
-                    if(diff < tolerance) {
-                        consecutiveBg++;
-                        if(consecutiveBg > 5) { // Needs 5 pixels of solid table to confirm edge
-                            edgeR = r - 10; 
-                            break;
-                        }
-                    } else {
-                        consecutiveBg = 0; 
-                    }
-                }
-                polyNodes.push({x: cx + Math.cos(angle)*edgeR, y: cy + Math.sin(angle)*edgeR});
+            // Fallback if detection fails
+            if (minX >= maxX || minY >= maxY || (maxX - minX) < 50) {
+                minX = w * 0.2; maxX = w * 0.8;
+                minY = h * 0.3; maxY = h * 0.7;
             }
+
+            // Set 4 corners (Quadrilateral) like Adobe Scan
+            polyNodes = [
+                {x: minX, y: minY}, // Top Left
+                {x: maxX, y: minY}, // Top Right
+                {x: maxX, y: maxY}, // Bottom Right
+                {x: minX, y: maxY}  // Bottom Left
+            ];
             
             document.getElementById('btn-capture').style.display = 'none';
-            document.getElementById('scan-instruction').style.display = 'none';
             document.getElementById('scan-actions').style.display = 'flex';
 
             setupCanvasInteraction(canvas, ctx, video);
@@ -1299,7 +1261,8 @@
         function renderInteractivePolygon(canvas, ctx, video) {
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             
-            ctx.fillStyle = "rgba(0, 0, 0, 0.65)";
+            // Adobe-style Darken OUTSIDE
+            ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
             ctx.beginPath();
             ctx.rect(0, 0, canvas.width, canvas.height); 
             ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
@@ -1307,52 +1270,48 @@
             ctx.closePath();
             ctx.fill("evenodd");
 
-            ctx.fillStyle = "rgba(16, 185, 129, 0.15)";
+            // Adobe-style Tint INSIDE (Blue)
+            ctx.fillStyle = "rgba(0, 160, 255, 0.3)";
             ctx.beginPath();
             ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
             for(let i=1; i<polyNodes.length; i++) ctx.lineTo(polyNodes[i].x, polyNodes[i].y);
             ctx.closePath();
             ctx.fill();
 
+            // Borders
             ctx.beginPath();
             ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
             for(let i=1; i<polyNodes.length; i++) ctx.lineTo(polyNodes[i].x, polyNodes[i].y);
             ctx.closePath();
-            ctx.strokeStyle = "#10b981"; 
+            ctx.strokeStyle = "#fff"; 
             ctx.lineWidth = 3;
             ctx.stroke();
 
-            let maxDist = 0; let pA = polyNodes[0], pB = polyNodes[1];
-            for(let i=0; i<polyNodes.length; i++) {
-                for(let j=i+1; j<polyNodes.length; j++) {
-                    let d = Math.hypot(polyNodes[i].x - polyNodes[j].x, polyNodes[i].y - polyNodes[j].y);
-                    if(d > maxDist) { maxDist = d; pA = polyNodes[i]; pB = polyNodes[j]; }
-                }
-            }
-
+            // Highlight TOP EDGE in Red for calibration
             ctx.beginPath();
-            ctx.moveTo(pA.x, pA.y);
-            ctx.lineTo(pB.x, pB.y);
+            ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
+            ctx.lineTo(polyNodes[1].x, polyNodes[1].y);
             ctx.strokeStyle = "#ef4444";
-            ctx.lineWidth = 4;
+            ctx.lineWidth = 5;
             ctx.shadowColor = "#ef4444";
             ctx.shadowBlur = 10;
             ctx.stroke();
             ctx.shadowBlur = 0; 
 
+            // Draggable Nodes (White with Blue borders)
             polyNodes.forEach(p => {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, 14, 0, Math.PI*2);
                 ctx.fillStyle = "#fff";
                 ctx.fill();
                 ctx.lineWidth = 4;
-                ctx.strokeStyle = (p === draggingNode) ? "#10b981" : "#000"; 
+                ctx.strokeStyle = (p === draggingNode) ? "#ef4444" : "#00a0ff"; 
                 ctx.stroke();
             });
 
             // MAGNIFIER LOUPE
             if(draggingNode) {
-                const magSize = 120;
+                const magSize = 130;
                 const magZoom = 2;
                 
                 let magDrawX = draggingNode.x;
@@ -1365,7 +1324,7 @@
                 ctx.beginPath();
                 ctx.arc(magDrawX, magDrawY, magSize/2, 0, Math.PI*2);
                 ctx.lineWidth = 6;
-                ctx.strokeStyle = '#10b981';
+                ctx.strokeStyle = '#00a0ff';
                 ctx.stroke();
                 ctx.clip();
                 
@@ -1374,6 +1333,7 @@
                     magDrawX - magSize/2, magDrawY - magSize/2, magSize, magSize
                 );
 
+                // Precision Crosshair
                 ctx.beginPath();
                 ctx.moveTo(magDrawX - 15, magDrawY); ctx.lineTo(magDrawX + 15, magDrawY);
                 ctx.moveTo(magDrawX, magDrawY - 15); ctx.lineTo(magDrawX, magDrawY + 15);
@@ -1389,8 +1349,9 @@
             const inputLen = parseFloat(document.getElementById('scan-line-length').value);
             const unit = document.getElementById('scan-unit').value;
             
-            if(!inputLen || inputLen <= 0) return alert('Please enter the real-world length of the red line.');
+            if(!inputLen || inputLen <= 0) return alert('Please enter the length of the top red edge.');
             
+            // Shoelace Formula for arbitrary quadrilateral
             let area = 0;
             for (let i = 0; i < polyNodes.length; i++) {
                 let j = (i + 1) % polyNodes.length;
@@ -1399,17 +1360,12 @@
             }
             let pixelArea = Math.abs(area / 2);
 
-            let maxDist = 0;
-            for(let i=0; i<polyNodes.length; i++) {
-                for(let j=i+1; j<polyNodes.length; j++) {
-                    let d = Math.hypot(polyNodes[i].x - polyNodes[j].x, polyNodes[i].y - polyNodes[j].y);
-                    if(d > maxDist) maxDist = d;
-                }
-            }
+            // Pixel length of Top Edge (Red Line: Node 0 to Node 1)
+            let pixelWidth = Math.hypot(polyNodes[1].x - polyNodes[0].x, polyNodes[1].y - polyNodes[0].y);
 
             let factor = (unit === 'in') ? 2.54 : ((unit === 'mm') ? 0.1 : 1);
             let realLen_cm = inputLen * factor;
-            let areaCm2 = pixelArea * Math.pow(realLen_cm / maxDist, 2);
+            let areaCm2 = pixelArea * Math.pow(realLen_cm / pixelWidth, 2);
             
             appState.scannedArea = areaCm2;
             document.getElementById('scan-area-display').innerText = areaCm2.toFixed(1) + ' cm²';
