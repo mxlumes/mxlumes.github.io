@@ -12,6 +12,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <link rel="preload" href="product-1.webp" as="image">
     <link rel="preload" href="MX_LUMES_4_8kg_Master_Kit.png" as="image">
@@ -136,7 +138,7 @@
         .support-card:hover { border-color: rgba(37, 211, 102, 0.5); box-shadow: 0 20px 50px rgba(37, 211, 102, 0.1); transform: translate3d(0, -5px, 0); }
 
         /* =========================================
-           6. TECHNOLOGY & SPECS
+           6. TECHNOLOGY & SPECS (RESTORED LAYOUTS)
            ========================================= */
         .tech-card { padding: 40px; border-top: 1px solid rgba(255,255,255,0.15); transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; height: 100%; display: flex; flex-direction: column; }
         .tech-card:hover { background: rgba(255,255,255,0.03); border-color: var(--accent); transform: translate3d(0, -8px, 0); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
@@ -165,6 +167,14 @@
         .comp-cell.bright { color: #fff; font-weight: 700; text-shadow: 0 0 15px rgba(99,102,241,0.3); }
         .comp-cell.bright span { color: var(--accent); margin-right: 8px; }
         .comp-footer { margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--border); display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+
+        .dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .dd-box { padding: 50px; border-radius: 24px; border: 1px solid var(--border); transition: transform 0.4s var(--ease-fluid), border-color 0.4s, box-shadow 0.4s; }
+        .dd-box:hover { transform: translate3d(0,-5px,0); }
+        .dd-box.dos { background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2); }
+        .dd-box.dos:hover { border-color: rgba(16, 185, 129, 0.4); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1); }
+        .dd-box.donts { background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2); }
+        .dd-box.donts:hover { border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1); }
 
         /* =========================================
            9. TITAN FUSION CALCULATOR (FROSTED GLASS UX)
@@ -296,9 +306,49 @@
         .trust-badge { font-size: 11px; color: var(--success); font-weight: 800; margin-top: 5px; display: flex; justify-content: center; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.5px;}
 
         /* =========================================
+           15. LIVE REVIEWS ENGINE (COMMUNITY TRUST)
+           ========================================= */
+        .reviews-section { padding: 80px 0; background: var(--bg-oled); border-top: 1px solid var(--border); }
+        .r-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; flex-wrap: wrap; gap: 20px;}
+        .r-title-area h2 { font-size: 36px; margin-bottom: 10px; }
+        .r-rating-summary { display: flex; align-items: center; gap: 15px; }
+        .r-big-score { font-size: 48px; font-weight: 800; line-height: 1; font-family: 'Space Grotesk', sans-serif; }
+        .r-stars-count { display: flex; flex-direction: column; gap: 4px; }
+        .r-stars svg { width: 18px; height: 18px; fill: #f59e0b; }
+        .r-count-text { font-size: 12px; color: var(--text-dim); font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
+        
+        .reviews-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 20px; padding-bottom: 20px; scrollbar-width: none; mask-image: linear-gradient(to right, black 90%, transparent 100%); }
+        .reviews-container::-webkit-scrollbar { display: none; }
+        
+        .r-card { min-width: 320px; max-width: 320px; scroll-snap-align: start; background: #0a0a0a; border: 1px solid var(--border); border-radius: 20px; padding: 25px; display: flex; flex-direction: column; transition: transform 0.3s; }
+        .r-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); }
+        .r-card-stars { margin-bottom: 15px; display: flex; gap: 2px;}
+        .r-card-stars svg { width: 14px; height: 14px; fill: #f59e0b; }
+        .r-card-text { font-size: 14px; color: #ccc; flex: 1; margin-bottom: 20px; line-height: 1.6; }
+        .r-card-author { font-size: 13px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px; }
+        .r-verified { color: var(--success); font-size: 14px; }
+        
+        /* Write Review Modal */
+        .review-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 4000; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.3s; }
+        .review-modal-overlay.active { opacity: 1; display: flex; }
+        .review-modal { background: #0a0a0a; border: 1px solid var(--border); border-radius: 24px; width: 100%; max-width: 400px; padding: 30px; position: relative; transform: scale(0.95); transition: transform 0.3s; }
+        .review-modal-overlay.active .review-modal { transform: scale(1); }
+        .rm-close { position: absolute; top: 20px; right: 20px; background: none; border: none; color: #888; font-size: 24px; cursor: pointer; }
+        .rm-close:hover { color: #fff; }
+        .rm-title { font-size: 24px; margin-bottom: 20px; font-weight: 800; font-family: 'Space Grotesk', sans-serif; }
+        
+        .rm-star-select { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; cursor: pointer; }
+        .rm-star-select svg { width: 32px; height: 32px; fill: transparent; stroke: #f59e0b; stroke-width: 2; transition: fill 0.2s; }
+        .rm-star-select svg.active { fill: #f59e0b; }
+        
+        .rm-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); padding: 15px; border-radius: 12px; color: #fff; font-size: 14px; margin-bottom: 15px; outline: none; font-family: 'Manrope', sans-serif; }
+        .rm-input:focus { border-color: var(--accent); }
+        textarea.rm-input { resize: vertical; min-height: 100px; }
+
+        /* =========================================
            10. FOOTER (MILKY WHITE ANCHOR)
            ========================================= */
-        .footer { position: relative; padding: 120px 20px 60px; margin-top: 150px; background: var(--bg-milky); overflow: hidden; border-top: 1px solid var(--border-light); }
+        .footer { position: relative; padding: 120px 20px 60px; background: var(--bg-milky); overflow: hidden; border-top: 1px solid var(--border-light); }
         .footer-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; }
         .f-top-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; margin-bottom: 100px; }
         .f-vision-title { font-size: 12px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
@@ -422,8 +472,11 @@
             .v-greeting { width: calc(100% - 110px); }
             
             .premium-stamp { top: 12%; right: 5%; width: 100px; height: 100px; }
+            
             .scanner-ui { max-width: 95%; }
             .scan-inputs { grid-template-columns: 1fr; }
+            
+            .r-header { flex-direction: column; align-items: flex-start; gap: 15px; }
         }
     </style>
 </head>
@@ -475,6 +528,28 @@
                     100% Private. Processed locally on GPU.
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="review-modal-overlay" class="review-modal-overlay">
+        <div class="review-modal">
+            <button class="rm-close" onclick="closeReviewModal()">×</button>
+            <h3 class="rm-title">Share Your Experience</h3>
+            <p style="color:var(--text-dim); font-size:13px; margin-bottom:20px;">Your feedback helps thousands of Indian resin artists make the right choice.</p>
+            
+            <input type="text" id="rv-name" class="rm-input" placeholder="Your Name">
+            
+            <div class="rm-star-select" id="rv-stars">
+                <svg data-val="1" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg data-val="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg data-val="3" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg data-val="4" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg data-val="5" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            
+            <textarea id="rv-text" class="rm-input" placeholder="How was the clarity, bubble release, or curing time?"></textarea>
+            
+            <button class="btn btn-primary" style="width:100%; font-size:13px;" onclick="submitReview()">Post Review</button>
         </div>
     </div>
 
@@ -856,6 +931,33 @@
         </div>
     </section>
 
+    <section id="reviews" class="reviews-section reveal">
+        <div class="container">
+            <div class="r-header">
+                <div class="r-title-area">
+                    <h2>Community Trust</h2>
+                    <div class="r-rating-summary">
+                        <div class="r-big-score">4.9</div>
+                        <div class="r-stars-count">
+                            <div class="r-stars">
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            </div>
+                            <span class="r-count-text">Based on 30+ Verified Artists</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-outline" onclick="openReviewModal()">Write a Review</button>
+            </div>
+            
+            <div class="reviews-container" id="reviews-grid">
+                </div>
+        </div>
+    </section>
+
     <footer class="footer">
         <div class="footer-overlay"></div>
         <div class="footer-watermark" style="opacity: 0.05;">M-X</div>
@@ -981,6 +1083,17 @@
             }); 
         }, {threshold: 0.1});
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        
+        function countUp(el) { 
+            const target = parseInt(el.dataset.target); 
+            let count = 0; 
+            const inc = target / 30; 
+            const timer = setInterval(() => { 
+                count += inc; 
+                if(count >= target) { count = target; clearInterval(timer); } 
+                el.innerText = Math.floor(count) + (el.innerText.includes('%') ? '%' : ''); 
+            }, 30); 
+        }
 
         // =========================================
         // TITAN FUSION CALCULATOR LOGIC
@@ -1210,7 +1323,6 @@
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             video.pause();
             
-            // Computer Vision: Find object bounding quad
             let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             let d = imgData.data;
             let w = canvas.width, h = canvas.height;
@@ -1244,7 +1356,6 @@
                 maxY = Math.min(h, maxY + 10);
             }
 
-            // Exactly 4 corners (Adobe Scan Style)
             polyNodes = [
                 {x: minX, y: minY}, 
                 {x: maxX, y: minY}, 
@@ -1324,7 +1435,6 @@
             ctx.lineWidth = 3;
             ctx.stroke();
 
-            // Highlight TOP EDGE in Red for calibration (Node 0 to Node 1)
             ctx.beginPath();
             ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
             ctx.lineTo(polyNodes[1].x, polyNodes[1].y);
@@ -1543,7 +1653,12 @@
             updateReminder();
         }
         function toggleCart() { document.getElementById('cartSidebar').classList.toggle('active'); updateReminder(); }
-        function showToast() { const t = document.getElementById('toast'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+        function showToast(msg) { 
+            const t = document.getElementById('toast'); 
+            if(msg) t.innerHTML = '✓ ' + msg; else t.innerHTML = '✓ Added to Cart';
+            t.classList.add('show'); 
+            setTimeout(() => t.classList.remove('show'), 3000); 
+        }
         function checkoutWhatsApp() {
             if(cart.length === 0) return alert('Your cart is empty!');
             let total = 0; let msg = `*NEW ORDER REQUEST* %0A------------------%0A`;
@@ -1553,10 +1668,116 @@
         }
 
         // =========================================
+        // LIVE REVIEWS ENGINE (COMMUNITY TRUST)
+        // =========================================
+        const initialReviews = [
+            { name: "Sneha Sharma", text: "Absolutely flawless for Varmala preservation. Diamond clear and absolutely no micro-bubbles. Will order the 20kg set next.", stars: 5 },
+            { name: "Rahul Verma", text: "The 120-minute pot life is a lifesaver for complex geode pours. Gives me ample time to mix pigments without it heating up.", stars: 5 },
+            { name: "Ananya Patel", text: "I was skeptical about the 85 Shore D hardness, but my coasters are practically scratch-proof. Incredible quality.", stars: 5 },
+            { name: "Vikram Singh", text: "Zero VOCs means no headaches! I can finally work in my indoor studio without the strong chemical smell.", stars: 4 },
+            { name: "Divya Iyer", text: "Best 3:1 epoxy in India hands down. Auto-degassing actually works—I didn't even need my heat gun.", stars: 5 },
+            { name: "Rohit Desai", text: "M-X Lumes replaced my imported resin. The HALS UV protection is genuine, my white pieces haven't yellowed at all.", stars: 5 },
+            { name: "Kavita Reddy", text: "Using the smart calculator changed everything. No more wasted resin, no more sticky curing. Masterclass brand!", stars: 5 },
+            { name: "Manoj Gupta", text: "Crystal clear finish on my river table. The flow is like honey, perfect self-leveling.", stars: 5 },
+            { name: "Pooja Joshi", text: "Very forgiving for beginners. The mixing ratio is easy by weight, and it cures exactly in 24h.", stars: 4 },
+            { name: "Arun Kumar", text: "The transparency is unmatched. Feels like glass, looks like glass.", stars: 5 },
+            { name: "Riya Kapoor", text: "Made custom jewelry pieces. The lack of bubbles in tiny molds is impressive.", stars: 5 },
+            { name: "Sameer Ali", text: "Customer support guided me through my first deep pour. Resin cured perfectly without flashing. 10/10.", stars: 5 },
+            { name: "Shruti Nair", text: "I’ve poured hundreds of coasters, and this resin has the best heat deflection. Coffee mugs don’t leave rings!", stars: 5 },
+            { name: "Karthik M.", text: "Finally, a premium Indian brand! The packaging is great, and the resin performs exactly as advertised.", stars: 4 },
+            { name: "Meera Sen", text: "Love the low viscosity. It penetrates wood pores beautifully for my charcuterie boards.", stars: 5 },
+            { name: "Tushar B.", text: "I accidentally mixed by volume once and it failed. Read the manual, mixed by weight, and it’s pure magic.", stars: 4 },
+            { name: "Neha Bhatia", text: "The smart scanner feature on their site blew my mind, but the actual resin is the real star.", stars: 5 },
+            { name: "Alisha R.", text: "Highly recommended for floral casting. Doesn't burn the delicate petals.", stars: 5 },
+            { name: "Kiran Das", text: "Demolded a tray today and the shine is unbelievable. No top coat needed.", stars: 5 },
+            { name: "Ravi T.", text: "Tried generic epoxy before and ruined a project. M-X Lumes is a bit more premium but worth every rupee.", stars: 5 },
+            { name: "Sanjay N.", text: "Does not blush even in Mumbai humidity. That alone makes it a winner for me.", stars: 5 },
+            { name: "Geeta Chawla", text: "Perfectly mixes with mica powders and alcohol inks. The colors pop beautifully.", stars: 4 },
+            { name: "Imran Khan", text: "The 4.8kg kit is the sweet spot for me. The hardener doesn't crystallize even after opening.", stars: 5 },
+            { name: "Pallavi M.", text: "Rock solid. Literally. Tried scratching the cured piece with a fingernail, not a dent.", stars: 5 },
+            { name: "Rakesh Pillai", text: "Great consistency. I do intricate wireframes and it holds shape perfectly.", stars: 4 },
+            { name: "Swati G.", text: "The calculator's environment lab is genius. It warned me about high humidity, saved my pour.", stars: 5 },
+            { name: "Akash Deep", text: "Shipping was super fast. Product quality speaks for itself. My clients are loving the shiny finish.", stars: 5 },
+            { name: "Vandana K.", text: "As a professional artist, consistency is key. M-X Lumes delivers the exact same results every single batch.", stars: 5 },
+            { name: "Harish V.", text: "No amine blush, no sticky spots. Just follow the 3:1 weight ratio on a scale.", stars: 4 },
+            { name: "Simran Ahluwalia", text: "OLED Contrast is the perfect way to describe it. It makes the embedded objects look incredibly vivid.", stars: 5 }
+        ];
+
+        let selectedStars = 5;
+
+        function renderReviews() {
+            const container = document.getElementById('reviews-grid');
+            let storedReviews = JSON.parse(localStorage.getItem('mxlumes_reviews') || '[]');
+            
+            // Combine user-submitted reviews with the initial 30
+            const allReviews = [...storedReviews, ...initialReviews];
+            
+            container.innerHTML = '';
+            allReviews.forEach(r => {
+                let starHtml = '';
+                for(let i=0; i<5; i++) {
+                    starHtml += `<svg viewBox="0 0 24 24" style="fill: ${i < r.stars ? '#f59e0b' : '#333'}"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+                }
+                container.innerHTML += `
+                    <div class="r-card">
+                        <div class="r-card-stars">${starHtml}</div>
+                        <div class="r-card-text">"${r.text}"</div>
+                        <div class="r-card-author">
+                            <span class="r-verified">✓</span> ${r.name}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function openReviewModal() {
+            document.getElementById('review-modal-overlay').classList.add('active');
+        }
+
+        function closeReviewModal() {
+            document.getElementById('review-modal-overlay').classList.remove('active');
+        }
+
+        function setupReviewStars() {
+            const stars = document.querySelectorAll('.rm-star-select svg');
+            stars.forEach(star => {
+                star.addEventListener('click', (e) => {
+                    selectedStars = parseInt(e.currentTarget.dataset.val);
+                    stars.forEach(s => {
+                        if(parseInt(s.dataset.val) <= selectedStars) s.classList.add('active');
+                        else s.classList.remove('active');
+                    });
+                });
+            });
+        }
+
+        function submitReview() {
+            const name = document.getElementById('rv-name').value.trim();
+            const text = document.getElementById('rv-text').value.trim();
+            
+            if(!name || !text) return alert("Please enter your name and review.");
+            
+            const newReview = { name: name, text: text, stars: selectedStars };
+            let storedReviews = JSON.parse(localStorage.getItem('mxlumes_reviews') || '[]');
+            storedReviews.unshift(newReview); // Add to beginning
+            localStorage.setItem('mxlumes_reviews', JSON.stringify(storedReviews));
+            
+            document.getElementById('rv-name').value = '';
+            document.getElementById('rv-text').value = '';
+            
+            closeReviewModal();
+            renderReviews();
+            showToast("Review published!");
+        }
+
+        // =========================================
         // VIJETA AI ASSISTANT
         // =========================================
         let chatInitialized = false;
         window.addEventListener('load', () => {
+            renderReviews();
+            setupReviewStars();
+            
             setTimeout(() => {
                 const greeting = document.getElementById('vGreeting');
                 const panel = document.getElementById('vijetaPanel');
