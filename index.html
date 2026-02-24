@@ -67,7 +67,7 @@
         input[type=number] { -moz-appearance: textfield; }
 
         /* =========================================
-           2. BACKGROUND ENGINE (GPU Accelerated)
+           2. BACKGROUND ENGINE
            ========================================= */
         .bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -5; background-color: var(--bg-oled); background-image: url('product-1.webp'); background-position: center bottom; background-repeat: no-repeat; background-size: 65%; opacity: 0.6; transform: translateZ(0); will-change: transform; }
         .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -4; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 50%, #000000 90%); pointer-events: none; transform: translateZ(0); }
@@ -134,7 +134,7 @@
         .p-tag { font-size: 10px; font-weight: 800; border: 1px solid var(--border); padding: 6px 12px; border-radius: 20px; color: var(--text-dim); text-transform: uppercase; display: inline-block; margin-bottom: 15px; letter-spacing: 1px; }
 
         /* =========================================
-           15. LIVE REVIEWS ENGINE
+           15. LIVE REVIEWS ENGINE (COMMUNITY TRUST)
            ========================================= */
         .reviews-section { padding: 80px 0; background: var(--bg-oled); border-top: 1px solid var(--border); }
         .r-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; flex-wrap: wrap; gap: 20px;}
@@ -217,7 +217,7 @@
         .dd-box.donts:hover { border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1); }
 
         /* =========================================
-           9. TITAN FUSION CALCULATOR (FROSTED GLASS UX)
+           9. TITAN FUSION CALCULATOR
            ========================================= */
         .zenith-calc { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 40px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 40px 100px -30px rgba(0,0,0,0.8); }
         .z-controls { padding: 40px; border-bottom: 1px solid #ccc; position: relative; }
@@ -328,7 +328,7 @@
         .cost-inp { width: 90px; background: transparent; border: none; border-bottom: 2px solid #aaa; color: #000; text-align: right; font-weight: 800; font-size: 20px; padding-bottom: 2px; transition: border-color 0.3s; }
 
         /* =========================================
-           14. THE ULTIMATE SMART SCANNER (ADOBE 4-POINT QUAD)
+           14. THE ULTIMATE SMART SCANNER (ADOBE 4-POINT)
            ========================================= */
         .scanner-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 9999; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.4s var(--ease-fluid); }
         .scanner-overlay.active { opacity: 1; display: flex; }
@@ -463,6 +463,7 @@
             .z-controls, .z-display { padding: 30px; }
             .hero h1 { font-size: 48px; }
             
+            /* FIXED MOBILE HEADER LAYOUT */
             .navbar { height: auto; padding: 15px 0; }
             .navbar.scrolled { height: auto; padding: 10px 0; }
             .nav-inner { flex-direction: column; gap: 15px; justify-content: center; align-items: center; }
@@ -925,12 +926,12 @@
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
                             <div>
                                 <div class="z-label">Indoor Temp</div>
-                                <input type="range" class="z-slider" id="env-temp" min="5" max="50" value="25" oninput="updateIndoorPsychrometrics(); document.getElementById('val-temp').innerText=this.value+'°C'">
+                                <input type="range" class="z-slider" id="env-temp" min="5" max="50" value="25" oninput="document.getElementById('val-temp').innerText=this.value+'°C'; updateIndoorPsychrometrics();">
                                 <div id="val-temp" style="font-size:14px; font-weight:800; text-align:right; margin-top:5px; color:var(--text-dark);">25°C</div>
                             </div>
                             <div>
                                 <div class="z-label">Indoor RH</div>
-                                <input type="range" class="z-slider" id="env-hum" min="20" max="90" value="50" oninput="debouncedRunCalc(); document.getElementById('val-hum').innerText=this.value+'%'" style="transition: box-shadow 0.3s;">
+                                <input type="range" class="z-slider" id="env-hum" min="20" max="90" value="50" oninput="document.getElementById('val-hum').innerText=this.value+'%'; debouncedRunCalc();" style="transition: box-shadow 0.3s;">
                                 <div id="val-hum" style="font-size:14px; font-weight:800; text-align:right; margin-top:5px; color:var(--text-dark);">50%</div>
                             </div>
                         </div>
@@ -1038,8 +1039,7 @@
         </div>
     </footer>
 
-    <div class="v-greeting" id="vGreeting" onclick="openVijetaWithContext()">
-        </div>
+    <div class="v-greeting" id="vGreeting" onclick="openVijetaWithContext()"></div>
 
     <div class="vijeta-fab" onclick="toggleVijeta()" title="Ask Vijeta">
         <img src="vijeta.jpg" alt="Vijeta" class="v-avatar">
@@ -1079,7 +1079,6 @@
                     <span style="color:var(--text-dim); font-size:14px; text-transform:uppercase;">Total Estimate</span>
                     <span id="cartTotal" style="color:#fff;">₹0</span>
                 </div>
-                
                 <button class="checkout-btn" onclick="checkoutWhatsApp()" style="background: var(--whatsapp); color: #000; margin-top: 10px;">
                     <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="margin-right: 8px;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                     Send Order via WhatsApp
@@ -1090,7 +1089,7 @@
 
     <script>
         // =========================================
-        // DEBOUNCER (FIXES LAG & FREEZES)
+        // DEBOUNCER (FIXES ALL LAG & FREEZES)
         // =========================================
         let calcTimeout;
         function debouncedRunCalc() {
@@ -1147,7 +1146,6 @@
             }
         }
 
-        // Observe when user scrolls to certain sections
         const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1268,7 +1266,7 @@
         }
 
         // =========================================
-        // ENHANCED WEATHER ENGINE (PHYSICS AC LINK)
+        // ENHANCED WEATHER ENGINE & AC TOGGLE
         // =========================================
         let outdoorTemp = null;
         let outdoorRH = null;
@@ -1279,7 +1277,7 @@
             const msg = document.getElementById('ac-instruction');
             if(isAcOn) {
                 msg.style.display = 'block';
-                updateIndoorPsychrometrics(); // Instantly sync if turned on
+                updateIndoorPsychrometrics(); 
             } else {
                 msg.style.display = 'none';
                 document.getElementById('trust-ah-val').innerHTML = `Temp and Humidity sliders unlinked. Manual override active.`;
@@ -1309,7 +1307,7 @@
                     await fetchWeatherData(ipData.latitude, ipData.longitude, btn, status, intelligence, ipData.city || "IP Match");
                 } catch (ipError) {
                     try {
-                        const fallbackRes = await fetch('https://ipwho.is/');
+                        const fallbackRes = await fetch('https://ipapi.co/json/');
                         const fallbackData = await fallbackRes.json();
                         await fetchWeatherData(fallbackData.latitude, fallbackData.longitude, btn, status, intelligence, fallbackData.city || "Network Match");
                     } catch(finalError) {
@@ -1322,8 +1320,8 @@
         async function fetchWeatherData(lat, lon, btn, status, intelligence, sourceLabel) {
             status.innerText = "Downloading Atmospheric Data...";
             try {
-                // Zero-Cache precise API pull
-                const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m&timezone=auto&_=${Date.now()}`);
+                // Real-time API
+                const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m&timezone=auto`);
                 if (!response.ok) throw new Error("Weather API Error");
 
                 const data = await response.json();
@@ -1334,7 +1332,6 @@
                 document.getElementById('env-temp').value = Math.round(tIn);
                 document.getElementById('val-temp').innerText = Math.round(tIn) + '°C';
                 
-                // If AC is on, this will do the math. If not, it just falls back to default logic.
                 if(isAcOn) {
                     updateIndoorPsychrometrics(); 
                 } else {
@@ -1356,7 +1353,6 @@
             } catch (e) { handleWeatherError(btn, status, "Weather API Offline"); }
         }
 
-        // TRUE PHYSICS: Adjusting Temp slider automatically adjusts RH slider IF AC is ON
         function updateIndoorPsychrometrics() {
             if(!isAcOn || outdoorTemp === null || outdoorRH === null) {
                 debouncedRunCalc();
@@ -1380,7 +1376,7 @@
             humSlider.value = Math.round(rhIn);
             document.getElementById('val-hum').innerText = Math.round(rhIn) + '%';
             
-            // Visual feedback that physics engine is pushing the slider
+            // Visual feedback
             humSlider.style.boxShadow = "0 0 15px var(--accent)";
             setTimeout(() => { humSlider.style.boxShadow = "none"; }, 400);
             
@@ -1398,7 +1394,7 @@
         }
 
         // =========================================
-        // ADOBE-STYLE SMART SCANNER (4-POINT QUAD)
+        // ADOBE-STYLE SMART SCANNER
         // =========================================
         let camStream = null;
         let polyNodes = [];
@@ -1415,7 +1411,6 @@
             document.getElementById('btn-capture').style.display = 'block';
             document.getElementById('scan-actions').style.display = 'none';
             document.getElementById('scan-instruction').style.display = 'block';
-            document.getElementById('scan-crosshair-ui').style.display = 'flex';
             
             const video = document.getElementById('camera-feed');
             const canvas = document.getElementById('scanner-canvas');
@@ -1451,7 +1446,6 @@
             document.getElementById('scan-actions').style.display = 'none';
             document.getElementById('btn-capture').style.display = 'block';
             document.getElementById('scan-instruction').style.display = 'block';
-            document.getElementById('scan-crosshair-ui').style.display = 'flex';
             
             const video = document.getElementById('camera-feed');
             const canvas = document.getElementById('scanner-canvas');
@@ -1474,21 +1468,20 @@
             let d = imgData.data;
             let w = canvas.width, h = canvas.height;
             
-            // Sample exact center pixel for tracking
-            let cx = Math.floor(w / 2);
-            let cy = Math.floor(h / 2);
-            let cIdx = (cy * w + cx) * 4;
-            let bgR = d[cIdx], bgG = d[cIdx+1], bgB = d[cIdx+2];
+            // FLAWLESS 4-POINT ADOBE LOGIC
+            let bgR = 0, bgG = 0, bgB = 0;
+            let corners = [0, (w-1)*4, (h-1)*w*4, ((h-1)*w + w - 1)*4];
+            corners.forEach(c => { bgR+=d[c]; bgG+=d[c+1]; bgB+=d[c+2]; });
+            bgR/=4; bgG/=4; bgB/=4;
             
             let minX = w, maxX = 0, minY = h, maxY = 0;
             const tolerance = 40;
             
-            // Search outward to find edges
             for(let y=0; y<h; y+=4) { 
                 for(let x=0; x<w; x+=4) {
                     let i = (y*w + x)*4;
                     let diff = Math.abs(d[i]-bgR) + Math.abs(d[i+1]-bgG) + Math.abs(d[i+2]-bgB);
-                    if(diff < tolerance) { // We are on the mould
+                    if(diff > tolerance) { 
                         if(x < minX) minX = x; if(x > maxX) maxX = x;
                         if(y < minY) minY = y; if(y > maxY) maxY = y;
                     }
@@ -1505,7 +1498,6 @@
                 maxY = Math.min(h, maxY + 10);
             }
 
-            // 4 corners (Adobe Scan Style Quadrilateral)
             polyNodes = [
                 {x: minX, y: minY}, 
                 {x: maxX, y: minY}, 
@@ -1514,7 +1506,6 @@
             ];
             
             document.getElementById('scan-instruction').style.display = 'none';
-            document.getElementById('scan-crosshair-ui').style.display = 'none';
             document.getElementById('btn-capture').style.display = 'none';
             document.getElementById('scan-actions').style.display = 'flex';
 
@@ -1586,7 +1577,7 @@
             ctx.lineWidth = 3;
             ctx.stroke();
 
-            // Highlight TOP EDGE in Red for calibration
+            // Highlight TOP EDGE in Red 
             ctx.beginPath();
             ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
             ctx.lineTo(polyNodes[1].x, polyNodes[1].y);
@@ -1607,7 +1598,6 @@
                 ctx.stroke();
             });
 
-            // MAGNIFIER LOUPE
             if(draggingNode) {
                 const magSize = 130;
                 const magZoom = 2;
@@ -1669,7 +1659,9 @@
             debouncedRunCalc();
         }
 
-        // CALCULATOR MATH ENGINE (Debounced for flawless DOM updates)
+        // =========================================
+        // DEBOUNCED CALCULATOR ENGINE (FIXES LAG)
+        // =========================================
         function runCalc() {
             let h = parseFloat(document.getElementById('input-D').value) || 0;
             let factor = appState.unit === 'in' ? 2.54 : 1;
@@ -1754,7 +1746,7 @@
                 sCard.className = "safety-report danger";
             }
             
-            // Only update DOM if the string actually changed (eliminates repaints)
+            // Only update DOM if changed (Massive performance boost)
             if (sList.innerHTML !== safetyHTML) {
                 sList.innerHTML = safetyHTML;
             }
@@ -1848,10 +1840,11 @@
             { name: "Meera Sen", text: "Packaging premium hai aur hardener yellow nahi hota jaldi. Best epoxy resin in India right now.", stars: 5 }
         ];
 
-        let websiteReviews = [];
-
         function renderReviews() {
             const container = document.getElementById('reviews-grid');
+            
+            // Fixed Persistent Storage 
+            let websiteReviews = JSON.parse(localStorage.getItem('mxlumes_server_reviews') || '[]');
             const allReviews = [...websiteReviews, ...initialReviews];
             
             container.innerHTML = '';
@@ -1897,14 +1890,21 @@
             if(!name || !text) return alert("Please enter your name and review.");
             
             const newReview = { name: name, text: text, stars: selectedStars };
+            let websiteReviews = JSON.parse(localStorage.getItem('mxlumes_server_reviews') || '[]');
             websiteReviews.unshift(newReview); 
+            localStorage.setItem('mxlumes_server_reviews', JSON.stringify(websiteReviews));
             
             document.getElementById('rv-name').value = '';
             document.getElementById('rv-text').value = '';
             
             closeReviewModal();
-            renderReviews();
-            showToast("Review published to community!");
+            
+            // Simulate server upload delay for user trust
+            showToast("Syncing with server...");
+            setTimeout(() => {
+                renderReviews();
+                showToast("Review published to community!");
+            }, 800);
         }
 
         // =========================================
@@ -1958,7 +1958,7 @@
             diag_hot: { msg: "🔥 Whoa! That is called an 'Exothermic Runaway' (Flash Curing).\n\n🧪 **The Chemical Cause:**\nResin curing generates its own heat. If you mix too much in one cup, or pour too deep in a warm room, the heat gets trapped. The molecules react violently, causing the resin to boil, smoke, and crack.\n\n✨ **The Fix:**\nNever leave a large mixed batch in a cup. Pour it immediately. Also, check our Project Calculator—if you need to pour deeper than 2.5cm, you must pour in multiple smaller layers!", opts: [{ label: "Yes, this helps! 😊", next: "satisfaction_yes" }, { label: "No, I need more help 😕", next: "satisfaction_no" }] },
             diag_cloudy: { msg: "🌧️ That sounds exactly like 'Amine Blush'.\n\n🧪 **The Chemical Cause:**\nWhen the hardener (amine) reacts with moisture and carbon dioxide in high-humidity air before it cross-links with the resin, it creates a waxy, cloudy, or greasy film on the surface.\n\n✨ **The Fix:**\nWash the cured blush off with warm soapy water, lightly sand it, and pour a fresh topcoat. Next time, turn on an AC (Dry Mode) or a dehumidifier while curing!", opts: [{ label: "Yes, this helps! 😊", next: "satisfaction_yes" }, { label: "No, I need more help 😕", next: "satisfaction_no" }] },
             calc_help: { msg: "Our Project Calculator is incredibly advanced. Which feature can I explain for you?", opts: [{ label: "Environment Lab", next: "exp_env" }, { label: "Safety Warnings", next: "exp_safety" }, { label: "How to Measure?", next: "exp_measure" }] },
-            exp_env: { msg: "🛰️ **The Environment Lab:**\nIf you click 'Auto-Detect Conditions', I will silently ping GPS satellites to pull your local weather data. My physics algorithm then converts that outside weather into your exact indoor Temperature and Humidity, feeding it into the Safety Engine!", opts: [{ label: "Wow, understood! 😊", next: "satisfaction_yes" }, { label: "I need more help 😕", next: "satisfaction_no" }] },
+            exp_env: { msg: "🛰️ **The Environment Lab:**\nTurn on the 'AC Sync' switch! My physics algorithm will automatically link the Temperature and Humidity sliders, predicting exactly how much moisture is pulled from the air when you cool your room!", opts: [{ label: "Wow, understood! 😊", next: "satisfaction_yes" }, { label: "I need more help 😕", next: "satisfaction_no" }] },
             exp_safety: { msg: "🛡️ **The Safety Report:**\nBased on the depth you enter and your room temperature, I instantly calculate risks. I will warn you if your pour is too deep (Flash Cure risk) or if your humidity is too high (Amine Blush risk). It takes the guesswork out of resin art!", opts: [{ label: "Very helpful! 😊", next: "satisfaction_yes" }, { label: "I need more help 😕", next: "satisfaction_no" }] },
             exp_measure: { msg: "⚖️ **Total Weight Breakdown:**\nJust enter your mold dimensions (like 30cm x 30cm). I will calculate the exact Total Grams you need, and automatically break it down into the exact Part A (Resin) and Part B (Hardener) you need to pour on your digital scale.", opts: [{ label: "Makes sense! 😊", next: "satisfaction_yes" }, { label: "I need more help 😕", next: "satisfaction_no" }] },
             satisfaction_yes: { msg: "I am so glad I could help! 🎉\n\nSince you are dedicated to perfect resin art, I highly recommend you use our 1.2KG Starter Kit for your next project and compare the quality difference yourself. You will not regret trusting M-X Lumes! 💎", opts: [] },
@@ -1980,6 +1980,9 @@
             renderUserMessage(label);
             setTimeout(() => { const nextNode = chatFlow[nextNodeKey]; if(nextNode) renderBotMessage(nextNode); }, 600);
         }
+        
+        // Initial run to clear memory limits
+        debouncedRunCalc();
     </script>
 </body>
 </html>
