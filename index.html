@@ -54,9 +54,12 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
+        /* Stop pull-to-refresh on mobile when interacting with UI */
         html { font-size: 16px; scroll-behavior: smooth; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        body { background-color: var(--bg-oled); color: var(--text-main); font-family: 'Manrope', sans-serif; line-height: 1.6; width: 100%; max-width: 100vw; overflow-x: hidden; position: relative; overscroll-behavior-y: none; }
         
-        body { background-color: var(--bg-oled); color: var(--text-main); font-family: 'Manrope', sans-serif; line-height: 1.6; width: 100%; max-width: 100vw; overflow-x: hidden; position: relative; }
+        /* Utility class to lock body scroll when scanner is open */
+        body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; line-height: 1.1; letter-spacing: -0.02em; }
         a { text-decoration: none; color: inherit; transition: color 0.3s var(--ease-fluid); }
@@ -129,8 +132,8 @@
         .product-card { padding: 30px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s var(--ease-fluid), border-color 0.4s; background: linear-gradient(135deg, rgba(230, 230, 240, 0.15) 0%, rgba(180, 180, 190, 0.05) 100%) !important; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: var(--radius); }
         .product-card:hover { transform: translate3d(0, -10px, 0); border-color: rgba(255,255,255,0.5) !important; background: linear-gradient(135deg, rgba(230, 230, 240, 0.25) 0%, rgba(180, 180, 190, 0.1) 100%) !important; box-shadow: 0 25px 50px rgba(0,0,0,0.6); }
         
-        .p-img { width: 100%; height: 280px; object-fit: cover; border-radius: 16px; margin-bottom: 25px; opacity: 0.9; transition: opacity 0.4s; }
-        .product-card:hover .p-img { opacity: 1; }
+        .p-img { width: 100%; height: 280px; object-fit: cover; border-radius: 16px; margin-bottom: 25px; opacity: 0.9; transition: opacity 0.4s, transform 0.4s; }
+        .product-card:hover .p-img { opacity: 1; transform: scale(1.03);}
         .p-tag { font-size: 10px; font-weight: 800; border: 1px solid var(--border); padding: 6px 12px; border-radius: 20px; color: var(--text-dim); text-transform: uppercase; display: inline-block; margin-bottom: 15px; letter-spacing: 1px; }
 
         /* =========================================
@@ -150,7 +153,7 @@
         .reviews-container::-webkit-scrollbar { display: none; }
         
         .r-card { min-width: 320px; max-width: 320px; scroll-snap-align: start; background: #0a0a0a; border: 1px solid var(--border); border-radius: 20px; padding: 25px; display: flex; flex-direction: column; transition: transform 0.3s; will-change: transform; }
-        .r-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); }
+        .r-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.5);}
         .r-card-stars { margin-bottom: 15px; display: flex; gap: 2px;}
         .r-card-stars svg { width: 14px; height: 14px; fill: #f59e0b; }
         .r-card-text { font-size: 14px; color: #ccc; flex: 1; margin-bottom: 20px; line-height: 1.6; font-style: italic;}
@@ -170,12 +173,12 @@
         .rm-star-select svg { width: 32px; height: 32px; fill: transparent; stroke: #f59e0b; stroke-width: 2; transition: fill 0.2s; }
         .rm-star-select svg.active { fill: #f59e0b; }
         
-        .rm-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); padding: 15px; border-radius: 12px; color: #fff; font-size: 14px; margin-bottom: 15px; outline: none; font-family: 'Manrope', sans-serif; }
+        .rm-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); padding: 15px; border-radius: 12px; color: #fff; font-size: 14px; margin-bottom: 15px; outline: none; font-family: 'Manrope', sans-serif; transition: border-color 0.3s;}
         .rm-input:focus { border-color: var(--accent); }
         textarea.rm-input { resize: vertical; min-height: 100px; }
 
         /* =========================================
-           6. TECHNOLOGY & SPECS
+           6. TECHNOLOGY & SPECS (APPLE-STYLE ELEVATION)
            ========================================= */
         .tech-card { padding: 40px; border-top: 1px solid rgba(255,255,255,0.15); transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; height: 100%; display: flex; flex-direction: column; }
         .tech-card:hover { background: rgba(255,255,255,0.03); border-color: var(--accent); transform: translate3d(0, -8px, 0); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
@@ -187,19 +190,26 @@
         .tech-list li:last-child { border-bottom: none; }
 
         .gallery-masonry { column-count: 3; column-gap: 20px; margin-top: 40px;}
-        .g-item { break-inside: avoid; margin-bottom: 20px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); background: #0a0a0a; transition: transform 0.4s var(--ease-fluid), border-color 0.4s; }
-        .g-item:hover { transform: scale(1.02); border-color: rgba(255,255,255,0.3); }
-        .g-img { width: 100%; height: auto; display: block; }
+        .g-item { break-inside: avoid; margin-bottom: 20px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); background: #0a0a0a; transition: transform 0.4s var(--ease-fluid), border-color 0.4s, box-shadow 0.4s; }
+        .g-item:hover { transform: scale(1.02); border-color: rgba(255,255,255,0.3); box-shadow: 0 15px 30px rgba(0,0,0,0.5); z-index: 2; position: relative;}
+        .g-img { width: 100%; height: auto; display: block; transition: transform 0.5s var(--ease-fluid);}
+        .g-item:hover .g-img { transform: scale(1.05); }
 
         .comp-container { background: #050505; border: 1px solid var(--border); border-radius: 30px; padding: 40px; overflow: hidden; position: relative; }
-        .comp-container::before { content:''; position: absolute; top:0; right:0; width: 50%; height: 1px; background: linear-gradient(90deg, transparent, var(--accent)); }
-        .comp-wrapper { width: 100%; display: block; margin-bottom: 50px; border-radius: 24px; border: 1px solid var(--border); background: #0a0a0a; margin-top: 40px;}
-        .comp-table { width: 100%; border-collapse: collapse; table-layout: auto; }
-        .comp-table th { text-align: left; padding: 20px; color: var(--text-dim); font-size: 11px; font-weight: 800; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .comp-table th.col-mx, .comp-table td.col-mx { width: 40%; background: rgba(99,102,241,0.03); border-right: 1px solid rgba(99,102,241,0.1); border-left: 1px solid rgba(99,102,241,0.1); }
+        .comp-wrapper { width: 100%; display: block; margin-bottom: 50px; border-radius: 24px; border: 1px solid var(--border); background: #0a0a0a; margin-top: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);}
+        .comp-table { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: auto; }
+        .comp-table th { text-align: left; padding: 25px 20px; color: var(--text-dim); font-size: 11px; font-weight: 800; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        
+        /* The "Next-Level" Highlighted Column */
+        .comp-table th.col-mx { background: linear-gradient(180deg, rgba(99,102,241,0.15) 0%, rgba(99,102,241,0.05) 100%); border-top-left-radius: 16px; border-top-right-radius: 16px; border-top: 2px solid var(--accent); border-left: 1px solid rgba(99,102,241,0.3); border-right: 1px solid rgba(99,102,241,0.3);}
+        .comp-table td.col-mx { background: rgba(99,102,241,0.05); border-left: 1px solid rgba(99,102,241,0.3); border-right: 1px solid rgba(99,102,241,0.3); }
+        .comp-table tr:last-child td.col-mx { border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; border-bottom: 2px solid var(--accent); }
+        
         .comp-row { transition: background-color 0.2s; }
-        .comp-row:hover { background: rgba(255,255,255,0.03); }
+        .comp-row:hover { background: rgba(255,255,255,0.02); }
         .comp-cell { padding: 25px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 15px; color: #fff; }
+        .comp-table tr:last-child .comp-cell { border-bottom: none; } /* Clean up bottom */
+        
         .comp-cell.dim { color: #888; font-weight: 500; }
         .comp-cell.bright { color: #fff; font-weight: 700; text-shadow: 0 0 15px rgba(99,102,241,0.3); }
         .comp-cell.bright span { color: var(--accent); margin-right: 8px; }
@@ -217,7 +227,7 @@
         .dd-box.donts:hover { border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1); }
 
         /* =========================================
-           9. TITAN FUSION CALCULATOR
+           9. TITAN FUSION CALCULATOR (FROSTED GLASS UX)
            ========================================= */
         .zenith-calc { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 40px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 40px 100px -30px rgba(0,0,0,0.8); }
         .z-controls { padding: 40px; border-bottom: 1px solid #ccc; position: relative; }
@@ -229,8 +239,8 @@
         
         .ratio-grid { display: flex; gap: 10px; margin-bottom: 20px; }
         .ratio-btn { flex: 1; padding: 14px; border: 2px solid #aaa; border-radius: 12px; font-size: 14px; font-weight: 800; color: #333; background: #fff; transition: all 0.3s; cursor: pointer; text-align: center; }
-        .ratio-btn:hover { color: #000; border-color: #000; }
-        .ratio-btn.active { border-color: var(--accent); color: #fff; background: var(--accent); box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); }
+        .ratio-btn:hover { color: #000; border-color: #000; transform: translateY(-2px); }
+        .ratio-btn.active { border-color: var(--accent); color: #fff; background: var(--accent); box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); transform: none; }
         
         .mode-toggle { display: flex; background: #e5e7eb; border-radius: 14px; padding: 5px; border: 1px solid #ccc; }
         .mode-opt { flex: 1; text-align: center; padding: 12px; font-size: 14px; font-weight: 800; color: #333; cursor: pointer; border-radius: 10px; transition: all 0.3s; }
@@ -249,9 +259,10 @@
         .z-number { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800; color: #000; background: transparent; border: none; width: 100px; text-align: right; border-bottom: 2px solid #aaa; transition: border-color 0.3s; padding-bottom: 5px; }
         .z-number:focus { border-color: var(--accent); outline: none; }
         
-        .z-slider { -webkit-appearance: none; width: 100%; height: 8px; background: #ccc; border-radius: 4px; outline: none; display: block; margin-top: 10px; will-change: transform; }
+        .z-slider { -webkit-appearance: none; width: 100%; height: 8px; background: #ccc; border-radius: 4px; outline: none; display: block; margin-top: 10px; will-change: transform; transition: box-shadow 0.3s; }
         .z-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 34px; height: 34px; background: #000; border-radius: 50%; cursor: grab; transition: transform 0.2s var(--ease-spring); border: 4px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         .z-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+        .z-slider::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.05); }
         
         .shape-grid { display: flex; gap: 15px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 15px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         .shape-grid::-webkit-scrollbar { display: none; }
@@ -262,6 +273,10 @@
         .shape-btn.active svg { stroke: #000; }
         .shape-btn span { font-size: 13px; font-weight: 800; color: #333; text-transform: uppercase; transition: color 0.3s; }
         .shape-btn.active span { color: #000; }
+
+        /* ADVANCED BUTTON PULSE FOR SCANNER */
+        .btn-scan-pulse { border-color: var(--accent) !important; background: rgba(99,102,241,0.05) !important; animation: scanPulse 2s infinite; }
+        @keyframes scanPulse { 0% { box-shadow: 0 0 0 0 rgba(99,102,241, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(99,102,241, 0); } 100% { box-shadow: 0 0 0 0 rgba(99,102,241, 0); } }
 
         .scanned-area-display { display:none; flex-direction:column; align-items:center; margin-bottom:30px; padding:25px; background:rgba(16,185,129,0.1); border:2px dashed var(--success); border-radius:16px; transition: all 0.3s; }
         .scanned-area-display.active { display: flex; animation: popIn 0.4s var(--ease-spring); }
@@ -274,15 +289,7 @@
         .preset-btn { padding: 12px 24px; border: 2px solid #aaa; border-radius: 30px; font-size: 13px; font-weight: 800; color: #333; background: #fff; white-space: nowrap; transition: all 0.3s; cursor: pointer; }
         .preset-btn:hover { color: #000; border-color: #000; background: #f3f4f6; transform: translate3d(0,-2px,0); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        /* NEW: AC Toggle Switch UI */
-        .ac-toggle-wrapper { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #ccc;}
-        .switch { position: relative; display: inline-block; width: 46px; height: 24px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .switch .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
-        .switch .toggle-slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.3);}
-        .switch input:checked + .toggle-slider { background-color: var(--accent); }
-        .switch input:checked + .toggle-slider:before { transform: translateX(22px); }
-
+        /* Animated Environment Lab Icons */
         .env-icons { display: inline-flex; align-items: center; gap: 10px; margin-left: auto; }
         .icon-temp { width: 18px; height: 18px; stroke: #ef4444; fill: none; animation: tempPulse 2s infinite alternate ease-in-out; }
         .icon-drop { width: 18px; height: 18px; stroke: #3b82f6; fill: none; animation: dropPulse 2s infinite alternate ease-in-out; animation-delay: 1s; }
@@ -294,7 +301,16 @@
         .auto-btn:hover { background: rgba(99,102,241,0.2); transform: translate3d(0,-2px,0); box-shadow: 0 4px 15px rgba(99,102,241,0.2); }
         .auto-btn:active { transform: scale(0.98); }
 
-        .smart-ac-highlight { display: none; background: rgba(99, 102, 241, 0.1); border: 1px solid var(--accent); border-radius: 12px; padding: 12px 15px; margin-bottom: 20px; font-size: 12px; color: var(--text-dark); line-height: 1.5; font-weight: 500; animation: popIn 0.3s var(--ease-spring); }
+        /* Premium AC Toggle Switch UI */
+        .ac-toggle-wrapper { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #ccc;}
+        .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .switch .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
+        .switch .toggle-slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px; background-color: white; transition: .4s cubic-bezier(0.34, 1.56, 0.64, 1); border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.3);}
+        .switch input:checked + .toggle-slider { background-color: var(--accent); }
+        .switch input:checked + .toggle-slider:before { transform: translateX(22px); }
+
+        .smart-ac-highlight { display: none; background: rgba(99, 102, 241, 0.1); border: 1px solid var(--accent); border-radius: 12px; padding: 12px 15px; margin-bottom: 20px; font-size: 12px; color: var(--text-dark); line-height: 1.5; font-weight: 500; animation: popIn 0.4s var(--ease-spring); }
         .smart-ac-highlight b { color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 3px;}
         
         .trust-box { background: rgba(16, 185, 129, 0.08); border: 1px dashed rgba(16, 185, 129, 0.4); border-radius: 12px; padding: 15px; margin-top: 25px; }
@@ -307,7 +323,6 @@
         .refine-toggle:hover { color: var(--accent); }
         .refine-panel { display: none; padding-top: 20px; }
         .refine-panel.show { display: block; animation: slideDown 0.3s var(--ease-fluid) forwards; }
-        @keyframes slideDown { from { opacity: 0; transform: translate3d(0,-10px,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
         .refine-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .refine-inp { width: 100%; background: #fff; border: 2px solid #aaa; padding: 12px; border-radius: 10px; color: #000; font-weight: 800; font-size: 14px; outline: none; transition: border-color 0.3s; }
         
@@ -328,7 +343,7 @@
         .cost-inp { width: 90px; background: transparent; border: none; border-bottom: 2px solid #aaa; color: #000; text-align: right; font-weight: 800; font-size: 20px; padding-bottom: 2px; transition: border-color 0.3s; }
 
         /* =========================================
-           14. THE ULTIMATE SMART SCANNER (ADOBE 4-POINT)
+           14. THE ULTIMATE SMART SCANNER (ADOBE 4-POINT QUAD)
            ========================================= */
         .scanner-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 9999; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.4s var(--ease-fluid); }
         .scanner-overlay.active { opacity: 1; display: flex; }
@@ -337,12 +352,17 @@
         
         .scanner-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; background: #fafafa; }
         .scanner-header h3 { font-size: 16px; font-weight: 800; color: #000; margin: 0; display:flex; align-items:center; gap:8px;}
-        .scanner-close { background: none; border: none; font-size: 28px; color: #666; cursor: pointer; line-height: 1; padding: 5px; }
+        .scanner-close { background: none; border: none; font-size: 28px; color: #666; cursor: pointer; line-height: 1; padding: 5px; transition: color 0.3s;}
+        .scanner-close:hover { color: #000; }
         
         .scanner-view { position: relative; width: 100%; height: 450px; background: #000; overflow: hidden; touch-action: none; overscroll-behavior: none; }
         .scanner-view video { width: 100%; height: 100%; object-fit: cover; }
-        .scanner-view canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 5; cursor: crosshair; }
+        .scanner-view canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 5; cursor: crosshair; touch-action: none; }
         
+        /* Premium Laser Animation */
+        .scan-laser { position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--accent); box-shadow: 0 0 20px 5px var(--accent-glow); z-index: 10; display: none; mix-blend-mode: screen; }
+        @keyframes scanSweep { 0% { top: 0; opacity: 0;} 10% { opacity: 1;} 90% { opacity: 1;} 100% { top: 100%; opacity: 0;} }
+
         .scan-instruction { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px; border-radius: 30px; font-size: 13px; font-weight: 800; z-index: 10; text-align: center; white-space: nowrap; pointer-events: none; border: 1px solid rgba(255,255,255,0.2);}
 
         .scanner-controls { padding: 25px; background: #fafafa; display: flex; flex-direction: column; align-items: center; gap: 15px; border-top: 1px solid #ccc; }
@@ -413,7 +433,7 @@
         .empty-cart { text-align: center; color: var(--text-dim); margin-top: 50px; font-size: 14px; }
 
         /* =========================================
-           12. VIJETA AI ASSISTANT
+           12. VIJETA AI ASSISTANT (PROACTIVE)
            ========================================= */
         .vijeta-fab { position: fixed; bottom: 30px; left: 20px; width: 65px; height: 65px; background: #000; border: 2px solid var(--accent); border-radius: 50%; z-index: 2000; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4); transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; cursor: pointer; padding: 2px; transform: translate3d(0,0,0); will-change: transform; }
         .vijeta-fab:hover { transform: translate3d(0,-5px,0) scale(1.05); box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6); }
@@ -439,11 +459,20 @@
         .msg.bot { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .msg.user { background: var(--accent); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
         
+        /* PREMIUM TYPING INDICATOR */
+        .typing-indicator { display: none; padding: 14px 18px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; border-bottom-left-radius: 4px; width: max-content; gap: 4px; align-items: center; animation: popIn 0.3s var(--ease-spring) forwards;}
+        .typing-indicator.active { display: flex; }
+        .typing-indicator span { width: 6px; height: 6px; background: #fff; border-radius: 50%; animation: blink 1.4s infinite both; }
+        .typing-indicator span:nth-child(1) { animation-delay: 0s; }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes blink { 0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1.2); } }
+
         .v-options { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; animation: popIn 0.4s var(--ease-spring) forwards; }
         .v-opt-btn { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--accent); color: #fff; padding: 10px 16px; border-radius: 20px; font-size: 12px; font-family: 'Manrope', sans-serif; font-weight: 600; cursor: pointer; transition: transform 0.3s var(--ease-spring), background-color 0.3s; }
         
         .v-input-area { padding: 15px; border-top: 1px solid var(--border); display: flex; gap: 10px; background: #050505; }
-        .v-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid transparent; border-radius: 20px; padding: 12px 18px; color: #fff; font-size: 13px; outline: none; }
+        .v-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid transparent; border-radius: 20px; padding: 12px 18px; color: #fff; font-size: 13px; outline: none; transition: border-color 0.3s;}
         .v-input:focus { border-color: var(--accent); background: #000; }
         .v-send { background: var(--accent); border: none; width: 42px; height: 42px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; cursor: pointer; transition: transform 0.3s var(--ease-spring), box-shadow 0.3s; }
 
@@ -517,11 +546,14 @@
             <div class="scanner-view" id="scanner-view-container">
                 <video id="camera-feed" autoplay playsinline muted></video>
                 <canvas id="scanner-canvas"></canvas>
+                
+                <div id="scan-laser" class="scan-laser"></div>
+                
                 <div class="scan-instruction" id="scan-instruction">Center mould in view & tap Capture</div>
             </div>
             
             <div class="scanner-controls">
-                <button id="btn-capture" class="btn btn-primary" style="width:100%; background:#111; color:#fff; font-size:14px; padding: 20px;" onclick="captureScanFrame()">Capture & Map Bounds</button>
+                <button id="btn-capture" class="btn btn-primary btn-scan-pulse" style="width:100%; font-size:14px; padding: 20px;" onclick="captureScanFrame()">Capture & Map Bounds</button>
                 
                 <div id="scan-actions" style="display:none; width:100%; flex-direction:column; gap:15px;">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -727,32 +759,6 @@
         </div>
     </section>
 
-    <section id="technology" class="section">
-        <div class="container">
-            <h2 style="text-align:center; font-size:36px; margin-bottom:60px;">The Engineering</h2>
-            <div class="grid-3">
-                <div class="glass tech-card reveal">
-                    <div class="tech-icon">🛡️</div>
-                    <div class="tech-sub">Archival Grade</div>
-                    <h3>HALS Technology</h3>
-                    <p style="color:var(--text-dim); font-size:14px; margin-top:10px;">Hindered Amine Light Stabilizers actively scavenge free radicals generated by UV exposure, interrupting the degradation cycle before yellowing begins.</p>
-                </div>
-                <div class="glass tech-card reveal">
-                    <div class="tech-icon">🫧</div>
-                    <div class="tech-sub">Fluid Dynamics</div>
-                    <h3>Zero-Bubble Matrix</h3>
-                    <p style="color:var(--text-dim); font-size:14px; margin-top:10px;">Formulated with proprietary de-foaming agents that lower surface tension to 28 dynes/cm, forcing micro-bubbles to rise instantly.</p>
-                </div>
-                <div class="glass tech-card reveal">
-                    <div class="tech-icon">⏳</div>
-                    <div class="tech-sub">Reaction Kinetic</div>
-                    <h3>The Golden Ratio</h3>
-                    <p style="color:var(--text-dim); font-size:14px; margin-top:10px;">We hit the chemical jackpot: Ultra-thin flow for detail, but chemically retarded cure for stress-free working time.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section id="specs" class="section">
         <div class="container">
             <div class="reveal">
@@ -937,6 +943,17 @@
                         </div>
                         <div id="weather-intelligence" style="margin-top: 15px; font-size: 12px; color: var(--text-dim);"></div>
                         
+                        <div class="trust-box">
+                            <div class="trust-title">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                Military-Grade Precision
+                            </div>
+                            <ul>
+                                <li><span>✦</span> <b>Triple-Redundant Location:</b> GPS + Dual IP Fallback routing.</li>
+                                <li><span>✦</span> <b>Zero-Cache Satellite Data:</b> Pulls down-to-the-second atmospheric data.</li>
+                                <li><span>✦</span> <b>Dynamic Psychrometrics:</b> <span id="trust-ah-val" style="color:var(--text-dark);">Temp and Humidity are physically linked.</span></li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div class="refine-toggle" onclick="document.getElementById('refine-panel').classList.toggle('show')"><span>⚙️ Advanced Settings</span></div>
@@ -1052,6 +1069,8 @@
             <button class="v-close" onclick="toggleVijeta()">×</button>
         </div>
         <div class="v-chat" id="vChatBox"></div>
+        <div class="typing-indicator" id="vTyping"><span></span><span></span><span></span></div>
+        
         <div class="v-input-area">
             <input type="text" id="vInput" class="v-input" placeholder="Type a question..." onkeypress="handleVijetaEnter(event)">
             <button class="v-send" onclick="sendVijetaMsg()">
@@ -1079,6 +1098,7 @@
                     <span style="color:var(--text-dim); font-size:14px; text-transform:uppercase;">Total Estimate</span>
                     <span id="cartTotal" style="color:#fff;">₹0</span>
                 </div>
+                
                 <button class="checkout-btn" onclick="checkoutWhatsApp()" style="background: var(--whatsapp); color: #000; margin-top: 10px;">
                     <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="margin-right: 8px;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                     Send Order via WhatsApp
@@ -1141,8 +1161,13 @@
             document.getElementById('vGreeting').classList.remove('show');
             document.getElementById('vijetaPanel').classList.add('active');
             if(!chatInitialized) {
-                renderBotMessage(chatFlow[currentContext] || chatFlow.start);
-                chatInitialized = true;
+                // Show typing indicator before first message
+                document.getElementById('vTyping').classList.add('active');
+                setTimeout(() => {
+                    document.getElementById('vTyping').classList.remove('active');
+                    renderBotMessage(chatFlow[currentContext] || chatFlow.start);
+                    chatInitialized = true;
+                }, 1000);
             }
         }
 
@@ -1394,7 +1419,7 @@
         }
 
         // =========================================
-        // ADOBE-STYLE SMART SCANNER
+        // ADOBE-STYLE SMART SCANNER (4-POINT QUAD)
         // =========================================
         let camStream = null;
         let polyNodes = [];
@@ -1406,6 +1431,10 @@
             
             const overlay = document.getElementById('smart-scanner');
             overlay.style.display = 'flex';
+            
+            // LOCK BODY SCROLL ON iOS SAFARI
+            document.body.classList.add('modal-open');
+            
             setTimeout(()=> overlay.classList.add('active'), 10); 
             
             document.getElementById('btn-capture').style.display = 'block';
@@ -1438,6 +1467,10 @@
         function closeScanner() {
             const overlay = document.getElementById('smart-scanner');
             overlay.classList.remove('active');
+            
+            // UNLOCK BODY SCROLL
+            document.body.classList.remove('modal-open');
+            
             setTimeout(() => { overlay.style.display = 'none'; }, 400);
             if (camStream) { camStream.getTracks().forEach(track => track.stop()); camStream = null; }
         }
@@ -1468,7 +1501,6 @@
             let d = imgData.data;
             let w = canvas.width, h = canvas.height;
             
-            // FLAWLESS 4-POINT ADOBE LOGIC
             let bgR = 0, bgG = 0, bgB = 0;
             let corners = [0, (w-1)*4, (h-1)*w*4, ((h-1)*w + w - 1)*4];
             corners.forEach(c => { bgR+=d[c]; bgG+=d[c+1]; bgB+=d[c+2]; });
@@ -1528,7 +1560,7 @@
                 e.preventDefault(); 
                 let pos = getPointerPos(e);
                 draggingNode = polyNodes.find(p => Math.hypot(p.x - pos.x, p.y - pos.y) < 60);
-                if(draggingNode) renderInteractivePolygon(canvas, ctx, video);
+                if(draggingNode) requestAnimationFrame(() => renderInteractivePolygon(canvas, ctx, video));
             };
 
             const moveHandler = (e) => {
@@ -1537,15 +1569,16 @@
                 let pos = getPointerPos(e);
                 draggingNode.x = Math.max(0, Math.min(pos.x, canvas.width));
                 draggingNode.y = Math.max(0, Math.min(pos.y, canvas.height));
-                renderInteractivePolygon(canvas, ctx, video);
+                requestAnimationFrame(() => renderInteractivePolygon(canvas, ctx, video));
             };
 
-            const upHandler = () => { draggingNode = null; renderInteractivePolygon(canvas, ctx, video); };
+            const upHandler = () => { draggingNode = null; requestAnimationFrame(() => renderInteractivePolygon(canvas, ctx, video)); };
 
             canvas.addEventListener('mousedown', downHandler);
             canvas.addEventListener('mousemove', moveHandler);
             window.addEventListener('mouseup', upHandler);
             
+            // Passive false strictly prevents iOS scroll
             canvas.addEventListener('touchstart', downHandler, {passive: false});
             canvas.addEventListener('touchmove', moveHandler, {passive: false});
             window.addEventListener('touchend', upHandler);
@@ -1577,7 +1610,7 @@
             ctx.lineWidth = 3;
             ctx.stroke();
 
-            // Highlight TOP EDGE in Red 
+            // Highlight TOP EDGE in Red for calibration
             ctx.beginPath();
             ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
             ctx.lineTo(polyNodes[1].x, polyNodes[1].y);
@@ -1659,9 +1692,6 @@
             debouncedRunCalc();
         }
 
-        // =========================================
-        // DEBOUNCED CALCULATOR ENGINE (FIXES LAG)
-        // =========================================
         function runCalc() {
             let h = parseFloat(document.getElementById('input-D').value) || 0;
             let factor = appState.unit === 'in' ? 2.54 : 1;
@@ -1840,11 +1870,18 @@
             { name: "Meera Sen", text: "Packaging premium hai aur hardener yellow nahi hota jaldi. Best epoxy resin in India right now.", stars: 5 }
         ];
 
+        let websiteReviews = [];
+
         function renderReviews() {
             const container = document.getElementById('reviews-grid');
             
-            // Fixed Persistent Storage 
-            let websiteReviews = JSON.parse(localStorage.getItem('mxlumes_server_reviews') || '[]');
+            // Safe JSON parse for persistent reviews
+            try {
+                websiteReviews = JSON.parse(localStorage.getItem('mxlumes_server_reviews') || '[]');
+            } catch(e) {
+                websiteReviews = [];
+            }
+
             const allReviews = [...websiteReviews, ...initialReviews];
             
             container.innerHTML = '';
@@ -1890,7 +1927,6 @@
             if(!name || !text) return alert("Please enter your name and review.");
             
             const newReview = { name: name, text: text, stars: selectedStars };
-            let websiteReviews = JSON.parse(localStorage.getItem('mxlumes_server_reviews') || '[]');
             websiteReviews.unshift(newReview); 
             localStorage.setItem('mxlumes_server_reviews', JSON.stringify(websiteReviews));
             
@@ -1915,7 +1951,14 @@
         function toggleVijeta() {
             document.getElementById('vGreeting').classList.remove('show');
             document.getElementById('vijetaPanel').classList.toggle('active');
-            if(!chatInitialized) { renderBotMessage(chatFlow.start); chatInitialized = true; }
+            if(!chatInitialized) { 
+                document.getElementById('vTyping').classList.add('active');
+                setTimeout(() => {
+                    document.getElementById('vTyping').classList.remove('active');
+                    renderBotMessage(chatFlow.start); 
+                    chatInitialized = true; 
+                }, 1000);
+            }
         }
         function handleVijetaEnter(e) { if(e.key === 'Enter') sendVijetaMsg(); }
         function sendVijetaMsg() {
@@ -1924,9 +1967,13 @@
             if(!text) return;
             renderUserMessage(text);
             input.value = '';
+            
+            document.getElementById('vTyping').classList.add('active');
+            
             setTimeout(() => { 
+                document.getElementById('vTyping').classList.remove('active');
                 renderBotMessage({ msg: "That is a great question! For the fastest diagnosis, please select a category below, or click 'Chat with an Expert' on our website to speak with our human team! 👇", opts: chatFlow.start.opts });
-            }, 750);
+            }, 1200);
         }
         function renderUserMessage(text) {
             const chatBox = document.getElementById('vChatBox');
@@ -1942,7 +1989,10 @@
                 node.opts.forEach(opt => { html += `<button class="v-opt-btn" onclick="handleChatOption('${opt.label}', '${opt.next}')">${opt.label}</button>`; });
                 html += `</div>`;
             }
-            chatBox.innerHTML += html;
+            
+            // Insert before typing indicator
+            const typingIndicator = document.getElementById('vTyping');
+            typingIndicator.insertAdjacentHTML('beforebegin', html);
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
@@ -1958,7 +2008,7 @@
             diag_hot: { msg: "🔥 Whoa! That is called an 'Exothermic Runaway' (Flash Curing).\n\n🧪 **The Chemical Cause:**\nResin curing generates its own heat. If you mix too much in one cup, or pour too deep in a warm room, the heat gets trapped. The molecules react violently, causing the resin to boil, smoke, and crack.\n\n✨ **The Fix:**\nNever leave a large mixed batch in a cup. Pour it immediately. Also, check our Project Calculator—if you need to pour deeper than 2.5cm, you must pour in multiple smaller layers!", opts: [{ label: "Yes, this helps! 😊", next: "satisfaction_yes" }, { label: "No, I need more help 😕", next: "satisfaction_no" }] },
             diag_cloudy: { msg: "🌧️ That sounds exactly like 'Amine Blush'.\n\n🧪 **The Chemical Cause:**\nWhen the hardener (amine) reacts with moisture and carbon dioxide in high-humidity air before it cross-links with the resin, it creates a waxy, cloudy, or greasy film on the surface.\n\n✨ **The Fix:**\nWash the cured blush off with warm soapy water, lightly sand it, and pour a fresh topcoat. Next time, turn on an AC (Dry Mode) or a dehumidifier while curing!", opts: [{ label: "Yes, this helps! 😊", next: "satisfaction_yes" }, { label: "No, I need more help 😕", next: "satisfaction_no" }] },
             calc_help: { msg: "Our Project Calculator is incredibly advanced. Which feature can I explain for you?", opts: [{ label: "Environment Lab", next: "exp_env" }, { label: "Safety Warnings", next: "exp_safety" }, { label: "How to Measure?", next: "exp_measure" }] },
-            exp_env: { msg: "🛰️ **The Environment Lab:**\nTurn on the 'AC Sync' switch! My physics algorithm will automatically link the Temperature and Humidity sliders, predicting exactly how much moisture is pulled from the air when you cool your room!", opts: [{ label: "Wow, understood! 😊", next: "satisfaction_yes" }, { label: "I need more help 😕", next: "satisfaction_no" }] },
+            exp_env: { msg: "🛰️ **The Environment Lab:**\nIf you click 'Auto-Detect Conditions', I will silently ping GPS satellites to pull your local weather data. My physics algorithm then converts that outside weather into your exact indoor Temperature and Humidity, feeding it into the Safety Engine!", opts: [{ label: "Wow, understood! 😊", next: "satisfaction_yes" }, { label: "I need more help 😕", next: "satisfaction_no" }] },
             exp_safety: { msg: "🛡️ **The Safety Report:**\nBased on the depth you enter and your room temperature, I instantly calculate risks. I will warn you if your pour is too deep (Flash Cure risk) or if your humidity is too high (Amine Blush risk). It takes the guesswork out of resin art!", opts: [{ label: "Very helpful! 😊", next: "satisfaction_yes" }, { label: "I need more help 😕", next: "satisfaction_no" }] },
             exp_measure: { msg: "⚖️ **Total Weight Breakdown:**\nJust enter your mold dimensions (like 30cm x 30cm). I will calculate the exact Total Grams you need, and automatically break it down into the exact Part A (Resin) and Part B (Hardener) you need to pour on your digital scale.", opts: [{ label: "Makes sense! 😊", next: "satisfaction_yes" }, { label: "I need more help 😕", next: "satisfaction_no" }] },
             satisfaction_yes: { msg: "I am so glad I could help! 🎉\n\nSince you are dedicated to perfect resin art, I highly recommend you use our 1.2KG Starter Kit for your next project and compare the quality difference yourself. You will not regret trusting M-X Lumes! 💎", opts: [] },
@@ -1970,15 +2020,26 @@
             if(nextNodeKey === 'redirect_wa') {
                 window.open('https://wa.me/917668077298?text=Hi%20M-X%20Lumes!%20I%20am%20facing%20a%20complex%20issue%20with%20my%20resin%20project%20and%20need%20expert%20help.', '_blank');
                 renderUserMessage(label);
+                
+                document.getElementById('vTyping').classList.add('active');
+                
                 setTimeout(() => {
+                    document.getElementById('vTyping').classList.remove('active');
                     const chatBox = document.getElementById('vChatBox');
-                    chatBox.innerHTML += `<div class="msg bot" style="white-space: pre-wrap;">I've opened a chat with our team for you! Is there anything else I can assist with?</div>`;
+                    const html = `<div class="msg bot" style="white-space: pre-wrap;">I've opened a chat with our team for you! Is there anything else I can assist with?</div>`;
+                    const typingIndicator = document.getElementById('vTyping');
+                    typingIndicator.insertAdjacentHTML('beforebegin', html);
                     chatBox.scrollTop = chatBox.scrollHeight;
                 }, 1000);
                 return;
             }
             renderUserMessage(label);
-            setTimeout(() => { const nextNode = chatFlow[nextNodeKey]; if(nextNode) renderBotMessage(nextNode); }, 600);
+            document.getElementById('vTyping').classList.add('active');
+            setTimeout(() => { 
+                document.getElementById('vTyping').classList.remove('active');
+                const nextNode = chatFlow[nextNodeKey]; 
+                if(nextNode) renderBotMessage(nextNode); 
+            }, 800);
         }
         
         // Initial run to clear memory limits
