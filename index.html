@@ -96,7 +96,7 @@
         .toast.show { transform: translate3d(-50%, 0, 0); opacity: 1; }
 
         /* =========================================
-           4. NAVIGATION (MILKY WHITE STRIP)
+           4. NAVIGATION
            ========================================= */
         .navbar { position: fixed; top: 0; width: 100%; height: 80px; z-index: 1000; display: flex; align-items: center; transition: box-shadow 0.4s var(--ease-fluid), height 0.4s var(--ease-fluid); background-color: var(--bg-milky); border-bottom: 1px solid var(--border-light); padding-top: var(--safe-top); }
         .navbar.scrolled { box-shadow: 0 10px 30px rgba(0,0,0,0.1); height: 70px; }
@@ -124,7 +124,7 @@
         @keyframes scroll { 0% { transform: translate3d(0,0,0); } 100% { transform: translate3d(-50%,0,0); } }
 
         /* =========================================
-           5. SHOP & GRIDS (SILVERISH GLASS)
+           5. SHOP & GRIDS
            ========================================= */
         .stats-bar { border-bottom: 1px solid var(--border); padding: 40px 0; margin-top: -1px; }
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
@@ -180,6 +180,9 @@
         /* =========================================
            6. TECHNOLOGY & SPECS (APPLE-STYLE ELEVATION)
            ========================================= */
+        .support-card { background: linear-gradient(135deg, rgba(37, 211, 102, 0.08) 0%, rgba(0,0,0,0) 100%); border-color: rgba(37, 211, 102, 0.2); text-align: center; padding: 60px 30px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s, border-color 0.4s; }
+        .support-card:hover { border-color: rgba(37, 211, 102, 0.5); box-shadow: 0 20px 50px rgba(37, 211, 102, 0.1); transform: translate3d(0, -5px, 0); }
+
         .tech-card { padding: 40px; border-top: 1px solid rgba(255,255,255,0.15); transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; height: 100%; display: flex; flex-direction: column; }
         .tech-card:hover { background: rgba(255,255,255,0.03); border-color: var(--accent); transform: translate3d(0, -8px, 0); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
         .tech-icon { font-size: 40px; margin-bottom: 20px; }
@@ -188,12 +191,6 @@
         .tech-list li { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; color: var(--text-dim); }
         .tech-list li span { color: #fff; font-weight: 800; font-size: 15px; font-family: 'Space Grotesk', sans-serif; }
         .tech-list li:last-child { border-bottom: none; }
-
-        .gallery-masonry { column-count: 3; column-gap: 20px; margin-top: 40px;}
-        .g-item { break-inside: avoid; margin-bottom: 20px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); background: #0a0a0a; transition: transform 0.4s var(--ease-fluid), border-color 0.4s, box-shadow 0.4s; }
-        .g-item:hover { transform: scale(1.02); border-color: rgba(255,255,255,0.3); box-shadow: 0 15px 30px rgba(0,0,0,0.5); z-index: 2; position: relative;}
-        .g-img { width: 100%; height: auto; display: block; transition: transform 0.5s var(--ease-fluid);}
-        .g-item:hover .g-img { transform: scale(1.05); }
 
         .comp-container { background: #050505; border: 1px solid var(--border); border-radius: 30px; padding: 40px; overflow: hidden; position: relative; }
         .comp-wrapper { width: 100%; display: block; margin-bottom: 50px; border-radius: 24px; border: 1px solid var(--border); background: #0a0a0a; margin-top: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);}
@@ -213,17 +210,6 @@
         .comp-cell.bright { color: #fff; font-weight: 700; text-shadow: 0 0 15px rgba(99,102,241,0.3); }
         .comp-cell.bright span { color: var(--accent); margin-right: 8px; }
         .comp-footer { margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--border); display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
-
-        .support-card { background: linear-gradient(135deg, rgba(37, 211, 102, 0.08) 0%, rgba(0,0,0,0) 100%); border-color: rgba(37, 211, 102, 0.2); text-align: center; padding: 60px 30px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s, border-color 0.4s; }
-        .support-card:hover { border-color: rgba(37, 211, 102, 0.5); box-shadow: 0 20px 50px rgba(37, 211, 102, 0.1); transform: translate3d(0, -5px, 0); }
-
-        .dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .dd-box { padding: 50px; border-radius: 24px; border: 1px solid var(--border); transition: transform 0.4s var(--ease-fluid), border-color 0.4s, box-shadow 0.4s; }
-        .dd-box:hover { transform: translate3d(0,-5px,0); }
-        .dd-box.dos { background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2); }
-        .dd-box.dos:hover { border-color: rgba(16, 185, 129, 0.4); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1); }
-        .dd-box.donts { background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2); }
-        .dd-box.donts:hover { border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1); }
 
         /* =========================================
            9. TITAN FUSION CALCULATOR
@@ -374,7 +360,24 @@
         .trust-badge { font-size: 11px; color: var(--success); font-weight: 800; margin-top: 5px; display: flex; justify-content: center; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.5px;}
 
         /* =========================================
-           10. FOOTER
+           16. GALLERY & DOS/DONTS
+           ========================================= */
+        .gallery-masonry { column-count: 3; column-gap: 20px; margin-top: 40px;}
+        .g-item { break-inside: avoid; margin-bottom: 20px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); background: #0a0a0a; transition: transform 0.4s var(--ease-fluid), border-color 0.4s, box-shadow 0.4s; }
+        .g-item:hover { transform: scale(1.02); border-color: rgba(255,255,255,0.3); box-shadow: 0 15px 30px rgba(0,0,0,0.5); z-index: 2; position: relative;}
+        .g-img { width: 100%; height: auto; display: block; transition: transform 0.5s var(--ease-fluid);}
+        .g-item:hover .g-img { transform: scale(1.05); }
+
+        .dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .dd-box { padding: 50px; border-radius: 24px; border: 1px solid var(--border); transition: transform 0.4s var(--ease-fluid), border-color 0.4s, box-shadow 0.4s; }
+        .dd-box:hover { transform: translate3d(0,-5px,0); }
+        .dd-box.dos { background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2); }
+        .dd-box.dos:hover { border-color: rgba(16, 185, 129, 0.4); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1); }
+        .dd-box.donts { background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2); }
+        .dd-box.donts:hover { border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1); }
+
+        /* =========================================
+           17. FOOTER
            ========================================= */
         .footer { position: relative; padding: 120px 20px 60px; background: var(--bg-milky); overflow: hidden; border-top: 1px solid var(--border-light); }
         .footer-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; }
@@ -395,87 +398,6 @@
         .f-copy { font-size: 12px; color: #888; font-weight: 500; }
 
         /* =========================================
-           11. CART & REMINDER HAND 
-           ========================================= */
-        .cart-fab { position: fixed; bottom: 30px; right: 20px; width: 65px; height: 65px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 2000; box-shadow: 0 10px 30px rgba(255,255,255,0.2); transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; cursor: pointer; transform: translate3d(0,0,0); }
-        .cart-fab:hover { transform: translate3d(0,-5px,0); box-shadow: 0 15px 40px rgba(255,255,255,0.3); }
-        .cart-fab:active { transform: scale(0.9) translate3d(0,0,0); }
-        .cart-count { position: absolute; top: -2px; right: -2px; background: #000; color: #fff; font-size: 11px; width: 24px; height: 24px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; font-weight: 800; transition: transform 0.4s var(--ease-spring); }
-        
-        .cart-reminder { position: fixed; bottom: 100px; right: 32px; font-size: 35px; z-index: 1999; opacity: 0; pointer-events: none; transform: translate3d(0, 20px, 0); transition: transform 0.5s var(--ease-spring), opacity 0.5s; animation: bounceHand 1s infinite alternate; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); }
-        .cart-reminder.show { opacity: 1; transform: translate3d(0, 0, 0); }
-        @keyframes bounceHand { 0% { transform: translate3d(0,0,0) rotate(0deg); } 100% { transform: translate3d(0,15px,0) rotate(-10deg); } }
-
-        .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; z-index: 3000; pointer-events: none; }
-        .cart-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); opacity: 0; transition: opacity 0.5s var(--ease-fluid); cursor: pointer; }
-        .cart-inner { position: absolute; right: 0; width: 100%; max-width: 420px; height: 100%; background: #050505; border-left: 1px solid var(--border); transform: translate3d(100%, 0, 0); transition: transform 0.6s var(--ease-fluid); display: flex; flex-direction: column; padding: 40px; box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
-        
-        .cart-sidebar.active { pointer-events: all; }
-        .cart-sidebar.active .cart-overlay { opacity: 1; }
-        .cart-sidebar.active .cart-inner { transform: translate3d(0, 0, 0); }
-        
-        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
-        .cart-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; animation: slideInRight 0.4s var(--ease-spring) forwards; }
-        @keyframes slideInRight { from { opacity: 0; transform: translate3d(30px,0,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
-        .c-info h4 { font-size: 14px; color: #fff; font-weight: 700; margin-bottom: 4px; }
-        .c-info p { font-size: 12px; color: var(--text-dim); }
-        .c-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
-        .c-price { font-weight: 700; color: #fff; font-size: 14px; }
-        .qty-control { display: flex; align-items: center; background: #000; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
-        .qty-btn { width: 34px; height: 34px; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 14px; font-weight: 800; cursor: pointer; transition: background 0.2s; }
-        .qty-btn:hover { background: rgba(255,255,255,0.15); }
-        .qty-btn:active { background: rgba(255,255,255,0.3); }
-        .qty-val { width: 24px; text-align: center; font-size: 12px; font-weight: 800; color: #fff; }
-        
-        .checkout-btn { width: 100%; padding: 16px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer; border: none; }
-        .checkout-btn:hover { transform: translate3d(0,-2px,0); box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3); }
-        .empty-cart { text-align: center; color: var(--text-dim); margin-top: 50px; font-size: 14px; }
-
-        /* =========================================
-           12. VIJETA AI ASSISTANT (PROACTIVE)
-           ========================================= */
-        .vijeta-fab { position: fixed; bottom: 30px; left: 20px; width: 65px; height: 65px; background: #000; border: 2px solid var(--accent); border-radius: 50%; z-index: 2000; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4); transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; cursor: pointer; padding: 2px; transform: translate3d(0,0,0); }
-        .vijeta-fab:hover { transform: translate3d(0,-5px,0) scale(1.05); box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6); }
-        .v-avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-        .v-online-dot { position: absolute; bottom: 2px; right: 2px; width: 14px; height: 14px; background: var(--success); border-radius: 50%; border: 2px solid #000; box-shadow: 0 0 10px var(--success); }
-        
-        .v-greeting { position: fixed; bottom: 105px; left: 20px; width: 250px; background: rgba(20, 20, 20, 0.95); border: 1px solid var(--accent); border-radius: 16px 16px 16px 4px; padding: 15px; color: #fff; font-size: 13px; line-height: 1.5; z-index: 1999; opacity: 0; transform: translate3d(0, 20px, 0) scale(0.9); transition: opacity 0.5s var(--ease-spring), transform 0.5s var(--ease-spring); box-shadow: 0 10px 30px rgba(0,0,0,0.5); pointer-events: auto; cursor: pointer; }
-        .v-greeting:hover { border-color: #fff; }
-        .v-greeting.show { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-
-        .vijeta-panel { position: fixed; bottom: 105px; left: 20px; width: 380px; height: 550px; background: #0a0a0a; border: 1px solid var(--border); border-radius: 24px; z-index: 2001; display: flex; flex-direction: column; overflow: hidden; opacity: 0; transform: translate3d(0, 20px, 0) scale(0.95); pointer-events: none; transition: transform 0.5s var(--ease-spring), opacity 0.5s; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
-        .vijeta-panel.active { opacity: 1; transform: translate3d(0, 0, 0) scale(1); pointer-events: all; }
-        
-        .v-header { background: rgba(99, 102, 241, 0.1); border-bottom: 1px solid var(--border); padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .v-title { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
-        .v-title span { display: block; width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 10px var(--success); }
-        .v-close { background: none; border: none; color: var(--text-dim); font-size: 24px; cursor: pointer; transition: color 0.3s, transform 0.3s; line-height: 1; }
-        
-        .v-chat { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none; overscroll-behavior: contain; }
-        .v-chat::-webkit-scrollbar { display: none; }
-        .msg { max-width: 88%; padding: 14px 18px; border-radius: 16px; font-size: 13px; line-height: 1.6; animation: popIn 0.3s var(--ease-spring) forwards; }
-        @keyframes popIn { from { opacity: 0; transform: translate3d(0,10px,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
-        .msg.bot { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .msg.user { background: var(--accent); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
-        
-        /* PREMIUM TYPING INDICATOR */
-        .typing-indicator { display: none; padding: 14px 18px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; border-bottom-left-radius: 4px; width: max-content; gap: 4px; align-items: center; animation: popIn 0.3s var(--ease-spring) forwards;}
-        .typing-indicator.active { display: flex; }
-        .typing-indicator span { width: 6px; height: 6px; background: #fff; border-radius: 50%; animation: blink 1.4s infinite both; }
-        .typing-indicator span:nth-child(1) { animation-delay: 0s; }
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes blink { 0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1.2); } }
-
-        .v-options { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; animation: popIn 0.4s var(--ease-spring) forwards; }
-        .v-opt-btn { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--accent); color: #fff; padding: 10px 16px; border-radius: 20px; font-size: 12px; font-family: 'Manrope', sans-serif; font-weight: 600; cursor: pointer; transition: transform 0.3s var(--ease-spring), background-color 0.3s; }
-        
-        .v-input-area { padding: 15px; border-top: 1px solid var(--border); display: flex; gap: 10px; background: #050505; }
-        .v-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid transparent; border-radius: 20px; padding: 12px 18px; color: #fff; font-size: 13px; outline: none; transition: border-color 0.3s;}
-        .v-input:focus { border-color: var(--accent); background: #000; }
-        .v-send { background: var(--accent); border: none; width: 42px; height: 42px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; cursor: pointer; transition: transform 0.3s var(--ease-spring), box-shadow 0.3s; }
-
-        /* =========================================
            13. MOBILE OPTIMIZATIONS (FLAWLESS LAYOUT)
            ========================================= */
         @media (max-width: 900px) {
@@ -491,7 +413,7 @@
             .z-controls, .z-display { padding: 30px; }
             .hero h1 { font-size: 48px; }
             
-            /* PERFECT MOBILE HEADER */
+            /* FIXED MOBILE HEADER LAYOUT */
             .navbar { height: auto; padding: 15px 0; }
             .navbar.scrolled { height: auto; padding: 10px 0; }
             .nav-inner { flex-direction: column; gap: 15px; justify-content: center; align-items: center; }
@@ -922,7 +844,7 @@
                     </div>
                     
                     <div id="dims-scan" class="scanned-area-display">
-                        <div class="scanned-lbl">✓ AI Scanned Quad Area</div>
+                        <div class="scanned-lbl">✓ AI Scanned Area</div>
                         <div id="scan-area-display" class="scanned-val">0 cm²</div>
                         <div class="scanned-rescan" onclick="openScanner()">Rescan Mould</div>
                     </div>
@@ -937,7 +859,6 @@
                         </div>
                     </div>
                     <div class="env-card" id="env-card">
-                        
                         <button class="auto-btn" onclick="autoDetectWeather()"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Auto-Detect Conditions</button>
                         <div id="weather-status" style="font-size:11px; text-align:center; color:var(--text-muted); margin-bottom:15px; display:none;">Searching GPS & IP...</div>
                         
@@ -1027,6 +948,10 @@
                 <div class="g-item"><img src="at5.png" class="g-img" loading="lazy" decoding="async"></div>
                 <div class="g-item"><img src="at4.png" class="g-img" loading="lazy" decoding="async" style="filter:hue-rotate(45deg);"></div>
             </div>
+            <div class="dos-donts" style="margin-top:60px;">
+                <div class="dd-box dos"><h3 style="color:var(--success); margin-bottom:20px;">✓ The Dos</h3><ul style="color:var(--text-dim); list-style:disc; padding-left:20px;"><li>Wear gloves and mask.</li><li>Work at 25°C.</li><li>Seal porous surfaces.</li></ul></div>
+                <div class="dd-box donts"><h3 style="color:var(--danger); margin-bottom:20px;">✕ The Don'ts</h3><ul style="color:var(--text-dim); list-style:disc; padding-left:20px;"><li>Don't mix by volume.</li><li>Don't scrape cup on pour.</li><li>Avoid water contact.</li></ul></div>
+            </div>
         </div>
     </section>
 
@@ -1081,8 +1006,7 @@
         </div>
     </footer>
 
-    <div class="v-greeting" id="vGreeting" onclick="openVijetaWithContext()">
-        </div>
+    <div class="v-greeting" id="vGreeting" onclick="openVijetaWithContext()"></div>
 
     <div class="vijeta-fab" onclick="toggleVijeta()" title="Ask Vijeta">
         <img src="vijeta.jpg" alt="Vijeta" class="v-avatar">
@@ -1157,7 +1081,7 @@
             agentMemory[type] = true;
             
             const panel = document.getElementById('vijetaPanel');
-            if(panel.classList.contains('active')) return; 
+            if(panel && panel.classList.contains('active')) return; 
             
             let msg = "";
             if(type === 'start') {
@@ -1178,16 +1102,17 @@
             }
             
             const greeting = document.getElementById('vGreeting');
-            greeting.innerHTML = msg + `<div style="margin-top:8px; font-weight:800; color:var(--accent); cursor:pointer;">Tap to Ask Vijeta 💬</div>`;
-            greeting.classList.add('show');
-            setTimeout(() => { greeting.classList.remove('show'); }, 8000); 
+            if(greeting) {
+                greeting.innerHTML = msg + `<div style="margin-top:8px; font-weight:800; color:var(--accent); cursor:pointer;">Tap to Ask Vijeta 💬</div>`;
+                greeting.classList.add('show');
+                setTimeout(() => { greeting.classList.remove('show'); }, 8000); 
+            }
         }
 
         function openVijetaWithContext() {
             document.getElementById('vGreeting').classList.remove('show');
             document.getElementById('vijetaPanel').classList.add('active');
             if(!chatInitialized) {
-                // Show typing indicator before first message
                 document.getElementById('vTyping').classList.add('active');
                 setTimeout(() => {
                     document.getElementById('vTyping').classList.remove('active');
@@ -1197,7 +1122,7 @@
             }
         }
 
-        // Observe when user scrolls to certain sections
+        // Extremely lightweight scroll observer (No lag)
         const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1208,8 +1133,10 @@
         }, { threshold: 0.5 });
 
         window.addEventListener('DOMContentLoaded', () => {
-            sectionObserver.observe(document.getElementById('calc'));
-            sectionObserver.observe(document.getElementById('reviews'));
+            const elCalc = document.getElementById('calc');
+            const elReviews = document.getElementById('reviews');
+            if(elCalc) sectionObserver.observe(elCalc);
+            if(elReviews) sectionObserver.observe(elReviews);
             setTimeout(() => triggerProactiveAgent('start'), 2000); 
         });
 
@@ -1233,6 +1160,13 @@
         }, {passive: true});
         
         function smoothScroll(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+
+        const revealObserver = new IntersectionObserver(entries => { 
+            entries.forEach(entry => { 
+                if(entry.isIntersecting) { entry.target.classList.add('active'); } 
+            }); 
+        }, {threshold: 0.1});
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
         
         // =========================================
         // TITAN FUSION CALCULATOR LOGIC
@@ -1370,8 +1304,7 @@
         async function fetchWeatherData(lat, lon, btn, status, intelligence, sourceLabel) {
             status.innerText = "Downloading Atmospheric Data...";
             try {
-                // Real-time API with cache buster
-                const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m&timezone=auto&_=${Date.now()}`);
+                const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m&timezone=auto`);
                 if (!response.ok) throw new Error("Weather API Error");
 
                 const data = await response.json();
@@ -1426,7 +1359,6 @@
             humSlider.value = Math.round(rhIn);
             document.getElementById('val-hum').innerText = Math.round(rhIn) + '%';
             
-            // Visual feedback
             humSlider.style.boxShadow = "0 0 15px var(--accent)";
             setTimeout(() => { humSlider.style.boxShadow = "none"; }, 400);
             
@@ -1628,7 +1560,6 @@
             ctx.lineWidth = 3;
             ctx.stroke();
 
-            // Highlight TOP EDGE in Red for calibration
             ctx.beginPath();
             ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
             ctx.lineTo(polyNodes[1].x, polyNodes[1].y);
@@ -1794,7 +1725,9 @@
                 sCard.className = "safety-report danger";
             }
             
-            if (sList.innerHTML !== safetyHTML) sList.innerHTML = safetyHTML;
+            if (sList.innerHTML !== safetyHTML) {
+                sList.innerHTML = safetyHTML;
+            }
         }
 
         // =========================================
@@ -1889,6 +1822,7 @@
 
         function renderReviews() {
             const container = document.getElementById('reviews-grid');
+            if(!container) return;
             
             try {
                 websiteReviews = JSON.parse(localStorage.getItem('mxlumes_server_reviews') || '[]');
@@ -2019,7 +1953,7 @@
             diag_hot: { msg: "🔥 Whoa! That is called an 'Exothermic Runaway' (Flash Curing).\n\n🧪 **The Chemical Cause:**\nResin curing generates its own heat. If you mix too much in one cup, or pour too deep in a warm room, the heat gets trapped. The molecules react violently, causing the resin to boil, smoke, and crack.\n\n✨ **The Fix:**\nNever leave a large mixed batch in a cup. Pour it immediately. Also, check our Project Calculator—if you need to pour deeper than 2.5cm, you must pour in multiple smaller layers!", opts: [{ label: "Yes, this helps! 😊", next: "satisfaction_yes" }, { label: "No, I need more help 😕", next: "satisfaction_no" }] },
             diag_cloudy: { msg: "🌧️ That sounds exactly like 'Amine Blush'.\n\n🧪 **The Chemical Cause:**\nWhen the hardener (amine) reacts with moisture and carbon dioxide in high-humidity air before it cross-links with the resin, it creates a waxy, cloudy, or greasy film on the surface.\n\n✨ **The Fix:**\nWash the cured blush off with warm soapy water, lightly sand it, and pour a fresh topcoat. Next time, turn on an AC (Dry Mode) or a dehumidifier while curing!", opts: [{ label: "Yes, this helps! 😊", next: "satisfaction_yes" }, { label: "No, I need more help 😕", next: "satisfaction_no" }] },
             calc_help: { msg: "Our Project Calculator is incredibly advanced. Which feature can I explain for you?", opts: [{ label: "Environment Lab", next: "exp_env" }, { label: "Safety Warnings", next: "exp_safety" }, { label: "How to Measure?", next: "exp_measure" }] },
-            exp_env: { msg: "🛰️ **The Environment Lab:**\nIf you click 'Auto-Detect Conditions', I will silently ping GPS satellites to pull your local weather data. My physics algorithm then converts that outside weather into your exact indoor Temperature and Humidity, feeding it into the Safety Engine!", opts: [{ label: "Wow, understood! 😊", next: "satisfaction_yes" }, { label: "I need more help 😕", next: "satisfaction_no" }] },
+            exp_env: { msg: "🛰️ **The Environment Lab:**\nTurn on the 'AC Sync' switch! My physics algorithm will automatically link the Temperature and Humidity sliders, predicting exactly how much moisture is pulled from the air when you cool your room!", opts: [{ label: "Wow, understood! 😊", next: "satisfaction_yes" }, { label: "I need more help 😕", next: "satisfaction_no" }] },
             exp_safety: { msg: "🛡️ **The Safety Report:**\nBased on the depth you enter and your room temperature, I instantly calculate risks. I will warn you if your pour is too deep (Flash Cure risk) or if your humidity is too high (Amine Blush risk). It takes the guesswork out of resin art!", opts: [{ label: "Very helpful! 😊", next: "satisfaction_yes" }, { label: "I need more help 😕", next: "satisfaction_no" }] },
             exp_measure: { msg: "⚖️ **Total Weight Breakdown:**\nJust enter your mold dimensions (like 30cm x 30cm). I will calculate the exact Total Grams you need, and automatically break it down into the exact Part A (Resin) and Part B (Hardener) you need to pour on your digital scale.", opts: [{ label: "Makes sense! 😊", next: "satisfaction_yes" }, { label: "I need more help 😕", next: "satisfaction_no" }] },
             satisfaction_yes: { msg: "I am so glad I could help! 🎉\n\nSince you are dedicated to perfect resin art, I highly recommend you use our 1.2KG Starter Kit for your next project and compare the quality difference yourself. You will not regret trusting M-X Lumes! 💎", opts: [] },
@@ -2053,7 +1987,7 @@
             }, 800);
         }
         
-        // Initial run to clear memory limits
+        // Initial run
         debouncedRunCalc();
     </script>
 </body>
