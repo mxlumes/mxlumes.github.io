@@ -93,21 +93,20 @@
         .toast.show { transform: translate3d(-50%, 0, 0); opacity: 1; }
 
         /* =========================================
-           4. NAVIGATION (MILKY WHITE STRIP)
+           4. NAVIGATION (FLAWLESS MOBILE HEADER)
            ========================================= */
-        .navbar { position: fixed; top: 0; width: 100%; height: 80px; z-index: 1000; display: flex; align-items: center; transition: box-shadow 0.4s var(--ease-fluid), height 0.4s var(--ease-fluid); background-color: var(--bg-milky); border-bottom: 1px solid var(--border-light); padding-top: var(--safe-top); }
+        .navbar { position: fixed; top: 0; width: 100%; height: 80px; z-index: 1000; display: flex; align-items: center; transition: background-color 0.4s var(--ease-fluid), box-shadow 0.4s var(--ease-fluid), height 0.4s var(--ease-fluid); background-color: var(--bg-milky); border-bottom: 1px solid var(--border-light); padding-top: var(--safe-top); }
         .navbar.scrolled { box-shadow: 0 10px 30px rgba(0,0,0,0.1); height: 70px; }
-        .nav-inner { width: 100%; display: flex; justify-content: space-between; align-items: center; overflow-x: visible; padding-bottom: 0; }
         
-        .logo-wrapper { position: relative; display: flex; align-items: center; }
-        .logo { font-weight: 800; font-size: 18px; letter-spacing: 3px; color: var(--text-dark); flex-shrink: 0; margin-right: 20px; z-index: 2; mix-blend-mode: normal;}
-        #resin-s { display: inline-block; color: var(--accent); }
+        .nav-inner { width: 100%; display: flex; justify-content: space-between; align-items: center; }
+        .logo-wrapper { display: flex; align-items: center; }
+        .logo { font-weight: 800; font-size: 18px; letter-spacing: 3px; color: var(--text-dark); flex-shrink: 0; z-index: 2; transition: color 0.3s;}
 
         .nav-links { display: flex; gap: 30px; align-items: center; margin-left: auto; }
         .nav-link { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; white-space: nowrap; transition: color 0.3s;}
         .nav-link:hover { color: var(--text-dark); }
 
-        .hero { min-height: 80dvh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; padding-top: 80px; padding-bottom: 40px; position: relative; }
+        .hero { min-height: 80dvh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; padding-top: 100px; padding-bottom: 40px; position: relative; }
         .hero h1 { font-size: clamp(42px, 10vw, 100px); margin-bottom: 24px; font-weight: 800; background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
         .hero p { color: var(--text-dim); font-size: 18px; max-width: 500px; margin-bottom: 40px; padding: 0 20px; font-weight: 400;}
 
@@ -121,7 +120,7 @@
         @keyframes scroll { 0% { transform: translate3d(0,0,0); } 100% { transform: translate3d(-50%,0,0); } }
 
         /* =========================================
-           5. SHOP & GRIDS (SILVERISH GLASS)
+           5. SHOP & GRIDS
            ========================================= */
         .stats-bar { border-bottom: 1px solid var(--border); padding: 40px 0; margin-top: -1px; }
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
@@ -133,8 +132,11 @@
         .product-card:hover .p-img { opacity: 1; }
         .p-tag { font-size: 10px; font-weight: 800; border: 1px solid var(--border); padding: 6px 12px; border-radius: 20px; color: var(--text-dim); text-transform: uppercase; display: inline-block; margin-bottom: 15px; letter-spacing: 1px; }
 
+        .support-card { background: linear-gradient(135deg, rgba(37, 211, 102, 0.08) 0%, rgba(0,0,0,0) 100%); border-color: rgba(37, 211, 102, 0.2); text-align: center; padding: 60px 30px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s, border-color 0.4s; }
+        .support-card:hover { border-color: rgba(37, 211, 102, 0.5); box-shadow: 0 20px 50px rgba(37, 211, 102, 0.1); transform: translate3d(0, -5px, 0); }
+
         /* =========================================
-           15. LIVE REVIEWS ENGINE (COMMUNITY TRUST)
+           15. LIVE REVIEWS ENGINE
            ========================================= */
         .reviews-section { padding: 80px 0; background: var(--bg-oled); border-top: 1px solid var(--border); }
         .r-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; flex-wrap: wrap; gap: 20px;}
@@ -214,7 +216,7 @@
         .dd-box.donts:hover { border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1); }
 
         /* =========================================
-           9. TITAN FUSION CALCULATOR (FROSTED GLASS UX)
+           9. TITAN FUSION CALCULATOR
            ========================================= */
         .zenith-calc { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 40px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 40px 100px -30px rgba(0,0,0,0.8); }
         .z-controls { padding: 40px; border-bottom: 1px solid #ccc; position: relative; }
@@ -260,7 +262,6 @@
         .shape-btn span { font-size: 13px; font-weight: 800; color: #333; text-transform: uppercase; transition: color 0.3s; }
         .shape-btn.active span { color: #000; }
 
-        /* SMART SCAN DISPLAY BLOCK IN CALCULATOR */
         .scanned-area-display { display:none; flex-direction:column; align-items:center; margin-bottom:30px; padding:25px; background:rgba(16,185,129,0.1); border:2px dashed var(--success); border-radius:16px; transition: all 0.3s; }
         .scanned-area-display.active { display: flex; animation: popIn 0.4s var(--ease-spring); }
         .scanned-lbl { font-size:12px; font-weight:800; color:var(--success); text-transform:uppercase; letter-spacing:1px; margin-bottom:5px; }
@@ -272,7 +273,6 @@
         .preset-btn { padding: 12px 24px; border: 2px solid #aaa; border-radius: 30px; font-size: 13px; font-weight: 800; color: #333; background: #fff; white-space: nowrap; transition: all 0.3s; cursor: pointer; }
         .preset-btn:hover { color: #000; border-color: #000; background: #f3f4f6; transform: translate3d(0,-2px,0); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        /* Animated Environment Lab Icons */
         .env-icons { display: inline-flex; align-items: center; gap: 10px; margin-left: auto; }
         .icon-temp { width: 18px; height: 18px; stroke: #ef4444; fill: none; animation: tempPulse 2s infinite alternate ease-in-out; }
         .icon-drop { width: 18px; height: 18px; stroke: #3b82f6; fill: none; animation: dropPulse 2s infinite alternate ease-in-out; animation-delay: 1s; }
@@ -284,7 +284,6 @@
         .auto-btn:hover { background: rgba(99,102,241,0.2); transform: translate3d(0,-2px,0); box-shadow: 0 4px 15px rgba(99,102,241,0.2); }
         .auto-btn:active { transform: scale(0.98); }
 
-        /* Trust Box for Environment Lab */
         .trust-box { background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 12px; padding: 18px; margin-top: 20px; }
         .trust-title { color: var(--success); font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
         .trust-box ul { list-style: none; padding: 0; margin: 0; }
@@ -316,7 +315,7 @@
         .cost-inp { width: 90px; background: transparent; border: none; border-bottom: 2px solid #aaa; color: #000; text-align: right; font-weight: 800; font-size: 20px; padding-bottom: 2px; transition: border-color 0.3s; }
 
         /* =========================================
-           14. THE ULTIMATE SMART SCANNER (ADOBE 4-POINT QUAD)
+           14. THE ULTIMATE SMART SCANNER (ADOBE 4-POINT)
            ========================================= */
         .scanner-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 9999; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.4s var(--ease-fluid); }
         .scanner-overlay.active { opacity: 1; display: flex; }
@@ -343,7 +342,7 @@
         .trust-badge { font-size: 11px; color: var(--success); font-weight: 800; margin-top: 5px; display: flex; justify-content: center; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.5px;}
 
         /* =========================================
-           10. FOOTER (MILKY WHITE ANCHOR)
+           10. FOOTER
            ========================================= */
         .footer { position: relative; padding: 120px 20px 60px; background: var(--bg-milky); overflow: hidden; border-top: 1px solid var(--border-light); }
         .footer-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; }
@@ -449,8 +448,15 @@
             .cart-inner { width: 100%; max-width: 100%; padding: 25px; }
             .z-controls, .z-display { padding: 30px; }
             .hero h1 { font-size: 48px; }
-            .nav-inner { justify-content: flex-start; gap: 20px; }
-            .nav-links { gap: 25px; }
+            
+            /* FIXED MOBILE HEADER (No overlap) */
+            .navbar { height: auto; padding: 15px 0; }
+            .navbar.scrolled { height: auto; padding: 10px 0; }
+            .nav-inner { flex-direction: column; gap: 12px; justify-content: center; align-items: center; }
+            .logo-wrapper { margin-right: 0; }
+            .logo { font-size: 16px; letter-spacing: 2px; margin: 0; text-align: center; }
+            .nav-links { width: 100%; justify-content: center; gap: 20px; margin: 0;}
+            
             .shape-btn { min-width: 85px; }
             .z-res-val { font-size: 56px; }
             .section { padding: 80px 0; }
@@ -469,11 +475,14 @@
             .v-greeting { width: calc(100% - 110px); }
             
             .premium-stamp { top: 12%; right: 5%; width: 100px; height: 100px; }
-            
             .scanner-ui { max-width: 95%; }
             .scan-inputs { grid-template-columns: 1fr; }
-            
             .r-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+        }
+        
+        @media (max-width: 400px) {
+            .nav-links { gap: 12px; }
+            .nav-link { font-size: 10px; }
         }
     </style>
 </head>
@@ -702,32 +711,6 @@
         </div>
     </section>
 
-    <section id="technology" class="section">
-        <div class="container">
-            <h2 style="text-align:center; font-size:36px; margin-bottom:60px;">The Engineering</h2>
-            <div class="grid-3">
-                <div class="glass tech-card reveal">
-                    <div class="tech-icon">🛡️</div>
-                    <div class="tech-sub">Archival Grade</div>
-                    <h3>HALS Technology</h3>
-                    <p style="color:var(--text-dim); font-size:14px; margin-top:10px;">Hindered Amine Light Stabilizers actively scavenge free radicals generated by UV exposure, interrupting the degradation cycle before yellowing begins.</p>
-                </div>
-                <div class="glass tech-card reveal">
-                    <div class="tech-icon">🫧</div>
-                    <div class="tech-sub">Fluid Dynamics</div>
-                    <h3>Zero-Bubble Matrix</h3>
-                    <p style="color:var(--text-dim); font-size:14px; margin-top:10px;">Formulated with proprietary de-foaming agents that lower surface tension to 28 dynes/cm, forcing micro-bubbles to rise instantly.</p>
-                </div>
-                <div class="glass tech-card reveal">
-                    <div class="tech-icon">⏳</div>
-                    <div class="tech-sub">Reaction Kinetic</div>
-                    <h3>The Golden Ratio</h3>
-                    <p style="color:var(--text-dim); font-size:14px; margin-top:10px;">We hit the chemical jackpot: Ultra-thin flow for detail, but chemically retarded cure for stress-free working time.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section id="specs" class="section">
         <div class="container">
             <div class="reveal">
@@ -895,9 +878,9 @@
                                 Military-Grade Precision
                             </div>
                             <ul>
-                                <li><span>✦</span> <b>Triple-Redundant Location:</b> GPS + Dual IP fallback guarantees accurate local positioning.</li>
-                                <li><span>✦</span> <b>Live Satellite Data:</b> Pulls real-time atmospheric data directly from Open-Meteo (Zero caching).</li>
-                                <li><span>✦</span> <b>Psychrometric Math:</b> Applies the Tetens Equation to physically convert outdoor vapor pressure into precise indoor RH%.</li>
+                                <li><span>✦</span> <b>Triple-Redundant Location:</b> GPS + Dual IP Fallback routing.</li>
+                                <li><span>✦</span> <b>Zero-Cache Satellite Data:</b> Pulls down-to-the-minute atmospheric data.</li>
+                                <li><span>✦</span> <b>Psychrometrics:</b> <span id="trust-ah-val">Calculating Vapor Mass...</span></li>
                             </ul>
                         </div>
                     </div>
@@ -947,10 +930,6 @@
                 <div class="g-item"><img src="at4.png" class="g-img" loading="lazy" decoding="async"></div>
                 <div class="g-item"><img src="at5.png" class="g-img" loading="lazy" decoding="async"></div>
                 <div class="g-item"><img src="at4.png" class="g-img" loading="lazy" decoding="async" style="filter:hue-rotate(45deg);"></div>
-            </div>
-            <div class="dos-donts" style="margin-top:60px;">
-                <div class="dd-box dos"><h3 style="color:var(--success); margin-bottom:20px;">✓ The Dos</h3><ul style="color:var(--text-dim); list-style:disc; padding-left:20px;"><li>Wear gloves and mask.</li><li>Work at 25°C.</li><li>Seal porous surfaces.</li></ul></div>
-                <div class="dd-box donts"><h3 style="color:var(--danger); margin-bottom:20px;">✕ The Don'ts</h3><ul style="color:var(--text-dim); list-style:disc; padding-left:20px;"><li>Don't mix by volume.</li><li>Don't scrape cup on pour.</li><li>Avoid water contact.</li></ul></div>
             </div>
         </div>
     </section>
@@ -1080,7 +1059,7 @@
             }); 
         }, {threshold: 0.1});
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        
+
         // =========================================
         // TITAN FUSION CALCULATOR LOGIC
         // =========================================
@@ -1163,7 +1142,7 @@
         }
 
         // =========================================
-        // ENHANCED WEATHER ENGINE (100% ACCURATE API CALL)
+        // ENHANCED WEATHER ENGINE
         // =========================================
         async function autoDetectWeather() {
             const btn = document.querySelector('.auto-btn');
@@ -1189,7 +1168,7 @@
                     await fetchWeatherData(ipData.latitude, ipData.longitude, btn, status, intelligence, ipData.city || "IP Match");
                 } catch (ipError) {
                     try {
-                        const fallbackRes = await fetch('https://ipapi.co/json/');
+                        const fallbackRes = await fetch('https://ipwho.is/');
                         const fallbackData = await fallbackRes.json();
                         await fetchWeatherData(fallbackData.latitude, fallbackData.longitude, btn, status, intelligence, fallbackData.city || "Network Match");
                     } catch(finalError) {
@@ -1202,7 +1181,8 @@
         async function fetchWeatherData(lat, lon, btn, status, intelligence, sourceLabel) {
             status.innerText = "Downloading Atmospheric Data...";
             try {
-                const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m&timezone=auto`);
+                // Direct exact real-time call
+                const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m&timezone=auto&_=${Date.now()}`);
                 if (!response.ok) throw new Error("Weather API Error");
 
                 const data = await response.json();
@@ -1213,10 +1193,14 @@
                 if (tOut > 35) tIn = tOut - 5; 
                 else if (tOut < 15) tIn = tOut + 5; 
                 
+                // Magnus-Tetens Equation
                 const vp = (rhOut / 100) * 6.112 * Math.exp((17.67 * tOut) / (tOut + 243.5));
                 const vpInSat = 6.112 * Math.exp((17.67 * tIn) / (tIn + 243.5));
                 let rhIn = (vp / vpInSat) * 100;
                 rhIn = Math.min(Math.max(rhIn, 20), 99);
+
+                // Absolute Humidity calculation for transparency box
+                const ahOut = ((6.112 * Math.exp((17.67 * tOut) / (tOut + 243.5)) * rhOut * 2.1674) / (273.15 + tOut)).toFixed(2);
 
                 document.getElementById('env-temp').value = Math.round(tIn);
                 document.getElementById('val-temp').innerText = Math.round(tIn) + '°C';
@@ -1229,6 +1213,9 @@
                 status.style.display = 'none';
                 intelligence.style.display = "block";
                 intelligence.innerHTML = `📍 <b>${sourceLabel}</b> | 🛰️ Ext: <b>${tOut}°C</b> / <b>${rhOut}%</b><br>🏠 Int: <b>${Math.round(tIn)}°C</b> / <b>${Math.round(rhIn)}%</b>`;
+                
+                document.getElementById('trust-ah-val').innerHTML = `Absolute Water Vapor tracked at <b>${ahOut} g/m³</b> using the Magnus-Tetens equation.`;
+
                 setTimeout(() => { btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg> Auto-Detect Conditions'; }, 5000);
             } catch (e) { handleWeatherError(btn, status, "Weather API Offline"); }
         }
@@ -1309,10 +1296,12 @@
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             video.pause();
             
+            // Computer Vision: Find object bounding quad
             let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             let d = imgData.data;
             let w = canvas.width, h = canvas.height;
             
+            // Sample background dynamically
             let bgR = 0, bgG = 0, bgB = 0;
             let corners = [0, (w-1)*4, (h-1)*w*4, ((h-1)*w + w - 1)*4];
             corners.forEach(c => { bgR+=d[c]; bgG+=d[c+1]; bgB+=d[c+2]; });
@@ -1321,6 +1310,7 @@
             let minX = w, maxX = 0, minY = h, maxY = 0;
             const tolerance = 40;
             
+            // Search frame for edge breaks
             for(let y=0; y<h; y+=4) { 
                 for(let x=0; x<w; x+=4) {
                     let i = (y*w + x)*4;
@@ -1332,21 +1322,24 @@
                 }
             }
 
+            // Fallback Quad if detection fails
             if (minX >= maxX || minY >= maxY || (maxX - minX) < 50) {
                 minX = w * 0.2; maxX = w * 0.8;
                 minY = h * 0.3; maxY = h * 0.7;
             } else {
+                // Add a small 10px buffer to the detected edge so we don't clip the mould
                 minX = Math.max(0, minX - 10);
                 maxX = Math.min(w, maxX + 10);
                 minY = Math.max(0, minY - 10);
                 maxY = Math.min(h, maxY + 10);
             }
 
+            // Exactly 4 corners (Adobe Scan Style Quadrilateral)
             polyNodes = [
-                {x: minX, y: minY}, 
-                {x: maxX, y: minY}, 
-                {x: maxX, y: maxY}, 
-                {x: minX, y: maxY}  
+                {x: minX, y: minY}, // Top Left
+                {x: maxX, y: minY}, // Top Right
+                {x: maxX, y: maxY}, // Bottom Right
+                {x: minX, y: maxY}  // Bottom Left
             ];
             
             document.getElementById('scan-instruction').style.display = 'none';
@@ -1398,6 +1391,7 @@
         function renderInteractivePolygon(canvas, ctx, video) {
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             
+            // Adobe-style Darken OUTSIDE
             ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
             ctx.beginPath();
             ctx.rect(0, 0, canvas.width, canvas.height); 
@@ -1406,6 +1400,7 @@
             ctx.closePath();
             ctx.fill("evenodd");
 
+            // Adobe-style Tint INSIDE (Blue)
             ctx.fillStyle = "rgba(0, 160, 255, 0.3)";
             ctx.beginPath();
             ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
@@ -1413,6 +1408,7 @@
             ctx.closePath();
             ctx.fill();
 
+            // Borders
             ctx.beginPath();
             ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
             for(let i=1; i<polyNodes.length; i++) ctx.lineTo(polyNodes[i].x, polyNodes[i].y);
@@ -1421,6 +1417,7 @@
             ctx.lineWidth = 3;
             ctx.stroke();
 
+            // Highlight TOP EDGE in Red for calibration (Node 0 to Node 1)
             ctx.beginPath();
             ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
             ctx.lineTo(polyNodes[1].x, polyNodes[1].y);
@@ -1431,6 +1428,7 @@
             ctx.stroke();
             ctx.shadowBlur = 0; 
 
+            // Draggable Nodes (White with Blue borders)
             polyNodes.forEach(p => {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, 14, 0, Math.PI*2);
@@ -1441,6 +1439,7 @@
                 ctx.stroke();
             });
 
+            // MAGNIFIER LOUPE
             if(draggingNode) {
                 const magSize = 130;
                 const magZoom = 2;
@@ -1464,6 +1463,7 @@
                     magDrawX - magSize/2, magDrawY - magSize/2, magSize, magSize
                 );
 
+                // Precision Crosshair
                 ctx.beginPath();
                 ctx.moveTo(magDrawX - 15, magDrawY); ctx.lineTo(magDrawX + 15, magDrawY);
                 ctx.moveTo(magDrawX, magDrawY - 15); ctx.lineTo(magDrawX, magDrawY + 15);
@@ -1481,6 +1481,7 @@
             
             if(!inputLen || inputLen <= 0) return alert('Please enter the length of the top red edge.');
             
+            // Shoelace Formula for arbitrary quadrilateral
             let area = 0;
             for (let i = 0; i < polyNodes.length; i++) {
                 let j = (i + 1) % polyNodes.length;
@@ -1489,6 +1490,7 @@
             }
             let pixelArea = Math.abs(area / 2);
 
+            // Pixel length of Top Edge (Red Line: Node 0 to Node 1)
             let pixelWidth = Math.hypot(polyNodes[1].x - polyNodes[0].x, polyNodes[1].y - polyNodes[0].y);
 
             let factor = (unit === 'in') ? 2.54 : ((unit === 'mm') ? 0.1 : 1);
@@ -1502,6 +1504,7 @@
             runCalc();
         }
 
+        // CALCULATOR MATH ENGINE
         function runCalc() {
             let h = parseFloat(document.getElementById('input-D').value) || 0;
             let factor = appState.unit === 'in' ? 2.54 : 1;
@@ -1679,8 +1682,6 @@
 
         function renderReviews() {
             const container = document.getElementById('reviews-grid');
-            
-            // In a real app, this fetches from the server. Here we simulate the merged data.
             const allReviews = [...websiteReviews, ...initialReviews];
             
             container.innerHTML = '';
@@ -1703,13 +1704,8 @@
 
         let selectedStars = 5;
 
-        function openReviewModal() {
-            document.getElementById('review-modal-overlay').classList.add('active');
-        }
-
-        function closeReviewModal() {
-            document.getElementById('review-modal-overlay').classList.remove('active');
-        }
+        function openReviewModal() { document.getElementById('review-modal-overlay').classList.add('active'); }
+        function closeReviewModal() { document.getElementById('review-modal-overlay').classList.remove('active'); }
 
         function setupReviewStars() {
             const stars = document.querySelectorAll('.rm-star-select svg');
@@ -1731,8 +1727,6 @@
             if(!name || !text) return alert("Please enter your name and review.");
             
             const newReview = { name: name, text: text, stars: selectedStars };
-            
-            // Simulate sending data to Website Server
             websiteReviews.unshift(newReview); 
             
             document.getElementById('rv-name').value = '';
