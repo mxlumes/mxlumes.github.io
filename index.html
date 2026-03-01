@@ -404,38 +404,41 @@
         .empty-cart { text-align: center; color: var(--text-dim); margin-top: 50px; font-size: 14px; }
 
         /* =========================================
-           12. VIJETA AI ASSISTANT
+           12. VIJETA AI ASSISTANT (Premium Artisan Aesthetic)
            ========================================= */
-        .vijeta-fab { position: fixed; bottom: 30px; left: 20px; width: 65px; height: 65px; background: #000; border: 2px solid var(--accent); border-radius: 50%; z-index: 2000; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4); transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; cursor: pointer; padding: 2px; transform: translate3d(0,0,0); }
-        .vijeta-fab:hover { transform: translate3d(0,-5px,0) scale(1.05); box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6); }
+        .vijeta-fab { position: fixed; bottom: 30px; left: 20px; width: 65px; height: 65px; background: #fff; border: 2px solid #e5e7eb; border-radius: 50%; z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.15); transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; cursor: pointer; padding: 3px; transform: translate3d(0,0,0); }
+        .vijeta-fab:hover { transform: translate3d(0,-5px,0) scale(1.05); box-shadow: 0 15px 40px rgba(0,0,0,0.25); }
         .v-avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-        .v-online-dot { position: absolute; bottom: 2px; right: 2px; width: 14px; height: 14px; background: var(--success); border-radius: 50%; border: 2px solid #000; box-shadow: 0 0 10px var(--success); }
+        .v-online-dot { position: absolute; bottom: 2px; right: 2px; width: 14px; height: 14px; background: var(--success); border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         
-        .v-greeting { position: fixed; bottom: 105px; left: 20px; width: 250px; background: rgba(20, 20, 20, 0.95); border: 1px solid var(--accent); border-radius: 16px 16px 16px 4px; padding: 15px; color: #fff; font-size: 13px; line-height: 1.5; z-index: 1999; opacity: 0; transform: translate3d(0, 20px, 0) scale(0.9); transition: opacity 0.5s var(--ease-spring), transform 0.5s var(--ease-spring); box-shadow: 0 10px 30px rgba(0,0,0,0.5); pointer-events: none; }
+        .v-greeting { position: fixed; bottom: 105px; left: 20px; width: 250px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid #e5e7eb; border-radius: 20px 20px 20px 4px; padding: 18px; color: #111; font-size: 13px; font-weight: 500; line-height: 1.5; z-index: 1999; opacity: 0; transform: translate3d(0, 20px, 0) scale(0.9); transition: opacity 0.5s var(--ease-spring), transform 0.5s var(--ease-spring); box-shadow: 0 15px 35px rgba(0,0,0,0.1); pointer-events: none; }
         .v-greeting.show { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
 
-        .vijeta-panel { position: fixed; bottom: 105px; left: 20px; width: 380px; height: 550px; background: #0a0a0a; border: 1px solid var(--border); border-radius: 24px; z-index: 2001; display: flex; flex-direction: column; overflow: hidden; opacity: 0; transform: translate3d(0, 20px, 0) scale(0.95); pointer-events: none; transition: transform 0.5s var(--ease-spring), opacity 0.5s; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
+        .vijeta-panel { position: fixed; bottom: 105px; left: 20px; width: 380px; height: 550px; background: rgba(250, 250, 250, 0.98); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid #e5e7eb; border-radius: 24px; z-index: 2001; display: flex; flex-direction: column; overflow: hidden; opacity: 0; transform: translate3d(0, 20px, 0) scale(0.95); pointer-events: none; transition: transform 0.5s var(--ease-spring), opacity 0.5s; box-shadow: 0 30px 60px rgba(0,0,0,0.15); }
         .vijeta-panel.active { opacity: 1; transform: translate3d(0, 0, 0) scale(1); pointer-events: all; }
         
-        .v-header { background: rgba(99, 102, 241, 0.1); border-bottom: 1px solid var(--border); padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .v-title { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
-        .v-title span { display: block; width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 10px var(--success); }
-        .v-close { background: none; border: none; color: var(--text-dim); font-size: 24px; cursor: pointer; transition: color 0.3s, transform 0.3s; line-height: 1; }
+        .v-header { background: #ffffff; border-bottom: 1px solid #e5e7eb; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .v-title { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 800; color: #111; letter-spacing: 0.5px; }
+        .v-title span { display: block; width: 8px; height: 8px; background: var(--success); border-radius: 50%; }
+        .v-close { background: none; border: none; color: #888; font-size: 28px; cursor: pointer; transition: color 0.3s, transform 0.3s; line-height: 1; }
+        .v-close:hover { color: #111; }
         
         .v-chat { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none; overscroll-behavior: contain; }
         .v-chat::-webkit-scrollbar { display: none; }
-        .msg { max-width: 88%; padding: 14px 18px; border-radius: 16px; font-size: 13px; line-height: 1.6; animation: popIn 0.3s var(--ease-spring) forwards; }
+        .msg { max-width: 88%; padding: 14px 18px; border-radius: 20px; font-size: 14px; font-weight: 500; line-height: 1.6; animation: popIn 0.3s var(--ease-spring) forwards; }
         @keyframes popIn { from { opacity: 0; transform: translate3d(0,10px,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
-        .msg.bot { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .msg.user { background: var(--accent); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
+        .msg.bot { background: #ffffff; border: 1px solid #e5e7eb; color: #333; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .msg.user { background: #111; color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         
         .v-options { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; animation: popIn 0.4s var(--ease-spring) forwards; }
-        .v-opt-btn { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--accent); color: #fff; padding: 10px 16px; border-radius: 20px; font-size: 12px; font-family: 'Manrope', sans-serif; font-weight: 600; cursor: pointer; transition: transform 0.3s var(--ease-spring), background-color 0.3s; }
+        .v-opt-btn { background: #ffffff; border: 1px solid #ccc; color: #111; padding: 10px 16px; border-radius: 20px; font-size: 12px; font-family: 'Manrope', sans-serif; font-weight: 700; cursor: pointer; transition: transform 0.3s var(--ease-spring), border-color 0.3s; }
+        .v-opt-btn:hover { border-color: #111; transform: translate3d(0,-2px,0); }
         
-        .v-input-area { padding: 15px; border-top: 1px solid var(--border); display: flex; gap: 10px; background: #050505; }
-        .v-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid transparent; border-radius: 20px; padding: 12px 18px; color: #fff; font-size: 13px; outline: none; }
-        .v-input:focus { border-color: var(--accent); background: #000; }
-        .v-send { background: var(--accent); border: none; width: 42px; height: 42px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; cursor: pointer; transition: transform 0.3s var(--ease-spring), box-shadow 0.3s; }
+        .v-input-area { padding: 15px; border-top: 1px solid #e5e7eb; display: flex; gap: 10px; background: #ffffff; }
+        .v-input { flex: 1; background: #f3f4f6; border: 1px solid transparent; border-radius: 24px; padding: 14px 20px; color: #111; font-size: 14px; font-weight: 500; outline: none; transition: border-color 0.3s, background 0.3s; }
+        .v-input:focus { border-color: #aaa; background: #fff; }
+        .v-send { background: #111; border: none; width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; cursor: pointer; transition: transform 0.3s var(--ease-spring), box-shadow 0.3s; }
+        .v-send:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
         /* =========================================
            13. MOBILE OPTIMIZATIONS
@@ -468,7 +471,7 @@
             .comp-table th:nth-child(3) { width: 35%; } 
             .comp-container::after { display: none; }
             
-            .vijeta-panel { width: calc(100% - 40px); left: 20px; right: 20px; height: 500px; bottom: 105px; backdrop-filter: none !important; background: #0a0a0a !important; }
+            .vijeta-panel { width: calc(100% - 40px); left: 20px; right: 20px; height: 500px; bottom: 105px; backdrop-filter: none !important; background: #fafafa !important; }
             .v-greeting { width: calc(100% - 110px); }
             
             .premium-stamp { top: 12%; right: 5%; width: 100px; height: 100px; }
@@ -1771,13 +1774,14 @@
         }
 
         // =========================================
-        // VIJETA AI ASSISTANT
+        // VIJETA AI ASSISTANT (LIVE AI INTEGRATION)
         // =========================================
         let chatInitialized = false;
+
         window.addEventListener('load', () => {
             renderReviews();
             setupReviewStars();
-            
+
             setTimeout(() => {
                 const greeting = document.getElementById('vGreeting');
                 const panel = document.getElementById('vijetaPanel');
@@ -1785,75 +1789,71 @@
                     greeting.classList.add('show');
                     setTimeout(() => { greeting.classList.remove('show'); }, 6000);
                 }
-            }, 2000); 
+            }, 2000);
         });
+
         function toggleVijeta() {
             document.getElementById('vGreeting').classList.remove('show');
             document.getElementById('vijetaPanel').classList.toggle('active');
-            if(!chatInitialized) { renderBotMessage(chatFlow.start); chatInitialized = true; }
+            if(!chatInitialized) {
+                renderBotMessage("Namaste! 🙏 I am Vijeta, your official M-X Lumes AI Expert. I can diagnose pouring issues, explain our chemical science, and assist with your resin art. How can I help you today?");
+                chatInitialized = true;
+            }
         }
+
         function handleVijetaEnter(e) { if(e.key === 'Enter') sendVijetaMsg(); }
-        function sendVijetaMsg() {
+
+        async function sendVijetaMsg() {
             const input = document.getElementById('vInput');
             const text = input.value.trim();
             if(!text) return;
+
             renderUserMessage(text);
             input.value = '';
-            setTimeout(() => { 
-                renderBotMessage({ msg: "That is a great question! For the fastest diagnosis, please select a category below, or click 'Chat with an Expert' on our website to speak with our human team! 👇", opts: chatFlow.start.opts });
-            }, 750);
+
+            const chatBox = document.getElementById('vChatBox');
+            const loadingId = 'loading-' + Date.now();
+            chatBox.innerHTML += `<div id="${loadingId}" class="msg bot">Vijeta is thinking... 🧠</div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            try {
+                const response = await fetch('https://mxlumes-api.onrender.com/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+
+                const data = await response.json();
+
+                const loader = document.getElementById(loadingId);
+                if (loader) loader.remove();
+
+                renderBotMessage(data.reply);
+
+            } catch (error) {
+                console.error("Chat Error:", error);
+                const loader = document.getElementById(loadingId);
+                if (loader) loader.remove();
+                renderBotMessage("I'm having a little trouble connecting to my lab right now. Please try again or reach out on WhatsApp! 🛠️");
+            }
         }
+
         function renderUserMessage(text) {
             const chatBox = document.getElementById('vChatBox');
             chatBox.innerHTML += `<div class="msg user">${text}</div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
             document.querySelectorAll('.v-options').forEach(el => el.style.display = 'none');
         }
-        function renderBotMessage(node) {
+
+        function renderBotMessage(text) {
             const chatBox = document.getElementById('vChatBox');
-            let html = `<div class="msg bot" style="white-space: pre-wrap;">${node.msg}</div>`;
-            if (node.opts && node.opts.length > 0) {
-                html += `<div class="v-options">`;
-                node.opts.forEach(opt => { html += `<button class="v-opt-btn" onclick="handleChatOption('${opt.label}', '${opt.next}')">${opt.label}</button>`; });
-                html += `</div>`;
-            }
+
+            // Format line breaks so the AI's paragraphs look nice
+            let formattedText = text.replace(/\n/g, '<br>');
+            let html = `<div class="msg bot" style="white-space: pre-wrap; line-height: 1.5;">${formattedText}</div>`;
+
             chatBox.innerHTML += html;
             chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        const chatFlow = {
-            start: { msg: "Namaste! 🙏 I am Vijeta, your M-X Lumes Expert & Teacher. I am here to diagnose issues and explain the science of resin. How can I help you today?", opts: [{ label: "🧪 Resin Project Issue", next: "resin_issues" }, { label: "🧮 Calculator Help", next: "calc_help" }] },
-            resin_issues: { msg: "I can help you troubleshoot! 👩‍🔬 As a chemical expert, I need to know the symptoms. What exactly is happening with your resin?", opts: [{ label: "Sticky / Won't Cure", next: "diag_sticky" }, { label: "Too Many Bubbles", next: "diag_bubbles" }, { label: "Overheating / Smoking", next: "diag_hot" }, { label: "Cloudy / White Film", next: "diag_cloudy" }] },
-            diag_sticky: { msg: "Sticky resin is frustrating! Let's find the blunder. 🧐\n\nDid you measure the M-X Lumes kit by Weight (using a digital scale) or by Volume (using measuring cups)?", opts: [{ label: "By Weight (Scale)", next: "sol_sticky_weight" }, { label: "By Volume (Cups)", next: "sol_sticky_volume" }] },
-            sol_sticky_weight: { msg: "Good job using a scale! ⚖️ Since the ratio was correct, this sticky spot was caused by poor Poly-merization.\n\n🧪 **The Chemical Cause:**\nThis happens when you scrape the unmixed resin from the sides of your cup onto your artwork, OR your room is too cold (below 20°C).\n\n✨ **The Fix:**\nScrape out the gooey parts, clean the area with isopropyl alcohol, and do a fresh top-coat. Next time, use the 'Double-Cup' mixing method!", opts: [{ label: "Yes, this helps! 😊", next: "satisfaction_yes" }, { label: "No, I need more help 😕", next: "satisfaction_no" }] },
-            sol_sticky_volume: { msg: "Ah! 💡 I found the issue. M-X Lumes 3:1 must ALWAYS be measured by WEIGHT.\n\n🧪 **The Chemical Cause:**\nResin and hardener have completely different densities. Measuring them by volume puts too much hardener in the mix, permanently breaking the chemical ratio.\n\n✨ **The Fix:**\nYou must scrape off the uncured resin, clean thoroughly with rubbing alcohol, and pour a new coat measured perfectly on a digital scale.", opts: [{ label: "Yes, this helps! 😊", next: "satisfaction_yes" }, { label: "No, I need more help 😕", next: "satisfaction_no" }] },
-            diag_bubbles: { msg: "Bubbles can ruin a flawless finish! Let's check your fluid dynamics. 🫧\n\nWhat is your room temperature right now?", opts: [{ label: "Cold (Below 22°C)", next: "sol_bubbles_cold" }, { label: "Warm (Above 22°C)", next: "sol_bubbles_warm" }] },
-            sol_bubbles_cold: { msg: "That explains it! 🥶\n\n🧪 **The Chemical Cause:**\nCold temperatures make epoxy thick like honey. This high viscosity traps the air you fold in while mixing.\n\n✨ **The Fix:**\nGive your sealed bottles a warm water bath for 10 minutes before mixing. M-X Lumes naturally drops to 28 dynes/cm surface tension—if it's warm, the bubbles will auto-degas perfectly!", opts: [{ label: "Yes, this helps! 😊", next: "satisfaction_yes" }, { label: "No, I need more help 😕", next: "satisfaction_no" }] },
-            sol_bubbles_warm: { msg: "Since your room is warm, the resin viscosity is fine. 🌡️\n\n🧪 **The Cause:**\nThose bubbles are likely 'breathing' out of a porous surface (like unsealed wood/flowers) or you whipped the resin too aggressively while mixing.\n\n✨ **The Fix:**\nStir slowly, and ALWAYS seal wood or porous objects with a thin 'primer coat' of resin before doing your main deep pour.", opts: [{ label: "Yes, this helps! 😊", next: "satisfaction_yes" }, { label: "No, I need more help 😕", next: "satisfaction_no" }] },
-            diag_hot: { msg: "🔥 Whoa! That is called an 'Exothermic Runaway' (Flash Curing).\n\n🧪 **The Chemical Cause:**\nResin curing generates its own heat. If you mix too much in one cup, or pour too deep in a warm room, the heat gets trapped. The molecules react violently, causing the resin to boil, smoke, and crack.\n\n✨ **The Fix:**\nNever leave a large mixed batch in a cup. Pour it immediately. Also, check our Project Calculator—if you need to pour deeper than 2.5cm, you must pour in multiple smaller layers!", opts: [{ label: "Yes, this helps! 😊", next: "satisfaction_yes" }, { label: "No, I need more help 😕", next: "satisfaction_no" }] },
-            diag_cloudy: { msg: "🌧️ That sounds exactly like 'Amine Blush'.\n\n🧪 **The Chemical Cause:**\nWhen the hardener (amine) reacts with moisture and carbon dioxide in high-humidity air before it cross-links with the resin, it creates a waxy, cloudy, or greasy film on the surface.\n\n✨ **The Fix:**\nWash the cured blush off with warm soapy water, lightly sand it, and pour a fresh topcoat. Next time, turn on an AC (Dry Mode) or a dehumidifier while curing!", opts: [{ label: "Yes, this helps! 😊", next: "satisfaction_yes" }, { label: "No, I need more help 😕", next: "satisfaction_no" }] },
-            calc_help: { msg: "Our Project Calculator is incredibly advanced. Which feature can I explain for you?", opts: [{ label: "Environment Lab", next: "exp_env" }, { label: "Safety Warnings", next: "exp_safety" }, { label: "How to Measure?", next: "exp_measure" }] },
-            exp_env: { msg: "🛰️ **The Environment Lab:**\nIf you click 'Auto-Detect Conditions', I will silently ping GPS satellites to pull your local weather data. My physics algorithm then converts that outside weather into your exact indoor Temperature and Humidity, feeding it into the Safety Engine!", opts: [{ label: "Wow, understood! 😊", next: "satisfaction_yes" }, { label: "I need more help 😕", next: "satisfaction_no" }] },
-            exp_safety: { msg: "🛡️ **The Safety Report:**\nBased on the depth you enter and your room temperature, I instantly calculate risks. I will warn you if your pour is too deep (Flash Cure risk) or if your humidity is too high (Amine Blush risk). It takes the guesswork out of resin art!", opts: [{ label: "Very helpful! 😊", next: "satisfaction_yes" }, { label: "I need more help 😕", next: "satisfaction_no" }] },
-            exp_measure: { msg: "⚖️ **Total Weight Breakdown:**\nJust enter your mold dimensions (like 30cm x 30cm). I will calculate the exact Total Grams you need, and automatically break it down into the exact Part A (Resin) and Part B (Hardener) you need to pour on your digital scale.", opts: [{ label: "Makes sense! 😊", next: "satisfaction_yes" }, { label: "I need more help 😕", next: "satisfaction_no" }] },
-            satisfaction_yes: { msg: "I am so glad I could help! 🎉\n\nSince you are dedicated to perfect resin art, I highly recommend you use our 1.2KG Starter Kit for your next project and compare the quality difference yourself. You will not regret trusting M-X Lumes! 💎", opts: [] },
-            satisfaction_no: { msg: "I'm so sorry I couldn't completely fix it! 😔 \n\nEvery art piece is unique. Please drop our human expert team a WhatsApp message. They are available 24/7 to help artists just like you!", opts: [{ label: "💬 Chat with Expert on WhatsApp", next: "redirect_wa" }] },
-            redirect_wa: { msg: "Redirecting you to our secure WhatsApp portal...", opts: [] }
-        };
-
-        function handleChatOption(label, nextNodeKey) {
-            if(nextNodeKey === 'redirect_wa') {
-                window.open('https://wa.me/917668077298?text=Hi%20M-X%20Lumes!%20I%20am%20facing%20a%20complex%20issue%20with%20my%20resin%20project%20and%20need%20expert%20help.', '_blank');
-                renderUserMessage(label);
-                setTimeout(() => {
-                    const chatBox = document.getElementById('vChatBox');
-                    chatBox.innerHTML += `<div class="msg bot" style="white-space: pre-wrap;">I've opened a chat with our team for you! Is there anything else I can assist with?</div>`;
-                    chatBox.scrollTop = chatBox.scrollHeight;
-                }, 1000);
-                return;
-            }
-            renderUserMessage(label);
-            setTimeout(() => { const nextNode = chatFlow[nextNodeKey]; if(nextNode) renderBotMessage(nextNode); }, 600);
         }
     </script>
 </body>
