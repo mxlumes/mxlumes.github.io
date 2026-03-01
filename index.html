@@ -1492,25 +1492,37 @@
             }
         }
 
+        // =========================================
+        // UPDATED WITH PERSPECTIVE CORRECTION MATH
+        // =========================================
         function processCalibration() {
             const inputLen = parseFloat(document.getElementById('scan-line-length').value);
             const unit = document.getElementById('scan-unit').value;
             
             if(!inputLen || inputLen <= 0) return alert('Please enter the length of the top red edge.');
             
-            let area = 0;
-            for (let i = 0; i < polyNodes.length; i++) {
-                let j = (i + 1) % polyNodes.length;
-                area += polyNodes[i].x * polyNodes[j].y;
-                area -= polyNodes[j].x * polyNodes[i].y;
-            }
-            let pixelArea = Math.abs(area / 2);
+            // 1. Measure all 4 edges in pixels to detect camera tilt
+            let topEdge = Math.hypot(polyNodes[1].x - polyNodes[0].x, polyNodes[1].y - polyNodes[0].y);
+            let rightEdge = Math.hypot(polyNodes[2].x - polyNodes[1].x, polyNodes[2].y - polyNodes[1].y);
+            let bottomEdge = Math.hypot(polyNodes[2].x - polyNodes[3].x, polyNodes[2].y - polyNodes[3].y);
+            let leftEdge = Math.hypot(polyNodes[3].x - polyNodes[0].x, polyNodes[3].y - polyNodes[0].y);
 
-            let pixelWidth = Math.hypot(polyNodes[1].x - polyNodes[0].x, polyNodes[1].y - polyNodes[0].y);
-
+            // 2. Perspective Distortion Correction (Flattens the trapezoid)
+            let horizontalScale = (topEdge + bottomEdge) / 2;
+            let verticalScale = (leftEdge + rightEdge) / 2;
+            
+            // 3. Calculate undistorted pixel area
+            let undistortedPixelArea = horizontalScale * verticalScale;
+            
+            // 4. Convert physical units
             let factor = (unit === 'in') ? 2.54 : ((unit === 'mm') ? 0.1 : 1);
             let realLen_cm = inputLen * factor;
-            let areaCm2 = pixelArea * Math.pow(realLen_cm / pixelWidth, 2);
+            
+            // 5. Calculate physical scale based on the known red reference edge
+            let cmPerPixel = realLen_cm / topEdge;
+            
+            // 6. Calculate True Final Area
+            let areaCm2 = undistortedPixelArea * Math.pow(cmPerPixel, 2);
             
             appState.scannedArea = areaCm2;
             document.getElementById('scan-area-display').innerText = areaCm2.toFixed(1) + ' cm²';
