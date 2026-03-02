@@ -71,7 +71,6 @@
         
         .export-btn { background: transparent; border: 1px solid var(--border); color: #fff; padding: 10px 20px; border-radius: 12px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
         .export-btn:hover { background: #fff; color: #000; }
-
         .item-list { font-size: 12px; color: #bbb; line-height: 1.5; }
         .item-list b { color: #fff; }
     </style>
@@ -83,7 +82,7 @@
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" style="margin-bottom:20px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
             <h2 style="font-family:'Space Grotesk', sans-serif; margin-bottom: 5px;">M-X Command</h2>
             <p style="color:var(--text-dim); font-size:13px;">Restricted Administrative Access</p>
-            <input type="password" id="master-key" class="auth-input" placeholder="Admin Password" onkeypress="if(event.key==='Enter') unlockDashboard()">
+            <input type="password" id="master-key" class="auth-input" placeholder="Enter JWT_SECRET" onkeypress="if(event.key==='Enter') unlockDashboard()">
             <button class="btn" onclick="unlockDashboard()">Decrypt Vault</button>
             <p id="auth-err" style="color:var(--danger); font-size:12px; margin-top:15px; font-weight:700; display:none;">Access Denied. Incorrect Key.</p>
         </div>
@@ -196,7 +195,6 @@
         let globalOrders = [];
         let globalUsers = [];
 
-        // Check if session exists on load
         window.onload = () => {
             const savedKey = sessionStorage.getItem('mxlumes_admin_key');
             if (savedKey) {
@@ -213,18 +211,14 @@
             document.getElementById('auth-err').style.display = 'none';
             
             try {
-                // Fetch Orders
                 const orderRes = await fetch(`${RENDER_URL}/api/admin/orders`, { headers: { 'admin-secret-key': input } });
                 if (!orderRes.ok) throw new Error("Invalid Key");
                 globalOrders = await orderRes.json();
 
-                // Fetch Users
                 const userRes = await fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': input } });
                 globalUsers = await userRes.json();
 
-                // Success! Save to session so it doesn't log out on refresh
                 sessionStorage.setItem('mxlumes_admin_key', input);
-                
                 document.getElementById('auth-gate').style.opacity = '0';
                 setTimeout(() => document.getElementById('auth-gate').style.display = 'none', 400);
                 
@@ -247,35 +241,28 @@
         async function fetchData() {
             const key = sessionStorage.getItem('mxlumes_admin_key');
             if(!key) return;
-            
             const orderRes = await fetch(`${RENDER_URL}/api/admin/orders`, { headers: { 'admin-secret-key': key } });
             globalOrders = await orderRes.json();
-            
             const userRes = await fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': key } });
             globalUsers = await userRes.json();
-            
             populateDashboard();
         }
 
         function populateDashboard(filter = 'All', searchTxt = '') {
-            // 1. Stats
             let totalRev = 0;
             globalOrders.forEach(o => totalRev += o.totalAmount);
             document.getElementById('stat-revenue').innerText = '₹' + totalRev.toLocaleString();
             document.getElementById('stat-orders').innerText = globalOrders.length;
             document.getElementById('stat-users').innerText = globalUsers.length;
 
-            // 2. Filter Orders
             let filteredOrders = globalOrders;
             if(filter === 'Pending') filteredOrders = globalOrders.filter(o => o.status.includes('Pending'));
             if(filter === 'Shipped') filteredOrders = globalOrders.filter(o => o.status.includes('Shipped'));
-            
             if(searchTxt) {
                 const s = searchTxt.toLowerCase();
                 filteredOrders = filteredOrders.filter(o => o.orderId.toLowerCase().includes(s) || o.customerEmail.toLowerCase().includes(s));
             }
 
-            // 3. Render Orders
             const oBody = document.getElementById('orders-tbody');
             oBody.innerHTML = '';
             
@@ -283,14 +270,12 @@
                 oBody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#888;">No orders found.</td></tr>';
             } else {
                 filteredOrders.forEach(o => {
-                    // Try to find the user's phone number to send a WhatsApp update
                     let userPhone = '';
                     let linkedUser = globalUsers.find(u => u.email === o.customerEmail);
                     if(linkedUser && linkedUser.phone) userPhone = linkedUser.phone;
 
                     let itemString = o.items.map(i => `<b>${i.qty}x</b> ${i.name}`).join('<br>');
                     
-                    // Determine color styling for the dropdown
                     let statusClass = 'Pending';
                     if(o.status.includes('Processing')) statusClass = 'Processing';
                     if(o.status.includes('Shipped')) statusClass = 'Shipped';
@@ -326,7 +311,6 @@
                 });
             }
 
-            // 4. Render Users
             const uBody = document.getElementById('users-tbody');
             uBody.innerHTML = '';
             globalUsers.forEach(u => {
@@ -349,12 +333,9 @@
                     headers: { 'Content-Type': 'application/json', 'admin-secret-key': key },
                     body: JSON.stringify({ orderId, status: newStatus })
                 });
-                
-                // Update local array instantly without waiting for server refresh
                 let order = globalOrders.find(o => o.orderId === orderId);
                 if(order) order.status = newStatus;
                 populateDashboard(); 
-                
             } catch (e) { alert("Failed to update status on server."); }
         }
 
@@ -369,7 +350,6 @@
             let f = 'All';
             if(activeFilter.includes('Action')) f = 'Pending';
             if(activeFilter.includes('Shipped')) f = 'Shipped';
-            
             populateDashboard(f, document.getElementById('order-search').value);
         }
 
@@ -380,29 +360,19 @@
             document.getElementById('panel-' + tabId).classList.add('active');
         }
 
-        // ONE-CLICK EXCEL / CSV EXPORT
         function exportOrdersCSV() {
             if(globalOrders.length === 0) return alert("No orders to export!");
-            
-            let csvContent = "data:text/csv;charset=utf-8,";
-            csvContent += "Order ID,Date,Email,Total Amount,Status,Items\n";
-
+            let csvContent = "data:text/csv;charset=utf-8,Order ID,Date,Email,Total Amount,Status,Items\n";
             globalOrders.forEach(o => {
                 let date = new Date(o.createdAt).toLocaleDateString();
-                // Combine items into a single string, escaping quotes
                 let itemsStr = o.items.map(i => `${i.qty}x ${i.name}`).join(' | ');
-                
-                let row = `${o.orderId},${date},${o.customerEmail},${o.totalAmount},${o.status},"${itemsStr}"`;
-                csvContent += row + "\n";
+                csvContent += `${o.orderId},${date},${o.customerEmail},${o.totalAmount},${o.status},"${itemsStr}"\n`;
             });
-
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
             link.setAttribute("download", `mxlumes_orders_${new Date().toISOString().split('T')[0]}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
     </script>
 </body>
