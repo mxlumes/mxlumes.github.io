@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="description" content="M-X Lumes: Professional 3:1 Epoxy Resin Systems.">
-    <meta name="theme-color" content="#fafafa">
+    <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>M-X Lumes | The Professional Standard</title>
@@ -21,11 +21,11 @@
     
     <style>
         /* =========================================
-           1. CORE VARIABLES & RESET (OPTIMIZED)
+           1. CORE VARIABLES & RESET (OPTIMIZED FOR SPEED)
            ========================================= */
         :root {
             --bg-oled: #000000;
-            --bg-panel: #050505;
+            --bg-panel: #0a0a0a;
             --text-main: #ffffff;
             --text-dim: #9ca3af;
             
@@ -57,7 +57,7 @@
         body { background-color: var(--bg-oled); color: var(--text-main); font-family: 'Manrope', sans-serif; line-height: 1.6; width: 100%; max-width: 100vw; overflow-x: hidden; position: relative; }
 
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; line-height: 1.1; letter-spacing: -0.02em; }
-        a { text-decoration: none; color: inherit; transition: color 0.3s var(--ease-fluid); }
+        a { text-decoration: none; color: inherit; transition: color 0.2s var(--ease-fluid); }
         button { cursor: pointer; border: none; outline: none; background: none; font-family: inherit; }
         img { display: block; max-width: 100%; height: auto; user-select: none; }
         input, select, textarea { font-size: 16px !important; font-family: 'Manrope', sans-serif; }
@@ -67,25 +67,25 @@
         /* =========================================
            2. PERFORMANCE BACKGROUND
            ========================================= */
-        .bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -5; background-color: var(--bg-oled); background-image: url('product-1.webp'); background-position: center bottom; background-repeat: no-repeat; background-size: 65%; opacity: 0.5; transform: translateZ(0); will-change: transform; }
-        .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -4; background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.9) 50%, #000000 90%); pointer-events: none; transform: translateZ(0); }
+        .bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -5; background-color: var(--bg-oled); background-image: url('product-1.webp'); background-position: center bottom; background-repeat: no-repeat; background-size: 65%; opacity: 0.4; transform: translateZ(0); will-change: transform; }
+        .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -4; background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.9) 50%, #000000 90%); pointer-events: none; transform: translateZ(0); }
 
         /* =========================================
            3. UI COMPONENTS & ANIMATIONS
            ========================================= */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; }
         .section { padding: 100px 0; position: relative; z-index: 2; }
-        .reveal { opacity: 0; transform: translate3d(0, 40px, 0); transition: opacity 0.6s var(--ease-fluid), transform 0.6s var(--ease-fluid); }
+        .reveal { opacity: 0; transform: translate3d(0, 30px, 0); transition: opacity 0.6s var(--ease-fluid), transform 0.6s var(--ease-fluid); }
         .reveal.active { opacity: 1; transform: translate3d(0, 0, 0); }
 
-        .btn { padding: 16px 32px; border-radius: 60px; font-weight: 800; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s; }
-        .btn:hover { transform: translate3d(0, -3px, 0); }
-        .btn-primary { background: #fff; color: #000; box-shadow: 0 5px 20px rgba(255,255,255,0.15); border: none; }
-        .btn-primary:active { transform: scale(0.96) translate3d(0,0,0); } 
+        .btn { padding: 16px 32px; border-radius: 60px; font-weight: 800; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s; }
+        .btn:hover { transform: translate3d(0, -2px, 0); }
+        .btn-primary { background: #fff; color: #000; box-shadow: 0 4px 15px rgba(255,255,255,0.1); border: none; }
+        .btn-primary:active { transform: scale(0.98) translate3d(0,0,0); } 
         .btn-outline { border: 1px solid var(--border); color: #fff; background: rgba(255,255,255,0.02); }
         .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
 
-        .toast { position: fixed; top: 20px; left: 50%; transform: translate3d(-50%, -150%, 0); background: #111; border: 1px solid rgba(255,255,255,0.2); padding: 15px 30px; border-radius: 50px; color: #fff; font-size: 13px; font-weight: 700; z-index: 9999; opacity: 0; transition: transform 0.4s var(--ease-spring), opacity 0.4s; box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 10px; width: 90%; max-width: 350px; justify-content: center; }
+        .toast { position: fixed; top: 20px; left: 50%; transform: translate3d(-50%, -150%, 0); background: #111; border: 1px solid rgba(255,255,255,0.2); padding: 15px 30px; border-radius: 50px; color: #fff; font-size: 13px; font-weight: 700; z-index: 9999; opacity: 0; transition: transform 0.4s var(--ease-spring), opacity 0.4s; box-shadow: 0 10px 30px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 10px; width: 90%; max-width: 350px; justify-content: center; }
         .toast::before { content:'✓'; color:var(--success); font-size:16px; }
         .toast.show { transform: translate3d(-50%, 0, 0); opacity: 1; }
 
@@ -93,14 +93,14 @@
            4. NAVIGATION (MILKY WHITE STRIP)
            ========================================= */
         .navbar { position: fixed; top: 0; width: 100%; height: 80px; z-index: 1000; display: flex; align-items: center; transition: box-shadow 0.3s, height 0.3s; background-color: var(--bg-milky); border-bottom: 1px solid var(--border-light); padding-top: var(--safe-top); transform: translateZ(0); }
-        .navbar.scrolled { box-shadow: 0 10px 30px rgba(0,0,0,0.05); height: 70px; }
+        .navbar.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,0.05); height: 70px; }
         .nav-inner { width: 100%; display: flex; justify-content: space-between; align-items: center; overflow-x: visible; padding-bottom: 0; }
         
         .logo-wrapper { position: relative; display: flex; align-items: center; }
         .logo { font-weight: 800; font-size: 18px; letter-spacing: 3px; color: var(--text-dark); flex-shrink: 0; margin-right: 20px; z-index: 2; transition: color 0.3s;}
 
         .nav-links { display: flex; gap: 30px; align-items: center; margin-left: auto; }
-        .nav-link { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; white-space: nowrap; transition: color 0.3s;}
+        .nav-link { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; white-space: nowrap; transition: color 0.2s;}
         .nav-link:hover { color: var(--text-dark); }
 
         .hero { min-height: 80dvh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; padding-top: 80px; padding-bottom: 40px; position: relative; }
@@ -117,26 +117,26 @@
         @keyframes scroll { 0% { transform: translate3d(0,0,0); } 100% { transform: translate3d(-50%,0,0); } }
 
         /* =========================================
-           5. SHOP & GRIDS (SOLID FAST PERFORMANCE)
+           5. SHOP & GRIDS (SOLID COLORS FOR SPEED)
            ========================================= */
         .stats-bar { border-bottom: 1px solid var(--border); padding: 40px 0; margin-top: -1px; }
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         
-        .product-card { padding: 30px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; transition: transform 0.3s, border-color 0.3s; background: #0a0a0a; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius); }
-        .product-card:hover { transform: translate3d(0, -10px, 0); border-color: rgba(255,255,255,0.4); box-shadow: 0 25px 50px rgba(0,0,0,0.6); }
+        .product-card { padding: 30px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; transition: transform 0.3s, border-color 0.3s; background: #0f0f0f; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius); }
+        .product-card:hover { transform: translate3d(0, -5px, 0); border-color: rgba(255,255,255,0.3); }
         
-        .p-img { width: 100%; height: 280px; object-fit: cover; border-radius: 16px; margin-bottom: 25px; opacity: 0.9; transition: opacity 0.4s; }
+        .p-img { width: 100%; height: 280px; object-fit: cover; border-radius: 16px; margin-bottom: 25px; opacity: 0.9; transition: opacity 0.3s; }
         .product-card:hover .p-img { opacity: 1; }
         .p-tag { font-size: 10px; font-weight: 800; border: 1px solid var(--border); padding: 6px 12px; border-radius: 20px; color: var(--text-dim); text-transform: uppercase; display: inline-block; margin-bottom: 15px; letter-spacing: 1px; }
 
-        .support-card { background: #050a07; border: 1px solid rgba(37, 211, 102, 0.2); text-align: center; padding: 60px 30px; transition: transform 0.3s, border-color 0.3s; border-radius: var(--radius); }
+        .support-card { background: #050a07; border: 1px solid rgba(37, 211, 102, 0.2); text-align: center; padding: 60px 30px; border-radius: var(--radius); transition: transform 0.3s, border-color 0.3s;}
         .support-card:hover { border-color: rgba(37, 211, 102, 0.5); transform: translate3d(0, -5px, 0); }
 
         /* =========================================
            6. TECHNOLOGY & SPECS
            ========================================= */
-        .tech-card { padding: 40px; border-top: 1px solid rgba(255,255,255,0.15); transition: transform 0.3s, background 0.3s; height: 100%; display: flex; flex-direction: column; background: #050505; border-radius: var(--radius); }
-        .tech-card:hover { background: #0f0f0f; border-color: var(--accent); transform: translate3d(0, -8px, 0); }
+        .tech-card { padding: 40px; border-top: 1px solid rgba(255,255,255,0.15); transition: transform 0.3s; height: 100%; display: flex; flex-direction: column; background: #080808; border-radius: var(--radius); }
+        .tech-card:hover { background: #0f0f0f; border-color: var(--accent); transform: translate3d(0, -5px, 0); }
         .tech-icon { font-size: 40px; margin-bottom: 20px; }
         .tech-sub { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 15px; font-weight: 800; }
         .tech-list { margin-top: 30px; list-style: none; padding: 0; }
@@ -146,17 +146,14 @@
 
         .gallery-masonry { column-count: 3; column-gap: 20px; margin-top: 40px;}
         .g-item { break-inside: avoid; margin-bottom: 20px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); background: #0a0a0a; transition: transform 0.3s; }
-        .g-item:hover { transform: scale(1.02); border-color: rgba(255,255,255,0.3); }
+        .g-item:hover { transform: scale(1.02); }
         .g-img { width: 100%; height: auto; display: block; }
 
         .comp-container { background: #050505; border: 1px solid var(--border); border-radius: 30px; padding: 40px; overflow: hidden; position: relative; }
-        .comp-container::before { content:''; position: absolute; top:0; right:0; width: 50%; height: 1px; background: linear-gradient(90deg, transparent, var(--accent)); }
         .comp-wrapper { width: 100%; display: block; margin-bottom: 50px; border-radius: 24px; border: 1px solid var(--border); background: #0a0a0a; margin-top: 40px;}
         .comp-table { width: 100%; border-collapse: collapse; table-layout: auto; }
         .comp-table th { text-align: left; padding: 20px; color: var(--text-dim); font-size: 11px; font-weight: 800; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .comp-table th.col-mx, .comp-table td.col-mx { width: 40%; background: #0a0a14; border-right: 1px solid rgba(99,102,241,0.2); border-left: 1px solid rgba(99,102,241,0.2); }
-        .comp-row { transition: background-color 0.2s; }
-        .comp-row:hover { background: #0f0f0f; }
+        .comp-table th.col-mx, .comp-table td.col-mx { width: 40%; background: #0a0a14; border-right: 1px solid rgba(99,102,241,0.1); border-left: 1px solid rgba(99,102,241,0.1); }
         .comp-cell { padding: 25px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 15px; color: #fff; }
         .comp-cell.dim { color: #888; font-weight: 500; }
         .comp-cell.bright { color: #fff; font-weight: 700; }
@@ -164,15 +161,32 @@
         .comp-footer { margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--border); display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
 
         .dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .dd-box { padding: 50px; border-radius: 24px; border: 1px solid var(--border); transition: transform 0.3s; background: #0f0f0f; }
-        .dd-box:hover { transform: translate3d(0,-5px,0); }
+        .dd-box { padding: 50px; border-radius: 24px; border: 1px solid var(--border); background: #0f0f0f; }
         .dd-box.dos { border-color: rgba(16, 185, 129, 0.2); }
         .dd-box.donts { border-color: rgba(239, 68, 68, 0.2); }
 
         /* =========================================
-           9. TITAN FUSION CALCULATOR (SOLID FAST UX)
+           7. MODALS & AUTH 
            ========================================= */
-        .zenith-calc { background: #f9f9fa; border: 1px solid #e5e7eb; border-radius: 40px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.85); z-index: 4000; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.3s; }
+        .modal-overlay.active { opacity: 1; display: flex; }
+        .modal-content { background: #ffffff; border-radius: 24px; width: 100%; max-width: 400px; padding: 35px; position: relative; transform: scale(0.95); transition: transform 0.3s; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .m-close { position: absolute; top: 20px; right: 25px; background: none; border: none; color: #888; font-size: 28px; cursor: pointer; transition: color 0.2s; }
+        .m-close:hover { color: #000; }
+        .m-input { width: 100%; background: #f3f4f6; border: 1px solid #e5e7eb; padding: 16px; border-radius: 12px; color: #111; font-size: 14px; font-weight: 500; margin-bottom: 15px; outline: none; transition: border-color 0.2s, background 0.2s; font-family: 'Manrope', sans-serif;}
+        .m-input:focus { border-color: #111; background: #fff; }
+
+        /* Payment Scanner Specific */
+        .payment-modal { background: #ffffff; border-radius: 24px; width: 100%; max-width: 400px; padding: 35px; position: relative; transform: scale(0.95); transition: transform 0.3s; box-shadow: 0 25px 50px rgba(0,0,0,0.5); text-align: center; }
+        .modal-overlay.active .payment-modal { transform: scale(1); }
+        .qr-box { background: #f3f4f6; border: 1px solid #e5e7eb; padding: 20px; border-radius: 16px; margin: 20px 0; display: inline-block; }
+        .qr-box img { width: 200px; height: 200px; mix-blend-mode: multiply; }
+
+        /* =========================================
+           8. TITAN FUSION CALCULATOR (SOLID FAST UX)
+           ========================================= */
+        .zenith-calc { background: #f8f9fa; border: 1px solid #e5e7eb; border-radius: 40px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .z-controls { padding: 40px; border-bottom: 1px solid #ccc; position: relative; }
         .z-display { padding: 40px; background: #ffffff; display: flex; flex-direction: column; justify-content: space-between; }
         @media (min-width: 900px) { .zenith-calc { display: grid; grid-template-columns: 1.3fr 1fr; } .z-controls { border-right: 1px solid #ccc; border-bottom: none; padding: 60px; } .z-display { padding: 60px; } }
@@ -182,18 +196,15 @@
         
         .ratio-grid { display: flex; gap: 10px; margin-bottom: 20px; }
         .ratio-btn { flex: 1; padding: 14px; border: 2px solid #aaa; border-radius: 12px; font-size: 14px; font-weight: 800; color: #333; background: #fff; transition: all 0.2s; cursor: pointer; text-align: center; }
-        .ratio-btn:hover { color: #000; border-color: #000; }
-        .ratio-btn.active { border-color: var(--accent); color: #fff; background: var(--accent); box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); }
+        .ratio-btn.active { border-color: var(--accent); color: #fff; background: var(--accent); }
         
         .mode-toggle { display: flex; background: #e5e7eb; border-radius: 14px; padding: 5px; border: 1px solid #ccc; }
         .mode-opt { flex: 1; text-align: center; padding: 12px; font-size: 14px; font-weight: 800; color: #333; cursor: pointer; border-radius: 10px; transition: all 0.2s; }
-        .mode-opt:hover { color: #000; }
-        .mode-opt.active { background: #000; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .mode-opt.active { background: #000; color: #fff; }
         
         .unit-wrap { display: flex; gap: 5px; margin-left: auto; background: #e5e7eb; padding: 4px; border-radius: 10px; border: 1px solid #ccc; }
         .unit-btn { padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 800; color: #333; background: transparent; transition: all 0.2s; cursor:pointer; border: none; }
-        .unit-btn:hover { color: #000; }
-        .unit-btn.active { background: #000; color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .unit-btn.active { background: #000; color: #fff; }
         
         .z-group { margin-bottom: 30px; }
         .z-label { font-size: 13px; font-weight: 800; color: #000; text-transform: uppercase; letter-spacing: 1px; }
@@ -203,52 +214,38 @@
         .z-number:focus { border-color: var(--accent); outline: none; }
         
         .z-slider { -webkit-appearance: none; width: 100%; height: 8px; background: #ccc; border-radius: 4px; outline: none; display: block; margin-top: 10px; }
-        .z-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 34px; height: 34px; background: #000; border-radius: 50%; cursor: grab; transition: transform 0.2s; border: 4px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
-        .z-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+        .z-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 34px; height: 34px; background: #000; border-radius: 50%; cursor: grab; border: 4px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         
         .shape-grid { display: flex; gap: 15px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 15px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         .shape-grid::-webkit-scrollbar { display: none; }
         .shape-btn { min-width: 95px; padding: 20px 15px; border: 2px solid #aaa; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: all 0.2s; background: #fff; }
-        .shape-btn:hover { border-color: #555; background: #fff; transform: translate3d(0,-2px,0); }
-        .shape-btn.active { background: #fff; border-color: #000; transform: translate3d(0,0,0); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
-        .shape-btn svg { width: 28px; height: 28px; stroke: #333; fill: none; stroke-width: 2.5; transition: stroke 0.2s; }
+        .shape-btn.active { border-color: #000; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .shape-btn svg { width: 28px; height: 28px; stroke: #333; fill: none; stroke-width: 2.5; }
         .shape-btn.active svg { stroke: #000; }
-        .shape-btn span { font-size: 13px; font-weight: 800; color: #333; text-transform: uppercase; transition: color 0.2s; }
+        .shape-btn span { font-size: 13px; font-weight: 800; color: #333; text-transform: uppercase; }
         .shape-btn.active span { color: #000; }
 
-        .scanned-area-display { display:none; flex-direction:column; align-items:center; margin-bottom:30px; padding:25px; background:rgba(16,185,129,0.1); border:2px dashed var(--success); border-radius:16px; transition: all 0.3s; }
-        .scanned-area-display.active { display: flex; animation: popIn 0.4s var(--ease-spring); }
-        .scanned-lbl { font-size:12px; font-weight:800; color:var(--success); text-transform:uppercase; letter-spacing:1px; margin-bottom:5px; }
-        .scanned-val { font-size:42px; font-weight:800; color:#000; line-height:1; font-family:'Space Grotesk', sans-serif;}
-        .scanned-rescan { margin-top:15px; font-size:12px; font-weight:800; color:var(--text-muted); text-transform:uppercase; text-decoration:underline; cursor:pointer; }
-        .scanned-rescan:hover { color:#000; }
-        
         .preset-row { display: flex; gap: 10px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; mask-image: linear-gradient(to right, black 90%, transparent 100%); }
-        .preset-btn { padding: 12px 24px; border: 2px solid #aaa; border-radius: 30px; font-size: 13px; font-weight: 800; color: #333; background: #fff; white-space: nowrap; transition: all 0.2s; cursor: pointer; }
-        .preset-btn:hover { color: #000; border-color: #000; background: #f3f4f6; transform: translate3d(0,-2px,0); }
+        .preset-btn { padding: 12px 24px; border: 2px solid #aaa; border-radius: 30px; font-size: 13px; font-weight: 800; color: #333; background: #fff; white-space: nowrap; cursor: pointer; }
         
         .env-icons { display: inline-flex; align-items: center; gap: 10px; margin-left: auto; }
         .icon-temp { width: 18px; height: 18px; stroke: #ef4444; fill: none; }
         .icon-drop { width: 18px; height: 18px; stroke: #3b82f6; fill: none; }
 
-        .env-card { background: #f0fdf4; border: 2px solid #d1fae5; padding: 25px; border-radius: 20px; transition: background-color 0.3s, border-color 0.3s; }
-        .auto-btn { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid var(--accent); color: var(--accent); font-size: 13px; font-weight: 800; text-transform: uppercase; cursor: pointer; background: #fff; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.2s; }
-        .auto-btn:hover { background: #eef2ff; transform: translate3d(0,-2px,0); }
-        .auto-btn:active { transform: scale(0.98); }
+        .env-card { background: #eef2ff; border: 2px solid #e0e7ff; padding: 25px; border-radius: 20px; }
+        .auto-btn { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid var(--accent); color: var(--accent); font-size: 13px; font-weight: 800; text-transform: uppercase; cursor: pointer; background: #fff; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; gap: 8px; }
 
-        .trust-box { background: #fff; border: 1px solid #d1fae5; border-radius: 12px; padding: 18px; margin-top: 20px; }
+        .trust-box { background: #fff; border: 1px solid #ccc; border-radius: 12px; padding: 18px; margin-top: 20px; }
         .trust-title { color: var(--success); font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
         .trust-box ul { list-style: none; padding: 0; margin: 0; }
         .trust-box li { font-size: 12px; font-weight: 500; color: var(--text-dark); margin-bottom: 8px; line-height: 1.5; display: flex; align-items: flex-start; gap: 8px; }
         .trust-box li span { color: var(--success); font-size: 14px; }
         
-        .refine-toggle { margin-top: 25px; font-size: 13px; font-weight: 800; color: #000; cursor: pointer; display: flex; align-items: center; gap: 8px; padding-top: 20px; border-top: 2px solid #ccc; transition: color 0.2s; }
-        .refine-toggle:hover { color: var(--accent); }
+        .refine-toggle { margin-top: 25px; font-size: 13px; font-weight: 800; color: #000; cursor: pointer; display: flex; align-items: center; gap: 8px; padding-top: 20px; border-top: 2px solid #ccc; }
         .refine-panel { display: none; padding-top: 20px; }
-        .refine-panel.show { display: block; animation: slideDown 0.3s var(--ease-fluid) forwards; }
-        @keyframes slideDown { from { opacity: 0; transform: translate3d(0,-10px,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
+        .refine-panel.show { display: block; }
         .refine-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .refine-inp { width: 100%; background: #fff; border: 2px solid #aaa; padding: 12px; border-radius: 10px; color: #000; font-weight: 800; font-size: 14px; outline: none; transition: border-color 0.2s; }
+        .refine-inp { width: 100%; background: #fff; border: 2px solid #aaa; padding: 12px; border-radius: 10px; color: #000; font-weight: 800; font-size: 14px; outline: none; }
         
         .z-res-title { font-size: 14px; font-weight: 800; text-transform: uppercase; color: #333; letter-spacing: 2px; }
         .z-res-val { font-size: 80px; font-weight: 800; color: #000; line-height: 1; margin: 15px 0 25px; letter-spacing: -3px; }
@@ -256,8 +253,8 @@
         .p-item span { font-size: 13px; font-weight: 800; color: #333; display: block; margin-bottom: 5px; }
         .p-item b { font-size: 28px; color: #000; font-weight: 800; font-variant-numeric: tabular-nums; }
         
-        .safety-report { background: #fdfdfd; border-radius: 16px; padding: 20px; border-left: 6px solid #aaa; margin-bottom: 20px; border-top: 1px solid #ccc; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; }
-        .safety-report.safe { border-left-color: var(--success); background: #f0fdf4; border-color: #d1fae5; }
+        .safety-report { background: #f9fafb; border-radius: 16px; padding: 20px; border-left: 6px solid #aaa; margin-bottom: 20px; border-top: 1px solid #ccc; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+        .safety-report.safe { border-left-color: var(--success); background: #ecfdf5; border-color: #d1fae5; }
         .safety-report.danger { border-left-color: var(--danger); background: #fef2f2; border-color: #fee2e2; }
         .sr-head { font-size: 14px; font-weight: 800; color: #000; text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; }
         .sr-list { list-style: none; padding: 0; margin: 0; }
@@ -266,35 +263,31 @@
         .cost-card { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px; border-radius: 12px; border: 2px solid #ccc; margin-top: auto; }
         .cost-inp { width: 90px; background: transparent; border: none; border-bottom: 2px solid #aaa; color: #000; text-align: right; font-weight: 800; font-size: 20px; padding-bottom: 2px; }
 
-        /* =========================================
-           14. THE ULTIMATE SMART SCANNER
-           ========================================= */
-        .scanner-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; background: rgba(0,0,0,0.95); z-index: 9999; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.3s; }
-        .scanner-overlay.active { opacity: 1; display: flex; }
-        .scanner-ui { background: #fff; border-radius: 24px; overflow: hidden; width: 100%; max-width: 500px; box-shadow: 0 30px 60px rgba(0,0,0,0.8); display: flex; flex-direction: column; transform: scale(0.95); transition: transform 0.3s; }
-        .scanner-overlay.active .scanner-ui { transform: scale(1); }
+        /* SMART SCANNER DISPLAY BLOCK */
+        .scanned-area-display { display:none; flex-direction:column; align-items:center; margin-bottom:30px; padding:25px; background:rgba(16,185,129,0.1); border:2px dashed var(--success); border-radius:16px; }
+        .scanned-area-display.active { display: flex; }
+        .scanned-lbl { font-size:12px; font-weight:800; color:var(--success); text-transform:uppercase; letter-spacing:1px; margin-bottom:5px; }
+        .scanned-val { font-size:42px; font-weight:800; color:#000; line-height:1; font-family:'Space Grotesk', sans-serif;}
+        .scanned-rescan { margin-top:15px; font-size:12px; font-weight:800; color:var(--text-muted); text-transform:uppercase; text-decoration:underline; cursor:pointer; }
         
+        .scanner-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; background: #000; z-index: 9999; display: none; justify-content: center; align-items: center; padding: 20px; }
+        .scanner-overlay.active { display: flex; }
+        .scanner-ui { background: #fff; border-radius: 24px; overflow: hidden; width: 100%; max-width: 500px; display: flex; flex-direction: column; }
         .scanner-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; background: #fafafa; }
         .scanner-header h3 { font-size: 16px; font-weight: 800; color: #000; margin: 0; display:flex; align-items:center; gap:8px;}
         .scanner-close { background: none; border: none; font-size: 28px; color: #666; cursor: pointer; line-height: 1; padding: 5px; }
-        
         .scanner-view { position: relative; width: 100%; height: 450px; background: #000; overflow: hidden; touch-action: none; overscroll-behavior: none; }
         .scanner-view video { width: 100%; height: 100%; object-fit: cover; }
         .scanner-view canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 5; cursor: crosshair; }
-        
         .scan-instruction { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px; border-radius: 30px; font-size: 13px; font-weight: 800; z-index: 10; text-align: center; white-space: nowrap; pointer-events: none; border: 1px solid rgba(255,255,255,0.2);}
-
         .scanner-controls { padding: 25px; background: #fafafa; display: flex; flex-direction: column; align-items: center; gap: 15px; border-top: 1px solid #ccc; }
-        
         .scan-inputs { display: flex; gap: 10px; width: 100%; }
         .scan-inputs input { flex: 1; border: 2px solid #aaa; padding: 14px; font-size: 16px; font-weight: 800; border-radius: 12px; outline: none; background: #fff; color: #000; width: 100%;}
         .scan-inputs select { width: 90px; border: 2px solid #aaa; padding: 14px; font-size: 14px; font-weight: 800; border-radius: 12px; outline: none; background: #fff; color: #000; cursor: pointer; width: 100%;}
-        .scan-inputs input:focus, .scan-inputs select:focus { border-color: var(--accent); }
-
         .trust-badge { font-size: 11px; color: var(--success); font-weight: 800; margin-top: 5px; display: flex; justify-content: center; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.5px;}
 
         /* =========================================
-           15. LIVE REVIEWS ENGINE (SOLID BLACK)
+           10. LIVE REVIEWS ENGINE
            ========================================= */
         .reviews-section { padding: 80px 0; background: #050505; border-top: 1px solid var(--border); }
         .r-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; flex-wrap: wrap; gap: 20px;}
@@ -308,7 +301,7 @@
         .reviews-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 20px; padding-bottom: 20px; scrollbar-width: none; mask-image: linear-gradient(to right, black 90%, transparent 100%); }
         .reviews-container::-webkit-scrollbar { display: none; }
         
-        .r-card { min-width: 320px; max-width: 320px; scroll-snap-align: start; background: #0a0a0a; border: 1px solid var(--border); border-radius: 20px; padding: 25px; display: flex; flex-direction: column; transition: transform 0.3s; }
+        .r-card { min-width: 320px; max-width: 320px; scroll-snap-align: start; background: #0f0f0f; border: 1px solid var(--border); border-radius: 20px; padding: 25px; display: flex; flex-direction: column; transition: transform 0.3s; }
         .r-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); }
         .r-card-stars { margin-bottom: 15px; display: flex; gap: 2px;}
         .r-card-stars svg { width: 14px; height: 14px; fill: #f59e0b; }
@@ -316,24 +309,12 @@
         .r-card-author { font-size: 13px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px; }
         .r-verified { color: var(--success); font-size: 14px; }
         
-        /* AUTH & REVIEW MODALS (PREMIUM SOLID) */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.9); z-index: 4000; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.3s; }
-        .modal-overlay.active { opacity: 1; display: flex; }
-        .modal-content { background: #ffffff; border-radius: 24px; width: 100%; max-width: 400px; padding: 35px; position: relative; transform: scale(0.95); transition: transform 0.3s; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
-        .modal-overlay.active .modal-content { transform: scale(1); }
-        .m-close { position: absolute; top: 20px; right: 25px; background: none; border: none; color: #888; font-size: 28px; cursor: pointer; transition: color 0.2s; }
-        .m-close:hover { color: #000; }
-        
         .rm-star-select { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; cursor: pointer; }
         .rm-star-select svg { width: 32px; height: 32px; fill: transparent; stroke: #f59e0b; stroke-width: 2; transition: fill 0.2s; }
         .rm-star-select svg.active { fill: #f59e0b; }
-        
-        .m-input { width: 100%; background: #f3f4f6; border: 1px solid #e5e7eb; padding: 16px; border-radius: 12px; color: #111; font-size: 14px; font-weight: 500; margin-bottom: 15px; outline: none; transition: border-color 0.2s, background 0.2s; font-family: 'Manrope', sans-serif; }
-        .m-input:focus { border-color: #111; background: #fff; }
-        textarea.m-input { resize: vertical; min-height: 100px; }
 
         /* =========================================
-           10. FOOTER
+           11. FOOTER
            ========================================= */
         .footer { position: relative; padding: 120px 20px 60px; background: var(--bg-milky); overflow: hidden; border-top: 1px solid var(--border-light); }
         .footer-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; }
@@ -348,12 +329,12 @@
         .f-badge { padding: 12px 24px; border: 1px solid #d1d5db; border-radius: 50px; font-size: 12px; color: var(--text-dark); font-weight: 600; letter-spacing: 0.5px; background: var(--bg-pure); cursor: default; }
         .f-bottom-row { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 40px; border-top: 1px solid var(--border-light); }
         .f-nav { display: flex; gap: 30px; }
-        .f-nav-link { font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; transition: color 0.3s; }
+        .f-nav-link { font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
         .f-nav-link:hover { color: var(--text-dark); }
         .f-copy { font-size: 12px; color: #888; font-weight: 500; }
 
         /* =========================================
-           11. CART & REMINDER HAND 
+           12. CART SIDEBAR
            ========================================= */
         .cart-fab { position: fixed; bottom: 30px; right: 20px; width: 65px; height: 65px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: transform 0.2s; cursor: pointer; transform: translateZ(0); }
         .cart-fab:active { transform: scale(0.9) translateZ(0); }
@@ -365,15 +346,13 @@
 
         .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; z-index: 3000; pointer-events: none; }
         .cart-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); opacity: 0; transition: opacity 0.4s; cursor: pointer; }
-        .cart-inner { position: absolute; right: 0; width: 100%; max-width: 420px; height: 100%; background: #0a0a0a; border-left: 1px solid var(--border); transform: translate3d(100%, 0, 0); transition: transform 0.4s var(--ease-fluid); display: flex; flex-direction: column; padding: 40px; box-shadow: -20px 0 50px rgba(0,0,0,0.8); }
-        
+        .cart-inner { position: absolute; right: 0; width: 100%; max-width: 420px; height: 100%; background: #0a0a0a; border-left: 1px solid var(--border); transform: translate3d(100%, 0, 0); transition: transform 0.4s; display: flex; flex-direction: column; padding: 40px; box-shadow: -20px 0 50px rgba(0,0,0,0.8); }
         .cart-sidebar.active { pointer-events: all; }
         .cart-sidebar.active .cart-overlay { opacity: 1; }
         .cart-sidebar.active .cart-inner { transform: translate3d(0, 0, 0); }
         
         .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
-        .cart-item { background: #111; border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; animation: slideInRight 0.4s var(--ease-spring) forwards; }
-        @keyframes slideInRight { from { opacity: 0; transform: translate3d(30px,0,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
+        .cart-item { background: #111; border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
         .c-info h4 { font-size: 14px; color: #fff; font-weight: 700; margin-bottom: 4px; }
         .c-info p { font-size: 12px; color: var(--text-dim); }
         .c-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
@@ -382,12 +361,11 @@
         .qty-btn { width: 34px; height: 34px; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 14px; font-weight: 800; cursor: pointer; transition: background 0.2s; }
         .qty-btn:hover { background: rgba(255,255,255,0.15); }
         .qty-val { width: 24px; text-align: center; font-size: 12px; font-weight: 800; color: #fff; }
-        
         .checkout-btn { width: 100%; padding: 16px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer; border: none; }
         .empty-cart { text-align: center; color: var(--text-dim); margin-top: 50px; font-size: 14px; }
 
         /* =========================================
-           12. VIJETA AI ASSISTANT (SOLID PREMIUM)
+           13. VIJETA AI ASSISTANT
            ========================================= */
         .vijeta-fab { position: fixed; bottom: 30px; left: 20px; width: 65px; height: 65px; background: #fff; border: 2px solid #e5e7eb; border-radius: 50%; z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.15); transition: transform 0.2s; cursor: pointer; padding: 3px; transform: translateZ(0); }
         .vijeta-fab:active { transform: scale(0.95) translateZ(0); }
@@ -408,8 +386,7 @@
         
         .v-chat { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none; overscroll-behavior: contain; }
         .v-chat::-webkit-scrollbar { display: none; }
-        .msg { max-width: 88%; padding: 14px 18px; border-radius: 20px; font-size: 14px; font-weight: 500; line-height: 1.6; animation: popIn 0.3s var(--ease-spring) forwards; }
-        @keyframes popIn { from { opacity: 0; transform: translate3d(0,10px,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
+        .msg { max-width: 88%; padding: 14px 18px; border-radius: 20px; font-size: 14px; font-weight: 500; line-height: 1.6; }
         .msg.bot { background: #ffffff; border: 1px solid #e5e7eb; color: #222; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
         .msg.user { background: #111; color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
@@ -424,7 +401,7 @@
         .v-send:active { transform: scale(0.95); }
 
         /* =========================================
-           13. MOBILE OPTIMIZATIONS (FIXED HEADER & FAST)
+           14. MOBILE OPTIMIZATIONS (FIXED HEADER)
            ========================================= */
         @media (max-width: 900px) {
             .bg-layer { background-size: cover; opacity: 0.3; }
@@ -498,6 +475,27 @@
         </div>
     </div>
 
+    <div id="payment-modal-overlay" class="modal-overlay">
+        <div class="payment-modal">
+            <button class="m-close" onclick="closePaymentModal()">×</button>
+            <h3 style="font-size: 20px; font-weight: 800; color: #111; margin-bottom: 5px;">Secure Checkout</h3>
+            <p style="color: var(--text-muted); font-size: 13px;">Scan to securely pay via UPI</p>
+            
+            <div class="qr-box">
+                <img id="upi-qr" src="" alt="UPI QR Code">
+            </div>
+            
+            <div style="font-size: 28px; font-weight: 800; color: #111; margin-bottom: 20px;" id="payment-total">₹0</div>
+            
+            <p style="font-size: 12px; color: var(--danger); margin-bottom: 15px; font-weight: 600;">*Please complete payment before clicking confirm.</p>
+            
+            <button class="btn btn-primary" style="width:100%; background:var(--whatsapp); color:#000;" onclick="finalizeOrder()">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" style="margin-right: 8px;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                Confirm Payment & Message Us
+            </button>
+        </div>
+    </div>
+
     <div id="review-modal-overlay" class="modal-overlay">
         <div class="modal-content">
             <button class="m-close" onclick="closeReviewModal()">×</button>
@@ -567,7 +565,6 @@
 
     <div class="bg-layer"></div>
     <div class="bg-gradient"></div>
-    
     <div id="toast" class="toast">Added to Cart</div>
 
     <nav class="navbar">
@@ -576,9 +573,7 @@
                 <a href="#" class="logo" id="mx-logo">M-X LUMES</a>
             </div>
             <div class="nav-links">
-                <a href="#shop" class="nav-link" style="color: var(--accent); border-bottom: 2px solid var(--accent);">Order Now</a>
-                <a href="#shop" class="nav-link">Lineup</a>
-                <a href="#specs" class="nav-link">Specs</a>
+                <a href="#shop" class="nav-link" style="color: var(--accent); border-bottom: 2px solid var(--accent);">Order</a>
                 <a href="#calc" class="nav-link">Calc</a>
                 <a href="#" class="nav-link" id="nav-auth-link" style="display:flex; align-items:center; background:#111; color:#fff; padding:8px 16px; border-radius:20px;">
                     Sign In
@@ -597,7 +592,6 @@
                 </text>
             </svg>
         </div>
-
         <div class="reveal active">
             <h1>Molecular Clarity.<br>OLED Contrast.</h1>
             <p>The definitive 3:1 epoxy system. Engineered for professional artisans.</p>
@@ -967,15 +961,11 @@
                 </div>
                 <button class="btn btn-outline" onclick="openReviewModal()">Write a Review</button>
             </div>
-            
             <div class="reviews-container" id="reviews-grid"></div>
         </div>
     </section>
 
     <footer class="footer">
-        <div class="footer-overlay"></div>
-        <div class="footer-watermark" style="opacity: 0.05;">M-X</div>
-        
         <div class="footer-content">
             <div class="f-top-grid">
                 <div>
@@ -1002,23 +992,18 @@
                         <div class="f-badge">🇮🇳 Engineered in India</div>
                         <div class="f-badge">💎 Crystal Series</div>
                     </div>
-                    
                     <div style="margin-top:40px;">
                         <button class="btn btn-primary" onclick="smoothScroll('shop')" style="background:#111; color:#fff;">Start Your Order</button>
                     </div>
                 </div>
             </div>
-
             <div class="f-bottom-row">
                 <div class="f-nav">
-                    <a href="#shop" class="f-nav-link">Order Now</a>
                     <a href="#shop" class="f-nav-link">Shop</a>
                     <a href="#calc" class="f-nav-link">Calculator</a>
                     <a href="#" class="f-nav-link">Contact</a>
                 </div>
-                <div class="f-copy">
-                    © 2026 M-X Lumes. Engineered in Meerut.
-                </div>
+                <div class="f-copy">© 2026 M-X Lumes. Engineered in Meerut.</div>
             </div>
         </div>
     </footer>
@@ -1026,12 +1011,10 @@
     <div class="v-greeting" id="vGreeting">
         Hey, I am Vijeta! I can solve all your queries about our resin products or calculator use. 👋
     </div>
-
     <div class="vijeta-fab" onclick="toggleVijeta()" title="Ask Vijeta">
         <img src="vijeta.jpg" alt="Vijeta" class="v-avatar">
         <div class="v-online-dot"></div>
     </div>
-
     <div class="vijeta-panel" id="vijetaPanel">
         <div class="v-header">
             <div class="v-title"><span></span>Vijeta AI Assistant</div>
@@ -1047,15 +1030,17 @@
     </div>
 
     <div class="cart-reminder" id="cartReminder">👇</div>
-
-    <div class="cart-fab" onclick="toggleCart()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-7-2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2zm-5-10h2l1 14h13"/></svg><div class="cart-count" id="cartCount">0</div></div>
+    <div class="cart-fab" onclick="toggleCart()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-7-2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2zm-5-10h2l1 14h13"/></svg>
+        <div class="cart-count" id="cartCount">0</div>
+    </div>
     
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-overlay" onclick="toggleCart()"></div>
         <div class="cart-inner">
             <div class="cart-header">
-                <h2 style="font-size:24px;">Your Bag</h2>
-                <button onclick="toggleCart()" style="color:#fff; font-size:24px;">×</button>
+                <h2 style="font-size:24px; color:#fff;">Your Bag</h2>
+                <button onclick="toggleCart()" style="color:#fff; font-size:28px; background:none; border:none; cursor:pointer;">×</button>
             </div>
             
             <div id="cartItems" style="flex:1; overflow-y:auto; padding-right:5px;"></div>
@@ -1066,9 +1051,8 @@
                     <span id="cartTotal" style="color:#fff;">₹0</span>
                 </div>
                 
-                <button class="checkout-btn" onclick="checkoutWhatsApp()" style="background: var(--whatsapp); color: #000; margin-top: 10px;">
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="margin-right: 8px;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                    Send Order via WhatsApp
+                <button class="checkout-btn" onclick="initiateCheckout()" style="background: #fff; color: #000; margin-top: 10px;">
+                    Proceed to Payment
                 </button>
             </div>
         </div>
@@ -1076,11 +1060,35 @@
 
     <script>
         // =========================================
-        // AUTHENTICATION LOGIC (USER ACCOUNTS)
+        // 1. GLOBAL VARS & CONFIG
         // =========================================
-        let currentAuthMode = 'login';
         const RENDER_URL = 'https://mxlumes-api.onrender.com';
+        // HARDCODED UPI ID
+        const MERCHANT_UPI_ID = "7668077298@ybl"; 
+        
+        let cart = [];
+        let currentAuthMode = 'login';
+        let checkoutTotal = 0;
 
+        window.onload = () => {
+            renderReviews();
+            setupReviewStars();
+            checkAuthStatus(); 
+            runCalc(); // Initialize Calc Math
+
+            setTimeout(() => {
+                const greeting = document.getElementById('vGreeting');
+                const panel = document.getElementById('vijetaPanel');
+                if(greeting && !panel.classList.contains('active')) {
+                    greeting.classList.add('show');
+                    setTimeout(() => { greeting.classList.remove('show'); }, 6000);
+                }
+            }, 2000);
+        };
+
+        // =========================================
+        // 2. AUTHENTICATION LOGIC (USER ACCOUNTS)
+        // =========================================
         function checkAuthStatus() {
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
             const token = localStorage.getItem('mxlumes_token');
@@ -1089,6 +1097,7 @@
             if (user && token) {
                 authLink.innerHTML = `Hi, ${user.name.split(' ')[0]} <span style="font-size:10px; margin-left:8px; opacity:0.7; cursor:pointer;" onclick="logout(event)">(Logout)</span>`;
                 authLink.onclick = (e) => { e.preventDefault(); }; 
+                syncCartWithCloud(); // Fetch their saved cart
             } else {
                 authLink.innerHTML = `Sign In <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
                 authLink.onclick = (e) => { e.preventDefault(); openAuthModal(); };
@@ -1099,6 +1108,8 @@
             e.stopPropagation();
             localStorage.removeItem('mxlumes_token');
             localStorage.removeItem('mxlumes_user');
+            cart = []; // Clear local cart
+            renderCart();
             showToast("Logged out successfully");
             checkAuthStatus();
         }
@@ -1153,8 +1164,6 @@
             if (currentAuthMode === 'signup') {
                 payload.name = document.getElementById('auth-name').value.trim();
                 payload.phone = document.getElementById('auth-phone').value.trim();
-                
-                // Ensure name is entered
                 if (!payload.name) {
                     errorDiv.innerText = "Please enter your full name.";
                     errorDiv.style.display = 'block';
@@ -1173,9 +1182,7 @@
 
                 const data = await response.json();
 
-                if (!response.ok) {
-                    throw new Error(data.message || "Authentication failed.");
-                }
+                if (!response.ok) throw new Error(data.message || "Authentication failed.");
 
                 localStorage.setItem('mxlumes_token', data.token);
                 localStorage.setItem('mxlumes_user', JSON.stringify(data.user));
@@ -1184,11 +1191,6 @@
                 closeAuthModal();
                 document.getElementById('auth-form').reset();
                 checkAuthStatus();
-                
-                // Sync cart if the function exists
-                if (typeof syncCartWithCloud === 'function') {
-                    syncCartWithCloud();
-                }
 
             } catch (error) {
                 console.error("Auth Error:", error);
@@ -1200,7 +1202,172 @@
         }
 
         // =========================================
-        // CORE UI LOGIC
+        // 3. CART & CLOUD SYNC LOGIC
+        // =========================================
+        function updateReminder() {
+            const reminder = document.getElementById('cartReminder');
+            const sidebar = document.getElementById('cartSidebar');
+            if (cart.length > 0 && !sidebar.classList.contains('active')) { reminder.classList.add('show'); } 
+            else { reminder.classList.remove('show'); }
+        }
+        
+        async function syncCartWithCloud(cartData = null) {
+            const user = JSON.parse(localStorage.getItem('mxlumes_user'));
+            if (!user) return;
+
+            try {
+                const response = await fetch(`${RENDER_URL}/api/user/sync-cart`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: user.email, cartData })
+                });
+                const data = await response.json();
+                
+                // If we are FETCHING (cartData is null) and the cloud has data, update local cart
+                if (!cartData && data.cart && data.cart.length > 0) {
+                    cart = data.cart;
+                    renderCart();
+                }
+            } catch (e) { console.error("Cart Sync Failed", e); }
+        }
+
+        function addToCart(name, price) {
+            let existingItem = cart.find(i => i.name === name);
+            if (existingItem) { existingItem.qty++; } else { cart.push({name, price, qty: 1}); }
+            renderCart(); 
+            showToast("Added to Cart");
+            syncCartWithCloud(cart); 
+            const fab = document.querySelector('.cart-fab');
+            fab.style.transform = 'scale(1.2) rotate(10deg) translateZ(0)';
+            setTimeout(() => fab.style.transform = 'translateZ(0)', 200);
+        }
+
+        function updateQty(name, change) {
+            let item = cart.find(i => i.name === name);
+            if(item) { item.qty += change; if(item.qty <= 0) removeFromCart(name); }
+            renderCart();
+            syncCartWithCloud(cart);
+        }
+
+        function removeFromCart(name) { 
+            cart = cart.filter(i => i.name !== name); 
+            renderCart(); 
+            syncCartWithCloud(cart); 
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cartItems'); 
+            container.innerHTML = ''; let total = 0; let count = 0;
+            if (cart.length === 0) {
+                container.innerHTML = '<div class="empty-cart" style="color:#888; margin-top:20px; text-align:center;">Your cart is empty.<br>Start adding some magic. ✨</div>';
+                document.getElementById('cartTotal').innerText = '₹0';
+                document.getElementById('cartCount').innerText = '0';
+                checkoutTotal = 0;
+                updateReminder(); 
+                return;
+            }
+            cart.forEach(item => { 
+                total += item.price * item.qty; count += item.qty;
+                container.innerHTML += `
+                <div class="cart-item">
+                    <div class="c-info"><h4 style="margin-bottom:4px; color:#fff;">${item.name}</h4><p style="font-size:12px; color:#888; margin:0;">High-Gloss System</p></div>
+                    <div class="c-actions" style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+                        <div class="c-price" style="color:#fff; font-weight:700;">₹${(item.price * item.qty).toLocaleString()}</div>
+                        <div class="qty-control" style="display:flex; align-items:center; background:#000; border:1px solid #333; border-radius:20px; overflow:hidden;">
+                            <div class="qty-btn" style="width:30px; height:30px; display:flex; justify-content:center; align-items:center; color:#fff; cursor:pointer;" onclick="updateQty('${item.name}', -1)">-</div>
+                            <div class="qty-val" style="width:20px; text-align:center; color:#fff; font-size:12px; font-weight:800;">${item.qty}</div>
+                            <div class="qty-btn" style="width:30px; height:30px; display:flex; justify-content:center; align-items:center; color:#fff; cursor:pointer;" onclick="updateQty('${item.name}', 1)">+</div>
+                        </div>
+                    </div>
+                </div>`; 
+            });
+            checkoutTotal = total;
+            document.getElementById('cartTotal').innerText = `₹${total.toLocaleString()}`; 
+            document.getElementById('cartCount').innerText = count;
+            updateReminder();
+        }
+
+        function toggleCart() { document.getElementById('cartSidebar').classList.toggle('active'); updateReminder(); }
+        function showToast(msg) { 
+            const t = document.getElementById('toast'); 
+            t.innerHTML = '✓ ' + msg;
+            t.classList.add('show'); 
+            setTimeout(() => t.classList.remove('show'), 3000); 
+        }
+
+        // =========================================
+        // 4. PAYMENT SCANNER & CHECKOUT LOGIC
+        // =========================================
+        function initiateCheckout() {
+            if (cart.length === 0) return alert('Your cart is empty!');
+            
+            // Generate the UPI URL with the custom ID
+            const upiString = `upi://pay?pa=${MERCHANT_UPI_ID}&pn=MXLumes&am=${checkoutTotal}&cu=INR`;
+            const encodedUpi = encodeURIComponent(upiString);
+            
+            // Set the QR Code image source dynamically via API
+            document.getElementById('upi-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodedUpi}`;
+            document.getElementById('payment-total').innerText = `₹${checkoutTotal.toLocaleString()}`;
+            
+            // Close Sidebar, Open Payment Modal
+            toggleCart();
+            document.getElementById('payment-modal-overlay').classList.add('active');
+        }
+
+        function closePaymentModal() {
+            document.getElementById('payment-modal-overlay').classList.remove('active');
+        }
+
+        async function finalizeOrder() {
+            const user = JSON.parse(localStorage.getItem('mxlumes_user'));
+            const userEmail = user ? user.email : 'Guest';
+
+            const payload = {
+                email: userEmail,
+                items: cart,
+                totalAmount: checkoutTotal
+            };
+
+            try {
+                // Save the order to the Backend Ledger
+                const response = await fetch(`${RENDER_URL}/api/orders`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) throw new Error("Could not log order.");
+
+                // Build the WhatsApp Message with the new Order ID
+                let msg = `*NEW ORDER CONFIRMATION*%0A`;
+                msg += `Order ID: *${data.orderId}*%0A`;
+                msg += `Customer: ${userEmail}%0A------------------%0A`;
+                cart.forEach(i => { msg += `• ${i.name} x ${i.qty} = ₹${(i.price * i.qty).toLocaleString()}%0A`; });
+                msg += `------------------%0A*TOTAL PAID: ₹${checkoutTotal.toLocaleString()}*%0A%0AHi M-X Lumes, I have completed the payment via the QR code. Please process my order!`;
+
+                // Clear Cart and Redirect
+                cart = [];
+                renderCart();
+                if(user) syncCartWithCloud([]); // clear cloud cart too
+                
+                closePaymentModal();
+                window.location.href = `https://wa.me/917668077298?text=${msg}`;
+
+            } catch (error) {
+                console.error("Checkout Error:", error);
+                alert("There was an issue logging your order. Redirecting to WhatsApp for manual support.");
+                // Fallback: still send them to WhatsApp even if DB fails
+                let msg = `*ORDER REQUEST*%0A------------------%0A`;
+                cart.forEach(i => { msg += `• ${i.name} x ${i.qty} = ₹${(i.price * i.qty).toLocaleString()}%0A`; });
+                msg += `------------------%0A*TOTAL: ₹${checkoutTotal.toLocaleString()}*%0A%0AHi, the payment scanner had an error. Here is my order.`;
+                window.location.href = `https://wa.me/917668077298?text=${msg}`;
+            }
+        }
+
+        // =========================================
+        // 5. CORE UI SCROLLING
         // =========================================
         let ticking = false;
         window.addEventListener('scroll', () => { 
@@ -1221,20 +1388,9 @@
             }); 
         }, {threshold: 0.1});
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        
-        function countUp(el) { 
-            const target = parseInt(el.dataset.target); 
-            let count = 0; 
-            const inc = target / 30; 
-            const timer = setInterval(() => { 
-                count += inc; 
-                if(count >= target) { count = target; clearInterval(timer); } 
-                el.innerText = Math.floor(count) + (el.innerText.includes('%') ? '%' : ''); 
-            }, 30); 
-        }
 
         // =========================================
-        // TITAN FUSION CALCULATOR LOGIC
+        // 6. TITAN FUSION CALCULATOR LOGIC
         // =========================================
         let appState = { unit: 'cm', shape: 'rect', ratioA: 3, ratioB: 1, mode: 'cast', scannedArea: 0 };
 
@@ -1314,15 +1470,12 @@
             document.getElementById('slider-'+id).value = val;
         }
 
-        // =========================================
-        // ENHANCED WEATHER ENGINE 
-        // =========================================
         async function autoDetectWeather() {
             const btn = document.querySelector('.auto-btn');
             const status = document.getElementById('weather-status');
             const intelligence = document.getElementById('weather-intelligence');
             
-            btn.innerHTML = "🛰️ Triangulating Position...";
+            btn.innerHTML = "🛰️ Triangulating...";
             status.style.display = 'block';
             status.innerText = "Attempting Satellite Lock...";
             
@@ -1333,20 +1486,13 @@
                 });
                 await fetchWeatherData(position.coords.latitude, position.coords.longitude, btn, status, intelligence, "GPS Satellite");
             } catch (gpsError) {
-                status.innerText = "GPS blocked or timed out. Using IP Fallback...";
-                
+                status.innerText = "GPS blocked. Using IP Fallback...";
                 try {
                     const ipResponse = await fetch('https://get.geojs.io/v1/ip/geo.json');
                     const ipData = await ipResponse.json();
                     await fetchWeatherData(ipData.latitude, ipData.longitude, btn, status, intelligence, ipData.city || "IP Match");
                 } catch (ipError) {
-                    try {
-                        const fallbackRes = await fetch('https://ipapi.co/json/');
-                        const fallbackData = await fallbackRes.json();
-                        await fetchWeatherData(fallbackData.latitude, fallbackData.longitude, btn, status, intelligence, fallbackData.city || "Network Match");
-                    } catch(finalError) {
-                        handleWeatherError(btn, status, "Connection Blocked");
-                    }
+                    handleWeatherError(btn, status, "Connection Blocked");
                 }
             }
         }
@@ -1393,7 +1539,7 @@
         }
 
         // =========================================
-        // ADOBE-STYLE SMART SCANNER
+        // 7. SMART SCANNER WITH PERSPECTIVE MATH
         // =========================================
         let camStream = null;
         let polyNodes = [];
@@ -1414,11 +1560,9 @@
             const ctx = canvas.getContext('2d');
             
             ctx.clearRect(0, 0, canvas.width, canvas.height); 
-            canvas.onmousedown = null; canvas.onmousemove = null; canvas.onmouseup = null;
-            canvas.ontouchstart = null; canvas.ontouchmove = null; canvas.ontouchend = null;
             
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                alert("Camera access is blocked or unsupported. Please use HTTPS.");
+                alert("Camera access is blocked or unsupported.");
                 closeScanner(); setShape('rect'); return;
             }
 
@@ -1443,7 +1587,6 @@
             document.getElementById('scan-actions').style.display = 'none';
             document.getElementById('btn-capture').style.display = 'block';
             document.getElementById('scan-instruction').style.display = 'block';
-            
             const video = document.getElementById('camera-feed');
             const canvas = document.getElementById('scanner-canvas');
             canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
@@ -1457,7 +1600,6 @@
             
             canvas.width = video.clientWidth;
             canvas.height = video.clientHeight;
-            
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             video.pause();
             
@@ -1488,17 +1630,13 @@
                 minX = w * 0.2; maxX = w * 0.8;
                 minY = h * 0.3; maxY = h * 0.7;
             } else {
-                minX = Math.max(0, minX - 10);
-                maxX = Math.min(w, maxX + 10);
-                minY = Math.max(0, minY - 10);
-                maxY = Math.min(h, maxY + 10);
+                minX = Math.max(0, minX - 10); maxX = Math.min(w, maxX + 10);
+                minY = Math.max(0, minY - 10); maxY = Math.min(h, maxY + 10);
             }
 
             polyNodes = [
-                {x: minX, y: minY}, 
-                {x: maxX, y: minY}, 
-                {x: maxX, y: maxY}, 
-                {x: minX, y: maxY}  
+                {x: minX, y: minY}, {x: maxX, y: minY}, 
+                {x: maxX, y: maxY}, {x: minX, y: maxY}  
             ];
             
             document.getElementById('scan-instruction').style.display = 'none';
@@ -1541,7 +1679,6 @@
             canvas.addEventListener('mousedown', downHandler);
             canvas.addEventListener('mousemove', moveHandler);
             window.addEventListener('mouseup', upHandler);
-            
             canvas.addEventListener('touchstart', downHandler, {passive: false});
             canvas.addEventListener('touchmove', moveHandler, {passive: false});
             window.addEventListener('touchend', upHandler);
@@ -1578,10 +1715,7 @@
             ctx.lineTo(polyNodes[1].x, polyNodes[1].y);
             ctx.strokeStyle = "#ef4444";
             ctx.lineWidth = 5;
-            ctx.shadowColor = "#ef4444";
-            ctx.shadowBlur = 10;
             ctx.stroke();
-            ctx.shadowBlur = 0; 
 
             polyNodes.forEach(p => {
                 ctx.beginPath();
@@ -1592,44 +1726,9 @@
                 ctx.strokeStyle = (p === draggingNode) ? "#ef4444" : "#00a0ff"; 
                 ctx.stroke();
             });
-
-            if(draggingNode) {
-                const magSize = 130;
-                const magZoom = 2;
-                
-                let magDrawX = draggingNode.x;
-                let magDrawY = draggingNode.y - magSize - 30;
-                if (magDrawY < magSize/2) magDrawY = draggingNode.y + magSize + 30;
-                if (magDrawX < magSize/2) magDrawX = magSize/2 + 10;
-                if (magDrawX > canvas.width - magSize/2) magDrawX = canvas.width - magSize/2 - 10;
-
-                ctx.save();
-                ctx.beginPath();
-                ctx.arc(magDrawX, magDrawY, magSize/2, 0, Math.PI*2);
-                ctx.lineWidth = 6;
-                ctx.strokeStyle = '#00a0ff';
-                ctx.stroke();
-                ctx.clip();
-                
-                ctx.drawImage(video,
-                    draggingNode.x - (magSize/2)/magZoom, draggingNode.y - (magSize/2)/magZoom, magSize/magZoom, magSize/magZoom,
-                    magDrawX - magSize/2, magDrawY - magSize/2, magSize, magSize
-                );
-
-                ctx.beginPath();
-                ctx.moveTo(magDrawX - 15, magDrawY); ctx.lineTo(magDrawX + 15, magDrawY);
-                ctx.moveTo(magDrawX, magDrawY - 15); ctx.lineTo(magDrawX, magDrawY + 15);
-                ctx.strokeStyle = '#ef4444';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-                
-                ctx.restore();
-            }
         }
 
-        // =========================================
-        // UPDATED WITH PERSPECTIVE CORRECTION MATH
-        // =========================================
+        // --- THE PERSPECTIVE MATH ---
         function processCalibration() {
             const inputLen = parseFloat(document.getElementById('scan-line-length').value);
             const unit = document.getElementById('scan-unit').value;
@@ -1650,7 +1749,6 @@
             let realLen_cm = inputLen * factor;
             
             let cmPerPixel = realLen_cm / topEdge;
-            
             let areaCm2 = undistortedPixelArea * Math.pow(cmPerPixel, 2);
             
             appState.scannedArea = areaCm2;
@@ -1660,6 +1758,9 @@
             runCalc();
         }
 
+        // =========================================
+        // 8. CALCULATOR ENGINE
+        // =========================================
         function runCalc() {
             let h = parseFloat(document.getElementById('input-D').value) || 0;
             let factor = appState.unit === 'in' ? 2.54 : 1;
@@ -1745,103 +1846,14 @@
         }
 
         // =========================================
-        // CART LOGIC (WITH CLOUD SYNC)
-        // =========================================
-        let cart = [];
-        function updateReminder() {
-            const reminder = document.getElementById('cartReminder');
-            const sidebar = document.getElementById('cartSidebar');
-            if (cart.length > 0 && !sidebar.classList.contains('active')) { reminder.classList.add('show'); } 
-            else { reminder.classList.remove('show'); }
-        }
-        
-        async function syncCartWithCloud(cartData = null) {
-            const user = JSON.parse(localStorage.getItem('mxlumes_user'));
-            if (!user) return;
-
-            try {
-                const response = await fetch(`${RENDER_URL}/api/user/sync-cart`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: user.email, cartData })
-                });
-                const data = await response.json();
-                if (!cartData && data.cart && data.cart.length > 0) {
-                    cart = data.cart;
-                    renderCart();
-                }
-            } catch (e) { console.error("Sync Failed", e); }
-        }
-
-        function addToCart(name, price) {
-            let existingItem = cart.find(i => i.name === name);
-            if (existingItem) { existingItem.qty++; } else { cart.push({name, price, qty: 1}); }
-            renderCart(); showToast("Added to Cart");
-            syncCartWithCloud(cart); 
-            const fab = document.querySelector('.cart-fab');
-            fab.style.transform = 'scale(1.2) rotate(10deg) translateZ(0)';
-            setTimeout(() => fab.style.transform = 'translateZ(0)', 200);
-        }
-        function updateQty(name, change) {
-            let item = cart.find(i => i.name === name);
-            if(item) { item.qty += change; if(item.qty <= 0) removeFromCart(name); }
-            renderCart();
-            syncCartWithCloud(cart);
-        }
-        function removeFromCart(name) { cart = cart.filter(i => i.name !== name); renderCart(); syncCartWithCloud(cart); }
-        function renderCart() {
-            const container = document.getElementById('cartItems'); 
-            container.innerHTML = ''; let total = 0; let count = 0;
-            if (cart.length === 0) {
-                container.innerHTML = '<div class="empty-cart">Your cart is empty.<br>Start adding some magic. ✨</div>';
-                document.getElementById('cartTotal').innerText = '₹0';
-                document.getElementById('cartCount').innerText = '0';
-                updateReminder(); return;
-            }
-            cart.forEach(item => { 
-                total += item.price * item.qty; count += item.qty;
-                container.innerHTML += `
-                <div class="cart-item">
-                    <div class="c-info"><h4>${item.name}</h4><p>High-Gloss System</p></div>
-                    <div class="c-actions">
-                        <div class="c-price">₹${(item.price * item.qty).toLocaleString()}</div>
-                        <div class="qty-control">
-                            <div class="qty-btn" onclick="updateQty('${item.name}', -1)">-</div>
-                            <div class="qty-val">${item.qty}</div>
-                            <div class="qty-btn" onclick="updateQty('${item.name}', 1)">+</div>
-                        </div>
-                    </div>
-                </div>`; 
-            });
-            document.getElementById('cartTotal').innerText = `₹${total.toLocaleString()}`; 
-            document.getElementById('cartCount').innerText = count;
-            updateReminder();
-        }
-        function toggleCart() { document.getElementById('cartSidebar').classList.toggle('active'); updateReminder(); }
-        function showToast(msg) { 
-            const t = document.getElementById('toast'); 
-            if(msg) t.innerHTML = '✓ ' + msg; else t.innerHTML = '✓ Successful';
-            t.classList.add('show'); 
-            setTimeout(() => t.classList.remove('show'), 3000); 
-        }
-        function checkoutWhatsApp() {
-            if(cart.length === 0) return alert('Your cart is empty!');
-            let total = 0; let msg = `*NEW ORDER REQUEST* %0A------------------%0A`;
-            cart.forEach(i => { msg += `• ${i.name} x ${i.qty} = ₹${(i.price * i.qty).toLocaleString()}%0A`; total += i.price * i.qty; });
-            msg += `------------------%0A*TOTAL: ₹${total.toLocaleString()}*%0A%0AHi M-X Lumes, I would like to confirm shipping for this order.`;
-            window.location.href = `https://wa.me/917668077298?text=${msg}`;
-        }
-
-        // =========================================
-        // LIVE REVIEWS ENGINE
+        // 9. LIVE REVIEWS
         // =========================================
         const initialReviews = [
-            { name: "Sneha Sharma", text: "Absolutely flawless for Varmala preservation. Diamond clear and absolutely no micro-bubbles. Will order the 20kg set next.", stars: 5 },
-            { name: "Rahul Verma", text: "The 120-minute pot life is a lifesaver for complex geode pours. Gives me ample time to mix pigments without it heating up.", stars: 5 },
-            { name: "Ananya Patel", text: "I was skeptical about the 85 Shore D hardness, but my coasters are practically scratch-proof. Incredible quality.", stars: 5 },
+            { name: "Sneha Sharma", text: "Absolutely flawless for Varmala preservation. Diamond clear and absolutely no micro-bubbles.", stars: 5 },
+            { name: "Rahul Verma", text: "The 120-minute pot life is a lifesaver for complex geode pours. Gives me ample time to mix pigments.", stars: 5 },
+            { name: "Ananya Patel", text: "I was skeptical about the 85 Shore D hardness, but my coasters are practically scratch-proof.", stars: 5 },
             { name: "Vikram Singh", text: "Zero VOCs means no headaches! I can finally work in my indoor studio without the strong chemical smell.", stars: 4 },
-            { name: "Divya Iyer", text: "Best 3:1 epoxy in India hands down. Auto-degassing actually works—I didn't even need my heat gun.", stars: 5 },
-            { name: "Rohit Desai", text: "M-X Lumes replaced my imported resin. The HALS UV protection is genuine, my white pieces haven't yellowed at all.", stars: 5 }
+            { name: "Divya Iyer", text: "Best 3:1 epoxy in India hands down. Auto-degassing actually works—I didn't even need my heat gun.", stars: 5 }
         ];
 
         let selectedStars = 5;
@@ -1888,48 +1900,24 @@
         function submitReview() {
             const name = document.getElementById('rv-name').value.trim();
             const text = document.getElementById('rv-text').value.trim();
-            
             if(!name || !text) return alert("Please enter your name and review.");
-            
             const newReview = { name: name, text: text, stars: selectedStars };
             let storedReviews = JSON.parse(localStorage.getItem('mxlumes_reviews') || '[]');
             storedReviews.unshift(newReview);
             localStorage.setItem('mxlumes_reviews', JSON.stringify(storedReviews));
-            
             document.getElementById('rv-name').value = '';
             document.getElementById('rv-text').value = '';
-            
-            closeReviewModal();
-            renderReviews();
-            showToast("Review published!");
+            closeReviewModal(); renderReviews(); showToast("Review published!");
         }
 
         // =========================================
-        // VIJETA AI ASSISTANT
+        // 10. VIJETA AI ASSISTANT
         // =========================================
-        let chatInitialized = false;
-
-        window.addEventListener('load', () => {
-            renderReviews();
-            setupReviewStars();
-            checkAuthStatus(); 
-
-            setTimeout(() => {
-                const greeting = document.getElementById('vGreeting');
-                const panel = document.getElementById('vijetaPanel');
-                if(greeting && !panel.classList.contains('active')) {
-                    greeting.classList.add('show');
-                    setTimeout(() => { greeting.classList.remove('show'); }, 6000);
-                }
-            }, 2000);
-        });
-
         function toggleVijeta() {
             document.getElementById('vGreeting').classList.remove('show');
             document.getElementById('vijetaPanel').classList.toggle('active');
-            if(!chatInitialized) {
+            if(document.getElementById('vChatBox').innerHTML === "") {
                 renderBotMessage("Namaste! 🙏 I am Vijeta, your official M-X Lumes AI Expert. I can diagnose pouring issues, explain our chemical science, and assist with your resin art. How can I help you today?");
-                chatInitialized = true;
             }
         }
 
@@ -1949,23 +1937,16 @@
             chatBox.scrollTop = chatBox.scrollHeight;
 
             try {
-                const response = await fetch('https://mxlumes-api.onrender.com/api/chat', {
+                const response = await fetch(`${RENDER_URL}/api/chat`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: text })
                 });
-
                 const data = await response.json();
-
-                const loader = document.getElementById(loadingId);
-                if (loader) loader.remove();
-
+                document.getElementById(loadingId).remove();
                 renderBotMessage(data.reply);
-
             } catch (error) {
-                console.error("Chat Error:", error);
-                const loader = document.getElementById(loadingId);
-                if (loader) loader.remove();
+                document.getElementById(loadingId).remove();
                 renderBotMessage("I'm having a little trouble connecting to my lab right now. Please try again or reach out on WhatsApp! 🛠️");
             }
         }
@@ -1974,14 +1955,12 @@
             const chatBox = document.getElementById('vChatBox');
             chatBox.innerHTML += `<div class="msg user">${text}</div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
-            document.querySelectorAll('.v-options').forEach(el => el.style.display = 'none');
         }
 
         function renderBotMessage(text) {
             const chatBox = document.getElementById('vChatBox');
             let formattedText = text.replace(/\n/g, '<br>');
-            let html = `<div class="msg bot" style="white-space: pre-wrap; line-height: 1.5;">${formattedText}</div>`;
-            chatBox.innerHTML += html;
+            chatBox.innerHTML += `<div class="msg bot" style="white-space: pre-wrap; line-height: 1.5;">${formattedText}</div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
         }
     </script>
