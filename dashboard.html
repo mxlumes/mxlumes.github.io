@@ -54,8 +54,8 @@
         .data-panel.active { display: block; animation: fadeIn 0.4s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .table-container { background: var(--sidebar); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
-        table { width: 100%; border-collapse: collapse; }
+        .table-container { background: var(--sidebar); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 1000px; }
         th { text-align: left; padding: 20px; font-size: 11px; text-transform: uppercase; color: var(--text-dim); border-bottom: 1px solid var(--border); background: #050505; }
         td { padding: 20px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
         tr:hover td { background: rgba(255,255,255,0.02); }
@@ -68,11 +68,24 @@
         
         .wa-link { color: var(--whatsapp); background: rgba(37, 211, 102, 0.1); border: 1px solid rgba(37, 211, 102, 0.3); padding: 6px 12px; border-radius: 8px; text-decoration: none; font-weight: 800; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
         .wa-link:hover { background: var(--whatsapp); color: #000; }
+
+        /* ACTION BUTTONS */
+        .btn-action { background: transparent; border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: 0.2s; color: var(--text-dim); }
+        .btn-action:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .btn-delete { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .btn-delete:hover { background: var(--danger); color: #fff; }
         
         .export-btn { background: transparent; border: 1px solid var(--border); color: #fff; padding: 10px 20px; border-radius: 12px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
         .export-btn:hover { background: #fff; color: #000; }
         .item-list { font-size: 12px; color: #bbb; line-height: 1.5; }
         .item-list b { color: #fff; }
+
+        /* GOD MODE EDIT MODAL */
+        .edit-modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 5000; display: none; justify-content: center; align-items: center; }
+        .edit-modal.active { display: flex; }
+        .edit-box { background: #111; border: 1px solid var(--border); padding: 30px; border-radius: 20px; width: 100%; max-width: 400px; }
+        .edit-input { width: 100%; background: #000; border: 1px solid var(--border); color: #fff; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-family: 'Manrope', sans-serif; outline: none; }
+        .edit-input:focus { border-color: var(--accent); }
     </style>
 </head>
 <body>
@@ -85,6 +98,17 @@
             <input type="password" id="master-key" class="auth-input" placeholder="Enter JWT_SECRET" onkeypress="if(event.key==='Enter') unlockDashboard()">
             <button class="btn" onclick="unlockDashboard()">Decrypt Vault</button>
             <p id="auth-err" style="color:var(--danger); font-size:12px; margin-top:15px; font-weight:700; display:none;">Access Denied. Incorrect Key.</p>
+        </div>
+    </div>
+
+    <div id="edit-modal" class="edit-modal">
+        <div class="edit-box">
+            <h3 id="edit-title" style="margin-bottom: 20px;">Edit Data</h3>
+            <div id="edit-fields"></div>
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <button class="btn" style="background:#333; color:#fff;" onclick="closeEditModal()">Cancel</button>
+                <button class="btn" id="edit-save-btn" style="background:var(--accent); color:#fff;">Save Changes</button>
+            </div>
         </div>
     </div>
 
@@ -119,8 +143,8 @@
 
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-title">Total Revenue</div>
-                <div class="stat-val" id="stat-revenue">₹0</div>
+                <div class="stat-title">Verified Revenue</div>
+                <div class="stat-val" id="stat-revenue" style="color: var(--success);">₹0</div>
             </div>
             <div class="stat-card">
                 <div class="stat-title">Total Orders</div>
@@ -142,12 +166,8 @@
                 <div style="display:flex; gap:15px;">
                     <div class="search-box">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                        <input type="text" id="order-search" placeholder="Search Order ID or Email..." onkeyup="searchOrders()">
+                        <input type="text" id="order-search" placeholder="Search ID or Email..." onkeyup="searchOrders()">
                     </div>
-                    <button class="export-btn" onclick="exportOrdersCSV()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        Export CSV
-                    </button>
                 </div>
             </div>
 
@@ -155,16 +175,15 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Order ID</th>
-                            <th>Date</th>
-                            <th>Customer</th>
+                            <th>Order Details</th>
+                            <th>Customer & Location</th>
                             <th>Items</th>
-                            <th>Total Amount</th>
-                            <th>Status & Action</th>
+                            <th>Amount</th>
+                            <th>Status & Control</th>
                         </tr>
                     </thead>
                     <tbody id="orders-tbody">
-                        <tr><td colspan="6" style="text-align:center; color:#888;">No data loaded.</td></tr>
+                        <tr><td colspan="5" style="text-align:center; color:#888;">No data loaded.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -173,6 +192,10 @@
         <div class="data-panel" id="panel-users">
             <div class="toolbar">
                 <h3 style="font-size:16px;">Client Database</h3>
+                <button class="export-btn" onclick="exportUsersPDF()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Download PDF Report
+                </button>
             </div>
             <div class="table-container">
                 <table>
@@ -182,6 +205,7 @@
                             <th>Email Address</th>
                             <th>WhatsApp</th>
                             <th>Joined Date</th>
+                            <th>Control</th>
                         </tr>
                     </thead>
                     <tbody id="users-tbody"></tbody>
@@ -249,8 +273,11 @@
         }
 
         function populateDashboard(filter = 'All', searchTxt = '') {
+            // ONLY count revenue for verified orders
             let totalRev = 0;
-            globalOrders.forEach(o => totalRev += o.totalAmount);
+            globalOrders.forEach(o => {
+                if (o.status !== 'Pending Verification') totalRev += o.totalAmount;
+            });
             document.getElementById('stat-revenue').innerText = '₹' + totalRev.toLocaleString();
             document.getElementById('stat-orders').innerText = globalOrders.length;
             document.getElementById('stat-users').innerText = globalUsers.length;
@@ -267,7 +294,7 @@
             oBody.innerHTML = '';
             
             if(filteredOrders.length === 0) {
-                oBody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#888;">No orders found.</td></tr>';
+                oBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#888;">No orders found.</td></tr>';
             } else {
                 filteredOrders.forEach(o => {
                     let userPhone = '';
@@ -283,28 +310,36 @@
 
                     oBody.innerHTML += `
                         <tr>
-                            <td style="font-family:'Space Grotesk', sans-serif; font-weight:800; color:#fff;">${o.orderId}</td>
-                            <td style="color:var(--text-dim);">${new Date(o.createdAt).toLocaleDateString()}</td>
+                            <td>
+                                <div style="font-family:'Space Grotesk', sans-serif; font-weight:800; color:#fff;">${o.orderId}</div>
+                                <div style="color:var(--text-dim); font-size:11px; margin-top:4px;">${new Date(o.createdAt).toLocaleDateString()}</div>
+                            </td>
                             <td>
                                 <div style="color:#fff; font-weight:700;">${o.customerEmail}</div>
-                                ${userPhone ? `<div style="font-size:11px; color:#888; margin-top:4px;">Ph: ${userPhone}</div>` : ''}
+                                <div style="font-size:11px; color:#888; margin-top:4px;">Geo: ${o.location || 'Unknown'}</div>
                             </td>
                             <td class="item-list">${itemString}</td>
                             <td style="font-weight:800; color:var(--success);">₹${o.totalAmount.toLocaleString()}</td>
                             <td>
-                                <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-start;">
+                                <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
                                     <select class="status-select ${statusClass}" onchange="updateOrderStatus('${o.orderId}', this.value)">
-                                        <option value="Pending Verification" ${o.status === 'Pending Verification' ? 'selected' : ''}>Pending Verification</option>
-                                        <option value="Processing" ${o.status === 'Processing' ? 'selected' : ''}>Processing</option>
+                                        <option value="Pending Verification" ${o.status === 'Pending Verification' ? 'selected' : ''}>Pending (Unpaid)</option>
+                                        <option value="Processing" ${o.status === 'Processing' ? 'selected' : ''}>Paid & Processing</option>
                                         <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
                                         <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
                                     </select>
-                                    ${userPhone ? `
-                                        <a href="https://wa.me/91${userPhone}?text=Hi! Update regarding your M-X Lumes order ${o.orderId}:" target="_blank" class="wa-link">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/></svg> Notify User
-                                        </a>
-                                    ` : ''}
+                                    <button class="btn-action" title="Edit Order" onclick="openEditOrder('${o.orderId}')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                    </button>
+                                    <button class="btn-action btn-delete" title="Delete Order" onclick="deleteOrder('${o.orderId}')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                    </button>
                                 </div>
+                                ${userPhone ? `
+                                    <a href="https://wa.me/91${userPhone}?text=Hi! Update regarding your M-X Lumes order ${o.orderId}:" target="_blank" class="wa-link">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/></svg> Notify User
+                                    </a>
+                                ` : ''}
                             </td>
                         </tr>
                     `;
@@ -320,6 +355,14 @@
                         <td style="color:#aaa;">${u.email}</td>
                         <td>${u.phone ? `<a href="https://wa.me/91${u.phone}" target="_blank" class="wa-link">Message Client</a>` : '<span style="color:#555;">No Phone</span>'}</td>
                         <td style="color:var(--text-dim);">${new Date(u.createdAt).toLocaleDateString()}</td>
+                        <td style="display:flex; gap:8px;">
+                            <button class="btn-action" title="Edit User" onclick="openEditUser('${u._id}')">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                            </button>
+                            <button class="btn-action btn-delete" title="Delete User" onclick="deleteUser('${u.email}')">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                            </button>
+                        </td>
                     </tr>
                 `;
             });
@@ -339,6 +382,97 @@
             } catch (e) { alert("Failed to update status on server."); }
         }
 
+        // =========================================
+        // SUPREME CONTROL LOGIC (EDIT & DELETE)
+        // =========================================
+        
+        // DELETE
+        async function deleteOrder(orderId) {
+            if(!confirm(`WARNING: Permanently delete order ${orderId}?`)) return;
+            const key = sessionStorage.getItem('mxlumes_admin_key');
+            try {
+                await fetch(`${RENDER_URL}/api/admin/orders/${orderId}`, { method: 'DELETE', headers: { 'admin-secret-key': key } });
+                fetchData();
+            } catch (e) { alert("Failed to delete order."); }
+        }
+
+        async function deleteUser(email) {
+            if(!confirm(`WARNING: Permanently delete account ${email}?`)) return;
+            const key = sessionStorage.getItem('mxlumes_admin_key');
+            try {
+                await fetch(`${RENDER_URL}/api/admin/users/${email}`, { method: 'DELETE', headers: { 'admin-secret-key': key } });
+                fetchData();
+            } catch (e) { alert("Failed to delete user."); }
+        }
+
+        // EDIT
+        function closeEditModal() { document.getElementById('edit-modal').classList.remove('active'); }
+        
+        function openEditOrder(orderId) {
+            const order = globalOrders.find(o => o.orderId === orderId);
+            if(!order) return;
+            
+            document.getElementById('edit-title').innerText = `Edit Order: ${orderId}`;
+            const fields = document.getElementById('edit-fields');
+            fields.innerHTML = `
+                <label style="font-size:12px; color:#888;">Total Amount (₹)</label>
+                <input type="number" id="edit-amount" class="edit-input" value="${order.totalAmount}">
+                <label style="font-size:12px; color:#888;">Customer Email</label>
+                <input type="text" id="edit-email" class="edit-input" value="${order.customerEmail}">
+            `;
+            
+            const btn = document.getElementById('edit-save-btn');
+            btn.onclick = async () => {
+                const key = sessionStorage.getItem('mxlumes_admin_key');
+                btn.innerText = "Saving...";
+                try {
+                    await fetch(`${RENDER_URL}/api/admin/orders/${orderId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json', 'admin-secret-key': key },
+                        body: JSON.stringify({ 
+                            totalAmount: document.getElementById('edit-amount').value,
+                            customerEmail: document.getElementById('edit-email').value
+                        })
+                    });
+                    closeEditModal(); fetchData();
+                } catch(e) { alert("Update failed."); }
+            };
+            document.getElementById('edit-modal').classList.add('active');
+        }
+
+        function openEditUser(userId) {
+            const user = globalUsers.find(u => u._id === userId);
+            if(!user) return;
+            
+            document.getElementById('edit-title').innerText = `Edit User`;
+            const fields = document.getElementById('edit-fields');
+            fields.innerHTML = `
+                <label style="font-size:12px; color:#888;">Name</label>
+                <input type="text" id="edit-u-name" class="edit-input" value="${user.name}">
+                <label style="font-size:12px; color:#888;">Phone</label>
+                <input type="text" id="edit-u-phone" class="edit-input" value="${user.phone || ''}">
+            `;
+            
+            const btn = document.getElementById('edit-save-btn');
+            btn.onclick = async () => {
+                const key = sessionStorage.getItem('mxlumes_admin_key');
+                btn.innerText = "Saving...";
+                try {
+                    await fetch(`${RENDER_URL}/api/admin/users/${userId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json', 'admin-secret-key': key },
+                        body: JSON.stringify({ 
+                            name: document.getElementById('edit-u-name').value,
+                            phone: document.getElementById('edit-u-phone').value
+                        })
+                    });
+                    closeEditModal(); fetchData();
+                } catch(e) { alert("Update failed."); }
+            };
+            document.getElementById('edit-modal').classList.add('active');
+        }
+
+        // UTILS
         function filterOrders(filterType, el) {
             document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
             el.classList.add('active');
@@ -360,19 +494,36 @@
             document.getElementById('panel-' + tabId).classList.add('active');
         }
 
-        function exportOrdersCSV() {
-            if(globalOrders.length === 0) return alert("No orders to export!");
-            let csvContent = "data:text/csv;charset=utf-8,Order ID,Date,Email,Total Amount,Status,Items\n";
-            globalOrders.forEach(o => {
-                let date = new Date(o.createdAt).toLocaleDateString();
-                let itemsStr = o.items.map(i => `${i.qty}x ${i.name}`).join(' | ');
-                csvContent += `${o.orderId},${date},${o.customerEmail},${o.totalAmount},${o.status},"${itemsStr}"\n`;
+        // PDF EXPORT LOGIC
+        function exportUsersPDF() {
+            if(globalUsers.length === 0) return alert("No users to export!");
+            const printWindow = window.open('', '_blank');
+            let html = `
+                <html><head><title>M-X Lumes Customer Database</title>
+                <style>
+                    body { font-family: 'Helvetica', sans-serif; padding: 40px; color: #111; }
+                    .header { border-bottom: 2px solid #111; padding-bottom: 20px; margin-bottom: 30px; }
+                    h2 { margin: 0 0 10px 0; font-size: 24px; }
+                    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+                    th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+                    th { background: #f9f9f9; text-transform: uppercase; font-size: 11px; color: #555; }
+                </style>
+                </head><body>
+                    <div class="header">
+                        <h2>Client Database Report</h2>
+                        <p style="margin:0; color:#555;">Generated on: ${new Date().toLocaleDateString()}</p>
+                    </div>
+                    <table>
+                        <tr><th>Name</th><th>Email</th><th>Phone</th><th>Joined Date</th></tr>
+            `;
+            globalUsers.forEach(u => {
+                html += `<tr><td><b>${u.name}</b></td><td>${u.email}</td><td>${u.phone || 'N/A'}</td><td>${new Date(u.createdAt).toLocaleDateString()}</td></tr>`;
             });
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `mxlumes_orders_${new Date().toISOString().split('T')[0]}.csv`);
-            document.body.appendChild(link); link.click(); document.body.removeChild(link);
+            html += `</table></body></html>`;
+            printWindow.document.write(html);
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => { printWindow.print(); }, 500);
         }
     </script>
 </body>
