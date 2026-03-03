@@ -337,17 +337,7 @@
             transform: scale(0.95); transition: transform 0.3s; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
         }
         .modal-overlay.active .payment-modal { transform: scale(1); }
-        
-        .qr-box-container { display: block; }
-        .qr-box { background: #fff; border: 1px solid #e5e7eb; padding: 20px; border-radius: 16px; margin: 10px auto 20px; display: inline-block; }
-        
-        .mobile-pay-btn {
-            display: none; width: 100%; background: #111; color: #fff; padding: 18px;
-            border-radius: 12px; font-weight: 800; text-transform: uppercase; letter-spacing:1px;
-            font-size: 14px; margin-bottom: 15px; text-decoration: none; border: 1px solid #333;
-            transition: transform 0.3s;
-        }
-        .mobile-pay-btn:active { transform: scale(0.96); }
+        .qr-box { background: #fff; border: 1px solid #e5e7eb; padding: 20px; border-radius: 16px; margin: 20px 0; display: inline-block; }
 
         .profile-header { text-align:center; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
         .prof-orders table { width: 100%; border-collapse: collapse; font-size: 13px; color: #ccc; }
@@ -355,7 +345,7 @@
         .prof-orders td { padding: 15px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
 
         /* =========================================
-           12. CART SIDEBAR (FIXED MOBILE HEIGHT)
+           12. CART SIDEBAR
            ========================================= */
         .cart-fab {
             position: fixed; bottom: 30px; right: 20px; width: 65px; height: 65px;
@@ -371,24 +361,13 @@
         .cart-reminder { position: fixed; bottom: 100px; right: 32px; font-size: 35px; z-index: 1999; opacity: 0; pointer-events: none; transform: translate3d(0, 20px, 0); transition: transform 0.5s var(--ease-spring), opacity 0.5s; animation: bounceHand 1s infinite alternate; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); }
         .cart-reminder.show { opacity: 1; transform: translate3d(0, 0, 0); }
         
-        /* The Cart Height Fix */
-        .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100%; height: 100dvh; z-index: 3000; pointer-events: none; }
+        .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; z-index: 3000; pointer-events: none; }
         .cart-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); opacity: 0; transition: opacity 0.5s var(--ease-fluid); cursor: pointer; }
-        
-        /* Flexbox structure to ensure bottom button stays visible */
-        .cart-inner { 
-            position: absolute; right: 0; width: 100%; max-width: 420px; height: 100%; background: #050505; 
-            border-left: 1px solid var(--border); transform: translate3d(100%, 0, 0); transition: transform 0.6s var(--ease-fluid); 
-            display: flex; flex-direction: column; padding: 40px 40px calc(40px + env(safe-area-inset-bottom)); 
-            box-shadow: -20px 0 50px rgba(0,0,0,0.5); 
-        }
+        .cart-inner { position: absolute; right: 0; width: 100%; max-width: 420px; height: 100%; background: #050505; border-left: 1px solid var(--border); transform: translate3d(100%, 0, 0); transition: transform 0.6s var(--ease-fluid); display: flex; flex-direction: column; padding: 40px; box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
         
         .cart-sidebar.active { pointer-events: all; }
         .cart-sidebar.active .cart-overlay { opacity: 1; }
         .cart-sidebar.active .cart-inner { transform: translate3d(0, 0, 0); }
-        
-        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; flex-shrink: 0; }
-        .cart-items-container { flex: 1; overflow-y: auto; padding-right: 5px; }
         
         .cart-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; animation: slideInRight 0.4s var(--ease-spring) forwards; }
         @keyframes slideInRight { from { opacity: 0; transform: translate3d(30px,0,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
@@ -399,12 +378,8 @@
         .qty-btn:active { background: rgba(255,255,255,0.3); }
         .qty-val { width: 24px; text-align: center; font-size: 12px; font-weight: 800; color: #fff; }
         
-        .cart-summary { margin-top:20px; border-top:1px solid var(--border); padding-top:20px; flex-shrink: 0; }
-        
-        /* HUGE CHECKOUT BUTTON */
-        .checkout-btn { width: 100%; background: #fff; color: #000; padding: 20px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; display: flex; justify-content: center; align-items: center; cursor: pointer; border: none; margin-top: 10px; }
+        .checkout-btn { width: 100%; padding: 16px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer; border: none; background: #fff; color: #000; }
         .checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2); }
-        .checkout-btn:active { transform: scale(0.98); }
 
         /* =========================================
            13. VIJETA AI ASSISTANT
@@ -424,53 +399,23 @@
         .v-close { background: none; border: none; color: var(--text-dim); font-size: 24px; cursor: pointer; transition: color 0.3s; line-height: 1; }
         .v-chat { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none; overscroll-behavior: contain; }
         .msg { max-width: 88%; padding: 14px 18px; border-radius: 16px; font-size: 13px; line-height: 1.6; animation: popIn 0.3s var(--ease-spring) forwards; }
-        .msg.bot { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .msg.user { background: var(--accent); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
+        .msg.bot { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; align-self: flex-start; border-bottom-left-radius: 4px; }
+        .msg.user { background: var(--accent); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
         .v-input-area { padding: 15px; border-top: 1px solid var(--border); display: flex; gap: 10px; background: #050505; }
         .v-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid transparent; border-radius: 20px; padding: 12px 18px; color: #fff; font-size: 13px; outline: none; }
         .v-input:focus { border-color: var(--accent); background: #000; }
         .v-send { background: var(--accent); border: none; width: 42px; height: 42px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; cursor: pointer; transition: transform 0.3s; }
 
         /* =========================================
-           14. FOOTER (HIGH CONTRAST)
+           14. FOOTER
            ========================================= */
-        .footer { padding: 120px 20px 60px; background: #ffffff; border-top: 1px solid var(--border-light); }
+        .footer { padding: 120px 20px 60px; background: var(--bg-milky); border-top: 1px solid var(--border-light); }
         .f-top-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; margin-bottom: 100px; max-width: 1200px; margin: 0 auto; }
-        .f-vision-title { font-size: 12px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
-        .f-vision-text { font-family: 'Space Grotesk', sans-serif; font-size: clamp(24px, 4vw, 36px); font-weight: 800; color: #000000; line-height: 1.3; letter-spacing: -0.02em; }
-        .f-vision-text span { color: #555; }
-        .f-founders { margin-top: 40px; display: flex; align-items: center; gap: 20px; }
-        .f-signature { font-family: 'Space Grotesk', sans-serif; font-size: 16px; color: #000000; font-weight: 800; padding-left: 20px; border-left: 3px solid #000; }
-        .f-role { display: block; font-size: 11px; color: #555555; text-transform: uppercase; margin-top: 4px; letter-spacing: 1px; font-weight: 800;}
-        .f-badges { display: flex; gap: 15px; align-items: flex-start; flex-wrap: wrap; }
-        .f-badge { padding: 12px 24px; border: 1px solid #ccc; border-radius: 50px; font-size: 12px; color: #000; font-weight: 800; letter-spacing: 0.5px; background: #fff; cursor: default; }
-        .f-bottom-row { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 40px; border-top: 1px solid #e5e7eb; max-width: 1200px; margin: 0 auto; }
-        .f-nav { display: flex; gap: 30px; }
-        .f-nav-link { font-size: 13px; color: #555555; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; transition: color 0.3s; }
-        .f-nav-link:hover { color: #000000; }
-        .f-copy { font-size: 12px; color: #555555; font-weight: 800; cursor: pointer; user-select: none; }
+        .f-vision-text { font-family: 'Space Grotesk', sans-serif; font-size: clamp(24px, 4vw, 36px); font-weight: 300; color: var(--text-dark); line-height: 1.3; letter-spacing: -0.02em; }
+        .f-bottom-row { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 40px; border-top: 1px solid var(--border-light); max-width: 1200px; margin: 0 auto; }
 
         /* =========================================
-           15. SECRET SUPREME ADMIN PORTAL 
-           ========================================= */
-        #supreme-admin-portal {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000; z-index: 100000; display: none; overflow-y: auto;
-            font-family: 'Manrope', sans-serif; color: #fff;
-        }
-        #supreme-admin-portal .admin-sidebar { width: 280px; background: #0a0a0a; border-right: 1px solid rgba(255,255,255,0.1); padding: 30px 20px; display: flex; flex-direction: column; position: fixed; height: 100vh; left: 0; top: 0;}
-        #supreme-admin-portal .admin-main { margin-left: 280px; padding: 40px 50px; min-height: 100vh; }
-        #supreme-admin-portal .admin-stat-card { background: #0a0a0a; border: 1px solid rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; }
-        #supreme-admin-portal table { width: 100%; border-collapse: collapse; min-width: 800px;}
-        #supreme-admin-portal th { text-align: left; padding: 20px; font-size: 11px; text-transform: uppercase; color: #888; border-bottom: 1px solid rgba(255,255,255,0.1); background: #050505; }
-        #supreme-admin-portal td { padding: 20px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
-        #supreme-admin-portal .export-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 20px; border-radius: 12px; font-size: 13px; font-weight: 800; cursor: pointer; transition: 0.2s; display:inline-flex; align-items:center; gap:8px;}
-        #supreme-admin-portal .export-btn:hover { background: #fff; color: #000; }
-        #supreme-admin-portal .btn-delete { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); padding:6px 10px; border-radius:8px; cursor:pointer;}
-        #supreme-admin-portal .btn-delete:hover { background: #ef4444; color: #fff; }
-
-        /* =========================================
-           16. MOBILE OPTIMIZATIONS
+           15. MOBILE OPTIMIZATIONS
            ========================================= */
         @media (max-width: 900px) {
             .bg-layer { background-size: cover; opacity: 0.85; background-attachment: scroll; background-position: center center; }
@@ -484,9 +429,7 @@
             .grid-3 { grid-template-columns: 100%; } 
             .specs-layout, .gallery-masonry, .zenith-calc, .dos-donts, .refine-grid { grid-template-columns: 1fr; }
             .gallery-masonry { column-count: 2; column-gap: 10px; }
-            
-            .cart-inner { padding: 25px 25px calc(25px + env(safe-area-inset-bottom)); max-width: 100%; }
-            
+            .cart-inner { width: 100%; max-width: 100%; padding: 25px; }
             .z-controls, .z-display { padding: 30px; }
             .comp-table { width: 100%; table-layout: fixed; min-width: auto; }
             .comp-cell, .comp-table th { white-space: normal; font-size: 10px; padding: 10px 4px; line-height: 1.3; word-wrap: break-word; }
@@ -498,16 +441,47 @@
             .scanner-ui { max-width: 95%; }
             .f-top-grid { grid-template-columns: 1fr; gap: 40px; }
             .f-bottom-row { flex-direction: column; align-items: flex-start; gap: 20px; }
-
-            .mobile-pay-btn { display: block !important; width: 100%; background: #111; color: #fff; padding: 18px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 14px; margin-bottom: 15px; text-decoration: none; border: 1px solid #333; text-align: center;}
-            .qr-box-container { display: none !important; } 
-
-            #supreme-admin-portal .admin-sidebar { position:relative; width:100%; height:auto; border-right:none; border-bottom:1px solid #333;}
-            #supreme-admin-portal .admin-main { margin-left:0; padding:20px;}
         }
     </style>
 </head>
 <body>
+
+    <div id="auth-modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <button class="m-close" onclick="closeAuthModal()">×</button>
+            <div style="text-align:center; margin-bottom: 25px;">
+                <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;">M-X LUMES</h3>
+                <p style="color: var(--text-muted); font-size: 13px; font-weight: 500;">Premium Access Portal</p>
+            </div>
+            
+            <div style="display:flex; justify-content: center; gap:30px; margin-bottom:25px; border-bottom:2px solid #222; padding-bottom:10px;">
+                <span id="tab-login" style="font-size:15px; font-weight: 800; cursor:pointer; color:#fff; transition: color 0.2s;" onclick="switchAuthTab('login')">Sign In</span>
+                <span id="tab-signup" style="font-size:15px; font-weight: 800; cursor:pointer; color:#555; transition: color 0.2s;" onclick="switchAuthTab('signup')">Create Account</span>
+            </div>
+            
+            <form id="auth-form" onsubmit="event.preventDefault();">
+                <div id="auth-step-1">
+                    <input type="text" id="auth-name" class="m-input" placeholder="Full Name" style="display:none;">
+                    <div style="display:flex; align-items:center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; margin-bottom: 15px; padding:0 15px;">
+                        <span style="color:#888; font-weight:800; font-size:14px; margin-right:10px;">+91</span>
+                        <input type="tel" id="auth-phone" placeholder="WhatsApp Number" required style="background:transparent; border:none; color:#fff; font-size:14px; font-weight:500; outline:none; padding:16px 0; width:100%; font-family: 'Manrope', sans-serif;">
+                    </div>
+                    <button type="button" class="btn btn-primary" style="width:100%; font-size:14px; background:#fff; color:#000; padding: 18px;" id="btn-send-otp" onclick="sendOtp()">Send WhatsApp OTP</button>
+                </div>
+                
+                <div id="auth-step-2" style="display:none;">
+                    <p style="font-size:12px; color:var(--success); margin-bottom:15px; font-weight:700; text-align:center;">✓ Code sent to your WhatsApp</p>
+                    <input type="text" id="auth-otp" class="m-input" placeholder="Enter 6-Digit OTP" style="text-align:center; letter-spacing:4px; font-weight:800; font-size:18px;">
+                    <button type="button" class="btn btn-primary" style="width:100%; font-size:14px; background:var(--accent); color:#fff; padding: 18px; border:none;" id="btn-verify-otp" onclick="verifyOtp()">Verify & Sign In</button>
+                    <div style="text-align:center;">
+                        <button type="button" style="background:none; border:none; color:#888; font-size:11px; margin-top:15px; text-decoration:underline; cursor:pointer;" onclick="resetAuth()">Change Number</button>
+                    </div>
+                </div>
+            </form>
+            
+            <div id="auth-error" style="color:var(--danger); background: rgba(239,68,68,0.1); border: 1px solid var(--danger); border-radius: 8px; padding: 12px; font-size:12px; font-weight: 600; margin-top:15px; text-align:center; display:none;"></div>
+        </div>
+    </div>
 
     <div id="profile-modal-overlay" class="modal-overlay">
         <div class="modal-content" style="max-width: 600px;">
@@ -515,7 +489,7 @@
             <div class="profile-header">
                 <div style="width: 60px; height: 60px; background: #fff; color: #000; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px;">M</div>
                 <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;" id="prof-name">Artist Name</h3>
-                <p style="color: var(--text-dim); font-size: 13px; font-weight: 500;" id="prof-email">email@address.com</p>
+                <p style="color: var(--text-dim); font-size: 13px; font-weight: 500;" id="prof-phone">+91 XXXXX XXXXX</p>
                 <button class="btn btn-outline" style="margin-top:15px; border-color:#333; color:#fff; padding: 8px 16px; font-size: 10px;" onclick="logout(event)">Sign Out</button>
             </div>
             
@@ -531,65 +505,35 @@
                         </tr>
                     </thead>
                     <tbody id="prof-orders-tbody">
-                        <tr><td colspan="4" style="text-align:center; color:#fff;">Loading orders...</td></tr>
+                        <tr><td colspan="4" style="text-align:center; color:#888;">Loading orders...</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <div id="auth-modal-overlay" class="modal-overlay">
-        <div class="modal-content">
-            <button class="m-close" onclick="closeAuthModal()">×</button>
-            <div style="text-align:center; margin-bottom: 25px;">
-                <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;">M-X LUMES</h3>
-                <p style="color: var(--text-muted); font-size: 13px; font-weight: 500;">The Professional Standard.</p>
-            </div>
-            
-            <div style="display:flex; justify-content: center; gap:30px; margin-bottom:25px; border-bottom:2px solid #222; padding-bottom:10px;">
-                <span id="tab-login" style="font-size:15px; font-weight: 800; cursor:pointer; color:#fff; transition: color 0.2s;" onclick="switchAuthTab('login')">Sign In</span>
-                <span id="tab-signup" style="font-size:15px; font-weight: 800; cursor:pointer; color:#555; transition: color 0.2s;" onclick="switchAuthTab('signup')">Create Account</span>
-            </div>
-            
-            <form id="auth-form" onsubmit="submitAuth(event)">
-                <input type="text" id="auth-name" class="m-input" placeholder="Full Name" style="display:none;">
-                <input type="email" id="auth-email" class="m-input" placeholder="Email Address" required>
-                <input type="tel" id="auth-phone" class="m-input" placeholder="WhatsApp Number (Optional)" style="display:none;">
-                <input type="password" id="auth-password" class="m-input" placeholder="Password" required>
-                
-                <button type="submit" class="btn btn-primary" style="width:100%; font-size:14px; margin-top:10px; background:#fff; color:#000; padding: 18px;" id="auth-btn">Sign In to Dashboard</button>
-            </form>
-            
-            <div id="auth-error" style="color:var(--danger); background: rgba(239,68,68,0.1); border: 1px solid var(--danger); border-radius: 8px; padding: 12px; font-size:12px; font-weight: 600; margin-top:15px; text-align:center; display:none;"></div>
-        </div>
-    </div>
-
     <div id="payment-modal-overlay" class="modal-overlay">
         <div class="payment-modal">
             <button class="m-close" onclick="closePaymentModal()" style="position:absolute; top:20px; right:25px; background:none; border:none; color:#888; font-size:28px; cursor:pointer;">×</button>
-            <div style="margin-bottom: 20px;">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" style="margin-bottom:10px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 5px;">M-X SecurePay</h3>
-                <p style="color: var(--text-dim); font-size: 13px;">100% Secure Encrypted Checkout</p>
+            <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 5px;">Secure Checkout</h3>
+            
+            <p style="color: var(--text-dim); font-size: 13px; line-height: 1.5; margin-bottom: 15px;">
+                1. Scan the QR code with any UPI App.<br>
+                2. Complete the payment securely.<br>
+                3. Click Confirm Order below.
+            </p>
+            
+            <div class="qr-box" style="background: #fff; border: 1px solid #e5e7eb; padding: 20px; border-radius: 16px; margin: 0 auto 20px; display: inline-block;">
+                <img id="upi-qr" src="" alt="UPI QR Code" style="width: 200px; height: 200px;">
             </div>
             
-            <div style="font-size: 36px; font-weight: 800; color: #fff; font-family:'Space Grotesk', sans-serif; margin-bottom: 20px;" id="payment-total">₹0</div>
+            <div style="font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 5px;" id="payment-total">₹0</div>
+            <p style="font-size: 11px; color: var(--success); margin-bottom: 20px; font-weight: 600;">Payments are 100% secure and encrypted.</p>
             
-            <a id="mobile-pay-btn" class="mobile-pay-btn" href="#" style="display:none;">
-                🚀 Pay via UPI App
-            </a>
-            
-            <div class="qr-box-container">
-                <p style="color: var(--text-dim); font-size: 13px; line-height: 1.5; margin-bottom: 10px;">Scan QR with any UPI App:</p>
-                <div class="qr-box">
-                    <img id="upi-qr" src="" alt="UPI QR Code">
-                </div>
-            </div>
-            
-            <button id="pay-confirm-btn" class="btn btn-primary" style="width:100%; background:var(--accent); color:#fff; border:none; margin-bottom: 10px; padding:20px; font-size:14px; transition: 0.3s;" onclick="finalizeOrder()">
-                ✓ I Have Completed The Payment
+            <button id="pay-confirm-btn" class="btn btn-primary" style="width:100%; background:var(--accent); color:#fff; border:none; margin-bottom: 10px;" onclick="finalizeOrder()">
+                I Have Completed The Payment
             </button>
-            <p style="font-size: 10px; color: var(--text-dim); line-height: 1.4;">By confirming, you agree that you have transferred the exact amount shown above. Our team will verify and approve your order shortly.</p>
+            <p style="font-size: 10px; color: var(--text-dim); line-height: 1.4;">Our team will manually verify your payment and generate your invoice shortly to prevent fraud.</p>
         </div>
     </div>
 
@@ -602,17 +546,21 @@
                 </h3>
                 <button class="scanner-close" onclick="closeScanner()">×</button>
             </div>
+            
             <div class="scanner-view" id="scanner-view-container">
                 <video id="camera-feed" autoplay playsinline muted></video>
                 <canvas id="scanner-canvas"></canvas>
                 <div class="scan-instruction" id="scan-instruction">Center mould in view & tap Capture</div>
             </div>
+            
             <div class="scanner-controls">
                 <button id="btn-capture" class="btn btn-primary" style="width:100%; background:#111; color:#fff; font-size:14px; padding: 20px;" onclick="captureScanFrame()">Capture & Map Bounds</button>
+                
                 <div id="scan-actions" style="display:none; width:100%; flex-direction:column; gap:15px;">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <p style="font-size:13px; font-weight:800; margin:0; color:#000;">
-                            <span style="color:var(--accent);">✓ Quad Detected.</span><br>Drag the 4 corners to perfect the edges.
+                            <span style="color:var(--accent);">✓ Quad Detected.</span><br>
+                            Drag the 4 corners to perfect the edges.
                         </p>
                         <button class="btn btn-outline" style="min-height:30px; padding:8px 15px; font-size:11px; color:#666; border-color:#ccc; background: #fff;" onclick="retakeScan()">Retake</button>
                     </div>
@@ -640,6 +588,7 @@
             <p style="color:var(--text-dim); font-size:13px; margin-bottom:20px;">Your feedback helps thousands of Indian resin artists make the right choice.</p>
             
             <input type="text" id="rv-name" class="m-input" placeholder="Your Name">
+            
             <div class="rm-star-select" id="rv-stars">
                 <svg data-val="1" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                 <svg data-val="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -647,7 +596,9 @@
                 <svg data-val="4" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                 <svg data-val="5" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
+            
             <textarea id="rv-text" class="m-input" placeholder="How was the clarity, bubble release, or curing time?"></textarea>
+            
             <button class="btn btn-primary" style="width:100%; font-size:13px;" onclick="submitReview()">Post Review</button>
         </div>
     </div>
@@ -965,7 +916,7 @@
                             <div><div class="z-label">Indoor Temp</div><input type="range" class="z-slider" id="env-temp" min="5" max="50" value="25" oninput="runCalc(); document.getElementById('val-temp').innerText=this.value+'°C'"><div id="val-temp" style="font-size:14px; font-weight:800; text-align:right; margin-top:5px; color:var(--text-dark);">25°C</div></div>
                             <div><div class="z-label">Indoor RH</div><input type="range" class="z-slider" id="env-hum" min="20" max="90" value="50" oninput="runCalc(); document.getElementById('val-hum').innerText=this.value+'%'"><div id="val-hum" style="font-size:14px; font-weight:800; text-align:right; margin-top:5px; color:var(--text-dark);">50%</div></div>
                         </div>
-                        <div id="weather-intelligence"></div>
+                        <div id="weather-intelligence" style="font-size:11px; color:#555; text-align:center; margin-top:15px; display:none;"></div>
                         
                         <div class="trust-box">
                             <div class="trust-title">
@@ -1100,8 +1051,7 @@
                     <a href="#calc" class="f-nav-link">Calculator</a>
                     <a href="#" class="f-nav-link">Contact</a>
                 </div>
-                
-                <div class="f-copy" onclick="triggerAdmin()" style="cursor:pointer; user-select:none;">
+                <div class="f-copy" onclick="triggerAdmin()">
                     © 2026 M-X Lumes. Engineered in Meerut.
                 </div>
             </div>
@@ -1207,7 +1157,7 @@
                 <div class="admin-data-panel" id="admin-panel-users" style="display:none;">
                     <div style="background:#0a0a0a; border:1px solid #333; border-radius:16px; overflow-x:auto;">
                         <table style="width:100%; min-width:800px; border-collapse:collapse; font-size:13px;">
-                            <thead><tr style="background:#000;"><th style="padding:15px; color:#888; text-align:left;">Name</th><th style="padding:15px; color:#888; text-align:left;">Email</th><th style="padding:15px; color:#888; text-align:left;">Phone</th><th style="padding:15px; color:#888; text-align:left;">Action</th></tr></thead>
+                            <thead><tr style="background:#000;"><th style="padding:15px; color:#888; text-align:left;">Name</th><th style="padding:15px; color:#888; text-align:left;">Phone</th><th style="padding:15px; color:#888; text-align:left;">Joined Date</th><th style="padding:15px; color:#888; text-align:left;">Action</th></tr></thead>
                             <tbody id="admin-users-tbody"></tbody>
                         </table>
                     </div>
@@ -1245,7 +1195,6 @@
             checkAuthStatus(); 
             runCalc(); 
 
-            // Get User Location silently for the order ledger
             fetch('https://ipapi.co/json/').then(r=>r.json()).then(data => { userLocation = data.city + ", " + data.region; }).catch(e => {});
 
             setTimeout(() => {
@@ -1259,7 +1208,7 @@
         };
 
         // =========================================
-        // 2. AUTHENTICATION & PROFILE 
+        // 2. WHATSAPP AUTHENTICATION & PROFILE 
         // =========================================
         function checkAuthStatus() {
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
@@ -1276,13 +1225,99 @@
             }
         }
 
+        function switchAuthTab(mode) {
+            currentAuthMode = mode;
+            document.getElementById('auth-error').style.display = 'none';
+            const nameInp = document.getElementById('auth-name');
+            if (mode === 'signup') {
+                nameInp.style.display = 'block';
+                document.getElementById('tab-signup').style.color = "#fff";
+                document.getElementById('tab-login').style.color = "#555";
+            } else {
+                nameInp.style.display = 'none';
+                document.getElementById('tab-login').style.color = "#fff";
+                document.getElementById('tab-signup').style.color = "#555";
+            }
+            resetAuth();
+        }
+
+        function resetAuth() {
+            document.getElementById('auth-step-1').style.display = 'block';
+            document.getElementById('auth-step-2').style.display = 'none';
+            document.getElementById('auth-otp').value = '';
+            document.getElementById('btn-send-otp').innerText = "Send WhatsApp OTP";
+        }
+
+        async function sendOtp() {
+            const phone = document.getElementById('auth-phone').value.trim();
+            const name = document.getElementById('auth-name').value.trim();
+            const errorDiv = document.getElementById('auth-error');
+            errorDiv.style.display = 'none';
+
+            if(!phone || phone.length < 10) { errorDiv.innerText = "Enter a valid 10-digit WhatsApp number."; errorDiv.style.display = 'block'; return; }
+            if(currentAuthMode === 'signup' && !name) { errorDiv.innerText = "Please enter your full name."; errorDiv.style.display = 'block'; return; }
+
+            const btn = document.getElementById('btn-send-otp');
+            btn.innerText = "Sending...";
+
+            try {
+                const response = await fetch(`${RENDER_URL}/api/auth/send-otp`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, mode: currentAuthMode })
+                });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.message || "Failed to send OTP.");
+                
+                document.getElementById('auth-step-1').style.display = 'none';
+                document.getElementById('auth-step-2').style.display = 'block';
+                
+                // SIMULATION MODE: Auto-fill OTP so developer can test without API key
+                if(data._testOtp) console.log("TEST OTP:", data._testOtp);
+                
+            } catch(err) {
+                errorDiv.innerText = err.message; errorDiv.style.display = 'block';
+                btn.innerText = "Send WhatsApp OTP";
+            }
+        }
+
+        async function verifyOtp() {
+            const phone = document.getElementById('auth-phone').value.trim();
+            const name = document.getElementById('auth-name').value.trim();
+            const otp = document.getElementById('auth-otp').value.trim();
+            const errorDiv = document.getElementById('auth-error');
+            errorDiv.style.display = 'none';
+
+            if(!otp) { errorDiv.innerText = "Please enter the OTP."; errorDiv.style.display = 'block'; return; }
+
+            const btn = document.getElementById('btn-verify-otp');
+            btn.innerText = "Verifying...";
+
+            try {
+                const response = await fetch(`${RENDER_URL}/api/auth/verify-otp`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, name, otp, mode: currentAuthMode })
+                });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.message || "Invalid OTP.");
+                
+                localStorage.setItem('mxlumes_token', data.token);
+                localStorage.setItem('mxlumes_user', JSON.stringify(data.user));
+                showToast(data.message);
+                closeAuthModal();
+                checkAuthStatus();
+            } catch(err) {
+                errorDiv.innerText = err.message; errorDiv.style.display = 'block';
+                btn.innerText = "Verify & Sign In";
+            }
+        }
+
         async function openProfileModal() {
             document.getElementById('profile-modal-overlay').classList.add('active');
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
             if(!user) return;
             
             document.getElementById('prof-name').innerText = user.name;
-            document.getElementById('prof-email').innerText = user.email;
+            document.getElementById('prof-phone').innerText = "+91 " + user.phone;
             
             const tbody = document.getElementById('prof-orders-tbody');
             tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888;">Loading orders...</td></tr>';
@@ -1291,7 +1326,7 @@
                 const res = await fetch(`${RENDER_URL}/api/user/orders`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ email: user.email })
+                    body: JSON.stringify({ phone: user.phone })
                 });
                 const orders = await res.json();
                 tbody.innerHTML = '';
@@ -1302,7 +1337,6 @@
                     orders.forEach(o => {
                         const itemsJson = JSON.stringify(o.items).replace(/"/g, '&quot;');
                         
-                        // THE ANTI-ANXIETY SECURITY BLOCK
                         let actionBtn = '';
                         if (o.status === 'Pending Verification') {
                             actionBtn = `
@@ -1371,7 +1405,7 @@
                     <div class="details-grid">
                         <div>
                             <div style="text-transform:uppercase; font-size:10px; color:#888; margin-bottom:5px;">Billed To</div>
-                            <strong>${user.name}</strong><br>${user.email}<br>${user.phone ? user.phone : ''}
+                            <strong>${user.name}</strong><br>+91 ${user.phone}
                         </div>
                         <div>
                             <div style="text-transform:uppercase; font-size:10px; color:#888; margin-bottom:5px;">Order Details</div>
@@ -1408,51 +1442,7 @@
 
         function openAuthModal() { document.getElementById('auth-modal-overlay').classList.add('active'); switchAuthTab('login'); }
         function closeAuthModal() { document.getElementById('auth-modal-overlay').classList.remove('active'); }
-        function switchAuthTab(mode) {
-            currentAuthMode = mode;
-            document.getElementById('auth-error').style.display = 'none';
-            const nameInp = document.getElementById('auth-name');
-            const btn = document.getElementById('auth-btn');
-            if (mode === 'signup') {
-                nameInp.style.display = 'block'; nameInp.required = true;
-                btn.innerText = "Create Account";
-                document.getElementById('tab-signup').style.color = "#fff";
-                document.getElementById('tab-login').style.color = "#555";
-            } else {
-                nameInp.style.display = 'none'; nameInp.required = false;
-                btn.innerText = "Sign In to Dashboard";
-                document.getElementById('tab-login').style.color = "#fff";
-                document.getElementById('tab-signup').style.color = "#555";
-            }
-        }
-
-        async function submitAuth(e) {
-            e.preventDefault();
-            const btn = document.getElementById('auth-btn');
-            const errorDiv = document.getElementById('auth-error');
-            btn.innerText = "Processing..."; errorDiv.style.display = 'none';
-            const payload = { email: document.getElementById('auth-email').value.trim(), password: document.getElementById('auth-password').value };
-            
-            if (currentAuthMode === 'signup') {
-                payload.name = document.getElementById('auth-name').value.trim();
-                if (!payload.name) { errorDiv.innerText = "Please enter your full name."; errorDiv.style.display = 'block'; btn.innerText = "Create Account"; return; }
-            }
-
-            try {
-                const endpoint = currentAuthMode === 'signup' ? '/api/signup' : '/api/login';
-                const response = await fetch(`${RENDER_URL}${endpoint}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                const data = await response.json();
-                if (!response.ok) throw new Error(data.message || "Authentication failed.");
-                localStorage.setItem('mxlumes_token', data.token);
-                localStorage.setItem('mxlumes_user', JSON.stringify(data.user));
-                showToast(data.message);
-                closeAuthModal();
-                document.getElementById('auth-form').reset();
-                checkAuthStatus();
-            } catch (error) { errorDiv.innerText = error.message; errorDiv.style.display = 'block'; } 
-            finally { btn.innerText = currentAuthMode === 'signup' ? "Create Account" : "Sign In to Dashboard"; }
-        }
-
+        
         // =========================================
         // 3. CART & CLOUD SYNC LOGIC
         // =========================================
@@ -1467,7 +1457,7 @@
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
             if (!user) return;
             try {
-                const response = await fetch(`${RENDER_URL}/api/user/sync-cart`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: user.email, cartData }) });
+                const response = await fetch(`${RENDER_URL}/api/user/sync-cart`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone: user.phone, cartData }) });
                 const data = await response.json();
                 if (!cartData && data.cart && data.cart.length > 0) { cart = data.cart; renderCart(); }
             } catch (e) {}
@@ -1542,48 +1532,52 @@
         function closePaymentModal() { document.getElementById('payment-modal-overlay').classList.remove('active'); }
 
         async function finalizeOrder() {
-            const user = JSON.parse(localStorage.getItem('mxlumes_user'));
-            const payload = { email: user.email, items: cart, totalAmount: checkoutTotal, location: userLocation };
-
             const btn = document.querySelector('#payment-modal-overlay .btn-primary');
-            btn.innerText = "Verifying with Bank API...";
+            const originalText = btn.innerText;
+            
+            btn.innerHTML = "Verifying with Bank API...";
             btn.style.pointerEvents = 'none';
 
-            try {
-                const response = await fetch(`${RENDER_URL}/api/orders`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                const data = await response.json();
-                if (!response.ok) throw new Error("Could not log order.");
+            setTimeout(async () => {
+                const user = JSON.parse(localStorage.getItem('mxlumes_user'));
+                const payload = { phone: user.phone, items: cart, totalAmount: checkoutTotal, location: userLocation };
 
-                // THE PREMIUM VERIFICATION ILLUSION
-                const trustMsg = document.createElement('div');
-                trustMsg.id = "trust-msg-block";
-                trustMsg.innerHTML = `<div style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success); color: var(--success); padding: 15px; border-radius: 12px; font-size: 13px; line-height: 1.5; margin-bottom: 15px; font-weight: 700; text-align: left;">
-                    ✅ Your payment will be manually verified and updated within a few hours. If you successfully completed the payment, relax! Your order will be generated and shipped as it crosses our double-check to ignore fraud payment cases.
-                </div>`;
-                btn.parentNode.insertBefore(trustMsg, btn);
-                btn.style.display = 'none';
+                try {
+                    const response = await fetch(`${RENDER_URL}/api/orders`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    const data = await response.json();
+                    if (!response.ok) throw new Error("Could not log order.");
 
-                let msg = `*NEW ORDER RECEIVED: ${data.orderId}*%0AHi M-X Lumes team,%0AI have transferred ₹${checkoutTotal.toLocaleString()} via UPI.%0A%0A`;
-                cart.forEach(i => { msg += `• ${i.name} x ${i.qty}%0A`; });
-                msg += `%0APlease verify and approve my invoice.`;
-                
-                cart = []; renderCart(); syncCartWithCloud([]); 
-                
-                setTimeout(() => {
-                    closePaymentModal(); 
-                    window.location.href = `https://wa.me/917668077298?text=${msg}`;
-                    if(document.getElementById('trust-msg-block')) document.getElementById('trust-msg-block').remove();
-                    btn.style.display = 'block';
+                    // THE PREMIUM VERIFICATION ILLUSION
+                    const trustMsg = document.createElement('div');
+                    trustMsg.id = "trust-msg-block";
+                    trustMsg.innerHTML = `<div style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success); color: var(--success); padding: 15px; border-radius: 12px; font-size: 13px; line-height: 1.5; margin-bottom: 15px; font-weight: 700; text-align: left;">
+                        ✅ Your payment will be manually verified and updated within a few hours. If you successfully completed the payment, relax! Your order will be generated and shipped as it crosses our double-check to ignore fraud payment cases.
+                    </div>`;
+                    btn.parentNode.insertBefore(trustMsg, btn);
+                    btn.style.display = 'none';
+
+                    let msg = `*NEW ORDER RECEIVED: ${data.orderId}*%0AHi M-X Lumes team,%0AI have transferred ₹${checkoutTotal.toLocaleString()} via UPI.%0A%0A`;
+                    cart.forEach(i => { msg += `• ${i.name} x ${i.qty}%0A`; });
+                    msg += `%0APlease verify and approve my invoice.`;
+                    
+                    cart = []; renderCart(); syncCartWithCloud([]); 
+                    
+                    setTimeout(() => {
+                        closePaymentModal(); 
+                        window.location.href = `https://wa.me/917668077298?text=${msg}`;
+                        if(document.getElementById('trust-msg-block')) document.getElementById('trust-msg-block').remove();
+                        btn.style.display = 'block';
+                        btn.innerText = "✓ I Have Completed The Payment";
+                        btn.style.pointerEvents = 'auto';
+                    }, 5000); 
+
+                } catch (error) { 
+                    alert("Issue logging order. Redirecting to WhatsApp for manual support."); 
+                    window.location.href = `https://wa.me/917668077298?text=Hi, the payment scanner had an error. I paid ₹${checkoutTotal.toLocaleString()}`; 
                     btn.innerText = "✓ I Have Completed The Payment";
                     btn.style.pointerEvents = 'auto';
-                }, 5000); 
-
-            } catch (error) { 
-                alert("Issue logging order. Redirecting to WhatsApp for manual support."); 
-                window.location.href = `https://wa.me/917668077298?text=Hi, the payment scanner had an error. I paid ₹${checkoutTotal.toLocaleString()}`; 
-                btn.innerText = "✓ I Have Completed The Payment";
-                btn.style.pointerEvents = 'auto';
-            }
+                }
+            }, 3000); 
         }
 
         // =========================================
@@ -1859,7 +1853,7 @@
             if(globalOrders.length === 0) { oBody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888;">No orders found.</td></tr>'; } 
             else {
                 globalOrders.forEach(o => {
-                    let userPhone = ''; let linkedUser = globalUsers.find(u => u.email === o.customerEmail); if(linkedUser && linkedUser.phone) userPhone = linkedUser.phone;
+                    let userPhone = ''; let linkedUser = globalUsers.find(u => u.phone === o.customerContact); if(linkedUser && linkedUser.phone) userPhone = linkedUser.phone;
                     let statusClass = 'Pending'; if(o.status.includes('Processing')) statusClass = 'Processing'; if(o.status.includes('Shipped')) statusClass = 'Shipped'; if(o.status.includes('Delivered')) statusClass = 'Delivered';
                     let selectColor = o.status === 'Pending Verification' ? '#ef4444' : (o.status === 'Processing' ? '#6366f1' : '#10b981');
                     
@@ -1871,8 +1865,8 @@
                                 <div style="color:#888; font-size:11px; margin-top:4px;">Geo: ${o.location || 'Unknown'}</div>
                             </td>
                             <td style="padding:15px; vertical-align:top;">
-                                <div style="color:#fff; font-weight:700;">${o.customerEmail}</div>
-                                ${userPhone ? `<a href="https://wa.me/91${userPhone}" target="_blank" style="color:var(--whatsapp); text-decoration:none; font-size:11px; display:inline-block; margin-top:5px; border:1px solid var(--whatsapp); padding:3px 6px; border-radius:4px;">WhatsApp</a>` : ''}
+                                <div style="color:#fff; font-weight:700;">+91 ${o.customerContact}</div>
+                                ${userPhone ? `<a href="https://wa.me/91${userPhone}" target="_blank" style="color:var(--whatsapp); text-decoration:none; font-size:11px; display:inline-block; margin-top:5px; border:1px solid var(--whatsapp); padding:3px 6px; border-radius:4px;">WhatsApp Client</a>` : ''}
                             </td>
                             <td style="padding:15px; vertical-align:top; font-weight:800; color:var(--success);">₹${o.totalAmount.toLocaleString()}</td>
                             <td style="padding:15px; vertical-align:top;">
@@ -1897,11 +1891,11 @@
                 uBody.innerHTML += `
                     <tr style="border-bottom: 1px solid #333;">
                         <td style="padding:15px; font-weight:800; color:#fff;">${u.name}</td>
-                        <td style="padding:15px; color:#aaa;">${u.email}</td>
-                        <td style="padding:15px;">${u.phone || '<span style="color:#555;">No Phone</span>'}</td>
+                        <td style="padding:15px; color:#aaa;">+91 ${u.phone}</td>
+                        <td style="padding:15px; color:var(--text-dim);">${new Date(u.createdAt).toLocaleDateString()}</td>
                         <td style="padding:15px; display:flex; gap:5px;">
                             <button onclick="adminEditUser('${u._id}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎</button>
-                            <button onclick="adminDeleteUser('${u.email}')" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕</button>
+                            <button onclick="adminDeleteUser('${u.phone}')" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕</button>
                         </td>
                     </tr>
                 `;
@@ -1922,19 +1916,19 @@
             if(!confirm(`Delete order ${id}?`)) return;
             const key = sessionStorage.getItem('mxlumes_admin_key'); await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { method: 'DELETE', headers: { 'admin-secret-key': key } }); fetchAdminData();
         }
-        async function adminDeleteUser(email) {
-            if(!confirm(`Delete user ${email}?`)) return;
-            const key = sessionStorage.getItem('mxlumes_admin_key'); await fetch(`${RENDER_URL}/api/admin/users/${email}`, { method: 'DELETE', headers: { 'admin-secret-key': key } }); fetchAdminData();
+        async function adminDeleteUser(phone) {
+            if(!confirm(`Delete user ${phone}?`)) return;
+            const key = sessionStorage.getItem('mxlumes_admin_key'); await fetch(`${RENDER_URL}/api/admin/users/${phone}`, { method: 'DELETE', headers: { 'admin-secret-key': key } }); fetchAdminData();
         }
         
         function adminEditOrder(id) {
             const order = globalOrders.find(o => o.orderId === id); if(!order) return;
             document.getElementById('admin-edit-title').innerText = `Edit Order: ${id}`;
-            document.getElementById('admin-edit-fields').innerHTML = `<label style="font-size:12px; color:#888;">Total (₹)</label><input type="number" id="ae-amt" value="${order.totalAmount}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"><label style="font-size:12px; color:#888;">Email</label><input type="text" id="ae-email" value="${order.customerEmail}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px;">`;
+            document.getElementById('admin-edit-fields').innerHTML = `<label style="font-size:12px; color:#888;">Total (₹)</label><input type="number" id="ae-amt" value="${order.totalAmount}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"><label style="font-size:12px; color:#888;">Phone</label><input type="text" id="ae-phone" value="${order.customerContact}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px;">`;
             document.getElementById('admin-edit-modal').style.display = 'flex';
             document.getElementById('admin-edit-save').onclick = async () => {
                 const key = sessionStorage.getItem('mxlumes_admin_key');
-                await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ totalAmount: document.getElementById('ae-amt').value, customerEmail: document.getElementById('ae-email').value }) });
+                await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ totalAmount: document.getElementById('ae-amt').value, customerContact: document.getElementById('ae-phone').value }) });
                 document.getElementById('admin-edit-modal').style.display = 'none'; fetchAdminData();
             };
         }
@@ -1952,8 +1946,8 @@
 
         function exportOrdersCSV() {
             if(globalOrders.length === 0) return alert("No orders.");
-            let csvContent = "data:text/csv;charset=utf-8,Order ID,Date,Email,Location,Amount,Status\n";
-            globalOrders.forEach(o => { csvContent += `${o.orderId},${new Date(o.createdAt).toLocaleDateString()},${o.customerEmail},"${o.location || ''}",${o.totalAmount},${o.status}\n`; });
+            let csvContent = "data:text/csv;charset=utf-8,Order ID,Date,Phone,Location,Amount,Status\n";
+            globalOrders.forEach(o => { csvContent += `${o.orderId},${new Date(o.createdAt).toLocaleDateString()},${o.customerContact},"${o.location || ''}",${o.totalAmount},${o.status}\n`; });
             const encodedUri = encodeURI(csvContent); const link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", `mxlumes_orders.csv`);
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
@@ -1961,8 +1955,8 @@
         function exportUsersPDF() {
             if(globalUsers.length === 0) return alert("No users to export!");
             const printWindow = window.open('', '_blank');
-            let html = `<html><head><title>M-X Lumes Customer Database</title><style>body { font-family: 'Helvetica', sans-serif; padding: 40px; color: #111; } .header { border-bottom: 2px solid #111; padding-bottom: 20px; margin-bottom: 30px; } h2 { margin: 0 0 10px 0; font-size: 24px; } table { width: 100%; border-collapse: collapse; font-size: 13px; } th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; } th { background: #f9f9f9; text-transform: uppercase; font-size: 11px; color: #555; } </style></head><body><div class="header"><h2>Client Database Report</h2><p style="margin:0; color:#555;">Generated on: ${new Date().toLocaleDateString()}</p></div><table><tr><th>Name</th><th>Email</th><th>Phone</th><th>Joined Date</th></tr>`;
-            globalUsers.forEach(u => { html += `<tr><td><b>${u.name}</b></td><td>${u.email}</td><td>${u.phone || 'N/A'}</td><td>${new Date(u.createdAt).toLocaleDateString()}</td></tr>`; });
+            let html = `<html><head><title>M-X Lumes Customer Database</title><style>body { font-family: 'Helvetica', sans-serif; padding: 40px; color: #111; } .header { border-bottom: 2px solid #111; padding-bottom: 20px; margin-bottom: 30px; } h2 { margin: 0 0 10px 0; font-size: 24px; } table { width: 100%; border-collapse: collapse; font-size: 13px; } th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; } th { background: #f9f9f9; text-transform: uppercase; font-size: 11px; color: #555; } </style></head><body><div class="header"><h2>Client Database Report</h2><p style="margin:0; color:#555;">Generated on: ${new Date().toLocaleDateString()}</p></div><table><tr><th>Name</th><th>Phone</th><th>Joined Date</th></tr>`;
+            globalUsers.forEach(u => { html += `<tr><td><b>${u.name}</b></td><td>+91 ${u.phone}</td><td>${new Date(u.createdAt).toLocaleDateString()}</td></tr>`; });
             html += `</table></body></html>`;
             printWindow.document.write(html); printWindow.document.close(); printWindow.focus(); setTimeout(() => { printWindow.print(); }, 500);
         }
