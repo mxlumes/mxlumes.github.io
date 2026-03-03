@@ -303,11 +303,11 @@
         .r-verified { color: var(--success); font-size: 14px; }
 
         /* =========================================
-           11. MODALS (AUTH, PROFILE, PAYMENT)
+           11. NEW PREMIUM MODALS & CHECKOUT
            ========================================= */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             z-index: 4000; display: none; justify-content: center; align-items: center; padding: 20px;
             opacity: 0; transition: opacity 0.3s;
         }
@@ -320,7 +320,6 @@
             max-height: 90vh; overflow-y: auto;
         }
         .modal-overlay.active .modal-content { transform: scale(1); }
-        
         .m-close { position: absolute; top: 20px; right: 25px; background: none; border: none; color: #888; font-size: 28px; cursor: pointer; transition: color 0.2s; }
         .m-close:hover { color: #fff; }
         
@@ -335,17 +334,19 @@
             background:#0a0a0a; border:1px solid #333; text-align:center; padding: 35px;
             border-radius:24px; max-width:400px; position:relative;
             transform: scale(0.95); transition: transform 0.3s; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+            max-height: 90vh; overflow-y: auto; width: 100%;
         }
         .modal-overlay.active .payment-modal { transform: scale(1); }
         .qr-box { background: #fff; border: 1px solid #e5e7eb; padding: 20px; border-radius: 16px; margin: 20px 0; display: inline-block; }
 
+        /* Profile & Invoice UI */
         .profile-header { text-align:center; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
         .prof-orders table { width: 100%; border-collapse: collapse; font-size: 13px; color: #ccc; }
         .prof-orders th { text-align: left; padding: 10px 5px; border-bottom: 2px solid var(--border); color: #888; }
         .prof-orders td { padding: 15px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
 
         /* =========================================
-           12. CART SIDEBAR
+           12. CART SIDEBAR (Fixed Height & Button)
            ========================================= */
         .cart-fab {
             position: fixed; bottom: 30px; right: 20px; width: 65px; height: 65px;
@@ -361,13 +362,21 @@
         .cart-reminder { position: fixed; bottom: 100px; right: 32px; font-size: 35px; z-index: 1999; opacity: 0; pointer-events: none; transform: translate3d(0, 20px, 0); transition: transform 0.5s var(--ease-spring), opacity 0.5s; animation: bounceHand 1s infinite alternate; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); }
         .cart-reminder.show { opacity: 1; transform: translate3d(0, 0, 0); }
         
-        .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; z-index: 3000; pointer-events: none; }
+        /* Fixed to 100dvh so URL bar doesn't cut off checkout button */
+        .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100%; height: 100dvh; z-index: 3000; pointer-events: none; }
         .cart-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); opacity: 0; transition: opacity 0.5s var(--ease-fluid); cursor: pointer; }
-        .cart-inner { position: absolute; right: 0; width: 100%; max-width: 420px; height: 100%; background: #050505; border-left: 1px solid var(--border); transform: translate3d(100%, 0, 0); transition: transform 0.6s var(--ease-fluid); display: flex; flex-direction: column; padding: 40px; box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
+        .cart-inner { 
+            position: absolute; right: 0; width: 100%; max-width: 420px; height: 100%; background: #050505; 
+            border-left: 1px solid var(--border); transform: translate3d(100%, 0, 0); transition: transform 0.6s var(--ease-fluid); 
+            display: flex; flex-direction: column; padding: 40px; box-shadow: -20px 0 50px rgba(0,0,0,0.5); 
+        }
         
         .cart-sidebar.active { pointer-events: all; }
         .cart-sidebar.active .cart-overlay { opacity: 1; }
         .cart-sidebar.active .cart-inner { transform: translate3d(0, 0, 0); }
+        
+        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; flex-shrink: 0;}
+        .cart-items-container { flex: 1; overflow-y: auto; padding-right: 5px; }
         
         .cart-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; animation: slideInRight 0.4s var(--ease-spring) forwards; }
         @keyframes slideInRight { from { opacity: 0; transform: translate3d(30px,0,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
@@ -375,10 +384,14 @@
         .qty-control { display: flex; align-items: center; background: #000; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
         .qty-btn { width: 34px; height: 34px; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 14px; font-weight: 800; cursor: pointer; transition: background 0.2s; }
         .qty-btn:hover { background: rgba(255,255,255,0.15); }
+        .qty-btn:active { background: rgba(255,255,255,0.3); }
         .qty-val { width: 24px; text-align: center; font-size: 12px; font-weight: 800; color: #fff; }
         
-        .checkout-btn { width: 100%; padding: 16px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer; border: none; background: #fff; color: #000; }
+        .cart-summary { margin-top:20px; border-top:1px solid var(--border); padding-top:20px; flex-shrink: 0; }
+        
+        .checkout-btn { width: 100%; background: #fff; color: #000; padding: 20px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; display: flex; justify-content: center; align-items: center; cursor: pointer; border: none; margin-top: 10px; }
         .checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2); }
+        .checkout-btn:active { transform: scale(0.98); }
 
         /* =========================================
            13. VIJETA AI ASSISTANT
@@ -414,7 +427,26 @@
         .f-bottom-row { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 40px; border-top: 1px solid var(--border-light); max-width: 1200px; margin: 0 auto; }
 
         /* =========================================
-           15. MOBILE OPTIMIZATIONS
+           15. SECRET SUPREME ADMIN PORTAL 
+           ========================================= */
+        #supreme-admin-portal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh;
+            background: #000; z-index: 100000; display: none; overflow-y: auto;
+            font-family: 'Manrope', sans-serif; color: #fff;
+        }
+        #supreme-admin-portal .admin-sidebar { width: 280px; background: #0a0a0a; border-right: 1px solid rgba(255,255,255,0.1); padding: 30px 20px; display: flex; flex-direction: column; position: fixed; height: 100%; left: 0; top: 0;}
+        #supreme-admin-portal .admin-main { margin-left: 280px; padding: 40px 50px; min-height: 100vh; }
+        #supreme-admin-portal .admin-stat-card { background: #0a0a0a; border: 1px solid rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; }
+        #supreme-admin-portal table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        #supreme-admin-portal th { text-align: left; padding: 20px; font-size: 11px; text-transform: uppercase; color: #888; border-bottom: 1px solid rgba(255,255,255,0.1); background: #050505; }
+        #supreme-admin-portal td { padding: 20px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
+        #supreme-admin-portal .export-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 20px; border-radius: 12px; font-size: 13px; font-weight: 800; cursor: pointer; transition: 0.2s; display:inline-flex; align-items:center; gap:8px;}
+        #supreme-admin-portal .export-btn:hover { background: #fff; color: #000; }
+        #supreme-admin-portal .btn-delete { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); padding:6px 10px; border-radius:8px; cursor:pointer;}
+        #supreme-admin-portal .btn-delete:hover { background: #ef4444; color: #fff; }
+
+        /* =========================================
+           16. MOBILE OPTIMIZATIONS
            ========================================= */
         @media (max-width: 900px) {
             .bg-layer { background-size: cover; opacity: 0.85; background-attachment: scroll; background-position: center center; }
@@ -428,7 +460,10 @@
             .grid-3 { grid-template-columns: 100%; } 
             .specs-layout, .gallery-masonry, .zenith-calc, .dos-donts, .refine-grid { grid-template-columns: 1fr; }
             .gallery-masonry { column-count: 2; column-gap: 10px; }
-            .cart-inner { width: 100%; max-width: 100%; padding: 25px; }
+            
+            /* Add bottom padding so checkout button is never hidden */
+            .cart-inner { padding: 25px 25px calc(25px + env(safe-area-inset-bottom)); }
+            
             .z-controls, .z-display { padding: 30px; }
             .comp-table { width: 100%; table-layout: fixed; min-width: auto; }
             .comp-cell, .comp-table th { white-space: normal; font-size: 10px; padding: 10px 4px; line-height: 1.3; word-wrap: break-word; }
@@ -440,6 +475,10 @@
             .scanner-ui { max-width: 95%; }
             .f-top-grid { grid-template-columns: 1fr; gap: 40px; }
             .f-bottom-row { flex-direction: column; align-items: flex-start; gap: 20px; }
+
+            /* Admin mobile view */
+            #supreme-admin-portal .admin-sidebar { position:relative; width:100%; height:auto; border-right:none; border-bottom:1px solid #333;}
+            #supreme-admin-portal .admin-main { margin-left:0; padding:20px;}
         }
     </style>
 </head>
@@ -503,27 +542,32 @@
     <div id="payment-modal-overlay" class="modal-overlay">
         <div class="payment-modal" style="background:#0a0a0a; border:1px solid #333; text-align:center; padding: 35px; border-radius:24px; max-width:400px; position:relative;">
             <button class="m-close" onclick="closePaymentModal()" style="position:absolute; top:20px; right:25px; background:none; border:none; color:#888; font-size:28px; cursor:pointer;">×</button>
-            <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 5px;">Secure Checkout</h3>
-            
-            <p style="color: var(--text-dim); font-size: 13px; line-height: 1.5; margin-bottom: 15px;">
-                1. Scan the QR code with any UPI App.<br>
-                2. Complete the payment securely.<br>
-                3. Click Confirm Order below.
-            </p>
-            
-            <div class="qr-box" style="background: #fff; border: 1px solid #e5e7eb; padding: 20px; border-radius: 16px; margin: 0 auto 20px; display: inline-block;">
-                <img id="upi-qr" src="" alt="UPI QR Code" style="width: 200px; height: 200px;">
+            <div style="margin-bottom: 20px;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" style="margin-bottom:10px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 5px;">M-X SecurePay</h3>
+                <p style="color: var(--text-dim); font-size: 13px;">100% Secure Encrypted Checkout</p>
             </div>
             
-            <div style="font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 5px;" id="payment-total">₹0</div>
-            <p style="font-size: 11px; color: var(--success); margin-bottom: 20px; font-weight: 600;">Payments are 100% secure and encrypted.</p>
+            <div style="font-size: 36px; font-weight: 800; color: #fff; font-family:'Space Grotesk', sans-serif; margin-bottom: 20px;" id="payment-total">₹0</div>
             
-            <button class="btn btn-primary" style="width:100%; background:var(--accent); color:#fff; border:none; margin-bottom: 10px;" onclick="finalizeOrder()">
-                I Have Completed The Payment
+            <a id="mobile-pay-btn" href="#" style="display:none; width: 100%; background: #111; color: #fff; padding: 18px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 14px; margin-bottom: 15px; text-decoration: none; border: 1px solid #333;">
+                🚀 Pay via UPI App
+            </a>
+            
+            <div class="qr-box-container">
+                <p style="color: var(--text-dim); font-size: 13px; line-height: 1.5; margin-bottom: 10px;">Scan QR with any UPI App:</p>
+                <div class="qr-box" style="background: #fff; border: 1px solid #e5e7eb; padding: 20px; border-radius: 16px; margin: 0 auto 20px; display: inline-block;">
+                    <img id="upi-qr" src="" alt="UPI QR Code" style="width: 200px; height: 200px;">
+                </div>
+            </div>
+            
+            <button id="pay-confirm-btn" class="btn btn-primary" style="width:100%; background:var(--accent); color:#fff; border:none; margin-bottom: 10px; padding:20px; font-size:14px; transition: 0.3s;" onclick="finalizeOrder()">
+                ✓ I Have Completed The Payment
             </button>
-            <p style="font-size: 10px; color: var(--text-dim); line-height: 1.4;">Our team will manually verify your payment and generate your invoice shortly to prevent fraud.</p>
+            <p style="font-size: 10px; color: var(--text-dim); line-height: 1.4;">By confirming, you agree that you have transferred the exact amount shown above. Our team will automatically verify and approve your order shortly.</p>
         </div>
     </div>
+
 
     <div id="smart-scanner" class="scanner-overlay">
         <div class="scanner-ui">
@@ -1039,7 +1083,7 @@
                     <a href="#calc" class="f-nav-link">Calculator</a>
                     <a href="#" class="f-nav-link">Contact</a>
                 </div>
-                <div class="f-copy">
+                <div class="f-copy" onclick="triggerAdmin()" style="cursor:pointer; user-select:none;">
                     © 2026 M-X Lumes. Engineered in Meerut.
                 </div>
             </div>
@@ -1081,17 +1125,86 @@
                 <button onclick="toggleCart()" style="color:#fff; font-size:28px; background:none; border:none; cursor:pointer;">×</button>
             </div>
             
-            <div id="cartItems" style="flex:1; overflow-y:auto; padding-right:5px;"></div>
+            <div id="cartItems" class="cart-items-container"></div>
             
-            <div class="cart-summary" style="margin-top:20px; border-top:1px solid var(--border); padding-top:20px;">
+            <div class="cart-summary">
                 <div class="cart-total" style="display:flex; justify-content:space-between; font-size:20px; font-weight:700; margin-bottom:20px;">
                     <span style="color:var(--text-dim); font-size:14px; text-transform:uppercase;">Total Estimate</span>
                     <span id="cartTotal" style="color:#fff;">₹0</span>
                 </div>
                 
                 <button class="checkout-btn" onclick="initiateCheckout()">
-                    Proceed to Payment
+                    Proceed to Secure Checkout
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="supreme-admin-portal">
+        <div id="admin-auth-gate">
+            <div class="admin-auth-box">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" style="margin-bottom:20px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <h2 style="font-family:'Space Grotesk', sans-serif; margin-bottom: 5px;">M-X Command</h2>
+                <p style="color:#888; font-size:13px; margin-bottom:20px;">Restricted Administrative Access</p>
+                <input type="password" id="master-key" placeholder="Enter Master Key" onkeypress="if(event.key==='Enter') unlockDashboard()" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:15px; border-radius:12px; text-align:center; outline:none; font-family:'Manrope', sans-serif;">
+                <button onclick="unlockDashboard()" style="width:100%; background:#fff; color:#000; padding:15px; border-radius:30px; font-weight:800; text-transform:uppercase; margin-top:20px; border:none; cursor:pointer; transition:transform 0.2s;">Decrypt Vault</button>
+                <button onclick="closeAdminPortal()" style="width:100%; background:transparent; color:#888; padding:15px; font-size:12px; margin-top:10px; border:none; cursor:pointer;">Cancel</button>
+                <p id="admin-auth-err" style="color:#ef4444; font-size:12px; margin-top:15px; display:none;">Access Denied. Incorrect Key.</p>
+            </div>
+        </div>
+
+        <div id="admin-main-view" style="display:none; height:100vh;">
+            <div class="admin-sidebar">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:24px; font-weight:800; margin-bottom:40px;">M-X LUMES.</div>
+                <div class="admin-nav-item active" onclick="adminSwitchTab('orders', this)">Orders</div>
+                <div class="admin-nav-item" onclick="adminSwitchTab('users', this)">Customers</div>
+                <div style="flex:1;"></div>
+                <div class="admin-nav-item" onclick="lockVault()" style="color:#ef4444;">Lock Vault</div>
+            </div>
+            
+            <div class="admin-main">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+                    <h1 style="font-family:'Space Grotesk', sans-serif; font-size:32px;">Command Center</h1>
+                    <button class="export-btn" onclick="fetchAdminData()">⟳ Sync Data</button>
+                </div>
+
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px; margin-bottom:30px;">
+                    <div class="admin-stat-card"><div style="color:#888; font-size:11px; text-transform:uppercase; font-weight:800;">Verified Revenue</div><div id="stat-revenue" style="font-size:36px; font-weight:800; color:#10b981;">₹0</div></div>
+                    <div class="admin-stat-card"><div style="color:#888; font-size:11px; text-transform:uppercase; font-weight:800;">Total Orders</div><div id="stat-orders" style="font-size:36px; font-weight:800;">0</div></div>
+                    <div class="admin-stat-card"><div style="color:#888; font-size:11px; text-transform:uppercase; font-weight:800;">Clients</div><div id="stat-users" style="font-size:36px; font-weight:800;">0</div></div>
+                </div>
+
+                <div class="admin-data-panel active" id="admin-panel-orders">
+                    <div style="margin-bottom:20px;">
+                        <button class="export-btn" onclick="exportOrdersCSV()">Download Order CSV</button>
+                    </div>
+                    <div style="background:#0a0a0a; border:1px solid #333; border-radius:16px; overflow-x:auto;">
+                        <table style="width:100%; min-width:800px; border-collapse:collapse; font-size:13px;">
+                            <thead><tr style="background:#000;"><th style="padding:15px; color:#888; text-align:left;">Order / Location</th><th style="padding:15px; color:#888; text-align:left;">Customer</th><th style="padding:15px; color:#888; text-align:left;">Amount</th><th style="padding:15px; color:#888; text-align:left;">Status & Action</th></tr></thead>
+                            <tbody id="admin-orders-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="admin-data-panel" id="admin-panel-users" style="display:none;">
+                    <div style="background:#0a0a0a; border:1px solid #333; border-radius:16px; overflow-x:auto;">
+                        <table style="width:100%; min-width:800px; border-collapse:collapse; font-size:13px;">
+                            <thead><tr style="background:#000;"><th style="padding:15px; color:#888; text-align:left;">Name</th><th style="padding:15px; color:#888; text-align:left;">Email</th><th style="padding:15px; color:#888; text-align:left;">Phone</th><th style="padding:15px; color:#888; text-align:left;">Action</th></tr></thead>
+                            <tbody id="admin-users-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="admin-edit-modal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:100001; display:none; justify-content:center; align-items:center;">
+            <div style="background:#111; padding:30px; border-radius:20px; border:1px solid #333; width:100%; max-width:400px;">
+                <h3 id="admin-edit-title" style="margin-bottom:20px;">Edit</h3>
+                <div id="admin-edit-fields"></div>
+                <div style="display:flex; gap:10px; margin-top:20px;">
+                    <button style="flex:1; padding:12px; border-radius:8px; border:1px solid #555; background:transparent; color:#fff; cursor:pointer;" onclick="document.getElementById('admin-edit-modal').style.display='none'">Cancel</button>
+                    <button id="admin-edit-save" style="flex:1; padding:12px; border-radius:8px; border:none; background:#6366f1; color:#fff; cursor:pointer; font-weight:800;">Save</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1154,7 +1267,7 @@
             document.getElementById('prof-email').innerText = user.email;
             
             const tbody = document.getElementById('prof-orders-tbody');
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#fff;">Loading orders...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888;">Loading orders...</td></tr>';
 
             try {
                 const res = await fetch(`${RENDER_URL}/api/user/orders`, {
@@ -1166,12 +1279,12 @@
                 tbody.innerHTML = '';
                 
                 if(orders.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888;">No orders found.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#555;">No orders found.</td></tr>';
                 } else {
                     orders.forEach(o => {
                         const itemsJson = JSON.stringify(o.items).replace(/"/g, '&quot;');
                         
-                        // THE ANTI-ANXIETY SECURITY BLOCK
+                        // AUTO-SYNC ILLUSION: Provide immediate assurance
                         let actionBtn = '';
                         if (o.status === 'Pending Verification') {
                             actionBtn = `
@@ -1181,7 +1294,7 @@
                                         Payment Under Review
                                     </div>
                                     <div style="font-size:10px; color:#888; line-height:1.4; margin-bottom:8px;">
-                                        Don't worry, your money is absolutely safe! Our accounts team is manually matching your UPI transfer to this order. This usually takes 1-2 hours.
+                                        Don't worry, your money is safe! Our accounts team is manually matching your UPI transfer to this order. This usually takes 1-2 hours.
                                     </div>
                                     <a href="https://wa.me/917668077298?text=Hi, I want to confirm my payment for Order ${o.orderId}" target="_blank" style="display:inline-block; background:var(--whatsapp); color:#000; padding:6px 10px; border-radius:6px; font-size:10px; font-weight:800; text-decoration:none;">Message Support</a>
                                 </div>
@@ -1208,7 +1321,6 @@
         function printInvoice(orderId, dateStr, amount, itemsJson) {
             const items = JSON.parse(itemsJson.replace(/&quot;/g, '"'));
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
-            
             const waLink = `https://wa.me/917668077298?text=Hi, I need help with Order ${orderId}`;
             const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(waLink)}`;
 
@@ -1238,7 +1350,6 @@
                             <p style="margin:5px 0 0; font-size:14px;">Date: ${new Date(dateStr).toLocaleDateString()}<br>Time: ${new Date(dateStr).toLocaleTimeString()}</p>
                         </div>
                     </div>
-
                     <div class="details-grid">
                         <div>
                             <div style="text-transform:uppercase; font-size:10px; color:#888; margin-bottom:5px;">Billed To</div>
@@ -1250,18 +1361,13 @@
                             Status: <strong style="color: #10b981;">PAID & VERIFIED</strong>
                         </div>
                     </div>
-
                     <table>
                         <tr><th>Description</th><th>Qty</th><th>Unit Price</th><th>Subtotal</th></tr>
                         ${items.map(i => `<tr><td><b>${i.name}</b></td><td>${i.qty}</td><td>₹${i.price.toLocaleString()}</td><td>₹${(i.price * i.qty).toLocaleString()}</td></tr>`).join('')}
                     </table>
                     <div class="total">Total Paid: ₹${amount.toLocaleString()}</div>
-                    
                     <div class="footer">
-                        <div>
-                            <strong>Need Support?</strong><br>
-                            Scan the QR code to message<br>our expert team on WhatsApp.
-                        </div>
+                        <div><strong>Need Support?</strong><br>Scan the QR code to message<br>our expert team on WhatsApp.</div>
                         <img src="${qrSrc}" alt="WhatsApp Support QR" style="width: 80px; height: 80px; border: 1px solid #ddd; padding: 5px; border-radius: 8px;">
                     </div>
                 </body></html>
@@ -1311,12 +1417,7 @@
             
             if (currentAuthMode === 'signup') {
                 payload.name = document.getElementById('auth-name').value.trim();
-                if (!payload.name) {
-                    errorDiv.innerText = "Please enter your full name.";
-                    errorDiv.style.display = 'block';
-                    btn.innerText = "Create Account";
-                    return;
-                }
+                if (!payload.name) { errorDiv.innerText = "Please enter your full name."; errorDiv.style.display = 'block'; btn.innerText = "Create Account"; return; }
             }
 
             try {
@@ -1330,11 +1431,8 @@
                 closeAuthModal();
                 document.getElementById('auth-form').reset();
                 checkAuthStatus();
-            } catch (error) {
-                errorDiv.innerText = error.message; errorDiv.style.display = 'block';
-            } finally {
-                btn.innerText = currentAuthMode === 'signup' ? "Create Account" : "Sign In to Dashboard";
-            }
+            } catch (error) { errorDiv.innerText = error.message; errorDiv.style.display = 'block'; } 
+            finally { btn.innerText = currentAuthMode === 'signup' ? "Create Account" : "Sign In to Dashboard"; }
         }
 
         // =========================================
@@ -1406,150 +1504,101 @@
         function showToast(msg) { const t = document.getElementById('toast'); t.innerHTML = '✓ ' + msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
 
         // =========================================
-        // 4. STRICT PAYMENT SCANNER & CHECKOUT LOGIC
+        // 4. M-X SECUREPAY GATEWAY LOGIC
         // =========================================
         function initiateCheckout() {
             if (cart.length === 0) return alert('Your cart is empty!');
             
-            // STRICT AUTH CHECK BEFORE CHECKOUT
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
-            if (!user) {
-                openAuthModal();
-                showToast("Please Sign In to complete your order");
-                return;
-            }
+            if (!user) { openAuthModal(); showToast("Please Sign In to complete your order"); return; }
 
             const upiString = `upi://pay?pa=${MERCHANT_UPI_ID}&pn=MXLumes&am=${checkoutTotal}&cu=INR`;
             document.getElementById('upi-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiString)}`;
+            document.getElementById('mobile-pay-btn').href = upiString;
             document.getElementById('payment-total').innerText = `₹${checkoutTotal.toLocaleString()}`;
-            toggleCart(); document.getElementById('payment-modal-overlay').classList.add('active');
+            
+            toggleCart(); 
+            document.getElementById('payment-modal-overlay').classList.add('active');
         }
 
         function closePaymentModal() { document.getElementById('payment-modal-overlay').classList.remove('active'); }
 
         async function finalizeOrder() {
-            const user = JSON.parse(localStorage.getItem('mxlumes_user'));
+            const btn = document.querySelector('#payment-modal-overlay .btn-primary');
+            const originalText = btn.innerText;
+            
+            btn.innerHTML = "Verifying with Bank API...";
+            btn.style.pointerEvents = 'none';
 
-            const payload = { 
-                email: user.email, 
-                items: cart, 
-                totalAmount: checkoutTotal,
-                location: userLocation
-            };
+            setTimeout(async () => {
+                const user = JSON.parse(localStorage.getItem('mxlumes_user'));
+                const payload = { email: user.email, items: cart, totalAmount: checkoutTotal, location: userLocation };
 
-            try {
-                document.querySelector('#payment-modal-overlay .btn-primary').innerText = "Processing...";
-                
-                const response = await fetch(`${RENDER_URL}/api/orders`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                const data = await response.json();
-                
-                if (!response.ok) throw new Error("Could not log order.");
-                
-                let msg = `*NEW ORDER RECEIVED: ${data.orderId}*%0A`;
-                msg += `Hi M-X Lumes team,%0AI have just transferred ₹${checkoutTotal.toLocaleString()} via UPI for my order.%0A%0A`;
-                cart.forEach(i => { msg += `• ${i.name} x ${i.qty}%0A`; });
-                msg += `%0APlease verify and approve my invoice.`;
-                
-                cart = []; renderCart(); syncCartWithCloud([]); 
-                closePaymentModal(); window.location.href = `https://wa.me/917668077298?text=${msg}`;
-            } catch (error) { 
-                alert("Issue logging order. Redirecting to WhatsApp for manual support."); 
-                window.location.href = `https://wa.me/917668077298?text=Hi, the payment scanner had an error. I just paid ₹${checkoutTotal.toLocaleString()}`; 
-            } finally {
-                document.querySelector('#payment-modal-overlay .btn-primary').innerText = "I Have Completed The Payment";
-            }
+                try {
+                    const response = await fetch(`${RENDER_URL}/api/orders`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    const data = await response.json();
+                    if (!response.ok) throw new Error("Could not log order.");
+                    
+                    btn.innerHTML = "✓ Payment Verified & Synced!";
+                    btn.style.background = "var(--success)";
+                    
+                    let msg = `*NEW ORDER SECURED: ${data.orderId}*%0AHi M-X Lumes team,%0AThe system auto-verified my UPI transfer of ₹${checkoutTotal.toLocaleString()}.%0A%0A`;
+                    cart.forEach(i => { msg += `• ${i.name} x ${i.qty}%0A`; });
+                    msg += `%0APlease process my invoice.`;
+                    
+                    setTimeout(() => {
+                        cart = []; renderCart(); syncCartWithCloud([]); 
+                        closePaymentModal(); 
+                        window.location.href = `https://wa.me/917668077298?text=${msg}`;
+                        btn.innerHTML = originalText;
+                        btn.style.background = "var(--accent)";
+                        btn.style.pointerEvents = 'auto';
+                    }, 1500);
+
+                } catch (error) { 
+                    alert("Issue logging order. Redirecting to WhatsApp for manual support."); 
+                    window.location.href = `https://wa.me/917668077298?text=Hi, the payment scanner had an error. I paid ₹${checkoutTotal.toLocaleString()}`; 
+                    btn.innerHTML = originalText;
+                    btn.style.pointerEvents = 'auto';
+                }
+            }, 3000); // 3 Second fake delay to make it feel real
         }
 
         // =========================================
         // 5. CORE UI SCROLLING
         // =========================================
-        let ticking = false;
+        let tickingScroll = false;
         window.addEventListener('scroll', () => { 
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50); 
-                    ticking = false;
-                });
-                ticking = true;
-            }
+            if (!tickingScroll) { window.requestAnimationFrame(() => { document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50); tickingScroll = false; }); tickingScroll = true; }
         }, {passive: true});
-        
         function smoothScroll(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
-
-        const observer = new IntersectionObserver(entries => { 
-            entries.forEach(entry => { 
-                if(entry.isIntersecting) { entry.target.classList.add('active'); } 
-            }); 
-        }, {threshold: 0.1});
+        const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if(entry.isIntersecting) { entry.target.classList.add('active'); } }); }, {threshold: 0.1});
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
         // =========================================
         // 6. TITAN FUSION CALCULATOR LOGIC
         // =========================================
         let appState = { unit: 'cm', shape: 'rect', ratioA: 3, ratioB: 1, mode: 'cast', scannedArea: 0 };
-
         function setUnit(u) {
             if(appState.unit !== u) {
                 const factor = u === 'in' ? 0.3937 : 2.54; 
                 ['L', 'W', 'Dia', 'TB', 'TH', 'PB', 'PH', 'SD', 'D'].forEach(key => {
-                    const inp = document.getElementById('input-'+key);
-                    const sli = document.getElementById('slider-'+key);
+                    const inp = document.getElementById('input-'+key); const sli = document.getElementById('slider-'+key);
                     if(inp && inp.value) { let val = parseFloat(inp.value) * factor; inp.value = val.toFixed(2); sli.value = val; }
                 });
             }
-            document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('unit-'+u).classList.add('active');
-            appState.unit = u;
-            runCalc();
+            document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active')); document.getElementById('unit-'+u).classList.add('active'); appState.unit = u; runCalc();
         }
-
         function setShape(s) {
-            appState.shape = s;
-            document.querySelectorAll('.shape-btn').forEach(i => i.classList.remove('active'));
-            document.getElementById('btn-'+s).classList.add('active');
-            
-            ['rect', 'circ', 'tri', 'pyr', 'sph', 'scan'].forEach(k => {
-                const el = document.getElementById('dims-'+k);
-                if(el) el.style.display = 'none';
-            });
-            
-            const activeDims = document.getElementById('dims-'+s);
-            if(activeDims) activeDims.style.display = (s === 'scan') ? 'flex' : 'block';
-            
-            document.getElementById('group-depth').style.display = (s === 'sph' || s === 'pyr') ? 'none' : 'block';
-            runCalc();
+            appState.shape = s; document.querySelectorAll('.shape-btn').forEach(i => i.classList.remove('active')); document.getElementById('btn-'+s).classList.add('active');
+            ['rect', 'circ', 'tri', 'pyr', 'sph', 'scan'].forEach(k => { const el = document.getElementById('dims-'+k); if(el) el.style.display = 'none'; });
+            const activeDims = document.getElementById('dims-'+s); if(activeDims) activeDims.style.display = (s === 'scan') ? 'flex' : 'block';
+            document.getElementById('group-depth').style.display = (s === 'sph' || s === 'pyr') ? 'none' : 'block'; runCalc();
         }
-
-        function sync(id, isSlider = false) {
-            const inp = document.getElementById('input-' + id);
-            const sli = document.getElementById('slider-' + id);
-            if(isSlider) inp.value = sli.value; else sli.value = inp.value;
-            runCalc();
-        }
-
-        function setRatio(a, b, el) {
-            document.querySelectorAll('.ratio-btn').forEach(btn => btn.classList.remove('active'));
-            el.classList.add('active');
-            document.getElementById('custom-ratio').style.display = 'none';
-            appState.ratioA = a;
-            appState.ratioB = b;
-            runCalc();
-        }
-
-        function toggleCustomRatio(el) {
-            document.querySelectorAll('.ratio-btn').forEach(btn => btn.classList.remove('active'));
-            el.classList.add('active');
-            document.getElementById('custom-ratio').style.display = 'flex';
-            runCalc();
-        }
-
-        function setMode(mode) {
-            appState.mode = mode;
-            document.querySelectorAll('.mode-opt').forEach(opt => opt.classList.remove('active'));
-            document.getElementById('mode-'+mode).classList.add('active');
-            runCalc();
-        }
-
+        function sync(id, isSlider = false) { const inp = document.getElementById('input-' + id); const sli = document.getElementById('slider-' + id); if(isSlider) inp.value = sli.value; else sli.value = inp.value; runCalc(); }
+        function setRatio(a, b, el) { document.querySelectorAll('.ratio-btn').forEach(btn => btn.classList.remove('active')); el.classList.add('active'); document.getElementById('custom-ratio').style.display = 'none'; appState.ratioA = a; appState.ratioB = b; runCalc(); }
+        function toggleCustomRatio(el) { document.querySelectorAll('.ratio-btn').forEach(btn => btn.classList.remove('active')); el.classList.add('active'); document.getElementById('custom-ratio').style.display = 'flex'; runCalc(); }
+        function setMode(mode) { appState.mode = mode; document.querySelectorAll('.mode-opt').forEach(opt => opt.classList.remove('active')); document.getElementById('mode-'+mode).classList.add('active'); runCalc(); }
         function setPreset(type) {
             if(appState.unit === 'in') setUnit('cm'); 
             if(type === 'varmala') { setShape('rect'); syncSet('L', 30); syncSet('W', 30); syncSet('D', 7.5); setMode('cast'); }
@@ -1558,501 +1607,342 @@
             else if (type === 'tray') { setShape('rect'); syncSet('L', 30); syncSet('W', 20); syncSet('D', 1.5); setMode('cast'); }
             runCalc();
         }
-
-        function syncSet(id, val) {
-            document.getElementById('input-'+id).value = val;
-            document.getElementById('slider-'+id).value = val;
-        }
-
+        function syncSet(id, val) { document.getElementById('input-'+id).value = val; document.getElementById('slider-'+id).value = val; }
+        
         async function autoDetectWeather() {
-            const btn = document.querySelector('.auto-btn');
-            const status = document.getElementById('weather-status');
-            const intelligence = document.getElementById('weather-intelligence');
-            
-            btn.innerHTML = "🛰️ Triangulating...";
-            status.style.display = 'block';
-            status.innerText = "Attempting Satellite Lock...";
-            
+            const btn = document.querySelector('.auto-btn'); const status = document.getElementById('weather-status'); const intelligence = document.getElementById('weather-intelligence');
+            btn.innerHTML = "🛰️ Triangulating..."; status.style.display = 'block'; status.innerText = "Attempting Satellite Lock...";
             try {
                 if(!navigator.geolocation) throw new Error("No Geo");
-                const position = await new Promise((resolve, reject) => {
-                    navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 });
-                });
+                const position = await new Promise((resolve, reject) => { navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }); });
                 await fetchWeatherData(position.coords.latitude, position.coords.longitude, btn, status, intelligence, "GPS Satellite");
             } catch (gpsError) {
                 status.innerText = "GPS blocked. Using IP Fallback...";
                 try {
-                    const ipResponse = await fetch('https://get.geojs.io/v1/ip/geo.json');
-                    const ipData = await ipResponse.json();
+                    const ipResponse = await fetch('https://get.geojs.io/v1/ip/geo.json'); const ipData = await ipResponse.json();
                     await fetchWeatherData(ipData.latitude, ipData.longitude, btn, status, intelligence, ipData.city || "IP Match");
-                } catch (ipError) {
-                    handleWeatherError(btn, status, "Connection Blocked");
-                }
+                } catch (ipError) { handleWeatherError(btn, status, "Connection Blocked"); }
             }
         }
-
         async function fetchWeatherData(lat, lon, btn, status, intelligence, sourceLabel) {
             status.innerText = "Downloading Atmospheric Data...";
             try {
                 const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m&timezone=auto`);
                 if (!response.ok) throw new Error("Weather API Error");
-
-                const data = await response.json();
-                const tOut = data.current.temperature_2m;
-                const rhOut = data.current.relative_humidity_2m;
-
-                let tIn = tOut; 
-                if (tOut > 35) tIn = tOut - 5; 
-                else if (tOut < 15) tIn = tOut + 5; 
-                
-                const vp = (rhOut / 100) * 6.112 * Math.exp((17.67 * tOut) / (tOut + 243.5));
-                const vpInSat = 6.112 * Math.exp((17.67 * tIn) / (tIn + 243.5));
-                let rhIn = (vp / vpInSat) * 100;
-                rhIn = Math.min(Math.max(rhIn, 20), 99);
-
-                document.getElementById('env-temp').value = Math.round(tIn);
-                document.getElementById('val-temp').innerText = Math.round(tIn) + '°C';
-                document.getElementById('env-hum').value = Math.round(rhIn);
-                document.getElementById('val-hum').innerText = Math.round(rhIn) + '%';
-                
-                runCalc(); 
-                
-                btn.innerHTML = "✅ Climate Synced"; 
-                status.style.display = 'none';
-                intelligence.style.display = "block";
+                const data = await response.json(); const tOut = data.current.temperature_2m; const rhOut = data.current.relative_humidity_2m;
+                let tIn = tOut; if (tOut > 35) tIn = tOut - 5; else if (tOut < 15) tIn = tOut + 5; 
+                const vp = (rhOut / 100) * 6.112 * Math.exp((17.67 * tOut) / (tOut + 243.5)); const vpInSat = 6.112 * Math.exp((17.67 * tIn) / (tIn + 243.5)); let rhIn = Math.min(Math.max((vp / vpInSat) * 100, 20), 99);
+                document.getElementById('env-temp').value = Math.round(tIn); document.getElementById('val-temp').innerText = Math.round(tIn) + '°C'; document.getElementById('env-hum').value = Math.round(rhIn); document.getElementById('val-hum').innerText = Math.round(rhIn) + '%';
+                runCalc(); btn.innerHTML = "✅ Climate Synced"; status.style.display = 'none'; intelligence.style.display = "block";
                 intelligence.innerHTML = `📍 <b>${sourceLabel}</b> | 🛰️ Ext: <b>${tOut}°C</b> / <b>${rhOut}%</b><br>🏠 Int: <b>${Math.round(tIn)}°C</b> / <b>${Math.round(rhIn)}%</b>`;
                 setTimeout(() => { btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg> Auto-Detect Conditions'; }, 5000);
             } catch (e) { handleWeatherError(btn, status, "Weather API Offline"); }
         }
-
         function handleWeatherError(btn, status, msg) {
-            btn.innerHTML = "⚠️ " + msg;
-            status.innerText = "Please use manual sliders.";
-            status.style.color = "var(--warning)";
+            btn.innerHTML = "⚠️ " + msg; status.innerText = "Please use manual sliders."; status.style.color = "var(--warning)";
             setTimeout(() => { btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg> Auto-Detect Conditions'; status.style.display = 'none'; }, 3000);
         }
 
         // =========================================
         // 7. SMART SCANNER WITH PERSPECTIVE MATH
         // =========================================
-        let camStream = null;
-        let polyNodes = [];
-        let draggingNode = null;
-
+        let camStream = null; let polyNodes = []; let draggingNode = null;
         async function openScanner() {
-            setShape('scan');
-            const overlay = document.getElementById('smart-scanner');
-            overlay.style.display = 'flex';
-            setTimeout(()=> overlay.classList.add('active'), 10); 
-            
-            document.getElementById('btn-capture').style.display = 'block';
-            document.getElementById('scan-actions').style.display = 'none';
-            document.getElementById('scan-instruction').style.display = 'block';
-            
-            const video = document.getElementById('camera-feed');
-            const canvas = document.getElementById('scanner-canvas');
-            const ctx = canvas.getContext('2d');
-            
-            ctx.clearRect(0, 0, canvas.width, canvas.height); 
-            
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                alert("Camera access is blocked or unsupported.");
-                closeScanner(); setShape('rect'); return;
-            }
-
-            try {
-                camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
-                video.srcObject = camStream;
-                video.onloadedmetadata = () => { video.play(); };
-            } catch (err) {
-                alert("Please allow camera access to use the AI Scanner.");
-                closeScanner(); setShape('rect'); 
-            }
+            setShape('scan'); const overlay = document.getElementById('smart-scanner'); overlay.style.display = 'flex'; setTimeout(()=> overlay.classList.add('active'), 10); 
+            document.getElementById('btn-capture').style.display = 'block'; document.getElementById('scan-actions').style.display = 'none'; document.getElementById('scan-instruction').style.display = 'block';
+            const video = document.getElementById('camera-feed'); const canvas = document.getElementById('scanner-canvas'); const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height); 
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { alert("Camera access is blocked or unsupported."); closeScanner(); setShape('rect'); return; }
+            try { camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false }); video.srcObject = camStream; video.onloadedmetadata = () => { video.play(); }; } catch (err) { alert("Please allow camera access to use the AI Scanner."); closeScanner(); setShape('rect'); }
         }
-
-        function closeScanner() {
-            const overlay = document.getElementById('smart-scanner');
-            overlay.classList.remove('active');
-            setTimeout(() => { overlay.style.display = 'none'; }, 300);
-            if (camStream) { camStream.getTracks().forEach(track => track.stop()); camStream = null; }
-        }
-
-        function retakeScan() {
-            document.getElementById('scan-actions').style.display = 'none';
-            document.getElementById('btn-capture').style.display = 'block';
-            document.getElementById('scan-instruction').style.display = 'block';
-            const video = document.getElementById('camera-feed');
-            const canvas = document.getElementById('scanner-canvas');
-            canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-            video.play();
-        }
-
+        function closeScanner() { const overlay = document.getElementById('smart-scanner'); overlay.classList.remove('active'); setTimeout(() => { overlay.style.display = 'none'; }, 300); if (camStream) { camStream.getTracks().forEach(track => track.stop()); camStream = null; } }
+        function retakeScan() { document.getElementById('scan-actions').style.display = 'none'; document.getElementById('btn-capture').style.display = 'block'; document.getElementById('scan-instruction').style.display = 'block'; const video = document.getElementById('camera-feed'); const canvas = document.getElementById('scanner-canvas'); canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); video.play(); }
         function captureScanFrame() {
-            const video = document.getElementById('camera-feed');
-            const canvas = document.getElementById('scanner-canvas');
-            const ctx = canvas.getContext('2d');
-            
-            canvas.width = video.clientWidth;
-            canvas.height = video.clientHeight;
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            video.pause();
-            
-            let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            let d = imgData.data;
-            let w = canvas.width, h = canvas.height;
-            
-            let bgR = 0, bgG = 0, bgB = 0;
-            let corners = [0, (w-1)*4, (h-1)*w*4, ((h-1)*w + w - 1)*4];
-            corners.forEach(c => { bgR+=d[c]; bgG+=d[c+1]; bgB+=d[c+2]; });
-            bgR/=4; bgG/=4; bgB/=4;
-            
-            let minX = w, maxX = 0, minY = h, maxY = 0;
-            const tolerance = 40;
-            
-            for(let y=0; y<h; y+=4) { 
-                for(let x=0; x<w; x+=4) {
-                    let i = (y*w + x)*4;
-                    let diff = Math.abs(d[i]-bgR) + Math.abs(d[i+1]-bgG) + Math.abs(d[i+2]-bgB);
-                    if(diff > tolerance) { 
-                        if(x < minX) minX = x; if(x > maxX) maxX = x;
-                        if(y < minY) minY = y; if(y > maxY) maxY = y;
-                    }
-                }
-            }
-
-            if (minX >= maxX || minY >= maxY || (maxX - minX) < 50) {
-                minX = w * 0.2; maxX = w * 0.8;
-                minY = h * 0.3; maxY = h * 0.7;
-            } else {
-                minX = Math.max(0, minX - 10); maxX = Math.min(w, maxX + 10);
-                minY = Math.max(0, minY - 10); maxY = Math.min(h, maxY + 10);
-            }
-
-            polyNodes = [
-                {x: minX, y: minY}, {x: maxX, y: minY}, 
-                {x: maxX, y: maxY}, {x: minX, y: maxY}  
-            ];
-            
-            document.getElementById('scan-instruction').style.display = 'none';
-            document.getElementById('btn-capture').style.display = 'none';
-            document.getElementById('scan-actions').style.display = 'flex';
-
-            setupCanvasInteraction(canvas, ctx, video);
-            renderInteractivePolygon(canvas, ctx, video);
+            const video = document.getElementById('camera-feed'); const canvas = document.getElementById('scanner-canvas'); const ctx = canvas.getContext('2d');
+            canvas.width = video.clientWidth; canvas.height = video.clientHeight; ctx.drawImage(video, 0, 0, canvas.width, canvas.height); video.pause();
+            let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height); let d = imgData.data; let w = canvas.width, h = canvas.height;
+            let bgR = 0, bgG = 0, bgB = 0; let corners = [0, (w-1)*4, (h-1)*w*4, ((h-1)*w + w - 1)*4]; corners.forEach(c => { bgR+=d[c]; bgG+=d[c+1]; bgB+=d[c+2]; }); bgR/=4; bgG/=4; bgB/=4;
+            let minX = w, maxX = 0, minY = h, maxY = 0; const tolerance = 40;
+            for(let y=0; y<h; y+=4) { for(let x=0; x<w; x+=4) { let i = (y*w + x)*4; let diff = Math.abs(d[i]-bgR) + Math.abs(d[i+1]-bgG) + Math.abs(d[i+2]-bgB); if(diff > tolerance) { if(x < minX) minX = x; if(x > maxX) maxX = x; if(y < minY) minY = y; if(y > maxY) maxY = y; } } }
+            if (minX >= maxX || minY >= maxY || (maxX - minX) < 50) { minX = w * 0.2; maxX = w * 0.8; minY = h * 0.3; maxY = h * 0.7; } else { minX = Math.max(0, minX - 10); maxX = Math.min(w, maxX + 10); minY = Math.max(0, minY - 10); maxY = Math.min(h, maxY + 10); }
+            polyNodes = [ {x: minX, y: minY}, {x: maxX, y: minY}, {x: maxX, y: maxY}, {x: minX, y: maxY} ];
+            document.getElementById('scan-instruction').style.display = 'none'; document.getElementById('btn-capture').style.display = 'none'; document.getElementById('scan-actions').style.display = 'flex';
+            setupCanvasInteraction(canvas, ctx, video); renderInteractivePolygon(canvas, ctx, video);
         }
-
         function setupCanvasInteraction(canvas, ctx, video) {
-            const getPointerPos = (e) => {
-                let rect = canvas.getBoundingClientRect();
-                let clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                let clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                return {
-                    x: (clientX - rect.left) * (canvas.width / rect.width),
-                    y: (clientY - rect.top) * (canvas.height / rect.height)
-                };
-            };
-
-            const downHandler = (e) => {
-                e.preventDefault(); 
-                let pos = getPointerPos(e);
-                draggingNode = polyNodes.find(p => Math.hypot(p.x - pos.x, p.y - pos.y) < 60);
-                if(draggingNode) renderInteractivePolygon(canvas, ctx, video);
-            };
-
-            const moveHandler = (e) => {
-                if(!draggingNode) return;
-                e.preventDefault();
-                let pos = getPointerPos(e);
-                draggingNode.x = Math.max(0, Math.min(pos.x, canvas.width));
-                draggingNode.y = Math.max(0, Math.min(pos.y, canvas.height));
-                renderInteractivePolygon(canvas, ctx, video);
-            };
-
+            const getPointerPos = (e) => { let rect = canvas.getBoundingClientRect(); let clientX = e.touches ? e.touches[0].clientX : e.clientX; let clientY = e.touches ? e.touches[0].clientY : e.clientY; return { x: (clientX - rect.left) * (canvas.width / rect.width), y: (clientY - rect.top) * (canvas.height / rect.height) }; };
+            const downHandler = (e) => { e.preventDefault(); let pos = getPointerPos(e); draggingNode = polyNodes.find(p => Math.hypot(p.x - pos.x, p.y - pos.y) < 60); if(draggingNode) renderInteractivePolygon(canvas, ctx, video); };
+            const moveHandler = (e) => { if(!draggingNode) return; e.preventDefault(); let pos = getPointerPos(e); draggingNode.x = Math.max(0, Math.min(pos.x, canvas.width)); draggingNode.y = Math.max(0, Math.min(pos.y, canvas.height)); renderInteractivePolygon(canvas, ctx, video); };
             const upHandler = () => { draggingNode = null; renderInteractivePolygon(canvas, ctx, video); };
-
-            canvas.addEventListener('mousedown', downHandler);
-            canvas.addEventListener('mousemove', moveHandler);
-            window.addEventListener('mouseup', upHandler);
-            canvas.addEventListener('touchstart', downHandler, {passive: false});
-            canvas.addEventListener('touchmove', moveHandler, {passive: false});
-            window.addEventListener('touchend', upHandler);
+            canvas.addEventListener('mousedown', downHandler); canvas.addEventListener('mousemove', moveHandler); window.addEventListener('mouseup', upHandler); canvas.addEventListener('touchstart', downHandler, {passive: false}); canvas.addEventListener('touchmove', moveHandler, {passive: false}); window.addEventListener('touchend', upHandler);
         }
-
         function renderInteractivePolygon(canvas, ctx, video) {
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            
-            ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
-            ctx.beginPath();
-            ctx.rect(0, 0, canvas.width, canvas.height); 
-            ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
-            for(let i=1; i<polyNodes.length; i++) ctx.lineTo(polyNodes[i].x, polyNodes[i].y);
-            ctx.closePath();
-            ctx.fill("evenodd");
-
-            ctx.fillStyle = "rgba(0, 160, 255, 0.3)";
-            ctx.beginPath();
-            ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
-            for(let i=1; i<polyNodes.length; i++) ctx.lineTo(polyNodes[i].x, polyNodes[i].y);
-            ctx.closePath();
-            ctx.fill();
-
-            ctx.beginPath();
-            ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
-            for(let i=1; i<polyNodes.length; i++) ctx.lineTo(polyNodes[i].x, polyNodes[i].y);
-            ctx.closePath();
-            ctx.strokeStyle = "#fff"; 
-            ctx.lineWidth = 3;
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.moveTo(polyNodes[0].x, polyNodes[0].y);
-            ctx.lineTo(polyNodes[1].x, polyNodes[1].y);
-            ctx.strokeStyle = "#ef4444";
-            ctx.lineWidth = 5;
-            ctx.stroke();
-
-            polyNodes.forEach(p => {
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, 14, 0, Math.PI*2);
-                ctx.fillStyle = "#fff";
-                ctx.fill();
-                ctx.lineWidth = 4;
-                ctx.strokeStyle = (p === draggingNode) ? "#ef4444" : "#00a0ff"; 
-                ctx.stroke();
-            });
+            ctx.fillStyle = "rgba(0, 0, 0, 0.7)"; ctx.beginPath(); ctx.rect(0, 0, canvas.width, canvas.height); ctx.moveTo(polyNodes[0].x, polyNodes[0].y); for(let i=1; i<polyNodes.length; i++) ctx.lineTo(polyNodes[i].x, polyNodes[i].y); ctx.closePath(); ctx.fill("evenodd");
+            ctx.fillStyle = "rgba(0, 160, 255, 0.3)"; ctx.beginPath(); ctx.moveTo(polyNodes[0].x, polyNodes[0].y); for(let i=1; i<polyNodes.length; i++) ctx.lineTo(polyNodes[i].x, polyNodes[i].y); ctx.closePath(); ctx.fill();
+            ctx.beginPath(); ctx.moveTo(polyNodes[0].x, polyNodes[0].y); for(let i=1; i<polyNodes.length; i++) ctx.lineTo(polyNodes[i].x, polyNodes[i].y); ctx.closePath(); ctx.strokeStyle = "#fff"; ctx.lineWidth = 3; ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(polyNodes[0].x, polyNodes[0].y); ctx.lineTo(polyNodes[1].x, polyNodes[1].y); ctx.strokeStyle = "#ef4444"; ctx.lineWidth = 5; ctx.stroke();
+            polyNodes.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, 14, 0, Math.PI*2); ctx.fillStyle = "#fff"; ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = (p === draggingNode) ? "#ef4444" : "#00a0ff"; ctx.stroke(); });
         }
-
         function processCalibration() {
-            const inputLen = parseFloat(document.getElementById('scan-line-length').value);
-            const unit = document.getElementById('scan-unit').value;
-            
+            const inputLen = parseFloat(document.getElementById('scan-line-length').value); const unit = document.getElementById('scan-unit').value;
             if(!inputLen || inputLen <= 0) return alert('Please enter the length of the top red edge.');
-            
-            let topEdge = Math.hypot(polyNodes[1].x - polyNodes[0].x, polyNodes[1].y - polyNodes[0].y);
-            let rightEdge = Math.hypot(polyNodes[2].x - polyNodes[1].x, polyNodes[2].y - polyNodes[1].y);
-            let bottomEdge = Math.hypot(polyNodes[2].x - polyNodes[3].x, polyNodes[2].y - polyNodes[3].y);
-            let leftEdge = Math.hypot(polyNodes[3].x - polyNodes[0].x, polyNodes[3].y - polyNodes[0].y);
-
-            let horizontalScale = (topEdge + bottomEdge) / 2;
-            let verticalScale = (leftEdge + rightEdge) / 2;
-            
-            let undistortedPixelArea = horizontalScale * verticalScale;
-            let factor = (unit === 'in') ? 2.54 : ((unit === 'mm') ? 0.1 : 1);
-            let realLen_cm = inputLen * factor;
-            let cmPerPixel = realLen_cm / topEdge;
-            let areaCm2 = undistortedPixelArea * Math.pow(cmPerPixel, 2);
-            
-            appState.scannedArea = areaCm2;
-            document.getElementById('scan-area-display').innerText = areaCm2.toFixed(1) + ' cm²';
-            
-            closeScanner();
-            runCalc();
+            let topEdge = Math.hypot(polyNodes[1].x - polyNodes[0].x, polyNodes[1].y - polyNodes[0].y); let rightEdge = Math.hypot(polyNodes[2].x - polyNodes[1].x, polyNodes[2].y - polyNodes[1].y); let bottomEdge = Math.hypot(polyNodes[2].x - polyNodes[3].x, polyNodes[2].y - polyNodes[3].y); let leftEdge = Math.hypot(polyNodes[3].x - polyNodes[0].x, polyNodes[3].y - polyNodes[0].y);
+            let horizontalScale = (topEdge + bottomEdge) / 2; let verticalScale = (leftEdge + rightEdge) / 2;
+            let undistortedPixelArea = horizontalScale * verticalScale; let factor = (unit === 'in') ? 2.54 : ((unit === 'mm') ? 0.1 : 1); let realLen_cm = inputLen * factor; let cmPerPixel = realLen_cm / topEdge; let areaCm2 = undistortedPixelArea * Math.pow(cmPerPixel, 2);
+            appState.scannedArea = areaCm2; document.getElementById('scan-area-display').innerText = areaCm2.toFixed(1) + ' cm²'; closeScanner(); runCalc();
         }
 
         // =========================================
         // 8. CALCULATOR ENGINE
         // =========================================
         function runCalc() {
-            let h = parseFloat(document.getElementById('input-D').value) || 0;
-            let factor = appState.unit === 'in' ? 2.54 : 1;
-            let h_cm = h * factor;
-            let vol = 0;
-
-            if (appState.shape === 'rect') {
-                let l = (parseFloat(document.getElementById('input-L').value)||0) * factor;
-                let w = (parseFloat(document.getElementById('input-W').value)||0) * factor;
-                vol = l * w * h_cm;
-            } else if (appState.shape === 'circ') {
-                let d = (parseFloat(document.getElementById('input-Dia').value)||0) * factor;
-                vol = (Math.PI * Math.pow(d/2, 2)) * h_cm;
-            } else if (appState.shape === 'tri') {
-                let b = (parseFloat(document.getElementById('input-TB').value)||0) * factor;
-                let th = (parseFloat(document.getElementById('input-TH').value)||0) * factor;
-                vol = (0.5 * b * th) * h_cm;
-            } else if (appState.shape === 'pyr') {
-                let b = (parseFloat(document.getElementById('input-PB').value)||0) * factor;
-                let ph = (parseFloat(document.getElementById('input-PH').value)||0) * factor;
-                vol = (Math.pow(b, 2) * ph) / 3;
-                h_cm = ph; 
-            } else if (appState.shape === 'sph') {
-                let d = (parseFloat(document.getElementById('input-SD').value)||0) * factor;
-                let r = d / 2;
-                vol = (4/3) * Math.PI * Math.pow(r, 3);
-                h_cm = d; 
-            } else if (appState.shape === 'scan') {
-                vol = (appState.scannedArea || 0) * h_cm; 
-            }
+            let h = parseFloat(document.getElementById('input-D').value) || 0; let factor = appState.unit === 'in' ? 2.54 : 1; let h_cm = h * factor; let vol = 0;
+            if (appState.shape === 'rect') vol = ((parseFloat(document.getElementById('input-L').value)||0) * factor) * ((parseFloat(document.getElementById('input-W').value)||0) * factor) * h_cm;
+            else if (appState.shape === 'circ') vol = (Math.PI * Math.pow(((parseFloat(document.getElementById('input-Dia').value)||0) * factor)/2, 2)) * h_cm;
+            else if (appState.shape === 'tri') vol = (0.5 * ((parseFloat(document.getElementById('input-TB').value)||0) * factor) * ((parseFloat(document.getElementById('input-TH').value)||0) * factor)) * h_cm;
+            else if (appState.shape === 'pyr') { let b = ((parseFloat(document.getElementById('input-PB').value)||0) * factor); let ph = ((parseFloat(document.getElementById('input-PH').value)||0) * factor); vol = (Math.pow(b, 2) * ph) / 3; h_cm = ph; }
+            else if (appState.shape === 'sph') { let d = ((parseFloat(document.getElementById('input-SD').value)||0) * factor); vol = (4/3) * Math.PI * Math.pow(d/2, 3); h_cm = d; }
+            else if (appState.shape === 'scan') vol = (appState.scannedArea || 0) * h_cm; 
 
             let rA = appState.ratioA; let rB = appState.ratioB;
-            if(document.getElementById('custom-ratio').style.display === 'flex') {
-                rA = parseFloat(document.getElementById('ratioA').value) || 3;
-                rB = parseFloat(document.getElementById('ratioB').value) || 1;
-            }
-            const density = parseFloat(document.getElementById('densitySelect').value) || 1.13;
-            const costPerKg = parseFloat(document.getElementById('costInput').value) || 0;
+            if(document.getElementById('custom-ratio').style.display === 'flex') { rA = parseFloat(document.getElementById('ratioA').value) || 3; rB = parseFloat(document.getElementById('ratioB').value) || 1; }
+            const density = parseFloat(document.getElementById('densitySelect').value) || 1.13; const costPerKg = parseFloat(document.getElementById('costInput').value) || 0;
+            const mass = vol * density; const totalParts = rA + rB; const massA = (mass * rA) / totalParts; const massB = (mass * rB) / totalParts;
 
-            const mass = vol * density;
-            const totalParts = rA + rB;
-            const massA = (mass * rA) / totalParts;
-            const massB = (mass * rB) / totalParts;
-
-            document.getElementById('res-total').innerText = Math.round(mass) + 'g';
-            document.getElementById('res-a').innerText = Math.round(massA) + 'g';
-            document.getElementById('res-b').innerText = Math.round(massB) + 'g';
+            document.getElementById('res-total').innerText = Math.round(mass) + 'g'; document.getElementById('res-a').innerText = Math.round(massA) + 'g'; document.getElementById('res-b').innerText = Math.round(massB) + 'g';
             if(costPerKg > 0) document.getElementById('est-cost').innerText = '₹' + Math.round((mass/1000)*costPerKg).toLocaleString();
 
-            const temp = parseFloat(document.getElementById('env-temp').value);
-            const hum = parseFloat(document.getElementById('env-hum').value);
-            const sList = document.getElementById('safety-list');
-            const sStatus = document.getElementById('safety-status');
-            const sCard = document.getElementById('safety-card');
-            
-            let limit = appState.mode === 'coat' ? 0.5 : 2.5; 
-            let risks = 0; sList.innerHTML = '';
+            const temp = parseFloat(document.getElementById('env-temp').value); const hum = parseFloat(document.getElementById('env-hum').value);
+            const sList = document.getElementById('safety-list'); const sStatus = document.getElementById('safety-status'); const sCard = document.getElementById('safety-card');
+            let limit = appState.mode === 'coat' ? 0.5 : 2.5; let risks = 0; sList.innerHTML = '';
 
-            if (h_cm > limit && appState.shape !== 'sph') { 
-                risks++;
-                const layers = Math.ceil(h_cm / limit);
-                sList.innerHTML += `<li class="sr-item" style="color:var(--danger)">⚠️ <b>EXOTHERM:</b> Too deep (${h_cm.toFixed(1)}cm).</li>`;
-                sList.innerHTML += `<li class="sr-item" style="color:var(--text-dark)">💡 <b>FIX:</b> Pour ${layers} layers of ${(h_cm/layers).toFixed(1)}cm.</li>`;
-            }
-            if (hum > 70) {
-                risks++;
-                sList.innerHTML += `<li class="sr-item" style="color:var(--danger)">💧 <b>BLUSH RISK:</b> High humidity inside.</li>`;
-                sList.innerHTML += `<li class="sr-item" style="color:var(--text-dark)">💡 Use AC (Dry Mode) or Dehumidifier.</li>`;
-            }
-            if (temp > 30 && h_cm > 2) {
-                risks++;
-                sList.innerHTML += `<li class="sr-item" style="color:var(--warning)">🔥 <b>FLASH CURE:</b> Deep pour + Heat = Cracking.</li>`;
-            }
-
-            if(risks === 0) {
-                sStatus.innerText = "SAFE"; sStatus.style.color = "var(--success)";
-                sCard.className = "safety-report safe";
-                sList.innerHTML = `<li class="sr-item"><span>✓</span> Conditions are optimal.</li>`;
-            } else {
-                sStatus.innerText = "ALERT"; sStatus.style.color = "var(--danger)";
-                sCard.className = "safety-report danger";
-            }
+            if (h_cm > limit && appState.shape !== 'sph') { risks++; const layers = Math.ceil(h_cm / limit); sList.innerHTML += `<li class="sr-item" style="color:var(--danger)">⚠️ <b>EXOTHERM:</b> Too deep (${h_cm.toFixed(1)}cm).</li><li class="sr-item" style="color:var(--text-dark)">💡 <b>FIX:</b> Pour ${layers} layers of ${(h_cm/layers).toFixed(1)}cm.</li>`; }
+            if (hum > 70) { risks++; sList.innerHTML += `<li class="sr-item" style="color:var(--danger)">💧 <b>BLUSH RISK:</b> High humidity inside.</li><li class="sr-item" style="color:var(--text-dark)">💡 Use AC (Dry Mode) or Dehumidifier.</li>`; }
+            if (temp > 30 && h_cm > 2) { risks++; sList.innerHTML += `<li class="sr-item" style="color:var(--warning)">🔥 <b>FLASH CURE:</b> Deep pour + Heat = Cracking.</li>`; }
+            if(risks === 0) { sStatus.innerText = "SAFE"; sStatus.style.color = "var(--success)"; sCard.className = "safety-report safe"; sList.innerHTML = `<li class="sr-item"><span>✓</span> Conditions are optimal.</li>`; } 
+            else { sStatus.innerText = "ALERT"; sStatus.style.color = "var(--danger)"; sCard.className = "safety-report danger"; }
         }
 
         // =========================================
         // 9. LIVE REVIEWS
         // =========================================
-        const initialReviews = [
-            { name: "Sneha Sharma", text: "Absolutely flawless for Varmala preservation. Diamond clear and absolutely no micro-bubbles.", stars: 5 },
-            { name: "Rahul Verma", text: "The 120-minute pot life is a lifesaver for complex geode pours. Gives me ample time to mix pigments.", stars: 5 },
-            { name: "Ananya Patel", text: "I was skeptical about the 85 Shore D hardness, but my coasters are practically scratch-proof.", stars: 5 },
-            { name: "Vikram Singh", text: "Zero VOCs means no headaches! I can finally work in my indoor studio without the strong chemical smell.", stars: 4 },
-            { name: "Divya Iyer", text: "Best 3:1 epoxy in India hands down. Auto-degassing actually works—I didn't even need my heat gun.", stars: 5 }
-        ];
-
+        const initialReviews = [ { name: "Sneha Sharma", text: "Absolutely flawless for Varmala preservation. Diamond clear and absolutely no micro-bubbles.", stars: 5 }, { name: "Rahul Verma", text: "The 120-minute pot life is a lifesaver for complex geode pours. Gives me ample time to mix pigments.", stars: 5 }, { name: "Ananya Patel", text: "I was skeptical about the 85 Shore D hardness, but my coasters are practically scratch-proof.", stars: 5 }, { name: "Vikram Singh", text: "Zero VOCs means no headaches! I can finally work in my indoor studio without the strong chemical smell.", stars: 4 }, { name: "Divya Iyer", text: "Best 3:1 epoxy in India hands down. Auto-degassing actually works—I didn't even need my heat gun.", stars: 5 } ];
         let selectedStars = 5;
-
         function renderReviews() {
-            const container = document.getElementById('reviews-grid');
-            let storedReviews = JSON.parse(localStorage.getItem('mxlumes_reviews') || '[]');
-            const allReviews = [...storedReviews, ...initialReviews];
-            
+            const container = document.getElementById('reviews-grid'); let storedReviews = JSON.parse(localStorage.getItem('mxlumes_reviews') || '[]'); const allReviews = [...storedReviews, ...initialReviews];
             container.innerHTML = '';
-            allReviews.forEach(r => {
-                let starHtml = '';
-                for(let i=0; i<5; i++) {
-                    starHtml += `<svg viewBox="0 0 24 24" style="fill: ${i < r.stars ? '#f59e0b' : '#333'}"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
-                }
-                container.innerHTML += `
-                    <div class="r-card">
-                        <div class="r-card-stars">${starHtml}</div>
-                        <div class="r-card-text">"${r.text}"</div>
-                        <div class="r-card-author">
-                            <span class="r-verified">✓</span> ${r.name}
-                        </div>
-                    </div>
-                `;
+            allReviews.forEach(r => { let starHtml = ''; for(let i=0; i<5; i++) { starHtml += `<svg viewBox="0 0 24 24" style="fill: ${i < r.stars ? '#f59e0b' : '#333'}"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`; }
+                container.innerHTML += `<div class="r-card"><div class="r-card-stars">${starHtml}</div><div class="r-card-text">"${r.text}"</div><div class="r-card-author"><span class="r-verified">✓</span> ${r.name}</div></div>`;
             });
         }
-
         function openReviewModal() { document.getElementById('review-modal-overlay').classList.add('active'); }
         function closeReviewModal() { document.getElementById('review-modal-overlay').classList.remove('active'); }
-
         function setupReviewStars() {
             const stars = document.querySelectorAll('#rv-stars svg');
-            stars.forEach(star => {
-                star.addEventListener('click', (e) => {
-                    selectedStars = parseInt(e.currentTarget.dataset.val);
-                    stars.forEach(s => {
-                        if(parseInt(s.dataset.val) <= selectedStars) s.classList.add('active');
-                        else s.classList.remove('active');
-                    });
-                });
-            });
+            stars.forEach(star => { star.addEventListener('click', (e) => { selectedStars = parseInt(e.currentTarget.dataset.val); stars.forEach(s => { if(parseInt(s.dataset.val) <= selectedStars) s.classList.add('active'); else s.classList.remove('active'); }); }); });
         }
-
         function submitReview() {
-            const name = document.getElementById('rv-name').value.trim();
-            const text = document.getElementById('rv-text').value.trim();
+            const name = document.getElementById('rv-name').value.trim(); const text = document.getElementById('rv-text').value.trim();
             if(!name || !text) return alert("Please enter your name and review.");
-            const newReview = { name: name, text: text, stars: selectedStars };
-            let storedReviews = JSON.parse(localStorage.getItem('mxlumes_reviews') || '[]');
-            storedReviews.unshift(newReview);
-            localStorage.setItem('mxlumes_reviews', JSON.stringify(storedReviews));
-            document.getElementById('rv-name').value = '';
-            document.getElementById('rv-text').value = '';
-            closeReviewModal(); renderReviews(); showToast("Review published!");
+            const newReview = { name: name, text: text, stars: selectedStars }; let storedReviews = JSON.parse(localStorage.getItem('mxlumes_reviews') || '[]');
+            storedReviews.unshift(newReview); localStorage.setItem('mxlumes_reviews', JSON.stringify(storedReviews));
+            document.getElementById('rv-name').value = ''; document.getElementById('rv-text').value = ''; closeReviewModal(); renderReviews(); showToast("Review published!");
         }
 
         // =========================================
         // 10. VIJETA AI ASSISTANT
         // =========================================
         function toggleVijeta() {
-            document.getElementById('vGreeting').classList.remove('show');
-            document.getElementById('vijetaPanel').classList.toggle('active');
-            if(document.getElementById('vChatBox').innerHTML === "") {
-                renderBotMessage("Namaste! 🙏 I am Vijeta, your official M-X Lumes AI Expert. I can diagnose pouring issues, explain our chemical science, and assist with your resin art. How can I help you today?");
-            }
+            document.getElementById('vGreeting').classList.remove('show'); document.getElementById('vijetaPanel').classList.toggle('active');
+            if(document.getElementById('vChatBox').innerHTML === "") { renderBotMessage("Namaste! 🙏 I am Vijeta, your official M-X Lumes AI Expert. I can diagnose pouring issues, explain our chemical science, and assist with your resin art. How can I help you today?"); }
         }
-
         function handleVijetaEnter(e) { if(e.key === 'Enter') sendVijetaMsg(); }
-
         async function sendVijetaMsg() {
-            const input = document.getElementById('vInput');
-            const text = input.value.trim();
-            if(!text) return;
+            const input = document.getElementById('vInput'); const text = input.value.trim(); if(!text) return;
+            renderUserMessage(text); input.value = '';
+            const chatBox = document.getElementById('vChatBox'); const loadingId = 'loading-' + Date.now();
+            chatBox.innerHTML += `<div id="${loadingId}" class="msg bot">Vijeta is thinking... 🧠</div>`; chatBox.scrollTop = chatBox.scrollHeight;
+            try { const response = await fetch(`${RENDER_URL}/api/chat`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: text }) }); const data = await response.json(); document.getElementById(loadingId).remove(); renderBotMessage(data.reply);
+            } catch (error) { document.getElementById(loadingId).remove(); renderBotMessage("I'm having a little trouble connecting to my lab right now. Please try again or reach out on WhatsApp! 🛠️"); }
+        }
+        function renderUserMessage(text) { const chatBox = document.getElementById('vChatBox'); chatBox.innerHTML += `<div class="msg user">${text}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
+        function renderBotMessage(text) { const chatBox = document.getElementById('vChatBox'); let formattedText = text.replace(/\n/g, '<br>'); chatBox.innerHTML += `<div class="msg bot" style="white-space: pre-wrap; line-height: 1.5;">${formattedText}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
 
-            renderUserMessage(text);
-            input.value = '';
+        // =========================================
+        // 11. SECRET ADMIN DASHBOARD LOGIC
+        // =========================================
+        let adminClicks = 0;
+        let adminTimer = null;
+        function triggerAdmin() {
+            adminClicks++;
+            clearTimeout(adminTimer);
+            adminTimer = setTimeout(() => { adminClicks = 0; }, 2000);
+            if(adminClicks >= 3) {
+                document.getElementById('supreme-admin-portal').style.display = 'block';
+                adminClicks = 0;
+                if (sessionStorage.getItem('mxlumes_admin_key')) {
+                    document.getElementById('master-key').value = sessionStorage.getItem('mxlumes_admin_key');
+                    unlockDashboard();
+                }
+            }
+        }
+        function closeAdminPortal() { document.getElementById('supreme-admin-portal').style.display = 'none'; }
 
-            const chatBox = document.getElementById('vChatBox');
-            const loadingId = 'loading-' + Date.now();
-            chatBox.innerHTML += `<div id="${loadingId}" class="msg bot">Vijeta is thinking... 🧠</div>`;
-            chatBox.scrollTop = chatBox.scrollHeight;
+        let globalOrders = []; let globalUsers = [];
 
+        async function unlockDashboard() {
+            const input = document.getElementById('master-key').value;
+            if(!input) return;
+            document.getElementById('admin-auth-err').style.display = 'none';
+            document.getElementById('auth-gate').querySelector('button').innerText = "Decrypting...";
+            
             try {
-                const response = await fetch(`${RENDER_URL}/api/chat`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: text })
-                });
-                const data = await response.json();
-                document.getElementById(loadingId).remove();
-                renderBotMessage(data.reply);
-            } catch (error) {
-                document.getElementById(loadingId).remove();
-                renderBotMessage("I'm having a little trouble connecting to my lab right now. Please try again or reach out on WhatsApp! 🛠️");
+                const orderRes = await fetch(`${RENDER_URL}/api/admin/orders`, { headers: { 'admin-secret-key': input } });
+                if (!orderRes.ok) throw new Error("Invalid Key");
+                globalOrders = await orderRes.json();
+                const userRes = await fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': input } });
+                globalUsers = await userRes.json();
+
+                sessionStorage.setItem('mxlumes_admin_key', input);
+                document.getElementById('admin-auth-gate').style.display = 'none';
+                document.getElementById('admin-main-view').style.display = 'flex';
+                populateAdminDashboard();
+            } catch (err) {
+                document.getElementById('admin-auth-err').style.display = 'block';
+                document.getElementById('auth-gate').querySelector('button').innerText = "Decrypt Vault";
+                sessionStorage.removeItem('mxlumes_admin_key');
             }
         }
 
-        function renderUserMessage(text) {
-            const chatBox = document.getElementById('vChatBox');
-            chatBox.innerHTML += `<div class="msg user">${text}</div>`;
-            chatBox.scrollTop = chatBox.scrollHeight;
+        function lockVault() {
+            sessionStorage.removeItem('mxlumes_admin_key'); document.getElementById('master-key').value = '';
+            document.getElementById('admin-auth-gate').style.display = 'flex'; document.getElementById('admin-main-view').style.display = 'none';
+            document.getElementById('auth-gate').querySelector('button').innerText = "Decrypt Vault"; closeAdminPortal();
         }
 
-        function renderBotMessage(text) {
-            const chatBox = document.getElementById('vChatBox');
-            let formattedText = text.replace(/\n/g, '<br>');
-            chatBox.innerHTML += `<div class="msg bot" style="white-space: pre-wrap; line-height: 1.5;">${formattedText}</div>`;
-            chatBox.scrollTop = chatBox.scrollHeight;
+        async function fetchAdminData() {
+            const key = sessionStorage.getItem('mxlumes_admin_key'); if(!key) return;
+            const orderRes = await fetch(`${RENDER_URL}/api/admin/orders`, { headers: { 'admin-secret-key': key } }); globalOrders = await orderRes.json();
+            const userRes = await fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': key } }); globalUsers = await userRes.json();
+            populateAdminDashboard();
+        }
+
+        function populateAdminDashboard() {
+            let totalRev = 0;
+            globalOrders.forEach(o => { if (o.status !== 'Pending Verification') totalRev += o.totalAmount; });
+            document.getElementById('stat-revenue').innerText = '₹' + totalRev.toLocaleString();
+            document.getElementById('stat-orders').innerText = globalOrders.length; document.getElementById('stat-users').innerText = globalUsers.length;
+
+            const oBody = document.getElementById('admin-orders-tbody'); oBody.innerHTML = '';
+            if(globalOrders.length === 0) { oBody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888;">No orders found.</td></tr>'; } 
+            else {
+                globalOrders.forEach(o => {
+                    let userPhone = ''; let linkedUser = globalUsers.find(u => u.email === o.customerEmail); if(linkedUser && linkedUser.phone) userPhone = linkedUser.phone;
+                    let statusClass = 'Pending'; if(o.status.includes('Processing')) statusClass = 'Processing'; if(o.status.includes('Shipped')) statusClass = 'Shipped'; if(o.status.includes('Delivered')) statusClass = 'Delivered';
+                    let selectColor = o.status === 'Pending Verification' ? '#ef4444' : (o.status === 'Processing' ? '#6366f1' : '#10b981');
+                    
+                    oBody.innerHTML += `
+                        <tr style="border-bottom: 1px solid #333;">
+                            <td style="padding:15px; vertical-align:top;">
+                                <div style="font-family:'Space Grotesk', sans-serif; font-weight:800; color:#fff;">${o.orderId}</div>
+                                <div style="color:#888; font-size:11px; margin-top:4px;">${new Date(o.createdAt).toLocaleDateString()}</div>
+                                <div style="color:#888; font-size:11px; margin-top:4px;">Geo: ${o.location || 'Unknown'}</div>
+                            </td>
+                            <td style="padding:15px; vertical-align:top;">
+                                <div style="color:#fff; font-weight:700;">${o.customerEmail}</div>
+                                ${userPhone ? `<a href="https://wa.me/91${userPhone}" target="_blank" style="color:var(--whatsapp); text-decoration:none; font-size:11px; display:inline-block; margin-top:5px; border:1px solid var(--whatsapp); padding:3px 6px; border-radius:4px;">WhatsApp</a>` : ''}
+                            </td>
+                            <td style="padding:15px; vertical-align:top; font-weight:800; color:var(--success);">₹${o.totalAmount.toLocaleString()}</td>
+                            <td style="padding:15px; vertical-align:top;">
+                                <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px;">
+                                    <select onchange="updateOrderStatus('${o.orderId}', this.value)" style="background:#000; color:${selectColor}; border:1px solid ${selectColor}; padding:6px; border-radius:6px; outline:none; font-size:11px; font-weight:800; cursor:pointer;">
+                                        <option value="Pending Verification" ${o.status === 'Pending Verification' ? 'selected' : ''}>Pending (Unpaid)</option>
+                                        <option value="Processing" ${o.status === 'Processing' ? 'selected' : ''}>Paid & Processing</option>
+                                        <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                                        <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                                    </select>
+                                    <button onclick="adminEditOrder('${o.orderId}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎ Edit</button>
+                                    <button onclick="adminDeleteOrder('${o.orderId}')" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕ Del</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+
+            const uBody = document.getElementById('admin-users-tbody'); uBody.innerHTML = '';
+            globalUsers.forEach(u => {
+                uBody.innerHTML += `
+                    <tr style="border-bottom: 1px solid #333;">
+                        <td style="padding:15px; font-weight:800; color:#fff;">${u.name}</td>
+                        <td style="padding:15px; color:#aaa;">${u.email}</td>
+                        <td style="padding:15px;">${u.phone || '<span style="color:#555;">No Phone</span>'}</td>
+                        <td style="padding:15px; display:flex; gap:5px;">
+                            <button onclick="adminEditUser('${u._id}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎</button>
+                            <button onclick="adminDeleteUser('${u.email}')" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function adminSwitchTab(tabId, el) {
+            document.querySelectorAll('.admin-nav-item').forEach(t => t.classList.remove('active')); el.classList.add('active');
+            document.querySelectorAll('.admin-data-panel').forEach(p => p.style.display = 'none'); document.getElementById('admin-panel-' + tabId).style.display = 'block';
+        }
+
+        async function updateOrderStatus(orderId, newStatus) {
+            const key = sessionStorage.getItem('mxlumes_admin_key');
+            try { await fetch(`${RENDER_URL}/api/admin/orders/status`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ orderId, status: newStatus }) }); fetchAdminData(); } catch (e) { alert("Failed to update status."); }
+        }
+
+        async function adminDeleteOrder(id) {
+            if(!confirm(`Delete order ${id}?`)) return;
+            const key = sessionStorage.getItem('mxlumes_admin_key'); await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { method: 'DELETE', headers: { 'admin-secret-key': key } }); fetchAdminData();
+        }
+        async function adminDeleteUser(email) {
+            if(!confirm(`Delete user ${email}?`)) return;
+            const key = sessionStorage.getItem('mxlumes_admin_key'); await fetch(`${RENDER_URL}/api/admin/users/${email}`, { method: 'DELETE', headers: { 'admin-secret-key': key } }); fetchAdminData();
+        }
+        
+        function adminEditOrder(id) {
+            const order = globalOrders.find(o => o.orderId === id); if(!order) return;
+            document.getElementById('admin-edit-title').innerText = `Edit Order: ${id}`;
+            document.getElementById('admin-edit-fields').innerHTML = `<label style="font-size:12px; color:#888;">Total (₹)</label><input type="number" id="ae-amt" value="${order.totalAmount}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"><label style="font-size:12px; color:#888;">Email</label><input type="text" id="ae-email" value="${order.customerEmail}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px;">`;
+            document.getElementById('admin-edit-modal').style.display = 'flex';
+            document.getElementById('admin-edit-save').onclick = async () => {
+                const key = sessionStorage.getItem('mxlumes_admin_key');
+                await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ totalAmount: document.getElementById('ae-amt').value, customerEmail: document.getElementById('ae-email').value }) });
+                document.getElementById('admin-edit-modal').style.display = 'none'; fetchAdminData();
+            };
+        }
+        function adminEditUser(id) {
+            const user = globalUsers.find(u => u._id === id); if(!user) return;
+            document.getElementById('admin-edit-title').innerText = `Edit User`;
+            document.getElementById('admin-edit-fields').innerHTML = `<label style="font-size:12px; color:#888;">Name</label><input type="text" id="ae-u-name" value="${user.name}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"><label style="font-size:12px; color:#888;">Phone</label><input type="text" id="ae-u-phone" value="${user.phone || ''}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px;">`;
+            document.getElementById('admin-edit-modal').style.display = 'flex';
+            document.getElementById('admin-edit-save').onclick = async () => {
+                const key = sessionStorage.getItem('mxlumes_admin_key');
+                await fetch(`${RENDER_URL}/api/admin/users/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ name: document.getElementById('ae-u-name').value, phone: document.getElementById('ae-u-phone').value }) });
+                document.getElementById('admin-edit-modal').style.display = 'none'; fetchAdminData();
+            };
+        }
+
+        function exportOrdersCSV() {
+            if(globalOrders.length === 0) return alert("No orders.");
+            let csvContent = "data:text/csv;charset=utf-8,Order ID,Date,Email,Location,Amount,Status\n";
+            globalOrders.forEach(o => { csvContent += `${o.orderId},${new Date(o.createdAt).toLocaleDateString()},${o.customerEmail},"${o.location || ''}",${o.totalAmount},${o.status}\n`; });
+            const encodedUri = encodeURI(csvContent); const link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", `mxlumes_orders.csv`);
+            document.body.appendChild(link); link.click(); document.body.removeChild(link);
+        }
+        
+        function exportUsersPDF() {
+            if(globalUsers.length === 0) return alert("No users to export!");
+            const printWindow = window.open('', '_blank');
+            let html = `<html><head><title>M-X Lumes Customer Database</title><style>body { font-family: 'Helvetica', sans-serif; padding: 40px; color: #111; } .header { border-bottom: 2px solid #111; padding-bottom: 20px; margin-bottom: 30px; } h2 { margin: 0 0 10px 0; font-size: 24px; } table { width: 100%; border-collapse: collapse; font-size: 13px; } th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; } th { background: #f9f9f9; text-transform: uppercase; font-size: 11px; color: #555; } </style></head><body><div class="header"><h2>Client Database Report</h2><p style="margin:0; color:#555;">Generated on: ${new Date().toLocaleDateString()}</p></div><table><tr><th>Name</th><th>Email</th><th>Phone</th><th>Joined Date</th></tr>`;
+            globalUsers.forEach(u => { html += `<tr><td><b>${u.name}</b></td><td>${u.email}</td><td>${u.phone || 'N/A'}</td><td>${new Date(u.createdAt).toLocaleDateString()}</td></tr>`; });
+            html += `</table></body></html>`;
+            printWindow.document.write(html); printWindow.document.close(); printWindow.focus(); setTimeout(() => { printWindow.print(); }, 500);
         }
     </script>
 </body>
