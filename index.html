@@ -14,7 +14,7 @@
 
     <style>
         /* =========================================
-           1. CORE VARIABLES & RESET
+           1. CORE VARIABLES & RESET (ULTRA SMOOTH)
            ========================================= */
         :root {
             --bg-oled: #000000;
@@ -39,15 +39,33 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        html { font-size: 16px; scroll-behavior: smooth; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        html { 
+            font-size: 16px; 
+            scroll-behavior: smooth; 
+            width: 100%; 
+            overflow-x: hidden; 
+            -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
         
-        body { background-color: var(--bg-oled); color: var(--text-main); font-family: 'Manrope', sans-serif; line-height: 1.6; width: 100%; max-width: 100vw; overflow-x: hidden; position: relative; }
+        body { 
+            background-color: var(--bg-oled); 
+            color: var(--text-main); 
+            font-family: 'Manrope', sans-serif; 
+            line-height: 1.6; 
+            width: 100%; 
+            max-width: 100vw; 
+            overflow-x: hidden; 
+            position: relative; 
+            -webkit-overflow-scrolling: touch; 
+        }
 
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; line-height: 1.1; letter-spacing: -0.02em; }
         a { text-decoration: none; color: inherit; transition: color 0.3s var(--ease-fluid); }
         button { cursor: pointer; border: none; outline: none; background: none; font-family: inherit; }
         img { display: block; max-width: 100%; height: auto; user-select: none; }
-        input, select, textarea { font-size: 16px !important; font-family: 'Manrope', sans-serif; }
+        input, select, textarea { font-size: 16px !important; font-family: 'Manrope', sans-serif; -webkit-appearance: none; border-radius: 0; }
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
 
@@ -63,7 +81,7 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; }
         .section { padding: 100px 0; position: relative; z-index: 2; }
         
-        .reveal { opacity: 0; transform: translate3d(0, 40px, 0); transition: opacity 0.8s var(--ease-fluid), transform 0.8s var(--ease-fluid); }
+        .reveal { opacity: 0; transform: translate3d(0, 40px, 0); transition: opacity 0.8s var(--ease-fluid), transform 0.8s var(--ease-fluid); backface-visibility: hidden; }
         .reveal.active { opacity: 1; transform: translate3d(0, 0, 0); }
 
         .btn { padding: 16px 32px; border-radius: 60px; font-weight: 800; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s; }
@@ -345,7 +363,7 @@
         .prof-orders td { padding: 15px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
 
         /* =========================================
-           12. CART SIDEBAR
+           12. CART SIDEBAR (MOBILE SAFARI FIX)
            ========================================= */
         .cart-fab {
             position: fixed; bottom: 30px; right: 20px; width: 65px; height: 65px;
@@ -361,10 +379,13 @@
         .cart-reminder { position: fixed; bottom: 100px; right: 32px; font-size: 35px; z-index: 1999; opacity: 0; pointer-events: none; transform: translate3d(0, 20px, 0); transition: transform 0.5s var(--ease-spring), opacity 0.5s; animation: bounceHand 1s infinite alternate; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); }
         .cart-reminder.show { opacity: 1; transform: translate3d(0, 0, 0); }
         
-        /* MOBILE CART HEIGHT FIX */
         .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100dvh; z-index: 3000; pointer-events: none; }
         .cart-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); opacity: 0; transition: opacity 0.5s var(--ease-fluid); cursor: pointer; }
-        .cart-inner { position: absolute; right: 0; width: 100%; max-width: 420px; height: 100%; background: #050505; border-left: 1px solid var(--border); transform: translate3d(100%, 0, 0); transition: transform 0.6s var(--ease-fluid); display: flex; flex-direction: column; padding: 40px; box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
+        .cart-inner { 
+            position: absolute; right: 0; width: 100%; max-width: 420px; height: 100%; background: #050505; 
+            border-left: 1px solid var(--border); transform: translate3d(100%, 0, 0); transition: transform 0.6s var(--ease-fluid); 
+            display: flex; flex-direction: column; padding: 40px; box-shadow: -20px 0 50px rgba(0,0,0,0.5); 
+        }
         
         .cart-sidebar.active { pointer-events: all; }
         .cart-sidebar.active .cart-overlay { opacity: 1; }
@@ -383,7 +404,8 @@
         .qty-val { width: 24px; text-align: center; font-size: 12px; font-weight: 800; color: #fff; }
         
         .cart-summary { margin-top:20px; border-top:1px solid var(--border); padding-top:20px; flex-shrink: 0; }
-        .checkout-btn { width: 100%; background: #fff; color: #000; padding: 18px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer; border: none; margin-top: 10px; }
+        
+        .checkout-btn { width: 100%; background: #fff; color: #000; padding: 20px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer; border: none; margin-top: 10px; }
         .checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2); }
 
         /* =========================================
@@ -412,25 +434,16 @@
         .v-send { background: var(--accent); border: none; width: 42px; height: 42px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; cursor: pointer; transition: transform 0.3s; }
 
         /* =========================================
-           14. FOOTER (FIXED CONTRAST & HIDDEN TRIGGER)
+           14. FOOTER (HIGH CONTRAST & SECRET TRIGGER)
            ========================================= */
         .footer { padding: 120px 20px 60px; background: var(--bg-milky); border-top: 1px solid var(--border-light); }
         .f-top-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; margin-bottom: 100px; max-width: 1200px; margin: 0 auto; }
-        .f-vision-title { font-size: 12px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
         .f-vision-text { font-family: 'Space Grotesk', sans-serif; font-size: clamp(24px, 4vw, 36px); font-weight: 800; color: #000000; line-height: 1.3; letter-spacing: -0.02em; }
-        .f-vision-text span { color: #555; }
-        .f-founders { margin-top: 40px; display: flex; align-items: center; gap: 20px; }
-        .f-signature { font-family: 'Space Grotesk', sans-serif; font-size: 16px; color: #000000; font-weight: 800; padding-left: 20px; border-left: 3px solid #000; }
-        .f-role { display: block; font-size: 11px; color: #555555; text-transform: uppercase; margin-top: 4px; letter-spacing: 1px; font-weight: 800;}
-        .f-badges { display: flex; gap: 15px; align-items: flex-start; flex-wrap: wrap; }
-        .f-badge { padding: 12px 24px; border: 1px solid #ccc; border-radius: 50px; font-size: 12px; color: #000; font-weight: 800; letter-spacing: 0.5px; background: #fff; cursor: default; }
-        .f-bottom-row { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 40px; border-top: 1px solid #e5e7eb; max-width: 1200px; margin: 0 auto; }
-        .f-nav { display: flex; gap: 30px; }
-        .f-nav-link { font-size: 13px; color: #555555; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; transition: color 0.3s; }
-        .f-nav-link:hover { color: #000000; }
+        .f-bottom-row { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 40px; border-top: 1px solid #ccc; max-width: 1200px; margin: 0 auto; }
+        .f-nav-link { font-size: 13px; color: #555; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; transition: color 0.3s; }
+        .f-nav-link:hover { color: #000; }
         
-        /* The Secret Trigger */
-        .f-copy { font-size: 12px; color: #555555; font-weight: 800; cursor: pointer; user-select: none; }
+        .f-copy { font-size: 12px; color: #555; font-weight: 800; cursor: pointer; user-select: none; padding: 10px; margin: -10px; }
 
         /* =========================================
            15. SECRET SUPREME ADMIN PORTAL 
@@ -448,16 +461,13 @@
         #supreme-admin-portal td { padding: 20px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
         #supreme-admin-portal .export-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 20px; border-radius: 12px; font-size: 13px; font-weight: 800; cursor: pointer; transition: 0.2s; display:inline-flex; align-items:center; gap:8px;}
         #supreme-admin-portal .export-btn:hover { background: #fff; color: #000; }
-        #supreme-admin-portal .btn-delete { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); padding:6px 10px; border-radius:8px; cursor:pointer;}
-        #supreme-admin-portal .btn-delete:hover { background: #ef4444; color: #fff; }
 
         /* =========================================
-           16. MOBILE OPTIMIZATIONS (HEADER REPAIRED)
+           16. MOBILE OPTIMIZATIONS
            ========================================= */
         @media (max-width: 900px) {
             .bg-layer { background-size: cover; opacity: 0.85; background-attachment: scroll; background-position: center center; }
             
-            /* ORIGINAL HEADER FIXES */
             .nav-inner { justify-content: space-between; gap: 5px; flex-wrap: nowrap; padding: 0 5px; }
             .logo { font-size: 14px; letter-spacing: 1px; margin-right: 5px; white-space: nowrap; }
             .nav-links { gap: 10px; white-space: nowrap; }
@@ -482,10 +492,8 @@
             .f-top-grid { grid-template-columns: 1fr; gap: 40px; }
             .f-bottom-row { flex-direction: column; align-items: flex-start; gap: 20px; }
 
-            /* Admin mobile setup */
             #supreme-admin-portal .admin-sidebar { position:relative; width:100%; height:auto; border-right:none; border-bottom:1px solid #333;}
             #supreme-admin-portal .admin-main { margin-left:0; padding:20px;}
-            #supreme-admin-portal table { min-width: 600px; }
         }
     </style>
 </head>
@@ -497,7 +505,7 @@
             <div class="profile-header">
                 <div style="width: 60px; height: 60px; background: #fff; color: #000; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px;">M</div>
                 <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;" id="prof-name">Artist Name</h3>
-                <p style="color: var(--text-dim); font-size: 13px; font-weight: 500;" id="prof-phone">+91 XXXXX XXXXX</p>
+                <p style="color: var(--text-dim); font-size: 13px; font-weight: 500;" id="prof-phone">+91 XXXXX</p>
                 <button class="btn btn-outline" style="margin-top:15px; border-color:#333; color:#fff; padding: 8px 16px; font-size: 10px;" onclick="logout(event)">Sign Out</button>
             </div>
             
@@ -540,11 +548,11 @@
                         <span style="color:#888; font-weight:800; font-size:14px; margin-right:10px;">+91</span>
                         <input type="tel" id="auth-phone" placeholder="WhatsApp Number" required style="background:transparent; border:none; color:#fff; font-size:14px; font-weight:500; outline:none; padding:16px 0; width:100%; font-family: 'Manrope', sans-serif;">
                     </div>
-                    <button type="button" class="btn btn-primary" style="width:100%; font-size:14px; background:#fff; color:#000; padding: 18px;" id="btn-send-otp" onclick="sendOtp()">Send WhatsApp OTP</button>
+                    <button type="button" class="btn btn-primary" style="width:100%; font-size:14px; background:#fff; color:#000; padding: 18px;" id="btn-send-otp" onclick="sendOtp()">Send OTP</button>
                 </div>
                 
                 <div id="auth-step-2" style="display:none;">
-                    <p style="font-size:12px; color:var(--success); margin-bottom:15px; font-weight:700; text-align:center;">✓ Code sent to your WhatsApp</p>
+                    <p style="font-size:12px; color:var(--success); margin-bottom:15px; font-weight:700; text-align:center;">✓ Code generated!</p>
                     <input type="text" id="auth-otp" class="m-input" placeholder="Enter 6-Digit OTP" style="text-align:center; letter-spacing:4px; font-weight:800; font-size:18px;">
                     <button type="button" class="btn btn-primary" style="width:100%; font-size:14px; background:var(--accent); color:#fff; padding: 18px; border:none;" id="btn-verify-otp" onclick="verifyOtp()">Verify & Sign In</button>
                     <div style="text-align:center;">
@@ -568,87 +576,21 @@
             
             <div style="font-size: 36px; font-weight: 800; color: #fff; font-family:'Space Grotesk', sans-serif; margin-bottom: 20px;" id="payment-total">₹0</div>
             
-            <a id="mobile-pay-btn" class="btn btn-outline" href="#" style="display:block; width:100%; margin-bottom:15px; padding:18px; font-size:14px; text-decoration:none;">
-                🚀 Pay via UPI App
-            </a>
-            
-            <div class="qr-box-container">
-                <p style="color: var(--text-dim); font-size: 13px; line-height: 1.5; margin-bottom: 10px;">Or scan QR from another phone:</p>
-                <div class="qr-box" style="background: #fff; border: 1px solid #e5e7eb; padding: 20px; border-radius: 16px; margin: 0 auto 20px; display: inline-block;">
-                    <img id="upi-qr" src="" alt="UPI QR Code" style="width: 150px; height: 150px;">
+            <div id="checkout-instructions">
+                <a id="mobile-pay-btn" class="btn btn-outline" href="#" style="display:block; width:100%; margin-bottom:15px; padding:18px; font-size:14px; text-decoration:none; display:none;">
+                    🚀 Pay via UPI App
+                </a>
+                
+                <p style="color: var(--text-dim); font-size: 13px; line-height: 1.5; margin-bottom: 10px;" id="qr-instruction-text">Scan QR with any UPI App:</p>
+                <div class="qr-box" id="qr-box-div">
+                    <img id="upi-qr" src="" alt="UPI QR Code" style="width: 200px; height: 200px;">
                 </div>
             </div>
             
-            <button id="pay-confirm-btn" class="btn btn-primary" style="width:100%; background:var(--accent); color:#fff; border:none; margin-bottom: 10px; padding:20px; font-size:14px; transition: 0.3s;" onclick="finalizeOrder()">
+            <button id="pay-confirm-btn" class="btn btn-primary" style="width:100%; background:var(--accent); color:#fff; border:none; margin-bottom: 10px; padding:20px; font-size:14px;" onclick="finalizeOrder()">
                 ✓ I Have Completed The Payment
             </button>
             <p style="font-size: 10px; color: var(--text-dim); line-height: 1.4;">By confirming, you agree that you have transferred the exact amount shown above.</p>
-        </div>
-    </div>
-
-    <div id="smart-scanner" class="scanner-overlay">
-        <div class="scanner-ui">
-            <div class="scanner-header">
-                <h3>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5" style="margin-right:8px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                    Document-Style Scanner
-                </h3>
-                <button class="scanner-close" onclick="closeScanner()">×</button>
-            </div>
-            
-            <div class="scanner-view" id="scanner-view-container">
-                <video id="camera-feed" autoplay playsinline muted></video>
-                <canvas id="scanner-canvas"></canvas>
-                <div class="scan-instruction" id="scan-instruction">Center mould in view & tap Capture</div>
-            </div>
-            
-            <div class="scanner-controls">
-                <button id="btn-capture" class="btn btn-primary" style="width:100%; background:#111; color:#fff; font-size:14px; padding: 20px;" onclick="captureScanFrame()">Capture & Map Bounds</button>
-                
-                <div id="scan-actions" style="display:none; width:100%; flex-direction:column; gap:15px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <p style="font-size:13px; font-weight:800; margin:0; color:#000;">
-                            <span style="color:var(--accent);">✓ Quad Detected.</span><br>
-                            Drag the 4 corners to perfect the edges.
-                        </p>
-                        <button class="btn btn-outline" style="min-height:30px; padding:8px 15px; font-size:11px; color:#666; border-color:#ccc; background: #fff;" onclick="retakeScan()">Retake</button>
-                    </div>
-                    <p style="font-size:12px; font-weight:800; margin:0; color:var(--text-muted); line-height:1.4; border-top:1px solid #ccc; padding-top:15px;">
-                        Enter the real-world length of the <span style="color:#ef4444; text-decoration:underline;">RED TOP EDGE</span>:
-                    </p>
-                    <div class="scan-inputs">
-                        <input type="number" id="scan-line-length" placeholder="Length (e.g. 15)">
-                        <select id="scan-unit">
-                            <option value="cm">cm</option>
-                            <option value="mm">mm</option>
-                            <option value="in">inch</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary" style="background:var(--accent); color:#fff; border:none; width:100%; font-size: 14px;" onclick="processCalibration()">Calculate Exact Area</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="review-modal-overlay" class="modal-overlay">
-        <div class="modal-content">
-            <button class="m-close" onclick="closeReviewModal()">×</button>
-            <h3 style="font-size: 24px; margin-bottom: 5px; font-weight: 800; font-family: 'Space Grotesk', sans-serif; color: #fff;">Share Your Experience</h3>
-            <p style="color:var(--text-dim); font-size:13px; margin-bottom:20px;">Your feedback helps thousands of Indian resin artists make the right choice.</p>
-            
-            <input type="text" id="rv-name" class="m-input" placeholder="Your Name">
-            
-            <div class="rm-star-select" id="rv-stars">
-                <svg data-val="1" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg data-val="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg data-val="3" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg data-val="4" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg data-val="5" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            </div>
-            
-            <textarea id="rv-text" class="m-input" placeholder="How was the clarity, bubble release, or curing time?"></textarea>
-            
-            <button class="btn btn-primary" style="width:100%; font-size:13px;" onclick="submitReview()">Post Review</button>
         </div>
     </div>
 
@@ -965,7 +907,7 @@
                             <div><div class="z-label">Indoor Temp</div><input type="range" class="z-slider" id="env-temp" min="5" max="50" value="25" oninput="runCalc(); document.getElementById('val-temp').innerText=this.value+'°C'"><div id="val-temp" style="font-size:14px; font-weight:800; text-align:right; margin-top:5px; color:var(--text-dark);">25°C</div></div>
                             <div><div class="z-label">Indoor RH</div><input type="range" class="z-slider" id="env-hum" min="20" max="90" value="50" oninput="runCalc(); document.getElementById('val-hum').innerText=this.value+'%'"><div id="val-hum" style="font-size:14px; font-weight:800; text-align:right; margin-top:5px; color:var(--text-dark);">50%</div></div>
                         </div>
-                        <div id="weather-intelligence"></div>
+                        <div id="weather-intelligence" style="font-size:11px; color:#555; text-align:center; margin-top:15px; display:none;"></div>
                         
                         <div class="trust-box">
                             <div class="trust-title">
@@ -1100,7 +1042,8 @@
                     <a href="#calc" class="f-nav-link">Calculator</a>
                     <a href="#" class="f-nav-link">Contact</a>
                 </div>
-                <div class="f-copy" onclick="triggerAdmin()" style="cursor:pointer; user-select:none;">
+                
+                <div class="f-copy" onclick="triggerAdmin()">
                     © 2026 M-X Lumes. Engineered in Meerut.
                 </div>
             </div>
@@ -1142,15 +1085,15 @@
                 <button onclick="toggleCart()" style="color:#fff; font-size:28px; background:none; border:none; cursor:pointer;">×</button>
             </div>
             
-            <div id="cartItems" style="flex:1; overflow-y:auto; padding-right:5px;"></div>
+            <div id="cartItems" class="cart-items-container"></div>
             
-            <div class="cart-summary" style="margin-top:20px; border-top:1px solid var(--border); padding-top:20px;">
+            <div class="cart-summary">
                 <div class="cart-total" style="display:flex; justify-content:space-between; font-size:20px; font-weight:700; margin-bottom:20px;">
                     <span style="color:var(--text-dim); font-size:14px; text-transform:uppercase;">Total Estimate</span>
                     <span id="cartTotal" style="color:#fff;">₹0</span>
                 </div>
                 
-                <button class="checkout-btn" onclick="initiateCheckout()" style="background: #fff; color: #000; width: 100%; padding: 18px; border-radius: 12px; font-size: 14px; font-weight: 800; border: none; cursor: pointer; text-transform: uppercase; margin-top: 10px;">
+                <button class="checkout-btn" onclick="initiateCheckout()">
                     Proceed to Secure Checkout
                 </button>
             </div>
@@ -1164,7 +1107,7 @@
                 <h2 style="font-family:'Space Grotesk', sans-serif; margin-bottom: 5px;">M-X Command</h2>
                 <p style="color:#888; font-size:13px; margin-bottom:20px;">Restricted Administrative Access</p>
                 <input type="password" id="master-key" placeholder="Enter Master Key" onkeypress="if(event.key==='Enter') unlockDashboard()" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:15px; border-radius:12px; text-align:center; outline:none; font-family:'Manrope', sans-serif;">
-                <button onclick="unlockDashboard()" style="width:100%; background:#fff; color:#000; padding:15px; border-radius:30px; font-weight:800; text-transform:uppercase; margin-top:20px; border:none; cursor:pointer;">Decrypt Vault</button>
+                <button onclick="unlockDashboard()" style="width:100%; background:#fff; color:#000; padding:15px; border-radius:30px; font-weight:800; text-transform:uppercase; margin-top:20px; border:none; cursor:pointer; transition:transform 0.2s;">Decrypt Vault</button>
                 <button onclick="closeAdminPortal()" style="width:100%; background:transparent; color:#888; padding:15px; font-size:12px; margin-top:10px; border:none; cursor:pointer;">Cancel</button>
                 <p id="admin-auth-err" style="color:#ef4444; font-size:12px; margin-top:15px; display:none;">Access Denied. Incorrect Key.</p>
             </div>
@@ -1204,6 +1147,9 @@
                 </div>
 
                 <div class="admin-data-panel" id="admin-panel-users" style="display:none;">
+                    <div style="margin-bottom:20px;">
+                        <button class="export-btn" onclick="exportUsersPDF()">Download Customer PDF</button>
+                    </div>
                     <div style="background:#0a0a0a; border:1px solid #333; border-radius:16px; overflow-x:auto;">
                         <table style="width:100%; min-width:800px; border-collapse:collapse; font-size:13px;">
                             <thead><tr style="background:#000;"><th style="padding:15px; color:#888; text-align:left;">Name</th><th style="padding:15px; color:#888; text-align:left;">Phone</th><th style="padding:15px; color:#888; text-align:left;">Joined Date</th><th style="padding:15px; color:#888; text-align:left;">Action</th></tr></thead>
@@ -1244,7 +1190,6 @@
             checkAuthStatus(); 
             runCalc(); 
 
-            // Get User Location silently for the order ledger
             fetch('https://ipapi.co/json/').then(r=>r.json()).then(data => { userLocation = data.city + ", " + data.region; }).catch(e => {});
 
             setTimeout(() => {
@@ -1258,7 +1203,7 @@
         };
 
         // =========================================
-        // 2. WHATSAPP AUTHENTICATION & PROFILE 
+        // 2. WHATSAPP AUTHENTICATION (FREE SIMULATION)
         // =========================================
         function checkAuthStatus() {
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
@@ -1295,7 +1240,7 @@
             document.getElementById('auth-step-1').style.display = 'block';
             document.getElementById('auth-step-2').style.display = 'none';
             document.getElementById('auth-otp').value = '';
-            document.getElementById('btn-send-otp').innerText = "Send WhatsApp OTP";
+            document.getElementById('btn-send-otp').innerText = "Send OTP";
         }
 
         async function sendOtp() {
@@ -1304,7 +1249,7 @@
             const errorDiv = document.getElementById('auth-error');
             errorDiv.style.display = 'none';
 
-            if(!phone || phone.length < 10) { errorDiv.innerText = "Enter a valid 10-digit WhatsApp number."; errorDiv.style.display = 'block'; return; }
+            if(!phone || phone.length < 10) { errorDiv.innerText = "Enter a valid 10-digit number."; errorDiv.style.display = 'block'; return; }
             if(currentAuthMode === 'signup' && !name) { errorDiv.innerText = "Please enter your full name."; errorDiv.style.display = 'block'; return; }
 
             const btn = document.getElementById('btn-send-otp');
@@ -1321,15 +1266,16 @@
                 document.getElementById('auth-step-1').style.display = 'none';
                 document.getElementById('auth-step-2').style.display = 'block';
                 
-                // SIMULATION MODE: Show OTP on screen so you can test it without paying for Twilio/Interakt
+                // SIMULATION MODE: Automatically alert and fill the OTP
                 if(data._testOtp) {
-                    alert(`🧪 TEST MODE SIMULATION:\n\nYour WhatsApp OTP is: ${data._testOtp}`);
-                    console.log("TEST OTP:", data._testOtp);
+                    alert(`🧪 TEST MODE SIMULATION:\n\nYour OTP is: ${data._testOtp}`);
+                    document.getElementById('auth-otp').value = data._testOtp;
                 }
                 
             } catch(err) {
-                errorDiv.innerText = err.message; errorDiv.style.display = 'block';
-                btn.innerText = "Send WhatsApp OTP";
+                errorDiv.innerText = err.message === "Failed to fetch" ? "Cannot connect to server." : err.message;
+                errorDiv.style.display = 'block';
+                btn.innerText = "Send OTP";
             }
         }
 
@@ -1359,11 +1305,15 @@
                 closeAuthModal();
                 checkAuthStatus();
             } catch(err) {
-                errorDiv.innerText = err.message; errorDiv.style.display = 'block';
+                errorDiv.innerText = err.message === "Failed to fetch" ? "Cannot connect to server." : err.message; 
+                errorDiv.style.display = 'block';
                 btn.innerText = "Verify & Sign In";
             }
         }
 
+        // =========================================
+        // 3. CART, CLOUD SYNC & PROFILE
+        // =========================================
         async function openProfileModal() {
             document.getElementById('profile-modal-overlay').classList.add('active');
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
@@ -1426,7 +1376,6 @@
         function printInvoice(orderId, dateStr, amount, itemsJson) {
             const items = JSON.parse(itemsJson.replace(/&quot;/g, '"'));
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
-            
             const waLink = `https://wa.me/917668077298?text=Hi, I need help with Order ${orderId}`;
             const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(waLink)}`;
 
@@ -1496,10 +1445,7 @@
 
         function openAuthModal() { document.getElementById('auth-modal-overlay').classList.add('active'); switchAuthTab('login'); }
         function closeAuthModal() { document.getElementById('auth-modal-overlay').classList.remove('active'); }
-        
-        // =========================================
-        // 3. CART & CLOUD SYNC LOGIC
-        // =========================================
+
         function updateReminder() {
             const reminder = document.getElementById('cartReminder');
             const sidebar = document.getElementById('cartSidebar');
@@ -1522,8 +1468,8 @@
             if (existingItem) { existingItem.qty++; } else { cart.push({name, price, qty: 1}); }
             renderCart(); showToast("Added to Cart"); syncCartWithCloud(cart); 
             const fab = document.querySelector('.cart-fab');
-            fab.style.transform = 'translate3d(0, -10px, 0) scale(1.1)';
-            setTimeout(() => fab.style.transform = 'translate3d(0, 0, 0) scale(1)', 200);
+            fab.style.transform = 'translateY(-10px) scale(1.1)';
+            setTimeout(() => fab.style.transform = 'translateY(0) scale(1)', 200);
         }
 
         function updateQty(name, change) {
@@ -1566,7 +1512,7 @@
         function showToast(msg) { const t = document.getElementById('toast'); t.innerHTML = '✓ ' + msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
 
         // =========================================
-        // 4. M-X SECUREPAY GATEWAY LOGIC
+        // 4. CHECKOUT (DEEP LINKING & ORDER CREATION)
         // =========================================
         function initiateCheckout() {
             if (cart.length === 0) return alert('Your cart is empty!');
@@ -1589,17 +1535,12 @@
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
             const payload = { phone: user.phone, items: cart, totalAmount: checkoutTotal, location: userLocation };
 
-            const btn = document.querySelector('#pay-confirm-btn');
-            const originalText = btn.innerText;
-
             try {
-                btn.innerText = "Securing Order...";
-                btn.style.pointerEvents = 'none';
-
                 const response = await fetch(`${RENDER_URL}/api/orders`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 const data = await response.json();
+                
                 if (!response.ok) throw new Error("Could not log order.");
-
+                
                 let msg = `*NEW ORDER RECEIVED: ${data.orderId}*%0AHi M-X Lumes team,%0AI have transferred ₹${checkoutTotal.toLocaleString()} via UPI.%0A%0A`;
                 cart.forEach(i => { msg += `• ${i.name} x ${i.qty}%0A`; });
                 msg += `%0APlease verify and approve my invoice.`;
@@ -1607,31 +1548,17 @@
                 cart = []; renderCart(); syncCartWithCloud([]); 
                 closePaymentModal(); 
                 window.location.href = `https://wa.me/917668077298?text=${msg}`;
-
             } catch (error) { 
                 alert("Issue logging order. Redirecting to WhatsApp for manual support."); 
                 window.location.href = `https://wa.me/917668077298?text=Hi, the payment scanner had an error. I paid ₹${checkoutTotal.toLocaleString()}`; 
-            } finally {
-                btn.innerText = originalText;
-                btn.style.pointerEvents = 'auto';
             }
         }
 
         // =========================================
-        // 5. CORE UI SCROLLING
-        // =========================================
-        let tickingScroll = false;
-        window.addEventListener('scroll', () => { 
-            if (!tickingScroll) { window.requestAnimationFrame(() => { document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50); tickingScroll = false; }); tickingScroll = true; }
-        }, {passive: true});
-        function smoothScroll(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
-        const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if(entry.isIntersecting) { entry.target.classList.add('active'); } }); }, {threshold: 0.1});
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // =========================================
-        // 6. TITAN FUSION CALCULATOR LOGIC
+        // 5. TITAN FUSION CALCULATOR LOGIC
         // =========================================
         let appState = { unit: 'cm', shape: 'rect', ratioA: 3, ratioB: 1, mode: 'cast', scannedArea: 0 };
+
         function setUnit(u) {
             if(appState.unit !== u) {
                 const factor = u === 'in' ? 0.3937 : 2.54; 
@@ -1829,7 +1756,7 @@
         function triggerAdmin() {
             adminClicks++;
             clearTimeout(adminTimer);
-            adminTimer = setTimeout(() => { adminClicks = 0; }, 2000);
+            adminTimer = setTimeout(() => { adminClicks = 0; }, 1000);
             if(adminClicks >= 3) {
                 document.getElementById('supreme-admin-portal').style.display = 'block';
                 adminClicks = 0;
@@ -1861,6 +1788,7 @@
                 document.getElementById('admin-main-view').style.display = 'flex';
                 populateAdminDashboard();
             } catch (err) {
+                document.getElementById('admin-auth-err').innerText = err.message === "Failed to fetch" ? "Cannot connect to server. Is it online?" : "Access Denied. Incorrect Key.";
                 document.getElementById('admin-auth-err').style.display = 'block';
                 document.getElementById('auth-gate').querySelector('button').innerText = "Decrypt Vault";
                 sessionStorage.removeItem('mxlumes_admin_key');
