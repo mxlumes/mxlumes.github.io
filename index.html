@@ -39,15 +39,15 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        html { font-size: 16px; scroll-behavior: smooth; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        html { font-size: 16px; scroll-behavior: smooth; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
         
-        body { background-color: var(--bg-oled); color: var(--text-main); font-family: 'Manrope', sans-serif; line-height: 1.6; width: 100%; max-width: 100vw; overflow-x: hidden; position: relative; -webkit-overflow-scrolling: touch; text-rendering: optimizeLegibility;}
+        body { background-color: var(--bg-oled); color: var(--text-main); font-family: 'Manrope', sans-serif; line-height: 1.6; width: 100%; max-width: 100vw; overflow-x: hidden; position: relative; -webkit-overflow-scrolling: touch; }
 
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; line-height: 1.1; letter-spacing: -0.02em; }
         a { text-decoration: none; color: inherit; transition: color 0.3s var(--ease-fluid); }
         button { cursor: pointer; border: none; outline: none; background: none; font-family: inherit; }
         img { display: block; max-width: 100%; height: auto; user-select: none; }
-        input, select, textarea { font-size: 16px !important; font-family: 'Manrope', sans-serif; }
+        input, select, textarea { font-size: 16px !important; font-family: 'Manrope', sans-serif; -webkit-appearance: none; border-radius: 0;}
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
 
@@ -110,7 +110,7 @@
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* =========================================
-           6. SHOP & GRIDS (RESTORED GLASS)
+           6. SHOP & GRIDS
            ========================================= */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         
@@ -210,7 +210,6 @@
         .preset-btn { padding: 12px 24px; border: 2px solid #aaa; border-radius: 30px; font-size: 13px; font-weight: 800; color: #333; background: #fff; white-space: nowrap; transition: all 0.3s; cursor: pointer; }
         .preset-btn:hover { color: #000; border-color: #000; background: #f3f4f6; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        /* Environment Lab */
         .env-icons { display: inline-flex; align-items: center; gap: 10px; margin-left: auto; }
         .icon-temp { width: 18px; height: 18px; stroke: #ef4444; fill: none; animation: tempPulse 2s infinite alternate ease-in-out; }
         .icon-drop { width: 18px; height: 18px; stroke: #3b82f6; fill: none; animation: dropPulse 2s infinite alternate ease-in-out; animation-delay: 1s; }
@@ -323,14 +322,6 @@
         
         .m-close { position: absolute; top: 20px; right: 25px; background: none; border: none; color: #888; font-size: 28px; cursor: pointer; transition: color 0.2s; }
         .m-close:hover { color: #fff; }
-        
-        .m-input {
-            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
-            padding: 16px; border-radius: 12px; color: #fff; font-size: 16px; font-weight: 500;
-            margin-bottom: 15px; outline: none; transition: border-color 0.2s, background 0.2s; font-family: 'Manrope', sans-serif;
-            -webkit-appearance: none;
-        }
-        .m-input:focus { border-color: var(--accent); }
 
         .payment-modal {
             background:#0a0a0a; border:1px solid #333; text-align:center; padding: 35px;
@@ -346,7 +337,7 @@
         .prof-orders td { padding: 15px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
 
         /* =========================================
-           12. CART SIDEBAR
+           12. CART SIDEBAR (IOS HEIGHT FIX)
            ========================================= */
         .cart-fab {
             position: fixed; bottom: 30px; right: 20px; width: 65px; height: 65px;
@@ -362,25 +353,20 @@
         .cart-reminder { position: fixed; bottom: 100px; right: 32px; font-size: 35px; z-index: 1999; opacity: 0; pointer-events: none; transform: translate3d(0, 20px, 0); transition: transform 0.5s var(--ease-spring), opacity 0.5s; animation: bounceHand 1s infinite alternate; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); }
         .cart-reminder.show { opacity: 1; transform: translate3d(0, 0, 0); }
         
-        .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100dvh; z-index: 3000; pointer-events: none; }
+        /* Inline heights used directly in HTML to prevent CSS breaking */
+        
         .cart-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); opacity: 0; transition: opacity 0.5s var(--ease-fluid); cursor: pointer; }
-        .cart-inner { position: absolute; right: 0; width: 100%; max-width: 420px; height: 100%; background: #050505; border-left: 1px solid var(--border); transform: translate3d(100%, 0, 0); transition: transform 0.6s var(--ease-fluid); display: flex; flex-direction: column; padding: 40px; box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
         
         .cart-sidebar.active { pointer-events: all; }
         .cart-sidebar.active .cart-overlay { opacity: 1; }
-        .cart-sidebar.active .cart-inner { transform: translate3d(0, 0, 0); }
         
         .cart-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; animation: slideInRight 0.4s var(--ease-spring) forwards; }
         @keyframes slideInRight { from { opacity: 0; transform: translate3d(30px,0,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
         
         .qty-control { display: flex; align-items: center; background: #000; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
-        .qty-btn { width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 16px; font-weight: 800; cursor: pointer; transition: background 0.2s; }
+        .qty-btn { width: 34px; height: 34px; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 14px; font-weight: 800; cursor: pointer; transition: background 0.2s; }
         .qty-btn:hover { background: rgba(255,255,255,0.15); }
-        .qty-btn:active { background: rgba(255,255,255,0.3); }
         .qty-val { width: 24px; text-align: center; font-size: 12px; font-weight: 800; color: #fff; }
-        
-        .checkout-btn { width: 100%; padding: 16px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer; border: none; background: #fff; color: #000; }
-        .checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2); }
 
         /* =========================================
            13. VIJETA AI ASSISTANT
@@ -400,8 +386,8 @@
         .v-close { background: none; border: none; color: var(--text-dim); font-size: 24px; cursor: pointer; transition: color 0.3s; line-height: 1; }
         .v-chat { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
         .msg { max-width: 88%; padding: 14px 18px; border-radius: 16px; font-size: 13px; line-height: 1.6; animation: popIn 0.3s var(--ease-spring) forwards; }
-        .msg.bot { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; align-self: flex-start; border-bottom-left-radius: 4px; }
-        .msg.user { background: var(--accent); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .msg.bot { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .msg.user { background: var(--accent); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
         .v-input-area { padding: 15px; border-top: 1px solid var(--border); display: flex; gap: 10px; background: #050505; }
         .v-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid transparent; border-radius: 20px; padding: 12px 18px; color: #fff; font-size: 16px; outline: none; -webkit-appearance: none; }
         .v-input:focus { border-color: var(--accent); background: #000; }
@@ -410,10 +396,9 @@
         /* =========================================
            14. FOOTER
            ========================================= */
-        .footer { padding: 120px 20px 60px; background: var(--bg-milky); border-top: 1px solid var(--border-light); }
+        .footer { padding: 120px 20px 60px; background: #ffffff; border-top: 1px solid var(--border-light); }
         .f-top-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; margin-bottom: 100px; max-width: 1200px; margin: 0 auto; }
-        .f-vision-text { font-family: 'Space Grotesk', sans-serif; font-size: clamp(24px, 4vw, 36px); font-weight: 300; color: var(--text-dark); line-height: 1.3; letter-spacing: -0.02em; }
-        .f-bottom-row { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 40px; border-top: 1px solid var(--border-light); max-width: 1200px; margin: 0 auto; }
+        .f-bottom-row { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 40px; border-top: 1px solid #ccc; max-width: 1200px; margin: 0 auto; }
 
         /* =========================================
            15. MOBILE OPTIMIZATIONS
@@ -428,12 +413,8 @@
             .nav-auth-btn { padding: 6px 10px; border-radius: 12px; font-size: 10px; }
 
             .grid-3 { grid-template-columns: 100%; } 
-            .specs-layout, .gallery-masonry, .zenith-calc, .dos-donts, .refine-grid { grid-template-columns: 1fr; }
+            .specs-layout, .gallery-masonry, .zenith-calc, .dos-donts, .refine-grid, .f-top-grid { grid-template-columns: 1fr; }
             .gallery-masonry { column-count: 2; column-gap: 10px; }
-            
-            .cart-inner { width: 100%; max-width: 100%; padding: 25px; padding-bottom: max(25px, env(safe-area-inset-bottom)); }
-            .cart-header { flex-shrink: 0;}
-            .cart-summary { flex-shrink: 0;}
             
             .z-controls, .z-display { padding: 30px; }
             .comp-table { width: 100%; table-layout: fixed; min-width: auto; }
@@ -444,79 +425,95 @@
             
             .vijeta-panel { width: calc(100% - 40px); left: 20px; right: 20px; height: 500px; bottom: 105px; }
             .scanner-ui { max-width: 95%; }
-            .f-top-grid { grid-template-columns: 1fr; gap: 40px; }
+            .f-top-grid { gap: 40px; }
             .f-bottom-row { flex-direction: column; align-items: flex-start; gap: 20px; }
         }
+        
+        /* New premium button spinner */
+        .spinner { width: 18px; height: 18px; border: 2px solid rgba(0,0,0,0.2); border-top-color: #000; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        /* Auth Slider Tab CSS */
+        .auth-tab-btn { flex: 1; padding: 12px; font-size: 14px; font-weight: 800; position: relative; z-index: 2; transition: color 0.3s; background: none; border: none; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div id="profile-modal-overlay" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); z-index:4000; justify-content:center; align-items:center; padding:20px; opacity:0; transition:opacity 0.3s; -webkit-overflow-scrolling: touch;">
-        <div class="modal-content" style="background:#0a0a0a; border:1px solid rgba(255,255,255,0.1); border-radius:24px; width:100%; max-width:600px; padding:35px; position:relative; transform:scale(0.95); transition:transform 0.3s; box-shadow:0 25px 50px rgba(0,0,0,0.8); max-height:90vh; overflow-y:auto;">
-            <button class="m-close" onclick="closeProfileModal()" style="position:absolute; top:20px; right:25px; background:none; border:none; color:#888; font-size:28px; cursor:pointer;">×</button>
-            <div class="profile-header" style="text-align:center; margin-bottom:25px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:20px;">
-                <div style="width: 60px; height: 60px; background: #fff; color: #000; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px;">M</div>
-                <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;" id="prof-name">Artist Name</h3>
-                <p style="color: #9ca3af; font-size: 13px; font-weight: 500;" id="prof-phone">+91 XXXXX</p>
-                <button class="btn btn-outline" style="margin-top:15px; border:1px solid #333; background:rgba(255,255,255,0.02); color:#fff; padding: 8px 16px; border-radius:60px; font-size: 10px; cursor:pointer;" onclick="logout(event)">Sign Out</button>
+    <div id="auth-modal-overlay" class="modal-overlay">
+        <div class="modal-content" style="padding: 40px;">
+            <button class="m-close" onclick="closeAuthModal()">×</button>
+            <div style="text-align:center; margin-bottom: 30px;">
+                <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 5px;">M-X LUMES</h3>
+                <p style="color: var(--text-dim); font-size: 13px; font-weight: 500;">Premium Access Portal</p>
             </div>
             
-            <h4 style="color:#fff; font-weight:800; margin-bottom:15px; font-family:'Space Grotesk', sans-serif;">Order History</h4>
+            <div style="display:flex; position: relative; background: rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 25px; padding: 5px;">
+                <div id="auth-slider" style="position: absolute; top: 5px; left: 5px; width: calc(50% - 5px); height: calc(100% - 10px); background: #fff; border-radius: 8px; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);"></div>
+                <button type="button" id="tab-login" class="auth-tab-btn" style="color: #000;" onclick="switchAuthTab('login')">Sign In</button>
+                <button type="button" id="tab-signup" class="auth-tab-btn" style="color: #888;" onclick="switchAuthTab('signup')">Create Account</button>
+            </div>
+            
+            <form id="auth-form" onsubmit="submitAuth(event)">
+                <div id="name-group" style="display:none; transition: all 0.3s; opacity: 0; transform: translateY(-10px);">
+                    <input type="text" id="auth-name" placeholder="Full Name" autocomplete="name" style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:16px; border-radius:12px; color:#fff; font-size:16px; font-weight:500; margin-bottom:15px; outline:none; font-family:'Manrope', sans-serif; -webkit-appearance: none;">
+                </div>
+                
+                <div style="display:flex; align-items:center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; margin-bottom: 15px; padding:0 15px;">
+                    <span style="color:#888; font-weight:800; font-size:14px; margin-right:10px;">+91</span>
+                    <input type="tel" id="auth-phone" placeholder="Phone Number" autocomplete="tel" inputmode="tel" maxlength="10" required style="background:transparent; border:none; color:#fff; font-size:16px; font-weight:500; outline:none; padding:16px 0; width:100%; font-family: 'Manrope', sans-serif; letter-spacing: 1px; -webkit-appearance: none;">
+                </div>
+
+                <div style="position: relative; margin-bottom: 25px;">
+                    <input type="password" id="auth-password" placeholder="Secure Password" autocomplete="current-password" required style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:16px; padding-right: 50px; border-radius:12px; color:#fff; font-size:16px; font-weight:500; outline:none; font-family:'Manrope', sans-serif; -webkit-appearance: none;">
+                    <button type="button" onclick="togglePassword()" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #888; font-size: 18px; border:none; background:none;">👁️</button>
+                </div>
+                
+                <button type="submit" style="width:100%; font-size:14px; background:#fff; color:#000; padding: 18px; border-radius:12px; font-weight:800; border:none; cursor:pointer; text-transform:uppercase; display: flex; justify-content: center; align-items: center; gap: 10px; transition: transform 0.2s, box-shadow 0.2s;" id="auth-btn">
+                    <span>Sign In Securely</span>
+                    <div class="spinner" id="auth-spinner"></div>
+                </button>
+            </form>
+            
+            <div id="auth-error" style="color:var(--danger); background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 12px; font-size:12px; font-weight: 600; margin-top:15px; text-align:center; display:none; animation: popIn 0.3s forwards;"></div>
+        </div>
+    </div>
+
+    <div id="profile-modal-overlay" class="modal-overlay">
+        <div class="modal-content" style="max-width: 600px;">
+            <button class="m-close" onclick="closeProfileModal()">×</button>
+            <div class="profile-header">
+                <div style="width: 60px; height: 60px; background: #fff; color: #000; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px;">M</div>
+                <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;" id="prof-name">Artist Name</h3>
+                <p style="color: var(--text-dim); font-size: 13px; font-weight: 500;" id="prof-phone">+91 XXXXX</p>
+                <button class="btn btn-outline" style="margin-top:15px; border-color:#333; color:#fff; padding: 8px 16px; font-size: 10px;" onclick="logout(event)">Sign Out</button>
+            </div>
+            
+            <h4 style="color:#fff; font-weight:800; margin-bottom:15px;">Order History</h4>
             <div style="max-height: 400px; overflow-y: auto; background:#050505; border-radius:12px; border:1px solid #333; padding:10px;">
-                <table style="width:100%; border-collapse:collapse; font-size:13px; color:#ccc;">
+                <table class="prof-orders">
                     <thead>
                         <tr>
-                            <th style="text-align:left; padding:10px 5px; border-bottom:2px solid #333; color:#888;">Order ID</th>
-                            <th style="text-align:left; padding:10px 5px; border-bottom:2px solid #333; color:#888;">Date</th>
-                            <th style="text-align:left; padding:10px 5px; border-bottom:2px solid #333; color:#888;">Total</th>
-                            <th style="text-align:left; padding:10px 5px; border-bottom:2px solid #333; color:#888;">Invoice</th>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Invoice / Status</th>
                         </tr>
                     </thead>
                     <tbody id="prof-orders-tbody">
-                        <tr><td colspan="4" style="text-align:center; padding:15px;">Loading orders...</td></tr>
+                        <tr><td colspan="4" style="text-align:center; color:#888;">Loading orders...</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <div id="auth-modal-overlay" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); z-index:4000; justify-content:center; align-items:center; padding:20px; opacity:0; transition:opacity 0.3s; -webkit-overflow-scrolling: touch;">
-        <div class="modal-content" style="background:#0a0a0a; border:1px solid rgba(255,255,255,0.1); border-radius:24px; width:100%; max-width:400px; padding:35px; position:relative; transform:scale(0.95); transition:transform 0.3s; box-shadow:0 25px 50px rgba(0,0,0,0.8);">
-            <button class="m-close" onclick="closeAuthModal()" style="position:absolute; top:20px; right:25px; background:none; border:none; color:#888; font-size:28px; cursor:pointer;">×</button>
-            <div style="text-align:center; margin-bottom: 25px;">
-                <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;">M-X LUMES</h3>
-                <p style="color: #9ca3af; font-size: 13px; font-weight: 500;">Premium Access Portal</p>
-            </div>
-            
-            <div style="display:flex; justify-content: center; gap:30px; margin-bottom:25px; border-bottom:2px solid #222; padding-bottom:10px;">
-                <span id="tab-login" style="font-size:15px; font-weight: 800; cursor:pointer; color:#fff; transition: color 0.2s;" onclick="switchAuthTab('login')">Sign In</span>
-                <span id="tab-signup" style="font-size:15px; font-weight: 800; cursor:pointer; color:#555; transition: color 0.2s;" onclick="switchAuthTab('signup')">Create Account</span>
-            </div>
-            
-            <form id="auth-form" onsubmit="submitAuth(event)">
-                <input type="text" id="auth-name" placeholder="Full Name" autocomplete="name" style="display:none; width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); padding:16px; border-radius:12px; color:#fff; font-size:16px; font-weight:500; margin-bottom:15px; outline:none; font-family:'Manrope', sans-serif; -webkit-appearance:none;">
-                
-                <div style="display:flex; align-items:center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; margin-bottom: 15px; padding:0 15px;">
-                    <span style="color:#888; font-weight:800; font-size:14px; margin-right:10px;">+91</span>
-                    <input type="tel" id="auth-phone" placeholder="Phone Number" autocomplete="tel" inputmode="tel" required style="background:transparent; border:none; color:#fff; font-size:16px; font-weight:500; outline:none; padding:16px 0; width:100%; font-family: 'Manrope', sans-serif; -webkit-appearance:none;">
-                </div>
-
-                <input type="password" id="auth-password" placeholder="Password" autocomplete="current-password" required style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); padding:16px; border-radius:12px; color:#fff; font-size:16px; font-weight:500; margin-bottom:15px; outline:none; font-family:'Manrope', sans-serif; -webkit-appearance:none;">
-                
-                <button type="submit" style="width:100%; font-size:14px; background:#fff; color:#000; padding: 16px; border-radius:12px; font-weight:800; border:none; cursor:pointer; text-transform:uppercase; margin-top:5px;" id="auth-btn">Sign In</button>
-            </form>
-            
-            <div id="auth-error" style="color:#ef4444; background: rgba(239,68,68,0.1); border: 1px solid #ef4444; border-radius: 8px; padding: 12px; font-size:12px; font-weight: 600; margin-top:15px; text-align:center; display:none;"></div>
-        </div>
-    </div>
-
-    <div id="payment-modal-overlay" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); z-index:4000; justify-content:center; align-items:center; padding:20px; opacity:0; transition:opacity 0.3s; -webkit-overflow-scrolling: touch;">
-        <div class="payment-modal" style="background:#0a0a0a; border:1px solid #333; text-align:center; padding:35px; border-radius:24px; max-width:400px; width:100%; position:relative; transform:scale(0.95); transition:transform 0.3s; box-shadow:0 25px 50px rgba(0,0,0,0.8);">
+    <div id="payment-modal-overlay" class="modal-overlay">
+        <div class="payment-modal">
             <button class="m-close" onclick="closePaymentModal()" style="position:absolute; top:20px; right:25px; background:none; border:none; color:#888; font-size:28px; cursor:pointer;">×</button>
             <div style="margin-bottom: 20px;">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" style="margin-bottom:10px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" style="margin-bottom:10px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                 <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 5px; font-family:'Space Grotesk', sans-serif;">M-X SecurePay</h3>
-                <p style="color: #9ca3af; font-size: 13px;">100% Secure Encrypted Checkout</p>
+                <p style="color: var(--text-dim); font-size: 13px;">100% Secure Encrypted Checkout</p>
             </div>
             
             <div style="font-size: 36px; font-weight: 800; color: #fff; font-family:'Space Grotesk', sans-serif; margin-bottom: 20px;" id="payment-total">₹0</div>
@@ -527,80 +524,17 @@
                 </a>
                 
                 <div id="qr-box-container" style="display:block;">
-                    <p style="color: #9ca3af; font-size: 13px; line-height: 1.5; margin-bottom: 10px;">Scan QR with any UPI App:</p>
+                    <p style="color: var(--text-dim); font-size: 13px; line-height: 1.5; margin-bottom: 10px;">Scan QR with any UPI App:</p>
                     <div style="background: #fff; border: 1px solid #e5e7eb; padding: 20px; border-radius: 16px; margin: 0 auto 20px; display: inline-block;">
-                        <img id="upi-qr" src="" alt="UPI QR Code" style="width: 150px; height: 150px; display:block;">
+                        <img id="upi-qr" src="" alt="UPI QR Code" style="width: 200px; height: 200px; display:block;">
                     </div>
                 </div>
                 
-                <button id="pay-confirm-btn" style="width:100%; background:#6366f1; color:#fff; border:none; margin-bottom: 10px; padding:20px; font-size:14px; border-radius:12px; font-weight:800; text-transform:uppercase; cursor:pointer;" onclick="finalizeOrder()">
+                <button id="pay-confirm-btn" style="width:100%; background:var(--accent); color:#fff; border:none; margin-bottom: 10px; padding:20px; font-size:14px; border-radius:12px; font-weight:800; text-transform:uppercase; cursor:pointer;" onclick="finalizeOrder()">
                     ✓ I Have Completed The Payment
                 </button>
-                <p style="font-size: 10px; color: #9ca3af; line-height: 1.4;" id="pay-disclaimer">By confirming, you agree that you have transferred the exact amount shown above.</p>
+                <p style="font-size: 10px; color: var(--text-dim); line-height: 1.4;" id="pay-disclaimer">By confirming, you agree that you have transferred the exact amount shown above.</p>
             </div>
-        </div>
-    </div>
-
-
-    <div id="smart-scanner" class="scanner-overlay" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.95); backdrop-filter:blur(15px); -webkit-backdrop-filter:blur(15px); z-index:9999; display:none; justify-content:center; align-items:center; padding:20px; opacity:0; transition:opacity 0.4s;">
-        <div class="scanner-ui" style="background:#fff; border-radius:24px; overflow:hidden; width:100%; max-width:500px; box-shadow:0 30px 60px rgba(0,0,0,0.8); display:flex; flex-direction:column; transform:scale(0.95); transition:transform 0.4s;">
-            <div style="padding:20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e5e7eb; background:#fafafa;">
-                <h3 style="font-size:16px; font-weight:800; color:#000; margin:0; display:flex; align-items:center; gap:8px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                    Document-Style Scanner
-                </h3>
-                <button onclick="closeScanner()" style="background:none; border:none; font-size:28px; color:#666; cursor:pointer; line-height:1; padding:5px;">×</button>
-            </div>
-            
-            <div style="position:relative; width:100%; height:450px; background:#000; overflow:hidden; touch-action:none;">
-                <video id="camera-feed" autoplay playsinline muted style="width:100%; height:100%; object-fit:cover;"></video>
-                <canvas id="scanner-canvas" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:5; cursor:crosshair;"></canvas>
-                <div id="scan-instruction" style="position:absolute; top:20px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.8); color:#fff; padding:10px 20px; border-radius:30px; font-size:13px; font-weight:800; z-index:10; text-align:center; white-space:nowrap; border:1px solid rgba(255,255,255,0.2);">Center mould in view & tap Capture</div>
-            </div>
-            
-            <div style="padding:25px; background:#fafafa; display:flex; flex-direction:column; align-items:center; gap:15px; border-top:1px solid #ccc;">
-                <button id="btn-capture" style="width:100%; background:#111; color:#fff; font-size:14px; padding:20px; border-radius:12px; font-weight:800; text-transform:uppercase; cursor:pointer; border:none;" onclick="captureScanFrame()">Capture & Map Bounds</button>
-                
-                <div id="scan-actions" style="display:none; width:100%; flex-direction:column; gap:15px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <p style="font-size:13px; font-weight:800; margin:0; color:#000;">
-                            <span style="color:#6366f1;">✓ Quad Detected.</span><br>Drag the 4 corners to perfect the edges.
-                        </p>
-                        <button style="min-height:30px; padding:8px 15px; font-size:11px; color:#666; border:1px solid #ccc; background:#fff; border-radius:12px; font-weight:800; text-transform:uppercase; cursor:pointer;" onclick="retakeScan()">Retake</button>
-                    </div>
-                    <p style="font-size:12px; font-weight:800; margin:0; color:#4b5563; line-height:1.4; border-top:1px solid #ccc; padding-top:15px;">
-                        Enter the real-world length of the <span style="color:#ef4444; text-decoration:underline;">RED TOP EDGE</span>:
-                    </p>
-                    <div style="display:flex; gap:10px; width:100%;">
-                        <input type="number" id="scan-line-length" placeholder="Length" style="flex:1; border:2px solid #aaa; padding:14px; font-size:16px; font-weight:800; border-radius:12px; outline:none; background:#fff; color:#000; font-family:'Manrope', sans-serif;">
-                        <select id="scan-unit" style="width:90px; border:2px solid #aaa; padding:14px; font-size:14px; font-weight:800; border-radius:12px; outline:none; background:#fff; color:#000; cursor:pointer; font-family:'Manrope', sans-serif;">
-                            <option value="cm">cm</option>
-                            <option value="mm">mm</option>
-                            <option value="in">inch</option>
-                        </select>
-                    </div>
-                    <button style="background:#6366f1; color:#fff; border:none; width:100%; font-size:14px; padding:16px; border-radius:12px; font-weight:800; text-transform:uppercase; cursor:pointer;" onclick="processCalibration()">Calculate Exact Area</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="review-modal-overlay" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); z-index:4000; justify-content:center; align-items:center; padding:20px; opacity:0; transition:opacity 0.3s; -webkit-overflow-scrolling: touch;">
-        <div class="modal-content" style="background:#0a0a0a; border:1px solid rgba(255,255,255,0.1); border-radius:24px; width:100%; max-width:400px; padding:35px; position:relative; transform:scale(0.95); transition:transform 0.3s;">
-            <button onclick="closeReviewModal()" style="position:absolute; top:20px; right:25px; background:none; border:none; color:#888; font-size:28px; cursor:pointer;">×</button>
-            <h3 style="font-size: 24px; margin-bottom: 5px; font-weight: 800; font-family: 'Space Grotesk', sans-serif; color: #fff;">Share Your Experience</h3>
-            <p style="color:#9ca3af; font-size:13px; margin-bottom:20px;">Your feedback helps thousands of Indian resin artists make the right choice.</p>
-            
-            <input type="text" id="rv-name" placeholder="Your Name" style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); padding:16px; border-radius:12px; color:#fff; font-size:16px; font-weight:500; margin-bottom:15px; outline:none; font-family:'Manrope', sans-serif;">
-            <div id="rv-stars" style="display:flex; gap:10px; margin-bottom:20px; justify-content:center; cursor:pointer;">
-                <svg data-val="1" viewBox="0 0 24 24" style="width:32px; height:32px; fill:transparent; stroke:#f59e0b; stroke-width:2;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg data-val="2" viewBox="0 0 24 24" style="width:32px; height:32px; fill:transparent; stroke:#f59e0b; stroke-width:2;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg data-val="3" viewBox="0 0 24 24" style="width:32px; height:32px; fill:transparent; stroke:#f59e0b; stroke-width:2;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg data-val="4" viewBox="0 0 24 24" style="width:32px; height:32px; fill:transparent; stroke:#f59e0b; stroke-width:2;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg data-val="5" viewBox="0 0 24 24" style="width:32px; height:32px; fill:transparent; stroke:#f59e0b; stroke-width:2;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            </div>
-            <textarea id="rv-text" placeholder="How was the clarity, bubble release, or curing time?" style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); padding:16px; border-radius:12px; color:#fff; font-size:16px; font-weight:500; margin-bottom:15px; outline:none; font-family:'Manrope', sans-serif; resize:vertical; min-height:100px;"></textarea>
-            <button style="width:100%; font-size:13px; background:#fff; color:#000; padding:16px; border-radius:12px; font-weight:800; text-transform:uppercase; cursor:pointer; border:none;" onclick="submitReview()">Post Review</button>
         </div>
     </div>
 
@@ -1011,7 +945,7 @@
         </div>
     </section>
 
-    <footer class="footer" style="background: #ffffff; border-top: 1px solid #e5e7eb; color: #000000;">
+    <footer class="footer" style="background: #ffffff; color: #000000; border-top: 1px solid #e5e7eb;">
         <div class="footer-content">
             <div class="f-top-grid">
                 <div>
@@ -1155,7 +1089,7 @@
         };
 
         // =========================================
-        // 2. PHONE + PASSWORD AUTHENTICATION
+        // 2. PREMIUM IOS AUTHENTICATION
         // =========================================
         function checkAuthStatus() {
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
@@ -1175,45 +1109,63 @@
         function switchAuthTab(mode) {
             currentAuthMode = mode;
             document.getElementById('auth-error').style.display = 'none';
-            const nameInp = document.getElementById('auth-name');
-            const btn = document.getElementById('auth-btn');
+            
+            const nameGroup = document.getElementById('name-group');
+            const slider = document.getElementById('auth-slider');
+            const tabLogin = document.getElementById('tab-login');
+            const tabSignup = document.getElementById('tab-signup');
+            const btnText = document.querySelector('#auth-btn span');
+            const nameInput = document.getElementById('auth-name');
             
             if (mode === 'signup') {
-                nameInp.style.display = 'block';
-                btn.innerText = "Create Account";
-                document.getElementById('tab-signup').style.color = "#fff";
-                document.getElementById('tab-login').style.color = "#555";
+                nameGroup.style.display = 'block';
+                setTimeout(() => { nameGroup.style.opacity = '1'; nameGroup.style.transform = 'translateY(0)'; }, 10);
+                nameInput.required = true;
+                slider.style.transform = 'translateX(100%)';
+                tabSignup.style.color = '#000';
+                tabLogin.style.color = '#888';
+                btnText.innerText = "Create Account";
             } else {
-                nameInp.style.display = 'none';
-                btn.innerText = "Sign In to Dashboard";
-                document.getElementById('tab-login').style.color = "#fff";
-                document.getElementById('tab-signup').style.color = "#555";
+                nameGroup.style.opacity = '0';
+                nameGroup.style.transform = 'translateY(-10px)';
+                setTimeout(() => { nameGroup.style.display = 'none'; }, 300);
+                nameInput.required = false;
+                slider.style.transform = 'translateX(0)';
+                tabLogin.style.color = '#000';
+                tabSignup.style.color = '#888';
+                btnText.innerText = "Sign In Securely";
             }
+        }
+
+        function togglePassword() {
+            const pass = document.getElementById('auth-password');
+            if(pass.type === 'password') { pass.type = 'text'; }
+            else { pass.type = 'password'; }
         }
 
         async function submitAuth(e) {
             e.preventDefault();
             const btn = document.getElementById('auth-btn');
+            const btnText = document.querySelector('#auth-btn span');
+            const spinner = document.getElementById('auth-spinner');
             const errorDiv = document.getElementById('auth-error');
             
-            btn.innerText = "Processing...";
+            btnText.innerText = "Authenticating...";
+            spinner.style.display = "block";
+            btn.style.pointerEvents = "none";
             errorDiv.style.display = 'none';
 
             const phone = document.getElementById('auth-phone').value.trim();
             const password = document.getElementById('auth-password').value;
             const name = document.getElementById('auth-name').value.trim();
 
-            if(phone.length < 10) { 
-                errorDiv.innerText = "Enter a valid phone number."; 
-                errorDiv.style.display = 'block'; 
-                btn.innerText = currentAuthMode === 'signup' ? "Create Account" : "Sign In to Dashboard"; 
-                return; 
+            if(phone.length !== 10) { 
+                showAuthError("Please enter a valid 10-digit phone number.");
+                resetAuthBtn(); return; 
             }
-            if(currentAuthMode === 'signup' && !name) { 
-                errorDiv.innerText = "Please enter your name."; 
-                errorDiv.style.display = 'block'; 
-                btn.innerText = "Create Account"; 
-                return; 
+            if(currentAuthMode === 'signup' && name.length < 2) { 
+                showAuthError("Please enter your full name.");
+                resetAuthBtn(); return; 
             }
 
             const payload = { phone, password };
@@ -1230,16 +1182,43 @@
                 
                 localStorage.setItem('mxlumes_token', data.token);
                 localStorage.setItem('mxlumes_user', JSON.stringify(data.user));
-                showToast(data.message);
-                closeAuthModal();
-                document.getElementById('auth-form').reset();
-                checkAuthStatus();
+                
+                btnText.innerText = "Success!";
+                btn.style.background = "var(--success)";
+                btn.style.color = "#fff";
+                spinner.style.borderTopColor = "#fff";
+                
+                setTimeout(() => {
+                    closeAuthModal();
+                    document.getElementById('auth-form').reset();
+                    checkAuthStatus();
+                    resetAuthBtn();
+                    showToast(data.message);
+                }, 800);
+                
             } catch (err) {
-                errorDiv.innerText = err.message === "Failed to fetch" ? "Cannot connect to server." : err.message;
-                errorDiv.style.display = 'block';
-            } finally {
-                btn.innerText = currentAuthMode === 'signup' ? "Create Account" : "Sign In to Dashboard";
+                showAuthError(err.message === "Failed to fetch" ? "Server waking up. Please try again in 10 seconds." : err.message);
+                resetAuthBtn();
             }
+        }
+
+        function showAuthError(msg) {
+            const err = document.getElementById('auth-error');
+            err.innerText = msg;
+            err.style.display = 'block';
+        }
+
+        function resetAuthBtn() {
+            const btn = document.getElementById('auth-btn');
+            const btnText = document.querySelector('#auth-btn span');
+            const spinner = document.getElementById('auth-spinner');
+            
+            btn.style.pointerEvents = "auto";
+            btn.style.background = "#fff";
+            btn.style.color = "#000";
+            spinner.style.display = "none";
+            spinner.style.borderTopColor = "#000";
+            btnText.innerText = currentAuthMode === 'signup' ? "Create Account" : "Sign In Securely";
         }
 
         // =========================================
@@ -1475,11 +1454,9 @@
 
             const btn = document.getElementById('pay-confirm-btn');
             
-            // Instantly hide buttons and show confirmation box (No Spinners)
             btn.style.display = 'none';
             if(document.getElementById('mobile-pay-btn')) document.getElementById('mobile-pay-btn').style.display = 'none';
             if(document.getElementById('qr-box-container')) document.getElementById('qr-box-container').style.display = 'none';
-            if(document.getElementById('pay-disclaimer')) document.getElementById('pay-disclaimer').style.display = 'none';
 
             const trustMsg = document.createElement('div');
             trustMsg.id = "trust-msg-block";
@@ -1489,7 +1466,6 @@
             btn.parentNode.insertBefore(trustMsg, btn);
 
             try {
-                // Send data to server in background
                 const response = await fetch(`${RENDER_URL}/api/orders`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 const data = await response.json();
                 if (!response.ok) throw new Error("Could not log order.");
@@ -1500,29 +1476,24 @@
                 
                 cart = []; renderCart(); syncCartWithCloud([]); 
                 
-                // Let user read message for 4 seconds before redirecting
                 setTimeout(() => {
                     closePaymentModal(); 
                     window.location.href = `https://wa.me/917668077298?text=${msg}`;
                     
-                    // Reset modal
                     if(document.getElementById('trust-msg-block')) document.getElementById('trust-msg-block').remove();
                     btn.style.display = 'block';
                     if(document.getElementById('mobile-pay-btn')) document.getElementById('mobile-pay-btn').style.display = '';
                     if(document.getElementById('qr-box-container')) document.getElementById('qr-box-container').style.display = 'block';
-                    if(document.getElementById('pay-disclaimer')) document.getElementById('pay-disclaimer').style.display = 'block';
                 }, 4000); 
 
             } catch (error) { 
                 alert("Issue logging order. Redirecting to WhatsApp for manual support."); 
                 window.location.href = `https://wa.me/917668077298?text=Hi, the payment scanner had an error. I paid ₹${checkoutTotal.toLocaleString()}`; 
                 
-                // Reset
                 if(document.getElementById('trust-msg-block')) document.getElementById('trust-msg-block').remove();
                 btn.style.display = 'block';
                 if(document.getElementById('mobile-pay-btn')) document.getElementById('mobile-pay-btn').style.display = '';
                 if(document.getElementById('qr-box-container')) document.getElementById('qr-box-container').style.display = 'block';
-                if(document.getElementById('pay-disclaimer')) document.getElementById('pay-disclaimer').style.display = 'block';
             }
         }
 
