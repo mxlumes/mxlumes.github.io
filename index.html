@@ -110,7 +110,7 @@
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* =========================================
-           6. SHOP & GRIDS (RESTORED GLASS)
+           6. SHOP & GRIDS
            ========================================= */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         
@@ -448,51 +448,19 @@
             .f-top-grid { grid-template-columns: 1fr; gap: 40px; }
             .f-bottom-row { flex-direction: column; align-items: flex-start; gap: 20px; }
         }
+
+        /* NEW AUTH STYLES */
+        .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #000; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .auth-tab-btn { flex: 1; padding: 12px; font-size: 14px; font-weight: 800; position: relative; z-index: 2; transition: color 0.3s; background: none; border: none; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div id="auth-modal-overlay" class="modal-overlay">
-        <div class="modal-content" style="padding: 40px;">
-            <button class="m-close" onclick="closeAuthModal()">×</button>
-            <div style="text-align:center; margin-bottom: 30px;">
-                <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 5px;">M-X LUMES</h3>
-                <p style="color: var(--text-muted); font-size: 13px; font-weight: 500;">Premium Access Portal</p>
-            </div>
-            
-            <div style="display:flex; position: relative; background: rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 25px; padding: 5px;">
-                <div id="auth-slider" style="position: absolute; top: 5px; left: 5px; width: calc(50% - 5px); height: calc(100% - 10px); background: #fff; border-radius: 8px; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);"></div>
-                <button type="button" id="tab-login" style="flex: 1; padding: 12px; font-size: 14px; font-weight: 800; position: relative; z-index: 2; transition: color 0.3s; background: none; border: none; cursor: pointer; color: #000;" onclick="switchAuthTab('login')">Sign In</button>
-                <button type="button" id="tab-signup" style="flex: 1; padding: 12px; font-size: 14px; font-weight: 800; position: relative; z-index: 2; transition: color 0.3s; background: none; border: none; cursor: pointer; color: #888;" onclick="switchAuthTab('signup')">Create Account</button>
-            </div>
-            
-            <form id="auth-form" onsubmit="submitAuth(event)">
-                <div id="name-group" style="display:none; transition: all 0.3s; opacity: 0; transform: translateY(-10px);">
-                    <input type="text" id="auth-name" placeholder="Full Name" autocomplete="name" style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:16px; border-radius:12px; color:#fff; font-size:16px; font-weight:500; margin-bottom:15px; outline:none; font-family:'Manrope', sans-serif; -webkit-appearance: none;">
-                </div>
-                
-                <input type="email" id="auth-email" placeholder="Email Address" autocomplete="email" required style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:16px; border-radius:12px; color:#fff; font-size:16px; font-weight:500; outline:none; font-family:'Manrope', sans-serif; -webkit-appearance: none; margin-bottom: 15px;">
-
-                <div style="position: relative; margin-bottom: 25px;">
-                    <input type="password" id="auth-password" placeholder="Secure Password" autocomplete="current-password" required style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:16px; padding-right: 50px; border-radius:12px; color:#fff; font-size:16px; font-weight:500; outline:none; font-family:'Manrope', sans-serif; -webkit-appearance: none;">
-                    <button type="button" onclick="toggleAuthPassword()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #888; font-size: 18px; border:none; background:none; padding:5px;">👁️</button>
-                </div>
-                
-                <button type="submit" id="auth-btn" style="width:100%; font-size:14px; background:#fff; color:#000; padding: 18px; border-radius:12px; font-weight:800; border:none; cursor:pointer; text-transform:uppercase; display: flex; justify-content: center; align-items: center; gap: 10px; transition: transform 0.2s, background-color 0.2s;">
-                    <span id="auth-btn-text">Sign In Securely</span>
-                    <div id="auth-spinner" style="display:none; width: 16px; height: 16px; border: 2px solid rgba(0,0,0,0.2); border-top-color: #000; border-radius: 50%; animation: authSpin 1s linear infinite;"></div>
-                </button>
-                <style>@keyframes authSpin { to { transform: rotate(360deg); } }</style>
-            </form>
-            
-            <div id="auth-error" style="color:#ef4444; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 12px; font-size:12px; font-weight: 600; margin-top:15px; text-align:center; display:none;"></div>
-        </div>
-    </div>
-
     <div id="profile-modal-overlay" class="modal-overlay">
         <div class="modal-content" style="max-width: 600px;">
             <button class="m-close" onclick="closeProfileModal()">×</button>
-            <div class="profile-header">
+            <div class="profile-header" style="text-align:center; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px;">
                 <div style="width: 60px; height: 60px; background: #fff; color: #000; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px;">M</div>
                 <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;" id="prof-name">Artist Name</h3>
                 <p style="color: var(--text-dim); font-size: 13px; font-weight: 500;" id="prof-email">artist@email.com</p>
@@ -501,25 +469,71 @@
             
             <h4 style="color:#fff; font-weight:800; margin-bottom:15px;">Order History</h4>
             <div style="max-height: 400px; overflow-y: auto; background:#050505; border-radius:12px; border:1px solid #333; padding:10px;">
-                <table class="prof-orders">
+                <table class="prof-orders" style="width: 100%; border-collapse: collapse; font-size: 13px; color: #ccc;">
                     <thead>
                         <tr>
-                            <th>Order ID</th>
-                            <th>Date</th>
-                            <th>Total</th>
-                            <th>Invoice / Status</th>
+                            <th style="text-align: left; padding: 10px 5px; border-bottom: 2px solid #333; color: #888;">Order ID</th>
+                            <th style="text-align: left; padding: 10px 5px; border-bottom: 2px solid #333; color: #888;">Date</th>
+                            <th style="text-align: left; padding: 10px 5px; border-bottom: 2px solid #333; color: #888;">Total</th>
+                            <th style="text-align: left; padding: 10px 5px; border-bottom: 2px solid #333; color: #888;">Invoice / Status</th>
                         </tr>
                     </thead>
                     <tbody id="prof-orders-tbody">
-                        <tr><td colspan="4" style="text-align:center; color:#888;">Loading orders...</td></tr>
+                        <tr><td colspan="4" style="text-align:center; color:#888; padding: 15px;">Loading orders...</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
+    <div id="auth-modal-overlay" class="modal-overlay">
+        <div class="modal-content" style="padding: 40px;">
+            <button class="m-close" onclick="closeAuthModal()">×</button>
+            <div style="text-align:center; margin-bottom: 30px;">
+                <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 5px;">M-X LUMES</h3>
+                <p style="color: var(--text-dim); font-size: 13px; font-weight: 500;">Premium Access Portal</p>
+            </div>
+            
+            <div style="display:flex; position: relative; background: rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 25px; padding: 5px;">
+                <div id="auth-slider" style="position: absolute; top: 5px; left: 5px; width: calc(50% - 5px); height: calc(100% - 10px); background: #fff; border-radius: 8px; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);"></div>
+                <button type="button" id="tab-login" class="auth-tab-btn" style="color: #000;" onclick="switchAuthTab('login')">Sign In</button>
+                <button type="button" id="tab-signup" class="auth-tab-btn" style="color: #888;" onclick="switchAuthTab('signup')">Create Account</button>
+            </div>
+            
+            <form id="auth-form" onsubmit="submitAuth(event)">
+                
+                <div id="auth-name-wrapper" style="display:none; margin-bottom:15px;">
+                    <input type="text" id="auth-name" placeholder="Full Name" autocomplete="name" style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:16px; border-radius:12px; color:#fff; font-size:16px; font-weight:500; outline:none; font-family:'Manrope', sans-serif; -webkit-appearance: none;">
+                </div>
+                
+                <div style="margin-bottom:15px;">
+                    <input type="email" id="auth-email" placeholder="Email Address (e.g. artist@gmail.com)" autocomplete="email" required style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:16px; border-radius:12px; color:#fff; font-size:16px; font-weight:500; outline:none; font-family:'Manrope', sans-serif; -webkit-appearance: none;">
+                </div>
+
+                <div id="auth-phone-wrapper" style="display:none; margin-bottom:15px;">
+                    <div style="display:flex; align-items:center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding:0 15px;">
+                        <span style="color:#888; font-weight:800; font-size:16px; margin-right:10px;">+91</span>
+                        <input type="tel" id="auth-phone" placeholder="10-Digit Mobile No." autocomplete="tel" inputmode="numeric" pattern="[0-9]*" maxlength="10" style="background:transparent; border:none; color:#fff; font-size:16px; font-weight:500; outline:none; padding:16px 0; width:100%; font-family: 'Manrope', sans-serif; letter-spacing: 1px; -webkit-appearance: none;">
+                    </div>
+                </div>
+
+                <div style="position: relative; margin-bottom: 25px;">
+                    <input type="password" id="auth-password" placeholder="Secure Password (Min. 6 chars)" autocomplete="current-password" required style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:16px; padding-right: 50px; border-radius:12px; color:#fff; font-size:16px; font-weight:500; outline:none; font-family:'Manrope', sans-serif; -webkit-appearance: none;">
+                    <button type="button" onclick="toggleAuthPassword()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #888; font-size: 18px; border:none; background:none; padding:5px;">👁️</button>
+                </div>
+                
+                <button type="submit" id="auth-btn" style="width:100%; font-size:14px; background:#fff; color:#000; padding: 18px; border-radius:12px; font-weight:800; border:none; cursor:pointer; text-transform:uppercase; display: flex; justify-content: center; align-items: center; gap: 10px; transition: transform 0.2s, background-color 0.2s;">
+                    <span id="auth-btn-text">Sign In Securely</span>
+                    <div id="auth-spinner" class="spinner"></div>
+                </button>
+            </form>
+            
+            <div id="auth-error" style="color:var(--danger); background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 12px; font-size:12px; font-weight: 600; margin-top:15px; text-align:center; display:none;"></div>
+        </div>
+    </div>
+
     <div id="payment-modal-overlay" class="modal-overlay">
-        <div class="payment-modal">
+        <div class="payment-modal" style="background:#0a0a0a; border:1px solid #333; text-align:center; padding: 35px; border-radius:24px; max-width:400px; position:relative;">
             <button class="m-close" onclick="closePaymentModal()" style="position:absolute; top:20px; right:25px; background:none; border:none; color:#888; font-size:28px; cursor:pointer;">×</button>
             <div style="margin-bottom: 20px;">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" style="margin-bottom:10px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
@@ -541,7 +555,7 @@
                     </div>
                 </div>
                 
-                <button id="pay-confirm-btn" style="width:100%; background:var(--accent); color:#fff; border:none; margin-bottom: 10px; padding:20px; font-size:14px; border-radius:12px; font-weight:800; text-transform:uppercase; cursor:pointer;" onclick="finalizeOrder()">
+                <button id="pay-confirm-btn" class="btn btn-primary" style="width:100%; background:var(--accent); color:#fff; border:none; margin-bottom: 10px; padding:20px; font-size:14px; transition: 0.3s;" onclick="finalizeOrder()">
                     ✓ I Have Completed The Payment
                 </button>
                 <p style="font-size: 10px; color: var(--text-dim); line-height: 1.4;" id="pay-disclaimer">By confirming, you agree that you have transferred the exact amount shown above.</p>
@@ -998,7 +1012,7 @@
                     <a href="#" class="f-nav-link" style="color: #333; font-weight:800; font-size:13px; text-transform:uppercase;">Contact</a>
                 </div>
                 
-                <div class="f-copy" onclick="triggerAdmin()" style="color: #555555; cursor: pointer; padding: 10px; margin: -10px; font-weight:800; position:relative; z-index:10;">
+                <div class="f-copy" onclick="window.location.href='dashboard.html'" style="color: #555555; cursor: pointer; padding: 10px; margin: -10px; font-weight:800; position:relative; z-index:10;">
                     © 2026 M-X Lumes. Engineered in Meerut.
                 </div>
             </div>
@@ -1040,7 +1054,7 @@
                 <button onclick="toggleCart()" style="color:#fff; font-size:28px; background:none; border:none; cursor:pointer;">×</button>
             </div>
             
-            <div id="cartItems" style="flex:1; overflow-y:auto; padding-right:5px; -webkit-overflow-scrolling: touch;"></div>
+            <div id="cartItems" style="flex:1; overflow-y:auto; padding-right:5px;"></div>
             
             <div class="cart-summary" style="margin-top:20px; border-top:1px solid var(--border); padding-top:20px; flex-shrink: 0;">
                 <div class="cart-total" style="display:flex; justify-content:space-between; font-size:20px; font-weight:700; margin-bottom:20px;">
@@ -1052,19 +1066,6 @@
                     Proceed to Secure Checkout
                 </button>
             </div>
-        </div>
-    </div>
-
-    <div id="supreme-admin-overlay" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.95); z-index:100000; justify-content:center; align-items:center; padding:20px;">
-        <div style="background:#0a0a0a; border:1px solid rgba(255,255,255,0.1); padding:40px; border-radius:24px; text-align:center; width:100%; max-width:400px; box-shadow:0 30px 60px rgba(0,0,0,0.8);">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" style="margin-bottom:20px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-            <h2 style="font-family:'Space Grotesk', sans-serif; margin-bottom: 5px; color:#fff;">M-X Command</h2>
-            <p style="color:#888; font-size:13px; margin-bottom:25px;">Restricted Administrative Access</p>
-            
-            <input type="password" id="master-key-input" placeholder="Enter Master Key" onkeypress="if(event.key==='Enter') executeAdminRedirect()" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:16px; border-radius:12px; text-align:center; outline:none; font-family:'Manrope', sans-serif; font-size:16px; margin-bottom:15px; -webkit-appearance:none;">
-            
-            <button onclick="executeAdminRedirect()" style="width:100%; background:#fff; color:#000; padding:16px; border-radius:12px; font-weight:800; text-transform:uppercase; border:none; cursor:pointer;">Verify & Enter</button>
-            <button onclick="document.getElementById('supreme-admin-overlay').style.display='none'" style="width:100%; background:transparent; color:#888; padding:15px; font-size:12px; margin-top:5px; border:none; cursor:pointer;">Cancel</button>
         </div>
     </div>
 
@@ -1115,8 +1116,10 @@
             currentAuthMode = mode;
             document.getElementById('auth-error').style.display = 'none';
             
-            const nameGroup = document.getElementById('name-group');
+            const nameGroup = document.getElementById('auth-name-wrapper');
+            const phoneGroup = document.getElementById('auth-phone-wrapper');
             const nameInput = document.getElementById('auth-name');
+            const phoneInput = document.getElementById('auth-phone');
             const btnText = document.getElementById('auth-btn-text');
             const tabLogin = document.getElementById('tab-login');
             const tabSignup = document.getElementById('tab-signup');
@@ -1124,17 +1127,22 @@
             
             if (mode === 'signup') {
                 nameGroup.style.display = 'block';
-                setTimeout(() => { nameGroup.style.opacity = '1'; nameGroup.style.transform = 'translateY(0)'; }, 10);
+                phoneGroup.style.display = 'block';
+                // Only require name and phone when in signup mode
                 nameInput.required = true;
+                phoneInput.required = true;
+                
                 tabSignup.style.color = '#000';
                 tabLogin.style.color = '#888';
                 slider.style.transform = 'translateX(100%)';
                 btnText.innerText = "Create Account";
             } else {
-                nameGroup.style.opacity = '0';
-                nameGroup.style.transform = 'translateY(-10px)';
-                setTimeout(() => { nameGroup.style.display = 'none'; }, 300);
+                nameGroup.style.display = 'none';
+                phoneGroup.style.display = 'none';
+                // Remove required status when logging in to prevent silent browser blocks
                 nameInput.required = false;
+                phoneInput.required = false;
+                
                 tabLogin.style.color = '#000';
                 tabSignup.style.color = '#888';
                 slider.style.transform = 'translateX(0)';
@@ -1156,21 +1164,30 @@
             const email = document.getElementById('auth-email').value.trim();
             const password = document.getElementById('auth-password').value;
             const name = document.getElementById('auth-name').value.trim();
+            const phone = document.getElementById('auth-phone').value.trim();
             const errorDiv = document.getElementById('auth-error');
             
             errorDiv.style.display = 'none';
 
-            if(!email.includes('@')) {
-                showAuthError("Please enter a valid email.");
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if(!emailRegex.test(email)) {
+                showAuthError("Please enter a valid email address.");
                 return;
             }
             if(password.length < 6) {
                 showAuthError("Password must be at least 6 characters.");
                 return;
             }
-            if(currentAuthMode === 'signup' && name.length < 2) {
-                showAuthError("Please enter your full name.");
-                return;
+
+            if(currentAuthMode === 'signup') {
+                if(name.length < 2) {
+                    showAuthError("Please enter your full name.");
+                    return;
+                }
+                if(!/^\d{10}$/.test(phone)) {
+                    showAuthError("Please enter a valid 10-digit phone number.");
+                    return;
+                }
             }
 
             isAuthenticating = true;
@@ -1185,7 +1202,10 @@
             const wakeTimer = setTimeout(() => { btnText.innerText = "Securing connection..."; }, 3000);
 
             const payload = { email, password };
-            if (currentAuthMode === 'signup') payload.name = name;
+            if (currentAuthMode === 'signup') {
+                payload.name = name;
+                payload.phone = phone;
+            }
 
             try {
                 const endpoint = currentAuthMode === 'signup' ? '/api/signup' : '/api/login';
@@ -1212,6 +1232,11 @@
                     checkAuthStatus();
                     resetAuthUI();
                     showToast(data.message);
+                    
+                    // Auto-open cart if they logged in with items in bag
+                    if (cart.length > 0) {
+                        setTimeout(() => { toggleCart(); }, 500); 
+                    }
                 }, 700);
                 
             } catch (err) {
@@ -1248,7 +1273,7 @@
             if(!user) return;
             
             document.getElementById('prof-name').innerText = user.name;
-            document.getElementById('prof-phone').innerText = user.email; // Displays email now
+            document.getElementById('prof-phone').innerText = user.email;
             
             const tbody = document.getElementById('prof-orders-tbody');
             tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888; padding:15px;">Loading orders...</td></tr>';
@@ -1445,7 +1470,12 @@
             if (cart.length === 0) return alert('Your cart is empty!');
             
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
-            if (!user) { openAuthModal(); showToast("Please Sign In to complete your order"); return; }
+            if (!user) { 
+                toggleCart();
+                openAuthModal(); 
+                showToast("Please Sign In or Create an Account"); 
+                return; 
+            }
 
             const upiString = `upi://pay?pa=${MERCHANT_UPI_ID}&pn=MXLumes&am=${checkoutTotal}&cu=INR`;
             document.getElementById('upi-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiString)}`;
@@ -1697,17 +1727,18 @@
         function renderBotMessage(text) { const chatBox = document.getElementById('vChatBox'); let formattedText = text.replace(/\n/g, '<br>'); chatBox.innerHTML += `<div class="msg bot" style="white-space: pre-wrap; line-height: 1.5;">${formattedText}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
 
         // ADMIN REDIRECT
-        let adminClicks = 0;
-        let adminTimer = null;
         function triggerAdmin() {
-            adminClicks++;
-            clearTimeout(adminTimer);
-            adminTimer = setTimeout(() => { adminClicks = 0; }, 1500); 
-            if(adminClicks >= 3) {
-                adminClicks = 0;
-                window.location.href = "dashboard.html";
-            }
+            window.location.href = "dashboard.html";
         }
+        
+        // Add tiny CSS for auth dynamic items safely without touching head
+        const authStyle = document.createElement('style');
+        authStyle.innerHTML = `
+            .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #000; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
+            @keyframes spin { to { transform: rotate(360deg); } }
+            .auth-tab-btn { flex: 1; padding: 12px; font-size: 14px; font-weight: 800; position: relative; z-index: 2; transition: color 0.3s; background: none; border: none; cursor: pointer; }
+        `;
+        document.head.appendChild(authStyle);
     </script>
 </body>
 </html>
