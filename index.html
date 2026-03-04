@@ -110,7 +110,7 @@
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* =========================================
-           6. SHOP & GRIDS (RESTORED GLASS)
+           6. SHOP & GRIDS
            ========================================= */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         
@@ -291,7 +291,7 @@
         .r-stars svg { width: 18px; height: 18px; fill: #f59e0b; }
         .r-count-text { font-size: 12px; color: var(--text-dim); font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
         
-        .reviews-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 20px; padding-bottom: 20px; scrollbar-width: none; mask-image: linear-gradient(to right, black 90%, transparent 100%); -webkit-overflow-scrolling: touch;}
+        .reviews-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 20px; padding-bottom: 20px; scrollbar-width: none; mask-image: linear-gradient(to right, black 90%, transparent 100%); }
         .reviews-container::-webkit-scrollbar { display: none; }
         
         .r-card { min-width: 320px; max-width: 320px; scroll-snap-align: start; background: #0a0a0a; border: 1px solid var(--border); border-radius: 20px; padding: 25px; display: flex; flex-direction: column; transition: transform 0.3s; }
@@ -317,7 +317,7 @@
             background: #0a0a0a; border: 1px solid var(--border); border-radius: 24px;
             width: 100%; max-width: 400px; padding: 35px; position: relative;
             transform: scale(0.95); transition: transform 0.3s; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-            max-height: 90vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
+            max-height: 90vh; overflow-y: auto;
         }
         .modal-overlay.active .modal-content { transform: scale(1); }
         
@@ -345,7 +345,7 @@
         .prof-orders td { padding: 15px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
 
         /* =========================================
-           12. CART SIDEBAR
+           12. CART SIDEBAR (MOBILE HEIGHT FIX)
            ========================================= */
         .cart-fab {
             position: fixed; bottom: 30px; right: 20px; width: 65px; height: 65px;
@@ -361,22 +361,30 @@
         .cart-reminder { position: fixed; bottom: 100px; right: 32px; font-size: 35px; z-index: 1999; opacity: 0; pointer-events: none; transform: translate3d(0, 20px, 0); transition: transform 0.5s var(--ease-spring), opacity 0.5s; animation: bounceHand 1s infinite alternate; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); }
         .cart-reminder.show { opacity: 1; transform: translate3d(0, 0, 0); }
         
-        .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; z-index: 3000; pointer-events: none; }
+        .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100dvh; z-index: 3000; pointer-events: none; }
         .cart-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); opacity: 0; transition: opacity 0.5s var(--ease-fluid); cursor: pointer; }
-        .cart-inner { position: absolute; right: 0; width: 100%; max-width: 420px; height: 100%; background: #050505; border-left: 1px solid var(--border); transform: translate3d(100%, 0, 0); transition: transform 0.6s var(--ease-fluid); display: flex; flex-direction: column; padding: 40px; box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
+        
+        .cart-inner { 
+            position: absolute; right: 0; width: 100%; max-width: 420px; height: 100%; background: #050505; border-left: 1px solid var(--border); 
+            transform: translate3d(100%, 0, 0); transition: transform 0.6s var(--ease-fluid); 
+            display: flex; flex-direction: column; padding: 40px; box-shadow: -20px 0 50px rgba(0,0,0,0.5); 
+        }
         
         .cart-sidebar.active { pointer-events: all; }
         .cart-sidebar.active .cart-overlay { opacity: 1; }
         .cart-sidebar.active .cart-inner { transform: translate3d(0, 0, 0); }
         
+        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; flex-shrink: 0; }
         .cart-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; animation: slideInRight 0.4s var(--ease-spring) forwards; }
         @keyframes slideInRight { from { opacity: 0; transform: translate3d(30px,0,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
         
         .qty-control { display: flex; align-items: center; background: #000; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
         .qty-btn { width: 34px; height: 34px; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 14px; font-weight: 800; cursor: pointer; transition: background 0.2s; }
         .qty-btn:hover { background: rgba(255,255,255,0.15); }
+        .qty-btn:active { background: rgba(255,255,255,0.3); }
         .qty-val { width: 24px; text-align: center; font-size: 12px; font-weight: 800; color: #fff; }
         
+        .cart-summary { margin-top:20px; border-top:1px solid var(--border); padding-top:20px; flex-shrink: 0; }
         .checkout-btn { width: 100%; padding: 16px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer; border: none; background: #fff; color: #000; }
         .checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2); }
 
@@ -396,7 +404,7 @@
         
         .v-header { background: rgba(99, 102, 241, 0.1); border-bottom: 1px solid var(--border); padding: 20px; display: flex; justify-content: space-between; align-items: center; }
         .v-close { background: none; border: none; color: var(--text-dim); font-size: 24px; cursor: pointer; transition: color 0.3s; line-height: 1; }
-        .v-chat { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+        .v-chat { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none; overscroll-behavior: contain; }
         .msg { max-width: 88%; padding: 14px 18px; border-radius: 16px; font-size: 13px; line-height: 1.6; animation: popIn 0.3s var(--ease-spring) forwards; }
         .msg.bot { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; align-self: flex-start; border-bottom-left-radius: 4px; }
         .msg.user { background: var(--accent); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
@@ -428,7 +436,9 @@
             .grid-3 { grid-template-columns: 100%; } 
             .specs-layout, .gallery-masonry, .zenith-calc, .dos-donts, .refine-grid { grid-template-columns: 1fr; }
             .gallery-masonry { column-count: 2; column-gap: 10px; }
-            .cart-inner { width: 100%; max-width: 100%; padding: 25px; }
+            
+            .cart-inner { width: 100%; max-width: 100%; padding: 25px; padding-bottom: max(25px, env(safe-area-inset-bottom)); }
+            
             .z-controls, .z-display { padding: 30px; }
             .comp-table { width: 100%; table-layout: fixed; min-width: auto; }
             .comp-cell, .comp-table th { white-space: normal; font-size: 10px; padding: 10px 4px; line-height: 1.3; word-wrap: break-word; }
@@ -442,24 +452,6 @@
             .f-bottom-row { flex-direction: column; align-items: flex-start; gap: 20px; }
         }
     </style>
-
-    <style id="admin-styles">
-        #supreme-admin-portal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 100000; display: none; overflow-y: auto; font-family: 'Manrope', sans-serif; color: #fff; -webkit-overflow-scrolling: touch; }
-        #supreme-admin-portal .admin-sidebar { width: 280px; background: #0a0a0a; border-right: 1px solid rgba(255,255,255,0.1); padding: 30px 20px; display: flex; flex-direction: column; position: fixed; height: 100vh; left: 0; top: 0;}
-        #supreme-admin-portal .admin-main { margin-left: 280px; padding: 40px 50px; min-height: 100vh; }
-        #supreme-admin-portal .admin-stat-card { background: #0a0a0a; border: 1px solid rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; }
-        #supreme-admin-portal table { width: 100%; border-collapse: collapse; min-width: 800px;}
-        #supreme-admin-portal th { text-align: left; padding: 20px; font-size: 11px; text-transform: uppercase; color: #888; border-bottom: 1px solid rgba(255,255,255,0.1); background: #050505; }
-        #supreme-admin-portal td { padding: 20px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
-        #supreme-admin-portal .export-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 20px; border-radius: 12px; font-size: 13px; font-weight: 800; cursor: pointer; transition: 0.2s; display:inline-flex; align-items:center; gap:8px;}
-        #supreme-admin-portal .export-btn:hover { background: #fff; color: #000; }
-        #supreme-admin-portal .btn-delete { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); padding:6px 10px; border-radius:8px; cursor:pointer;}
-        #supreme-admin-portal .btn-delete:hover { background: #ef4444; color: #fff; }
-        @media (max-width: 900px) {
-            #supreme-admin-portal .admin-sidebar { position:relative; width:100%; height:auto; border-right:none; border-bottom:1px solid #333;}
-            #supreme-admin-portal .admin-main { margin-left:0; padding:20px;}
-        }
-    </style>
 </head>
 <body>
 
@@ -469,7 +461,7 @@
             <div class="profile-header">
                 <div style="width: 60px; height: 60px; background: #fff; color: #000; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px;">M</div>
                 <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;" id="prof-name">Artist Name</h3>
-                <p style="color: var(--text-dim); font-size: 13px; font-weight: 500;" id="prof-phone">+91 XXXXX XXXXX</p>
+                <p style="color: var(--text-dim); font-size: 13px; font-weight: 500;" id="prof-phone">+91 XXXXX</p>
                 <button class="btn btn-outline" style="margin-top:15px; border-color:#333; color:#fff; padding: 8px 16px; font-size: 10px;" onclick="logout(event)">Sign Out</button>
             </div>
             
@@ -505,24 +497,17 @@
                 <span id="tab-signup" style="font-size:15px; font-weight: 800; cursor:pointer; color:#555; transition: color 0.2s;" onclick="switchAuthTab('signup')">Create Account</span>
             </div>
             
-            <form id="auth-form" onsubmit="event.preventDefault();">
-                <div id="auth-step-1">
-                    <input type="text" id="auth-name" class="m-input" placeholder="Full Name" style="display:none;">
-                    <div style="display:flex; align-items:center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; margin-bottom: 15px; padding:0 15px;">
-                        <span style="color:#888; font-weight:800; font-size:14px; margin-right:10px;">+91</span>
-                        <input type="tel" id="auth-phone" placeholder="Phone Number (10 Digits)" inputmode="numeric" required style="background:transparent; border:none; color:#fff; font-size:14px; font-weight:500; outline:none; padding:16px 0; width:100%; font-family: 'Manrope', sans-serif;">
-                    </div>
-                    <button type="button" class="btn btn-primary" style="width:100%; font-size:14px; background:#fff; color:#000; padding: 18px;" id="btn-send-otp" onclick="sendOtp()">Send OTP</button>
+            <form id="auth-form" onsubmit="submitAuth(event)">
+                <input type="text" id="auth-name" class="m-input" placeholder="Full Name" style="display:none;">
+                
+                <div style="display:flex; align-items:center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; margin-bottom: 15px; padding:0 15px;">
+                    <span style="color:#888; font-weight:800; font-size:14px; margin-right:10px;">+91</span>
+                    <input type="tel" id="auth-phone" placeholder="Phone Number (10 Digits)" inputmode="numeric" required style="background:transparent; border:none; color:#fff; font-size:14px; font-weight:500; outline:none; padding:16px 0; width:100%; font-family: 'Manrope', sans-serif;">
                 </div>
                 
-                <div id="auth-step-2" style="display:none;">
-                    <p style="font-size:12px; color:var(--success); margin-bottom:15px; font-weight:700; text-align:center;">✓ Secure OTP Generated</p>
-                    <input type="text" id="auth-otp" class="m-input" placeholder="Enter 6-Digit OTP" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" style="text-align:center; letter-spacing:4px; font-weight:800; font-size:18px;">
-                    <button type="button" class="btn btn-primary" style="width:100%; font-size:14px; background:var(--accent); color:#fff; padding: 18px; border:none;" id="btn-verify-otp" onclick="verifyOtp()">Verify & Sign In</button>
-                    <div style="text-align:center;">
-                        <button type="button" style="background:none; border:none; color:#888; font-size:11px; margin-top:15px; text-decoration:underline; cursor:pointer;" onclick="resetAuth()">Change Number</button>
-                    </div>
-                </div>
+                <input type="password" id="auth-password" class="m-input" placeholder="Password" required>
+                
+                <button type="submit" class="btn btn-primary" style="width:100%; font-size:14px; background:#fff; color:#000; padding: 18px; margin-top: 10px;" id="auth-btn">Sign In to Dashboard</button>
             </form>
             
             <div id="auth-error" style="color:var(--danger); background: rgba(239,68,68,0.1); border: 1px solid var(--danger); border-radius: 8px; padding: 12px; font-size:12px; font-weight: 600; margin-top:15px; text-align:center; display:none;"></div>
@@ -530,7 +515,7 @@
     </div>
 
     <div id="payment-modal-overlay" class="modal-overlay">
-        <div class="payment-modal" style="background:#0a0a0a; border:1px solid #333; text-align:center; padding: 35px; border-radius:24px; max-width:400px; position:relative;">
+        <div class="payment-modal">
             <button class="m-close" onclick="closePaymentModal()" style="position:absolute; top:20px; right:25px; background:none; border:none; color:#888; font-size:28px; cursor:pointer;">×</button>
             <div style="margin-bottom: 20px;">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" style="margin-bottom:10px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
@@ -545,9 +530,9 @@
                     🚀 Pay via UPI App
                 </a>
                 
-                <div id="qr-box-container">
+                <div id="qr-box-container" style="display:block;">
                     <p style="color: var(--text-dim); font-size: 13px; line-height: 1.5; margin-bottom: 10px;">Scan QR with any UPI App:</p>
-                    <div class="qr-box" style="background: #fff; border: 1px solid #e5e7eb; padding: 20px; border-radius: 16px; margin: 0 auto 20px; display: inline-block;">
+                    <div class="qr-box">
                         <img id="upi-qr" src="" alt="UPI QR Code" style="width: 200px; height: 200px;">
                     </div>
                 </div>
@@ -576,7 +561,7 @@
                 <div class="scan-instruction" id="scan-instruction">Center mould in view & tap Capture</div>
             </div>
             
-            <div class="scanner-controls">
+            <div class="scanner-controls" style="padding:25px; background:#fafafa; display:flex; flex-direction:column; align-items:center; gap:15px; border-top:1px solid #ccc;">
                 <button id="btn-capture" class="btn btn-primary" style="width:100%; background:#111; color:#fff; font-size:14px; padding: 20px;" onclick="captureScanFrame()">Capture & Map Bounds</button>
                 
                 <div id="scan-actions" style="display:none; width:100%; flex-direction:column; gap:15px;">
@@ -591,8 +576,8 @@
                         Enter the real-world length of the <span style="color:#ef4444; text-decoration:underline;">RED TOP EDGE</span>:
                     </p>
                     <div class="scan-inputs">
-                        <input type="number" id="scan-line-length" placeholder="Length (e.g. 15)">
-                        <select id="scan-unit">
+                        <input type="number" id="scan-line-length" placeholder="Length (e.g. 15)" style="flex:1; border:2px solid #aaa; padding:14px; font-size:16px; font-weight:800; border-radius:12px; outline:none; background:#fff; color:#000; width:100%;">
+                        <select id="scan-unit" style="width:90px; border:2px solid #aaa; padding:14px; font-size:14px; font-weight:800; border-radius:12px; outline:none; background:#fff; color:#000; cursor:pointer; width:100%;">
                             <option value="cm">cm</option>
                             <option value="mm">mm</option>
                             <option value="in">inch</option>
@@ -612,19 +597,20 @@
             
             <input type="text" id="rv-name" class="m-input" placeholder="Your Name">
             
-            <div class="rm-star-select" id="rv-stars">
-                <svg data-val="1" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg data-val="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg data-val="3" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg data-val="4" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg data-val="5" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <div style="display:flex; gap:10px; margin-bottom:20px; justify-content:center; cursor:pointer;" id="rv-stars">
+                <svg data-val="1" viewBox="0 0 24 24" style="width:32px; height:32px; fill:transparent; stroke:#f59e0b; stroke-width:2;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg data-val="2" viewBox="0 0 24 24" style="width:32px; height:32px; fill:transparent; stroke:#f59e0b; stroke-width:2;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg data-val="3" viewBox="0 0 24 24" style="width:32px; height:32px; fill:transparent; stroke:#f59e0b; stroke-width:2;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg data-val="4" viewBox="0 0 24 24" style="width:32px; height:32px; fill:transparent; stroke:#f59e0b; stroke-width:2;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg data-val="5" viewBox="0 0 24 24" style="width:32px; height:32px; fill:transparent; stroke:#f59e0b; stroke-width:2;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
             
-            <textarea id="rv-text" class="m-input" placeholder="How was the clarity, bubble release, or curing time?"></textarea>
+            <textarea id="rv-text" class="m-input" placeholder="How was the clarity, bubble release, or curing time?" style="resize:vertical; min-height:100px;"></textarea>
             
             <button class="btn btn-primary" style="width:100%; font-size:13px;" onclick="submitReview()">Post Review</button>
         </div>
     </div>
+
 
     <div class="bg-layer"></div>
     <div class="bg-gradient"></div>
@@ -1032,32 +1018,32 @@
         </div>
     </section>
 
-    <footer class="footer" style="color: #000;">
+    <footer class="footer" style="background: #ffffff; color: #000000; border-top: 1px solid #e5e7eb;">
         <div class="footer-content">
             <div class="f-top-grid">
                 <div>
-                    <div class="f-vision-title" style="color: #000; font-weight: 800;">The Vision</div>
-                    <div class="f-vision-text" style="color: #333;">
+                    <div class="f-vision-title" style="color: var(--accent); font-weight:800; font-size:12px; text-transform:uppercase; letter-spacing:2px; margin-bottom:20px;">The Vision</div>
+                    <div class="f-vision-text" style="color: #000000;">
                         "We refused to accept that Indian artists deserved anything less than the <span style="font-weight: 800; color: #000;">world's best</span>. Bridging the gap between foreign precision and Indian artistry."
                     </div>
-                    <div class="f-founders">
+                    <div class="f-founders" style="margin-top: 40px; display: flex; align-items: center; gap: 20px;">
                         <div>
-                            <div class="f-signature" style="color: #000;">Mukul Saharawat</div>
-                            <span class="f-role" style="color: #666;">Founder</span>
+                            <div class="f-signature" style="color: #000000; font-weight:800; padding-left:20px; border-left:3px solid #000; font-family:'Space Grotesk', sans-serif;">Mukul Saharawat</div>
+                            <span class="f-role" style="color: #555555; display:block; font-size:11px; text-transform:uppercase; margin-top:4px; font-weight:800; padding-left:20px;">Founder</span>
                         </div>
                         <div>
-                            <div class="f-signature" style="color: #000;">Mahima Pandey</div>
-                            <span class="f-role" style="color: #666;">Co-Founder</span>
+                            <div class="f-signature" style="color: #000000; font-weight:800; padding-left:20px; border-left:3px solid #000; font-family:'Space Grotesk', sans-serif;">Mahima Pandey</div>
+                            <span class="f-role" style="color: #555555; display:block; font-size:11px; text-transform:uppercase; margin-top:4px; font-weight:800; padding-left:20px;">Co-Founder</span>
                         </div>
                     </div>
                 </div>
                 
                 <div>
-                    <div class="f-vision-title" style="color: #000; font-weight: 800;">Origin & Quality</div>
-                    <div class="f-badges">
-                        <div class="f-badge" style="color: #333; border: 1px solid #ccc;">✦ Imported Ingredients</div>
-                        <div class="f-badge" style="color: #333; border: 1px solid #ccc;">🇮🇳 Engineered in India</div>
-                        <div class="f-badge" style="color: #333; border: 1px solid #ccc;">💎 Crystal Series</div>
+                    <div class="f-vision-title" style="color: var(--accent); font-weight:800; font-size:12px; text-transform:uppercase; letter-spacing:2px; margin-bottom:20px;">Origin & Quality</div>
+                    <div class="f-badges" style="display:flex; gap:15px; flex-wrap:wrap;">
+                        <div class="f-badge" style="color: #000000; border: 1px solid #ccc; padding:12px 24px; border-radius:50px; font-size:12px; font-weight:800;">✦ Imported Ingredients</div>
+                        <div class="f-badge" style="color: #000000; border: 1px solid #ccc; padding:12px 24px; border-radius:50px; font-size:12px; font-weight:800;">🇮🇳 Engineered in India</div>
+                        <div class="f-badge" style="color: #000000; border: 1px solid #ccc; padding:12px 24px; border-radius:50px; font-size:12px; font-weight:800;">💎 Crystal Series</div>
                     </div>
                     
                     <div style="margin-top:40px;">
@@ -1067,13 +1053,14 @@
             </div>
 
             <div class="f-bottom-row" style="border-top: 1px solid #ccc;">
-                <div class="f-nav">
-                    <a href="#shop" class="f-nav-link" style="color: #333;">Order Now</a>
-                    <a href="#shop" class="f-nav-link" style="color: #333;">Shop</a>
-                    <a href="#calc" class="f-nav-link" style="color: #333;">Calculator</a>
-                    <a href="#" class="f-nav-link" style="color: #333;">Contact</a>
+                <div class="f-nav" style="display:flex; gap:30px;">
+                    <a href="#shop" class="f-nav-link" style="color: #333; font-weight:800; font-size:13px; text-transform:uppercase;">Order Now</a>
+                    <a href="#shop" class="f-nav-link" style="color: #333; font-weight:800; font-size:13px; text-transform:uppercase;">Shop</a>
+                    <a href="#calc" class="f-nav-link" style="color: #333; font-weight:800; font-size:13px; text-transform:uppercase;">Calculator</a>
+                    <a href="#" class="f-nav-link" style="color: #333; font-weight:800; font-size:13px; text-transform:uppercase;">Contact</a>
                 </div>
-                <div class="f-copy" onclick="triggerAdmin()" style="color: #333; cursor: pointer; padding: 10px; margin: -10px;">
+                
+                <div class="f-copy" onclick="triggerAdmin()" style="color: #555555; cursor: pointer; padding: 10px; margin: -10px; font-weight:800; position:relative; z-index:10;">
                     © 2026 M-X Lumes. Engineered in Meerut.
                 </div>
             </div>
@@ -1123,94 +1110,24 @@
                     <span id="cartTotal" style="color:#fff;">₹0</span>
                 </div>
                 
-                <button class="checkout-btn" onclick="initiateCheckout()" style="width:100%; padding: 18px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; cursor: pointer; border: none; background: #fff; color: #000; margin-top: 10px;">
+                <button class="checkout-btn" onclick="initiateCheckout()" style="width: 100%; background: #fff; color: #000; padding: 20px; border-radius: 12px; font-size: 14px; font-weight: 800; border: none; cursor: pointer; text-transform: uppercase;">
                     Proceed to Secure Checkout
                 </button>
             </div>
         </div>
     </div>
 
-    <style id="admin-styles">
-        #supreme-admin-portal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 100000; display: none; overflow-y: auto; font-family: 'Manrope', sans-serif; color: #fff; -webkit-overflow-scrolling: touch;}
-        #supreme-admin-portal .admin-sidebar { width: 280px; background: #0a0a0a; border-right: 1px solid rgba(255,255,255,0.1); padding: 30px 20px; display: flex; flex-direction: column; position: fixed; height: 100vh; left: 0; top: 0;}
-        #supreme-admin-portal .admin-main { margin-left: 280px; padding: 40px 50px; min-height: 100vh; }
-        #supreme-admin-portal .admin-stat-card { background: #0a0a0a; border: 1px solid rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; }
-        #supreme-admin-portal table { width: 100%; border-collapse: collapse; min-width: 800px;}
-        #supreme-admin-portal th { text-align: left; padding: 20px; font-size: 11px; text-transform: uppercase; color: #888; border-bottom: 1px solid rgba(255,255,255,0.1); background: #050505; }
-        #supreme-admin-portal td { padding: 20px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
-        #supreme-admin-portal .export-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 20px; border-radius: 12px; font-size: 13px; font-weight: 800; cursor: pointer; transition: 0.2s; display:inline-flex; align-items:center; gap:8px;}
-        #supreme-admin-portal .export-btn:hover { background: #fff; color: #000; }
-        #supreme-admin-portal .btn-delete { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); padding:6px 10px; border-radius:8px; cursor:pointer;}
-        #supreme-admin-portal .btn-delete:hover { background: #ef4444; color: #fff; }
-        @media (max-width: 900px) {
-            #supreme-admin-portal .admin-sidebar { position:relative; width:100%; height:auto; border-right:none; border-bottom:1px solid #333;}
-            #supreme-admin-portal .admin-main { margin-left:0; padding:20px;}
-        }
-    </style>
-
-    <div id="supreme-admin-portal">
-        <div id="admin-auth-gate" style="height:100vh; display:flex; justify-content:center; align-items:center;">
-            <div style="background: #0a0a0a; border: 1px solid rgba(255,255,255,0.1); padding: 50px; border-radius: 24px; text-align: center; width: 100%; max-width: 400px; box-shadow: 0 30px 60px rgba(0,0,0,0.8);">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" style="margin-bottom:20px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                <h2 style="font-family:'Space Grotesk', sans-serif; margin-bottom: 5px;">M-X Command</h2>
-                <p style="color:#888; font-size:13px; margin-bottom:20px;">Restricted Administrative Access</p>
-                <input type="password" id="master-key" placeholder="Enter Master Key" onkeypress="if(event.key==='Enter') unlockDashboard()" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:15px; border-radius:12px; text-align:center; outline:none; font-family:'Manrope', sans-serif; -webkit-appearance: none;">
-                <button onclick="unlockDashboard()" style="width:100%; background:#fff; color:#000; padding:15px; border-radius:30px; font-weight:800; text-transform:uppercase; margin-top:20px; border:none; cursor:pointer;">Decrypt Vault</button>
-                <button onclick="closeAdminPortal()" style="width:100%; background:transparent; color:#888; padding:15px; font-size:12px; margin-top:10px; border:none; cursor:pointer;">Cancel</button>
-                <p id="admin-auth-err" style="color:#ef4444; font-size:12px; margin-top:15px; display:none;"></p>
-            </div>
-        </div>
-
-        <div id="admin-main-view" style="display:none; height:100%;">
-            <div class="admin-sidebar">
-                <div style="font-family:'Space Grotesk', sans-serif; font-size:24px; font-weight:800; margin-bottom:40px;">M-X LUMES.</div>
-                <div class="admin-nav-item active" style="margin-bottom:15px; cursor:pointer; color:#fff;" onclick="adminSwitchTab('orders')">Orders</div>
-                <div class="admin-nav-item" style="margin-bottom:15px; cursor:pointer; color:#888;" onclick="adminSwitchTab('users')">Customers</div>
-                <div style="flex:1;"></div>
-                <div class="admin-nav-item" onclick="lockVault()" style="color:#ef4444; cursor:pointer; font-weight:800;">Lock Vault</div>
-            </div>
-            <div class="admin-main">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
-                    <h1 style="font-family:'Space Grotesk', sans-serif; font-size:32px;">Command Center</h1>
-                    <button class="export-btn" onclick="fetchAdminData()">⟳ Sync Data</button>
-                </div>
-                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px; margin-bottom:30px;">
-                    <div class="admin-stat-card"><div style="color:#888; font-size:11px; text-transform:uppercase; font-weight:800;">Verified Revenue</div><div id="stat-revenue" style="font-size:36px; font-weight:800; color:#10b981;">₹0</div></div>
-                    <div class="admin-stat-card"><div style="color:#888; font-size:11px; text-transform:uppercase; font-weight:800;">Total Orders</div><div id="stat-orders" style="font-size:36px; font-weight:800;">0</div></div>
-                    <div class="admin-stat-card"><div style="color:#888; font-size:11px; text-transform:uppercase; font-weight:800;">Clients</div><div id="stat-users" style="font-size:36px; font-weight:800;">0</div></div>
-                </div>
-
-                <div class="admin-data-panel" id="admin-panel-orders">
-                    <div style="margin-bottom:20px;"><button class="export-btn" onclick="exportOrdersCSV()">Download Order CSV</button></div>
-                    <div style="background:#0a0a0a; border:1px solid #333; border-radius:16px; overflow-x:auto;">
-                        <table>
-                            <thead><tr style="background:#000;"><th>Order / Location</th><th>Customer</th><th>Amount</th><th>Status & Action</th></tr></thead>
-                            <tbody id="admin-orders-tbody"></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="admin-data-panel" id="admin-panel-users" style="display:none;">
-                    <div style="margin-bottom:20px;"><button class="export-btn" onclick="exportUsersPDF()">Download Customer PDF</button></div>
-                    <div style="background:#0a0a0a; border:1px solid #333; border-radius:16px; overflow-x:auto;">
-                        <table>
-                            <thead><tr style="background:#000;"><th>Name</th><th>Phone</th><th>Joined Date</th><th>Action</th></tr></thead>
-                            <tbody id="admin-users-tbody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="admin-edit-modal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:100001; display:none; justify-content:center; align-items:center;">
-            <div style="background:#111; padding:30px; border-radius:20px; border:1px solid #333; width:100%; max-width:400px;">
-                <h3 id="admin-edit-title" style="margin-bottom:20px;">Edit</h3>
-                <div id="admin-edit-fields"></div>
-                <div style="display:flex; gap:10px; margin-top:20px;">
-                    <button style="flex:1; padding:12px; border-radius:8px; border:1px solid #555; background:transparent; color:#fff; cursor:pointer;" onclick="document.getElementById('admin-edit-modal').style.display='none'">Cancel</button>
-                    <button id="admin-edit-save" style="flex:1; padding:12px; border-radius:8px; border:none; background:#6366f1; color:#fff; cursor:pointer; font-weight:800;">Save</button>
-                </div>
-            </div>
+    <div id="supreme-admin-overlay" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.95); z-index:100000; justify-content:center; align-items:center;">
+        <div style="background:#0a0a0a; border:1px solid rgba(255,255,255,0.1); padding:50px; border-radius:24px; text-align:center; width:100%; max-width:400px; box-shadow:0 30px 60px rgba(0,0,0,0.8);">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" style="margin-bottom:20px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <h2 style="font-family:'Space Grotesk', sans-serif; margin-bottom: 5px; color:#fff;">M-X Command</h2>
+            <p style="color:#888; font-size:13px; margin-bottom:20px;">Restricted Administrative Access</p>
+            
+            <input type="password" id="master-key-input" placeholder="Enter Master Key" onkeypress="if(event.key==='Enter') executeAdminRedirect()" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:15px; border-radius:12px; text-align:center; outline:none; font-family:'Manrope', sans-serif; margin-bottom:15px;">
+            
+            <button onclick="executeAdminRedirect()" style="width:100%; background:#fff; color:#000; padding:15px; border-radius:30px; font-weight:800; text-transform:uppercase; border:none; cursor:pointer;">Verify & Enter</button>
+            <button onclick="document.getElementById('supreme-admin-overlay').style.display='none'" style="width:100%; background:transparent; color:#888; padding:15px; font-size:12px; margin-top:10px; border:none; cursor:pointer;">Cancel</button>
+            <p id="admin-auth-err" style="color:#ef4444; font-size:12px; margin-top:15px; display:none;"></p>
         </div>
     </div>
 
@@ -1308,9 +1225,9 @@
                 document.getElementById('auth-step-1').style.display = 'none';
                 document.getElementById('auth-step-2').style.display = 'block';
                 
-                // ADVANCED SIMULATION: Silent auto-fill to prevent iOS Safari from freezing
+                // NATIVE BANNER SIMULATION: Silent auto-fill to bypass iOS Alert Block
                 if(data._testOtp) {
-                    showToast(`Secure OTP: ${data._testOtp} Auto-Filled!`);
+                    showToast(`💬 Secure OTP: ${data._testOtp} Auto-Filled!`);
                     document.getElementById('auth-otp').value = data._testOtp;
                 }
                 
@@ -1353,6 +1270,9 @@
             }
         }
 
+        // =========================================
+        // 3. PROFILE & INVOICES
+        // =========================================
         async function openProfileModal() {
             document.getElementById('profile-modal-overlay').classList.add('active');
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
@@ -1486,7 +1406,7 @@
         function closeAuthModal() { document.getElementById('auth-modal-overlay').classList.remove('active'); }
         
         // =========================================
-        // 3. CART & CLOUD SYNC LOGIC
+        // 4. CART & CLOUD SYNC LOGIC
         // =========================================
         function updateReminder() {
             const reminder = document.getElementById('cartReminder');
@@ -1554,7 +1474,7 @@
         function showToast(msg) { const t = document.getElementById('toast'); t.innerHTML = '✓ ' + msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
 
         // =========================================
-        // 4. CHECKOUT (DEEP LINKING & NO FAKE LOADING)
+        // 5. CHECKOUT (DEEP LINKING & NO FAKE LOADING)
         // =========================================
         function initiateCheckout() {
             if (cart.length === 0) return alert('Your cart is empty!');
@@ -1583,7 +1503,7 @@
 
             const btn = document.getElementById('pay-confirm-btn');
             
-            // Instantly hide buttons and show confirmation box
+            // Instantly hide buttons and show confirmation box (No Spinners)
             btn.style.display = 'none';
             if(document.getElementById('mobile-pay-btn')) document.getElementById('mobile-pay-btn').style.display = 'none';
             if(document.querySelector('.qr-box-container')) document.querySelector('.qr-box-container').style.display = 'none';
@@ -1632,7 +1552,7 @@
         }
 
         // =========================================
-        // 5. CORE UI SCROLLING
+        // 6. CORE UI SCROLLING
         // =========================================
         let tickingScroll = false;
         window.addEventListener('scroll', () => { 
@@ -1643,7 +1563,7 @@
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
         // =========================================
-        // 6. TITAN FUSION CALCULATOR LOGIC
+        // 7. TITAN FUSION CALCULATOR LOGIC
         // =========================================
         let appState = { unit: 'cm', shape: 'rect', ratioA: 3, ratioB: 1, mode: 'cast', scannedArea: 0 };
         function setUnit(u) {
@@ -1711,7 +1631,7 @@
         }
 
         // =========================================
-        // 7. SMART SCANNER WITH PERSPECTIVE MATH
+        // 8. SMART SCANNER WITH PERSPECTIVE MATH
         // =========================================
         let camStream = null; let polyNodes = []; let draggingNode = null;
         async function openScanner() {
@@ -1760,7 +1680,7 @@
         }
 
         // =========================================
-        // 8. CALCULATOR ENGINE
+        // 9. CALCULATOR ENGINE
         // =========================================
         function runCalc() {
             let h = parseFloat(document.getElementById('input-D').value) || 0; let factor = appState.unit === 'in' ? 2.54 : 1; let h_cm = h * factor; let vol = 0;
@@ -1791,7 +1711,7 @@
         }
 
         // =========================================
-        // 9. LIVE REVIEWS
+        // 10. LIVE REVIEWS
         // =========================================
         const initialReviews = [ { name: "Sneha Sharma", text: "Absolutely flawless for Varmala preservation. Diamond clear and absolutely no micro-bubbles.", stars: 5 }, { name: "Rahul Verma", text: "The 120-minute pot life is a lifesaver for complex geode pours. Gives me ample time to mix pigments.", stars: 5 }, { name: "Ananya Patel", text: "I was skeptical about the 85 Shore D hardness, but my coasters are practically scratch-proof.", stars: 5 }, { name: "Vikram Singh", text: "Zero VOCs means no headaches! I can finally work in my indoor studio without the strong chemical smell.", stars: 4 }, { name: "Divya Iyer", text: "Best 3:1 epoxy in India hands down. Auto-degassing actually works—I didn't even need my heat gun.", stars: 5 } ];
         let selectedStars = 5;
@@ -1817,7 +1737,7 @@
         }
 
         // =========================================
-        // 10. VIJETA AI ASSISTANT
+        // 11. VIJETA AI ASSISTANT
         // =========================================
         function toggleVijeta() {
             document.getElementById('vGreeting').classList.remove('show'); document.getElementById('vijetaPanel').classList.toggle('active');
@@ -1836,181 +1756,26 @@
         function renderBotMessage(text) { const chatBox = document.getElementById('vChatBox'); let formattedText = text.replace(/\n/g, '<br>'); chatBox.innerHTML += `<div class="msg bot" style="white-space: pre-wrap; line-height: 1.5;">${formattedText}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
 
         // =========================================
-        // 11. SECRET ADMIN DASHBOARD LOGIC
+        // 12. SECRET ADMIN DASHBOARD REDIRECT
         // =========================================
         let adminClicks = 0;
         let adminTimer = null;
+        
         function triggerAdmin() {
             adminClicks++;
             clearTimeout(adminTimer);
-            adminTimer = setTimeout(() => { adminClicks = 0; }, 1000);
+            adminTimer = setTimeout(() => { adminClicks = 0; }, 1500); 
             if(adminClicks >= 3) {
-                document.getElementById('supreme-admin-portal').style.display = 'block';
                 adminClicks = 0;
-                if (sessionStorage.getItem('mxlumes_admin_key')) {
-                    document.getElementById('master-key').value = sessionStorage.getItem('mxlumes_admin_key');
-                    unlockDashboard();
-                }
+                document.getElementById('supreme-admin-overlay').style.display = 'flex';
             }
-        }
-        function closeAdminPortal() { document.getElementById('supreme-admin-portal').style.display = 'none'; }
-
-        let globalOrders = []; let globalUsers = [];
-
-        async function unlockDashboard() {
-            const input = document.getElementById('master-key').value;
-            if(!input) return;
-            document.getElementById('admin-auth-err').style.display = 'none';
-            document.getElementById('auth-gate').querySelector('button').innerText = "Decrypting...";
-            
-            try {
-                const orderRes = await fetch(`${RENDER_URL}/api/admin/orders`, { headers: { 'admin-secret-key': input } });
-                if (!orderRes.ok) throw new Error("Invalid Key");
-                globalOrders = await orderRes.json();
-                const userRes = await fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': input } });
-                globalUsers = await userRes.json();
-
-                sessionStorage.setItem('mxlumes_admin_key', input);
-                document.getElementById('admin-auth-gate').style.display = 'none';
-                document.getElementById('admin-main-view').style.display = 'flex';
-                populateAdminDashboard();
-            } catch (err) {
-                document.getElementById('admin-auth-err').innerText = err.message === "Failed to fetch" ? "Cannot connect to server. Is it online?" : "Access Denied. Incorrect Key.";
-                document.getElementById('admin-auth-err').style.display = 'block';
-                document.getElementById('auth-gate').querySelector('button').innerText = "Decrypt Vault";
-                sessionStorage.removeItem('mxlumes_admin_key');
-            }
-        }
-
-        function lockVault() {
-            sessionStorage.removeItem('mxlumes_admin_key'); document.getElementById('master-key').value = '';
-            document.getElementById('admin-auth-gate').style.display = 'flex'; document.getElementById('admin-main-view').style.display = 'none';
-            document.getElementById('auth-gate').querySelector('button').innerText = "Decrypt Vault"; closeAdminPortal();
-        }
-
-        async function fetchAdminData() {
-            const key = sessionStorage.getItem('mxlumes_admin_key'); if(!key) return;
-            const orderRes = await fetch(`${RENDER_URL}/api/admin/orders`, { headers: { 'admin-secret-key': key } }); globalOrders = await orderRes.json();
-            const userRes = await fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': key } }); globalUsers = await userRes.json();
-            populateAdminDashboard();
-        }
-
-        function populateAdminDashboard() {
-            let totalRev = 0;
-            globalOrders.forEach(o => { if (o.status !== 'Pending Verification') totalRev += o.totalAmount; });
-            document.getElementById('stat-revenue').innerText = '₹' + totalRev.toLocaleString();
-            document.getElementById('stat-orders').innerText = globalOrders.length; document.getElementById('stat-users').innerText = globalUsers.length;
-
-            const oBody = document.getElementById('admin-orders-tbody'); oBody.innerHTML = '';
-            if(globalOrders.length === 0) { oBody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888;">No orders found.</td></tr>'; } 
-            else {
-                globalOrders.forEach(o => {
-                    let userPhone = ''; let linkedUser = globalUsers.find(u => u.phone === o.customerContact); if(linkedUser && linkedUser.phone) userPhone = linkedUser.phone;
-                    let statusClass = 'Pending'; if(o.status.includes('Processing')) statusClass = 'Processing'; if(o.status.includes('Shipped')) statusClass = 'Shipped'; if(o.status.includes('Delivered')) statusClass = 'Delivered';
-                    let selectColor = o.status === 'Pending Verification' ? '#ef4444' : (o.status === 'Processing' ? '#6366f1' : '#10b981');
-                    
-                    oBody.innerHTML += `
-                        <tr style="border-bottom: 1px solid #333;">
-                            <td style="padding:15px; vertical-align:top;">
-                                <div style="font-family:'Space Grotesk', sans-serif; font-weight:800; color:#fff;">${o.orderId}</div>
-                                <div style="color:#888; font-size:11px; margin-top:4px;">${new Date(o.createdAt).toLocaleDateString()}</div>
-                                <div style="color:#888; font-size:11px; margin-top:4px;">Geo: ${o.location || 'Unknown'}</div>
-                            </td>
-                            <td style="padding:15px; vertical-align:top;">
-                                <div style="color:#fff; font-weight:700;">+91 ${o.customerContact}</div>
-                                ${userPhone ? `<a href="https://wa.me/91${userPhone}" target="_blank" style="color:var(--whatsapp); text-decoration:none; font-size:11px; display:inline-block; margin-top:5px; border:1px solid var(--whatsapp); padding:3px 6px; border-radius:4px;">WhatsApp Client</a>` : ''}
-                            </td>
-                            <td style="padding:15px; vertical-align:top; font-weight:800; color:var(--success);">₹${o.totalAmount.toLocaleString()}</td>
-                            <td style="padding:15px; vertical-align:top;">
-                                <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px;">
-                                    <select onchange="updateOrderStatus('${o.orderId}', this.value)" style="background:#000; color:${selectColor}; border:1px solid ${selectColor}; padding:6px; border-radius:6px; outline:none; font-size:11px; font-weight:800; cursor:pointer;">
-                                        <option value="Pending Verification" ${o.status === 'Pending Verification' ? 'selected' : ''}>Pending (Unpaid)</option>
-                                        <option value="Processing" ${o.status === 'Processing' ? 'selected' : ''}>Paid & Processing</option>
-                                        <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
-                                        <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
-                                    </select>
-                                    <button onclick="adminEditOrder('${o.orderId}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎ Edit</button>
-                                    <button onclick="adminDeleteOrder('${o.orderId}')" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕ Del</button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                });
-            }
-
-            const uBody = document.getElementById('admin-users-tbody'); uBody.innerHTML = '';
-            globalUsers.forEach(u => {
-                uBody.innerHTML += `
-                    <tr style="border-bottom: 1px solid #333;">
-                        <td style="padding:15px; font-weight:800; color:#fff;">${u.name}</td>
-                        <td style="padding:15px; color:#aaa;">+91 ${u.phone}</td>
-                        <td style="padding:15px; color:var(--text-dim);">${new Date(u.createdAt).toLocaleDateString()}</td>
-                        <td style="padding:15px; display:flex; gap:5px;">
-                            <button onclick="adminEditUser('${u._id}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎</button>
-                            <button onclick="adminDeleteUser('${u.phone}')" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕</button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        function adminSwitchTab(tabId, el) {
-            document.querySelectorAll('.admin-nav-item').forEach(t => t.classList.remove('active')); el.classList.add('active');
-            document.querySelectorAll('.admin-data-panel').forEach(p => p.style.display = 'none'); document.getElementById('admin-panel-' + tabId).style.display = 'block';
-        }
-
-        async function updateOrderStatus(orderId, newStatus) {
-            const key = sessionStorage.getItem('mxlumes_admin_key');
-            try { await fetch(`${RENDER_URL}/api/admin/orders/status`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ orderId, status: newStatus }) }); fetchAdminData(); } catch (e) { alert("Failed to update status."); }
-        }
-
-        async function adminDeleteOrder(id) {
-            if(!confirm(`Delete order ${id}?`)) return;
-            const key = sessionStorage.getItem('mxlumes_admin_key'); await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { method: 'DELETE', headers: { 'admin-secret-key': key } }); fetchAdminData();
-        }
-        async function adminDeleteUser(phone) {
-            if(!confirm(`Delete user ${phone}?`)) return;
-            const key = sessionStorage.getItem('mxlumes_admin_key'); await fetch(`${RENDER_URL}/api/admin/users/${phone}`, { method: 'DELETE', headers: { 'admin-secret-key': key } }); fetchAdminData();
         }
         
-        function adminEditOrder(id) {
-            const order = globalOrders.find(o => o.orderId === id); if(!order) return;
-            document.getElementById('admin-edit-title').innerText = `Edit Order: ${id}`;
-            document.getElementById('admin-edit-fields').innerHTML = `<label style="font-size:12px; color:#888;">Total (₹)</label><input type="number" id="ae-amt" value="${order.totalAmount}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"><label style="font-size:12px; color:#888;">Phone</label><input type="text" id="ae-phone" value="${order.customerContact}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px;">`;
-            document.getElementById('admin-edit-modal').style.display = 'flex';
-            document.getElementById('admin-edit-save').onclick = async () => {
-                const key = sessionStorage.getItem('mxlumes_admin_key');
-                await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ totalAmount: document.getElementById('ae-amt').value, customerContact: document.getElementById('ae-phone').value }) });
-                document.getElementById('admin-edit-modal').style.display = 'none'; fetchAdminData();
-            };
-        }
-        function adminEditUser(id) {
-            const user = globalUsers.find(u => u._id === id); if(!user) return;
-            document.getElementById('admin-edit-title').innerText = `Edit User`;
-            document.getElementById('admin-edit-fields').innerHTML = `<label style="font-size:12px; color:#888;">Name</label><input type="text" id="ae-u-name" value="${user.name}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"><label style="font-size:12px; color:#888;">Phone</label><input type="text" id="ae-u-phone" value="${user.phone || ''}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px;">`;
-            document.getElementById('admin-edit-modal').style.display = 'flex';
-            document.getElementById('admin-edit-save').onclick = async () => {
-                const key = sessionStorage.getItem('mxlumes_admin_key');
-                await fetch(`${RENDER_URL}/api/admin/users/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ name: document.getElementById('ae-u-name').value, phone: document.getElementById('ae-u-phone').value }) });
-                document.getElementById('admin-edit-modal').style.display = 'none'; fetchAdminData();
-            };
-        }
-
-        function exportOrdersCSV() {
-            if(globalOrders.length === 0) return alert("No orders.");
-            let csvContent = "data:text/csv;charset=utf-8,Order ID,Date,Phone,Location,Amount,Status\n";
-            globalOrders.forEach(o => { csvContent += `${o.orderId},${new Date(o.createdAt).toLocaleDateString()},${o.customerContact},"${o.location || ''}",${o.totalAmount},${o.status}\n`; });
-            const encodedUri = encodeURI(csvContent); const link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", `mxlumes_orders.csv`);
-            document.body.appendChild(link); link.click(); document.body.removeChild(link);
-        }
-        
-        function exportUsersPDF() {
-            if(globalUsers.length === 0) return alert("No users to export!");
-            const printWindow = window.open('', '_blank');
-            let html = `<html><head><title>M-X Lumes Customer Database</title><style>body { font-family: 'Helvetica', sans-serif; padding: 40px; color: #111; } .header { border-bottom: 2px solid #111; padding-bottom: 20px; margin-bottom: 30px; } h2 { margin: 0 0 10px 0; font-size: 24px; } table { width: 100%; border-collapse: collapse; font-size: 13px; } th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; } th { background: #f9f9f9; text-transform: uppercase; font-size: 11px; color: #555; } </style></head><body><div class="header"><h2>Client Database Report</h2><p style="margin:0; color:#555;">Generated on: ${new Date().toLocaleDateString()}</p></div><table><tr><th>Name</th><th>Phone</th><th>Joined Date</th></tr>`;
-            globalUsers.forEach(u => { html += `<tr><td><b>${u.name}</b></td><td>+91 ${u.phone}</td><td>${new Date(u.createdAt).toLocaleDateString()}</td></tr>`; });
-            html += `</table></body></html>`;
-            printWindow.document.write(html); printWindow.document.close(); printWindow.focus(); setTimeout(() => { printWindow.print(); }, 500);
+        function executeAdminRedirect() {
+            const key = document.getElementById('master-key-input').value;
+            if(!key) return;
+            sessionStorage.setItem('mxlumes_admin_key', key);
+            window.location.href = "dashboard.html";
         }
     </script>
 </body>
