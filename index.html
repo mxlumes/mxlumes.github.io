@@ -369,15 +369,20 @@
         .cart-sidebar.active .cart-overlay { opacity: 1; }
         .cart-sidebar.active .cart-inner { transform: translate3d(0, 0, 0); }
         
+        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; flex-shrink: 0;}
+        #cartItems { flex: 1; overflow-y: auto; padding-right: 5px; }
+
         .cart-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; animation: slideInRight 0.4s var(--ease-spring) forwards; }
         @keyframes slideInRight { from { opacity: 0; transform: translate3d(30px,0,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
         
         .qty-control { display: flex; align-items: center; background: #000; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
         .qty-btn { width: 34px; height: 34px; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 14px; font-weight: 800; cursor: pointer; transition: background 0.2s; }
         .qty-btn:hover { background: rgba(255,255,255,0.15); }
+        .qty-btn:active { background: rgba(255,255,255,0.3); }
         .qty-val { width: 24px; text-align: center; font-size: 12px; font-weight: 800; color: #fff; }
         
-        .checkout-btn { width: 100%; padding: 16px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer; border: none; background: #fff; color: #000; }
+        .cart-summary { margin-top:20px; border-top:1px solid var(--border); padding-top:20px; flex-shrink: 0; }
+        .checkout-btn { width: 100%; background: #fff; color: #000; padding: 18px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer; border: none; margin-top: 10px; }
         .checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2); }
 
         /* =========================================
@@ -429,6 +434,8 @@
             .specs-layout, .gallery-masonry, .zenith-calc, .dos-donts, .refine-grid { grid-template-columns: 1fr; }
             .gallery-masonry { column-count: 2; column-gap: 10px; }
             
+            .cart-inner { padding: 25px 25px calc(25px + env(safe-area-inset-bottom)); max-width: 100%; }
+            
             .z-controls, .z-display { padding: 30px; }
             .comp-table { width: 100%; table-layout: fixed; min-width: auto; }
             .comp-cell, .comp-table th { white-space: normal; font-size: 10px; padding: 10px 4px; line-height: 1.3; word-wrap: break-word; }
@@ -445,28 +452,26 @@
 </head>
 <body>
 
-    <div id="auth-modal-overlay" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); z-index:4000; justify-content:center; align-items:center; padding:20px; opacity:0; transition:opacity 0.3s; -webkit-overflow-scrolling: touch;">
-        <div class="modal-content" style="background:#0a0a0a; border:1px solid rgba(255,255,255,0.1); border-radius:24px; width:100%; max-width:400px; padding:35px; position:relative; transform:scale(0.95); transition:transform 0.3s; box-shadow:0 25px 50px rgba(0,0,0,0.8);">
-            <button class="m-close" onclick="closeAuthModal()" style="position:absolute; top:20px; right:25px; background:none; border:none; color:#888; font-size:28px; cursor:pointer;">×</button>
+    <div id="auth-modal-overlay" class="modal-overlay">
+        <div class="modal-content" style="padding: 40px;">
+            <button class="m-close" onclick="closeAuthModal()">×</button>
             <div style="text-align:center; margin-bottom: 30px;">
                 <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 5px;">M-X LUMES</h3>
-                <p style="color: #9ca3af; font-size: 13px; font-weight: 500;">Premium Access Portal</p>
+                <p style="color: var(--text-muted); font-size: 13px; font-weight: 500;">Premium Access Portal</p>
             </div>
             
-            <div style="display:flex; justify-content: center; gap:30px; margin-bottom:25px; border-bottom:2px solid #222; padding-bottom:10px;">
-                <span id="tab-login" style="font-size:15px; font-weight: 800; cursor:pointer; color:#fff; transition: color 0.2s;" onclick="switchAuthTab('login')">Sign In</span>
-                <span id="tab-signup" style="font-size:15px; font-weight: 800; cursor:pointer; color:#555; transition: color 0.2s;" onclick="switchAuthTab('signup')">Create Account</span>
+            <div style="display:flex; position: relative; background: rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 25px; padding: 5px;">
+                <div id="auth-slider" style="position: absolute; top: 5px; left: 5px; width: calc(50% - 5px); height: calc(100% - 10px); background: #fff; border-radius: 8px; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);"></div>
+                <button type="button" id="tab-login" style="flex: 1; padding: 12px; font-size: 14px; font-weight: 800; position: relative; z-index: 2; transition: color 0.3s; background: none; border: none; cursor: pointer; color: #000;" onclick="switchAuthTab('login')">Sign In</button>
+                <button type="button" id="tab-signup" style="flex: 1; padding: 12px; font-size: 14px; font-weight: 800; position: relative; z-index: 2; transition: color 0.3s; background: none; border: none; cursor: pointer; color: #888;" onclick="switchAuthTab('signup')">Create Account</button>
             </div>
             
             <form id="auth-form" onsubmit="submitAuth(event)">
-                <div id="auth-name-wrapper" style="overflow: hidden; max-height: 0; transition: max-height 0.3s ease;">
-                    <input type="text" id="auth-name" placeholder="Full Name" autocomplete="name" style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:16px; border-radius:12px; color:#fff; font-size:16px; font-weight:500; outline:none; font-family:'Manrope', sans-serif; -webkit-appearance: none; margin-bottom:15px;">
+                <div id="name-group" style="display:none; transition: all 0.3s; opacity: 0; transform: translateY(-10px);">
+                    <input type="text" id="auth-name" placeholder="Full Name" autocomplete="name" style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:16px; border-radius:12px; color:#fff; font-size:16px; font-weight:500; margin-bottom:15px; outline:none; font-family:'Manrope', sans-serif; -webkit-appearance: none;">
                 </div>
                 
-                <div style="display:flex; align-items:center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; margin-bottom: 15px; padding:0 15px;">
-                    <span style="color:#888; font-weight:800; font-size:16px; margin-right:10px;">+91</span>
-                    <input type="tel" id="auth-phone" placeholder="Phone Number" autocomplete="tel" inputmode="numeric" pattern="[0-9]*" maxlength="10" required style="background:transparent; border:none; color:#fff; font-size:16px; font-weight:500; outline:none; padding:16px 0; width:100%; font-family: 'Manrope', sans-serif; -webkit-appearance:none; border-radius:0;">
-                </div>
+                <input type="email" id="auth-email" placeholder="Email Address" autocomplete="email" required style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:16px; border-radius:12px; color:#fff; font-size:16px; font-weight:500; outline:none; font-family:'Manrope', sans-serif; -webkit-appearance: none; margin-bottom: 15px;">
 
                 <div style="position: relative; margin-bottom: 25px;">
                     <input type="password" id="auth-password" placeholder="Secure Password" autocomplete="current-password" required style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:16px; padding-right: 50px; border-radius:12px; color:#fff; font-size:16px; font-weight:500; outline:none; font-family:'Manrope', sans-serif; -webkit-appearance: none;">
@@ -477,38 +482,69 @@
                     <span id="auth-btn-text">Sign In Securely</span>
                     <div id="auth-spinner" style="display:none; width: 16px; height: 16px; border: 2px solid rgba(0,0,0,0.2); border-top-color: #000; border-radius: 50%; animation: authSpin 1s linear infinite;"></div>
                 </button>
+                <style>@keyframes authSpin { to { transform: rotate(360deg); } }</style>
             </form>
             
             <div id="auth-error" style="color:#ef4444; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 12px; font-size:12px; font-weight: 600; margin-top:15px; text-align:center; display:none;"></div>
-            <style>@keyframes authSpin { to { transform: rotate(360deg); } }</style>
         </div>
     </div>
 
-    <div id="profile-modal-overlay" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); z-index:4000; justify-content:center; align-items:center; padding:20px; opacity:0; transition:opacity 0.3s; -webkit-overflow-scrolling: touch;">
-        <div class="modal-content" style="background:#0a0a0a; border:1px solid rgba(255,255,255,0.1); border-radius:24px; width:100%; max-width:600px; padding:35px; position:relative; transform:scale(0.95); transition:transform 0.3s; box-shadow:0 25px 50px rgba(0,0,0,0.8); max-height:90vh; overflow-y:auto;">
-            <button class="m-close" onclick="closeProfileModal()" style="position:absolute; top:20px; right:25px; background:none; border:none; color:#888; font-size:28px; cursor:pointer;">×</button>
-            <div class="profile-header" style="text-align:center; margin-bottom:25px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:20px;">
+    <div id="profile-modal-overlay" class="modal-overlay">
+        <div class="modal-content" style="max-width: 600px;">
+            <button class="m-close" onclick="closeProfileModal()">×</button>
+            <div class="profile-header">
                 <div style="width: 60px; height: 60px; background: #fff; color: #000; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px;">M</div>
                 <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;" id="prof-name">Artist Name</h3>
-                <p style="color: #9ca3af; font-size: 13px; font-weight: 500;" id="prof-phone">+91 XXXXX XXXXX</p>
-                <button class="btn btn-outline" style="margin-top:15px; border:1px solid #333; background:rgba(255,255,255,0.02); color:#fff; padding: 8px 16px; border-radius:60px; font-size: 10px; cursor:pointer;" onclick="logout(event)">Sign Out</button>
+                <p style="color: var(--text-dim); font-size: 13px; font-weight: 500;" id="prof-email">artist@email.com</p>
+                <button class="btn btn-outline" style="margin-top:15px; border-color:#333; color:#fff; padding: 8px 16px; font-size: 10px;" onclick="logout(event)">Sign Out</button>
             </div>
             
-            <h4 style="color:#fff; font-weight:800; margin-bottom:15px; font-family:'Space Grotesk', sans-serif;">Order History</h4>
+            <h4 style="color:#fff; font-weight:800; margin-bottom:15px;">Order History</h4>
             <div style="max-height: 400px; overflow-y: auto; background:#050505; border-radius:12px; border:1px solid #333; padding:10px;">
-                <table style="width:100%; border-collapse:collapse; font-size:13px; color:#ccc;">
+                <table class="prof-orders">
                     <thead>
                         <tr>
-                            <th style="text-align:left; padding:10px 5px; border-bottom:2px solid #333; color:#888;">Order ID</th>
-                            <th style="text-align:left; padding:10px 5px; border-bottom:2px solid #333; color:#888;">Date</th>
-                            <th style="text-align:left; padding:10px 5px; border-bottom:2px solid #333; color:#888;">Total</th>
-                            <th style="text-align:left; padding:10px 5px; border-bottom:2px solid #333; color:#888;">Status</th>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Invoice / Status</th>
                         </tr>
                     </thead>
                     <tbody id="prof-orders-tbody">
-                        <tr><td colspan="4" style="text-align:center; padding:15px 5px;">Loading orders...</td></tr>
+                        <tr><td colspan="4" style="text-align:center; color:#888;">Loading orders...</td></tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="payment-modal-overlay" class="modal-overlay">
+        <div class="payment-modal">
+            <button class="m-close" onclick="closePaymentModal()" style="position:absolute; top:20px; right:25px; background:none; border:none; color:#888; font-size:28px; cursor:pointer;">×</button>
+            <div style="margin-bottom: 20px;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" style="margin-bottom:10px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 5px;">M-X SecurePay</h3>
+                <p style="color: var(--text-dim); font-size: 13px;">100% Secure Encrypted Checkout</p>
+            </div>
+            
+            <div style="font-size: 36px; font-weight: 800; color: #fff; font-family:'Space Grotesk', sans-serif; margin-bottom: 20px;" id="payment-total">₹0</div>
+            
+            <div id="payment-actions-container">
+                <a id="mobile-pay-btn" href="#" style="display:none; width: 100%; background: #111; color: #fff; padding: 18px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 14px; margin-bottom: 15px; text-decoration: none; border: 1px solid #333;">
+                    🚀 Pay via UPI App
+                </a>
+                
+                <div id="qr-box-container" style="display:block;">
+                    <p style="color: var(--text-dim); font-size: 13px; line-height: 1.5; margin-bottom: 10px;">Scan QR with any UPI App:</p>
+                    <div class="qr-box" style="background: #fff; border: 1px solid #e5e7eb; padding: 20px; border-radius: 16px; margin: 0 auto 20px; display: inline-block;">
+                        <img id="upi-qr" src="" alt="UPI QR Code" style="width: 200px; height: 200px; display:block;">
+                    </div>
+                </div>
+                
+                <button id="pay-confirm-btn" style="width:100%; background:var(--accent); color:#fff; border:none; margin-bottom: 10px; padding:20px; font-size:14px; border-radius:12px; font-weight:800; text-transform:uppercase; cursor:pointer;" onclick="finalizeOrder()">
+                    ✓ I Have Completed The Payment
+                </button>
+                <p style="font-size: 10px; color: var(--text-dim); line-height: 1.4;" id="pay-disclaimer">By confirming, you agree that you have transferred the exact amount shown above.</p>
             </div>
         </div>
     </div>
@@ -1033,9 +1069,6 @@
     </div>
 
     <script>
-        // =========================================
-        // 1. GLOBAL VARS & CONFIG
-        // =========================================
         const RENDER_URL = 'https://mxlumes-api.onrender.com';
         const MERCHANT_UPI_ID = "7668077298@ybl"; 
         
@@ -1050,7 +1083,6 @@
             checkAuthStatus(); 
             runCalc(); 
 
-            // Get User Location silently for the order ledger
             fetch('https://ipapi.co/json/').then(r=>r.json()).then(data => { userLocation = data.city + ", " + data.region; }).catch(e => {});
 
             setTimeout(() => {
@@ -1063,9 +1095,7 @@
             }, 2000);
         };
 
-        // =========================================
-        // 2. ULTRA-FAST PHONE + PASSWORD AUTHENTICATION
-        // =========================================
+        // EMAIL & PASSWORD AUTH LOGIC
         function checkAuthStatus() {
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
             const token = localStorage.getItem('mxlumes_token');
@@ -1085,23 +1115,29 @@
             currentAuthMode = mode;
             document.getElementById('auth-error').style.display = 'none';
             
-            const nameGroup = document.getElementById('auth-name-wrapper');
+            const nameGroup = document.getElementById('name-group');
             const nameInput = document.getElementById('auth-name');
             const btnText = document.getElementById('auth-btn-text');
             const tabLogin = document.getElementById('tab-login');
             const tabSignup = document.getElementById('tab-signup');
+            const slider = document.getElementById('auth-slider');
             
             if (mode === 'signup') {
-                nameGroup.style.maxHeight = '100px'; 
+                nameGroup.style.display = 'block';
+                setTimeout(() => { nameGroup.style.opacity = '1'; nameGroup.style.transform = 'translateY(0)'; }, 10);
                 nameInput.required = true;
-                tabSignup.style.color = '#fff';
-                tabLogin.style.color = '#555';
+                tabSignup.style.color = '#000';
+                tabLogin.style.color = '#888';
+                slider.style.transform = 'translateX(100%)';
                 btnText.innerText = "Create Account";
             } else {
-                nameGroup.style.maxHeight = '0';
+                nameGroup.style.opacity = '0';
+                nameGroup.style.transform = 'translateY(-10px)';
+                setTimeout(() => { nameGroup.style.display = 'none'; }, 300);
                 nameInput.required = false;
-                tabLogin.style.color = '#fff';
-                tabSignup.style.color = '#555';
+                tabLogin.style.color = '#000';
+                tabSignup.style.color = '#888';
+                slider.style.transform = 'translateX(0)';
                 btnText.innerText = "Sign In Securely";
             }
         }
@@ -1115,18 +1151,17 @@
 
         async function submitAuth(e) {
             e.preventDefault();
-            if(isAuthenticating) return; // Prevent double click bugs
+            if(isAuthenticating) return; 
 
-            const phone = document.getElementById('auth-phone').value.trim();
+            const email = document.getElementById('auth-email').value.trim();
             const password = document.getElementById('auth-password').value;
             const name = document.getElementById('auth-name').value.trim();
             const errorDiv = document.getElementById('auth-error');
             
             errorDiv.style.display = 'none';
 
-            // Fast client-side validation
-            if(!/^\d{10}$/.test(phone)) {
-                showAuthError("Please enter a valid 10-digit phone number.");
+            if(!email.includes('@')) {
+                showAuthError("Please enter a valid email.");
                 return;
             }
             if(password.length < 6) {
@@ -1147,12 +1182,9 @@
             btnText.innerText = "Authenticating...";
             spinner.style.display = "block";
 
-            // Mitigate Render.com free tier cold start delay
-            const wakeTimer = setTimeout(() => {
-                btnText.innerText = "Securing connection...";
-            }, 3000);
+            const wakeTimer = setTimeout(() => { btnText.innerText = "Securing connection..."; }, 3000);
 
-            const payload = { phone, password };
+            const payload = { email, password };
             if (currentAuthMode === 'signup') payload.name = name;
 
             try {
@@ -1209,16 +1241,14 @@
             btnText.innerText = currentAuthMode === 'signup' ? "Create Account" : "Sign In Securely";
         }
 
-        // =========================================
-        // 3. PROFILE & INVOICES
-        // =========================================
+        // PROFILE & INVOICES
         async function openProfileModal() {
             document.getElementById('profile-modal-overlay').classList.add('active');
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
             if(!user) return;
             
             document.getElementById('prof-name').innerText = user.name;
-            document.getElementById('prof-phone').innerText = "+91 " + user.phone;
+            document.getElementById('prof-phone').innerText = user.email; // Displays email now
             
             const tbody = document.getElementById('prof-orders-tbody');
             tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888; padding:15px;">Loading orders...</td></tr>';
@@ -1227,7 +1257,7 @@
                 const res = await fetch(`${RENDER_URL}/api/user/orders`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ phone: user.phone })
+                    body: JSON.stringify({ email: user.email })
                 });
                 const orders = await res.json();
                 tbody.innerHTML = '';
@@ -1306,7 +1336,7 @@
                     <div class="details-grid">
                         <div>
                             <div style="text-transform:uppercase; font-size:10px; color:#888; margin-bottom:5px;">Billed To</div>
-                            <strong>${user.name}</strong><br>+91 ${user.phone}
+                            <strong>${user.name}</strong><br>${user.email}
                         </div>
                         <div>
                             <div style="text-transform:uppercase; font-size:10px; color:#888; margin-bottom:5px;">Order Details</div>
@@ -1344,9 +1374,7 @@
         function openAuthModal() { document.getElementById('auth-modal-overlay').classList.add('active'); switchAuthTab('login'); }
         function closeAuthModal() { document.getElementById('auth-modal-overlay').classList.remove('active'); resetAuthUI(); }
         
-        // =========================================
-        // 4. CART & CLOUD SYNC LOGIC
-        // =========================================
+        // CART & CLOUD SYNC
         function updateReminder() {
             const reminder = document.getElementById('cartReminder');
             const sidebar = document.getElementById('cartSidebar');
@@ -1358,7 +1386,7 @@
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
             if (!user) return;
             try {
-                const response = await fetch(`${RENDER_URL}/api/user/sync-cart`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone: user.phone, cartData }) });
+                const response = await fetch(`${RENDER_URL}/api/user/sync-cart`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: user.email, cartData }) });
                 const data = await response.json();
                 if (!cartData && data.cart && data.cart.length > 0) { cart = data.cart; renderCart(); }
             } catch (e) {}
@@ -1412,9 +1440,7 @@
         function toggleCart() { document.getElementById('cartSidebar').classList.toggle('active'); updateReminder(); }
         function showToast(msg) { const t = document.getElementById('toast'); t.innerHTML = '✓ ' + msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
 
-        // =========================================
-        // 5. CHECKOUT (DEEP LINKING & NO FAKE LOADING)
-        // =========================================
+        // CHECKOUT
         function initiateCheckout() {
             if (cart.length === 0) return alert('Your cart is empty!');
             
@@ -1438,11 +1464,10 @@
 
         async function finalizeOrder() {
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
-            const payload = { phone: user.phone, items: cart, totalAmount: checkoutTotal, location: userLocation };
+            const payload = { email: user.email, items: cart, totalAmount: checkoutTotal, location: userLocation };
 
             const btn = document.getElementById('pay-confirm-btn');
             
-            // Instantly hide buttons and show confirmation box
             btn.style.display = 'none';
             if(document.getElementById('mobile-pay-btn')) document.getElementById('mobile-pay-btn').style.display = 'none';
             if(document.getElementById('qr-box-container')) document.getElementById('qr-box-container').style.display = 'none';
@@ -1466,12 +1491,10 @@
                 
                 cart = []; renderCart(); syncCartWithCloud([]); 
                 
-                // Let user read message for 4 seconds before redirecting
                 setTimeout(() => {
                     closePaymentModal(); 
                     window.location.href = `https://wa.me/917668077298?text=${msg}`;
                     
-                    // Reset modal
                     if(document.getElementById('trust-msg-block')) document.getElementById('trust-msg-block').remove();
                     btn.style.display = 'block';
                     if(document.getElementById('mobile-pay-btn')) document.getElementById('mobile-pay-btn').style.display = '';
@@ -1491,20 +1514,7 @@
             }
         }
 
-        // =========================================
-        // 6. CORE UI SCROLLING
-        // =========================================
-        let tickingScroll = false;
-        window.addEventListener('scroll', () => { 
-            if (!tickingScroll) { window.requestAnimationFrame(() => { document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50); tickingScroll = false; }); tickingScroll = true; }
-        }, {passive: true});
-        function smoothScroll(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
-        const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if(entry.isIntersecting) { entry.target.classList.add('active'); } }); }, {threshold: 0.1});
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // =========================================
-        // 7. TITAN FUSION CALCULATOR LOGIC
-        // =========================================
+        // CALCULATOR LOGIC
         let appState = { unit: 'cm', shape: 'rect', ratioA: 3, ratioB: 1, mode: 'cast', scannedArea: 0 };
         function setUnit(u) {
             if(appState.unit !== u) {
@@ -1570,9 +1580,7 @@
             setTimeout(() => { btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg> Auto-Detect Conditions'; status.style.display = 'none'; }, 3000);
         }
 
-        // =========================================
-        // 8. SMART SCANNER WITH PERSPECTIVE MATH
-        // =========================================
+        // SCANNER
         let camStream = null; let polyNodes = []; let draggingNode = null;
         async function openScanner() {
             setShape('scan'); const overlay = document.getElementById('smart-scanner'); overlay.style.display = 'flex'; setTimeout(()=> overlay.classList.add('active'), 10); 
@@ -1619,9 +1627,6 @@
             appState.scannedArea = areaCm2; document.getElementById('scan-area-display').innerText = areaCm2.toFixed(1) + ' cm²'; closeScanner(); runCalc();
         }
 
-        // =========================================
-        // 9. CALCULATOR ENGINE
-        // =========================================
         function runCalc() {
             let h = parseFloat(document.getElementById('input-D').value) || 0; let factor = appState.unit === 'in' ? 2.54 : 1; let h_cm = h * factor; let vol = 0;
             if (appState.shape === 'rect') vol = ((parseFloat(document.getElementById('input-L').value)||0) * factor) * ((parseFloat(document.getElementById('input-W').value)||0) * factor) * h_cm;
@@ -1650,9 +1655,7 @@
             else { sStatus.innerText = "ALERT"; sStatus.style.color = "var(--danger)"; sCard.className = "safety-report danger"; }
         }
 
-        // =========================================
-        // 10. LIVE REVIEWS
-        // =========================================
+        // REVIEWS
         const initialReviews = [ { name: "Sneha Sharma", text: "Absolutely flawless for Varmala preservation. Diamond clear and absolutely no micro-bubbles.", stars: 5 }, { name: "Rahul Verma", text: "The 120-minute pot life is a lifesaver for complex geode pours. Gives me ample time to mix pigments.", stars: 5 }, { name: "Ananya Patel", text: "I was skeptical about the 85 Shore D hardness, but my coasters are practically scratch-proof.", stars: 5 }, { name: "Vikram Singh", text: "Zero VOCs means no headaches! I can finally work in my indoor studio without the strong chemical smell.", stars: 4 }, { name: "Divya Iyer", text: "Best 3:1 epoxy in India hands down. Auto-degassing actually works—I didn't even need my heat gun.", stars: 5 } ];
         let selectedStars = 5;
         function renderReviews() {
@@ -1676,9 +1679,7 @@
             document.getElementById('rv-name').value = ''; document.getElementById('rv-text').value = ''; closeReviewModal(); renderReviews(); showToast("Review published!");
         }
 
-        // =========================================
-        // 11. VIJETA AI ASSISTANT
-        // =========================================
+        // VIJETA AI
         function toggleVijeta() {
             document.getElementById('vGreeting').classList.remove('show'); document.getElementById('vijetaPanel').classList.toggle('active');
             if(document.getElementById('vChatBox').innerHTML === "") { renderBotMessage("Namaste! 🙏 I am Vijeta, your official M-X Lumes AI Expert. I can diagnose pouring issues, explain our chemical science, and assist with your resin art. How can I help you today?"); }
@@ -1695,27 +1696,17 @@
         function renderUserMessage(text) { const chatBox = document.getElementById('vChatBox'); chatBox.innerHTML += `<div class="msg user">${text}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
         function renderBotMessage(text) { const chatBox = document.getElementById('vChatBox'); let formattedText = text.replace(/\n/g, '<br>'); chatBox.innerHTML += `<div class="msg bot" style="white-space: pre-wrap; line-height: 1.5;">${formattedText}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
 
-        // =========================================
-        // 12. SECRET ADMIN DASHBOARD REDIRECT
-        // =========================================
+        // ADMIN REDIRECT
         let adminClicks = 0;
         let adminTimer = null;
-        
         function triggerAdmin() {
             adminClicks++;
             clearTimeout(adminTimer);
             adminTimer = setTimeout(() => { adminClicks = 0; }, 1500); 
             if(adminClicks >= 3) {
                 adminClicks = 0;
-                document.getElementById('supreme-admin-overlay').style.display = 'flex';
+                window.location.href = "dashboard.html";
             }
-        }
-        
-        function executeAdminRedirect() {
-            const key = document.getElementById('master-key-input').value;
-            if(!key) return;
-            sessionStorage.setItem('mxlumes_admin_key', key);
-            window.location.href = "dashboard.html";
         }
     </script>
 </body>
