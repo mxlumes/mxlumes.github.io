@@ -273,7 +273,6 @@
         }
 
         function populateDashboard(filter = 'All', searchTxt = '') {
-            // ONLY count revenue for verified orders
             let totalRev = 0;
             globalOrders.forEach(o => {
                 if (o.status !== 'Pending Verification') totalRev += o.totalAmount;
@@ -391,42 +390,72 @@
             if(!confirm(`WARNING: Permanently delete order ${orderId}?`)) return;
             const key = sessionStorage.getItem('mxlumes_admin_key');
             try {
-                await fetch(`${RENDER_URL}/api/admin/orders/${orderId}`, { method: 'DELETE', headers: { 'admin-secret-key': key } });
-                fetchData();
-            } catch (e) { alert("Failed to delete order."); }
+                const res = await fetch(`${RENDER_URL}/api/admin/orders/${orderId}`, { 
+                    method: 'DELETE', 
+                    headers: { 'admin-secret-key': key } 
+                });
+                
+                if (!res.ok) throw new Error(`Server returned ${res.status}`);
+                
+                await fetchData();
+                alert("Order deleted successfully.");
+            } catch (e) { 
+                console.error("Delete Order Error:", e);
+                alert("Failed to delete order. Check your console or backend logs."); 
+            }
         }
 
         async function deleteUser(email) {
             if(!confirm(`WARNING: Permanently delete account ${email}?`)) return;
             const key = sessionStorage.getItem('mxlumes_admin_key');
             try {
-                await fetch(`${RENDER_URL}/api/admin/users/${email}`, { method: 'DELETE', headers: { 'admin-secret-key': key } });
-                fetchData();
-            } catch (e) { alert("Failed to delete user."); }
+                const res = await fetch(`${RENDER_URL}/api/admin/users/${email}`, { 
+                    method: 'DELETE', 
+                    headers: { 'admin-secret-key': key } 
+                });
+                
+                if (!res.ok) throw new Error(`Server returned ${res.status}`);
+                
+                await fetchData();
+                alert("Client deleted successfully.");
+            } catch (e) { 
+                console.error("Delete User Error:", e);
+                alert("Failed to delete user. Check your console or backend logs."); 
+            }
         }
 
         // EDIT
-        function closeEditModal() { document.getElementById('edit-modal').classList.remove('active'); }
+        function closeEditModal() { 
+            document.getElementById('edit-modal').classList.remove('active'); 
+            document.getElementById('edit-save-btn').innerText = "Save Changes";
+        }
         
         function openEditOrder(orderId) {
-            const order = globalOrders.find(o => o.orderId === orderId);
-            if(!order) return;
+            const order = globalOrders.find(o => o.orderId === orderId || o._id === orderId || o.id === orderId);
+            
+            if(!order) {
+                alert(`Error: Could not find order ${orderId} in local memory!`);
+                return;
+            }
             
             document.getElementById('edit-title').innerText = `Edit Order: ${orderId}`;
             const fields = document.getElementById('edit-fields');
             fields.innerHTML = `
                 <label style="font-size:12px; color:#888;">Total Amount (₹)</label>
-                <input type="number" id="edit-amount" class="edit-input" value="${order.totalAmount}">
+                <input type="number" id="edit-amount" class="edit-input" value="${order.totalAmount || 0}">
                 <label style="font-size:12px; color:#888;">Customer Email</label>
-                <input type="text" id="edit-email" class="edit-input" value="${order.customerEmail}">
+                <input type="text" id="edit-email" class="edit-input" value="${order.customerEmail || ''}">
             `;
             
+            const oldBtn = document.getElementById('edit-save-btn');
+            oldBtn.replaceWith(oldBtn.cloneNode(true));
             const btn = document.getElementById('edit-save-btn');
+            
             btn.onclick = async () => {
                 const key = sessionStorage.getItem('mxlumes_admin_key');
                 btn.innerText = "Saving...";
                 try {
-                    await fetch(`${RENDER_URL}/api/admin/orders/${orderId}`, {
+                    const res = await fetch(`${RENDER_URL}/api/admin/orders/${orderId}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json', 'admin-secret-key': key },
                         body: JSON.stringify({ 
@@ -434,31 +463,46 @@
                             customerEmail: document.getElementById('edit-email').value
                         })
                     });
-                    closeEditModal(); fetchData();
-                } catch(e) { alert("Update failed."); }
+                    
+                    if (!res.ok) throw new Error("Server rejected the update.");
+                    
+                    closeEditModal(); 
+                    await fetchData();
+                } catch(e) { 
+                    console.error("Update Order Error:", e);
+                    alert("Update failed. The server did not accept the changes."); 
+                    btn.innerText = "Save Changes"; 
+                }
             };
             document.getElementById('edit-modal').classList.add('active');
         }
 
         function openEditUser(userId) {
-            const user = globalUsers.find(u => u._id === userId);
-            if(!user) return;
+            const user = globalUsers.find(u => u._id === userId || u.id === userId);
+            
+            if(!user) {
+                alert(`Error: Could not find user in local memory!`);
+                return; 
+            }
             
             document.getElementById('edit-title').innerText = `Edit User`;
             const fields = document.getElementById('edit-fields');
             fields.innerHTML = `
                 <label style="font-size:12px; color:#888;">Name</label>
-                <input type="text" id="edit-u-name" class="edit-input" value="${user.name}">
+                <input type="text" id="edit-u-name" class="edit-input" value="${user.name || ''}">
                 <label style="font-size:12px; color:#888;">Phone</label>
                 <input type="text" id="edit-u-phone" class="edit-input" value="${user.phone || ''}">
             `;
             
+            const oldBtn = document.getElementById('edit-save-btn');
+            oldBtn.replaceWith(oldBtn.cloneNode(true));
             const btn = document.getElementById('edit-save-btn');
+            
             btn.onclick = async () => {
                 const key = sessionStorage.getItem('mxlumes_admin_key');
                 btn.innerText = "Saving...";
                 try {
-                    await fetch(`${RENDER_URL}/api/admin/users/${userId}`, {
+                    const res = await fetch(`${RENDER_URL}/api/admin/users/${userId}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json', 'admin-secret-key': key },
                         body: JSON.stringify({ 
@@ -466,8 +510,16 @@
                             phone: document.getElementById('edit-u-phone').value
                         })
                     });
-                    closeEditModal(); fetchData();
-                } catch(e) { alert("Update failed."); }
+                    
+                    if (!res.ok) throw new Error("Server rejected the update.");
+                    
+                    closeEditModal(); 
+                    await fetchData();
+                } catch(e) { 
+                    console.error("Update User Error:", e);
+                    alert("Update failed. The server did not accept the changes."); 
+                    btn.innerText = "Save Changes";
+                }
             };
             document.getElementById('edit-modal').classList.add('active');
         }
