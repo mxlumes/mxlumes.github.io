@@ -68,6 +68,9 @@
         
         .wa-link { color: var(--whatsapp); background: rgba(37, 211, 102, 0.1); border: 1px solid rgba(37, 211, 102, 0.3); padding: 6px 12px; border-radius: 8px; text-decoration: none; font-weight: 800; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
         .wa-link:hover { background: var(--whatsapp); color: #000; }
+
+        .btn-delete { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 6px 10px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .btn-delete:hover { background: var(--danger); color: #fff; }
         
         .export-btn { background: transparent; border: 1px solid var(--border); color: #fff; padding: 10px 20px; border-radius: 12px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
         .export-btn:hover { background: #fff; color: #000; }
@@ -119,8 +122,8 @@
 
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-title">Total Revenue</div>
-                <div class="stat-val" id="stat-revenue">₹0</div>
+                <div class="stat-title">Verified Revenue</div>
+                <div class="stat-val" id="stat-revenue" style="color: var(--success);">₹0</div>
             </div>
             <div class="stat-card">
                 <div class="stat-title">Total Orders</div>
@@ -142,12 +145,8 @@
                 <div style="display:flex; gap:15px;">
                     <div class="search-box">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                        <input type="text" id="order-search" placeholder="Search Order ID or Email..." onkeyup="searchOrders()">
+                        <input type="text" id="order-search" placeholder="Search ID or Email..." onkeyup="searchOrders()">
                     </div>
-                    <button class="export-btn" onclick="exportOrdersCSV()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        Export CSV
-                    </button>
                 </div>
             </div>
 
@@ -157,14 +156,13 @@
                         <tr>
                             <th>Order Details</th>
                             <th>Customer & Location</th>
-                            <th>Payment Info</th>
                             <th>Items</th>
                             <th>Amount</th>
-                            <th>Status & Action</th>
+                            <th>Status & Control</th>
                         </tr>
                     </thead>
                     <tbody id="orders-tbody">
-                        <tr><td colspan="6" style="text-align:center; color:#888;">No data loaded.</td></tr>
+                        <tr><td colspan="5" style="text-align:center; color:#888;">No data loaded.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -173,6 +171,10 @@
         <div class="data-panel" id="panel-users">
             <div class="toolbar">
                 <h3 style="font-size:16px;">Client Database</h3>
+                <button class="export-btn" onclick="exportUsersPDF()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Download PDF Report
+                </button>
             </div>
             <div class="table-container">
                 <table>
@@ -182,6 +184,7 @@
                             <th>Email Address</th>
                             <th>WhatsApp</th>
                             <th>Joined Date</th>
+                            <th>Control</th>
                         </tr>
                     </thead>
                     <tbody id="users-tbody"></tbody>
@@ -249,8 +252,13 @@
         }
 
         function populateDashboard(filter = 'All', searchTxt = '') {
+            // ONLY count revenue for verified orders
             let totalRev = 0;
-            globalOrders.forEach(o => totalRev += o.totalAmount);
+            globalOrders.forEach(o => {
+                if (o.status !== 'Pending Verification') {
+                    totalRev += o.totalAmount;
+                }
+            });
             document.getElementById('stat-revenue').innerText = '₹' + totalRev.toLocaleString();
             document.getElementById('stat-orders').innerText = globalOrders.length;
             document.getElementById('stat-users').innerText = globalUsers.length;
@@ -260,14 +268,14 @@
             if(filter === 'Shipped') filteredOrders = globalOrders.filter(o => o.status.includes('Shipped'));
             if(searchTxt) {
                 const s = searchTxt.toLowerCase();
-                filteredOrders = filteredOrders.filter(o => o.orderId.toLowerCase().includes(s) || o.customerEmail.toLowerCase().includes(s) || (o.transactionId && o.transactionId.toLowerCase().includes(s)));
+                filteredOrders = filteredOrders.filter(o => o.orderId.toLowerCase().includes(s) || o.customerEmail.toLowerCase().includes(s));
             }
 
             const oBody = document.getElementById('orders-tbody');
             oBody.innerHTML = '';
             
             if(filteredOrders.length === 0) {
-                oBody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#888;">No orders found.</td></tr>';
+                oBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#888;">No orders found.</td></tr>';
             } else {
                 filteredOrders.forEach(o => {
                     let userPhone = '';
@@ -289,28 +297,27 @@
                             </td>
                             <td>
                                 <div style="color:#fff; font-weight:700;">${o.customerEmail}</div>
-                                <div style="font-size:11px; color:#888; margin-top:4px;">Geo: ${o.location || 'N/A'}</div>
-                            </td>
-                            <td>
-                                <div style="color:#fff; font-weight:700; font-size:12px;">${o.paymentMethod || 'Unknown App'}</div>
-                                <div style="font-size:11px; color:var(--success); font-family:monospace; margin-top:4px;">ID: ${o.transactionId || 'N/A'}</div>
+                                <div style="font-size:11px; color:#888; margin-top:4px;">Geo: ${o.location || 'Unknown'}</div>
                             </td>
                             <td class="item-list">${itemString}</td>
                             <td style="font-weight:800; color:var(--success);">₹${o.totalAmount.toLocaleString()}</td>
                             <td>
-                                <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-start;">
+                                <div style="display:flex; align-items:center; gap:8px;">
                                     <select class="status-select ${statusClass}" onchange="updateOrderStatus('${o.orderId}', this.value)">
-                                        <option value="Pending Verification" ${o.status === 'Pending Verification' ? 'selected' : ''}>Pending Verification</option>
-                                        <option value="Processing" ${o.status === 'Processing' ? 'selected' : ''}>Processing</option>
+                                        <option value="Pending Verification" ${o.status === 'Pending Verification' ? 'selected' : ''}>Pending (Unpaid)</option>
+                                        <option value="Processing" ${o.status === 'Processing' ? 'selected' : ''}>Paid & Processing</option>
                                         <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
                                         <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
                                     </select>
-                                    ${userPhone ? `
-                                        <a href="https://wa.me/91${userPhone}?text=Hi! Update regarding your M-X Lumes order ${o.orderId}:" target="_blank" class="wa-link">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/></svg> Notify User
-                                        </a>
-                                    ` : ''}
+                                    <button class="btn-delete" title="Delete Order" onclick="deleteOrder('${o.orderId}')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                    </button>
                                 </div>
+                                ${userPhone ? `
+                                    <a href="https://wa.me/91${userPhone}?text=Hi! Update regarding your M-X Lumes order ${o.orderId}:" target="_blank" class="wa-link" style="margin-top:8px;">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/></svg> Notify User
+                                    </a>
+                                ` : ''}
                             </td>
                         </tr>
                     `;
@@ -326,6 +333,11 @@
                         <td style="color:#aaa;">${u.email}</td>
                         <td>${u.phone ? `<a href="https://wa.me/91${u.phone}" target="_blank" class="wa-link">Message Client</a>` : '<span style="color:#555;">No Phone</span>'}</td>
                         <td style="color:var(--text-dim);">${new Date(u.createdAt).toLocaleDateString()}</td>
+                        <td>
+                            <button class="btn-delete" title="Delete User" onclick="deleteUser('${u.email}')">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                            </button>
+                        </td>
                     </tr>
                 `;
             });
@@ -343,6 +355,25 @@
                 if(order) order.status = newStatus;
                 populateDashboard(); 
             } catch (e) { alert("Failed to update status on server."); }
+        }
+
+        // SUPREME CONTROL LOGIC
+        async function deleteOrder(orderId) {
+            if(!confirm(`WARNING: Are you sure you want to permanently delete order ${orderId}? This cannot be undone.`)) return;
+            const key = sessionStorage.getItem('mxlumes_admin_key');
+            try {
+                await fetch(`${RENDER_URL}/api/admin/orders/${orderId}`, { method: 'DELETE', headers: { 'admin-secret-key': key } });
+                fetchData();
+            } catch (e) { alert("Failed to delete order."); }
+        }
+
+        async function deleteUser(email) {
+            if(!confirm(`WARNING: Are you sure you want to permanently delete the account for ${email}?`)) return;
+            const key = sessionStorage.getItem('mxlumes_admin_key');
+            try {
+                await fetch(`${RENDER_URL}/api/admin/users/${email}`, { method: 'DELETE', headers: { 'admin-secret-key': key } });
+                fetchData();
+            } catch (e) { alert("Failed to delete user."); }
         }
 
         function filterOrders(filterType, el) {
@@ -366,19 +397,36 @@
             document.getElementById('panel-' + tabId).classList.add('active');
         }
 
-        function exportOrdersCSV() {
-            if(globalOrders.length === 0) return alert("No orders to export!");
-            let csvContent = "data:text/csv;charset=utf-8,Order ID,Date,Email,Location,Method,Txn ID,Total Amount,Status,Items\n";
-            globalOrders.forEach(o => {
-                let date = new Date(o.createdAt).toLocaleDateString();
-                let itemsStr = o.items.map(i => `${i.qty}x ${i.name}`).join(' | ');
-                csvContent += `${o.orderId},${date},${o.customerEmail},"${o.location || ''}",${o.paymentMethod || ''},${o.transactionId || ''},${o.totalAmount},${o.status},"${itemsStr}"\n`;
+        // PDF EXPORT LOGIC
+        function exportUsersPDF() {
+            if(globalUsers.length === 0) return alert("No users to export!");
+            const printWindow = window.open('', '_blank');
+            let html = `
+                <html><head><title>M-X Lumes Customer Database</title>
+                <style>
+                    body { font-family: 'Helvetica', sans-serif; padding: 40px; color: #111; }
+                    .header { border-bottom: 2px solid #111; padding-bottom: 20px; margin-bottom: 30px; }
+                    h2 { margin: 0 0 10px 0; font-size: 24px; }
+                    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+                    th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+                    th { background: #f9f9f9; text-transform: uppercase; font-size: 11px; color: #555; }
+                </style>
+                </head><body>
+                    <div class="header">
+                        <h2>Client Database Report</h2>
+                        <p style="margin:0; color:#555;">Generated on: ${new Date().toLocaleDateString()}</p>
+                    </div>
+                    <table>
+                        <tr><th>Name</th><th>Email</th><th>Phone</th><th>Joined Date</th></tr>
+            `;
+            globalUsers.forEach(u => {
+                html += `<tr><td><b>${u.name}</b></td><td>${u.email}</td><td>${u.phone || 'N/A'}</td><td>${new Date(u.createdAt).toLocaleDateString()}</td></tr>`;
             });
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `mxlumes_orders_${new Date().toISOString().split('T')[0]}.csv`);
-            document.body.appendChild(link); link.click(); document.body.removeChild(link);
+            html += `</table></body></html>`;
+            printWindow.document.write(html);
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => { printWindow.print(); }, 500);
         }
     </script>
 </body>
