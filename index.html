@@ -554,7 +554,8 @@
             <form id="auth-form" onsubmit="submitAuth(event)">
                 <input type="text" id="auth-name" class="m-input" placeholder="Full Name" style="display:none;">
                 <input type="email" id="auth-email" class="m-input" placeholder="Email Address" required>
-                <input type="tel" id="auth-phone" class="m-input" placeholder="WhatsApp Number (Optional)" style="display:none;">
+                <input type="tel" id="auth-phone" class="m-input" placeholder="WhatsApp Number (For Delivery Tracking)" style="display:none;">
+                <textarea id="auth-address" class="m-input" placeholder="Complete Shipping Address (with Pincode)" style="display:none; height:100px;"></textarea>
                 <input type="password" id="auth-password" class="m-input" placeholder="Password" required>
                 
                 <button type="submit" class="btn btn-primary" style="width:100%; font-size:14px; margin-top:10px; background:#fff; color:#000; padding: 18px;" id="auth-btn">Sign In to Dashboard</button>
@@ -1006,6 +1007,11 @@
                         </ul>
                     </div>
 
+                    <div class="safety-report danger" id="auth-alert" style="display:none; border-left-color: var(--warning); background: rgba(245, 158, 11, 0.1);">
+                        <div class="sr-head" style="color:#000;">⚠️ Account Verification Required</div>
+                        <p style="font-size:12px; color:#333; margin-top:5px;">To ensure accurate shipping for M-X Lume resin orders, please update your WhatsApp number and Address during signup.</p>
+                    </div>
+
                     <div class="cost-card">
                         <div><div class="z-label" style="margin:0;">Cost (₹/kg)</div><input type="number" id="costInput" class="cost-inp" placeholder="1000" oninput="runCalc()"></div>
                         <div style="font-size:20px; font-weight:800; color: var(--text-dark);" id="est-cost">₹0</div>
@@ -1412,14 +1418,27 @@
             currentAuthMode = mode;
             document.getElementById('auth-error').style.display = 'none';
             const nameInp = document.getElementById('auth-name');
+            // START INJECTION: Get Phone and Address Inputs
+            const phoneInp = document.getElementById('auth-phone');
+            const addrInp = document.getElementById('auth-address');
+            // END INJECTION
             const btn = document.getElementById('auth-btn');
+            
             if (mode === 'signup') {
                 nameInp.style.display = 'block'; nameInp.required = true;
+                // START INJECTION: Show and Require Fields during Signup
+                phoneInp.style.display = 'block'; phoneInp.required = true;
+                addrInp.style.display = 'block'; addrInp.required = true;
+                // END INJECTION
                 btn.innerText = "Create Account";
                 document.getElementById('tab-signup').style.color = "#fff";
                 document.getElementById('tab-login').style.color = "#555";
             } else {
                 nameInp.style.display = 'none'; nameInp.required = false;
+                // START INJECTION: Hide Fields during Login
+                phoneInp.style.display = 'none'; phoneInp.required = false;
+                addrInp.style.display = 'none'; addrInp.required = false;
+                // END INJECTION
                 btn.innerText = "Sign In to Dashboard";
                 document.getElementById('tab-login').style.color = "#fff";
                 document.getElementById('tab-signup').style.color = "#555";
@@ -1435,7 +1454,17 @@
             
             if (currentAuthMode === 'signup') {
                 payload.name = document.getElementById('auth-name').value.trim();
-                if (!payload.name) { errorDiv.innerText = "Please enter your full name."; errorDiv.style.display = 'block'; btn.innerText = "Create Account"; return; }
+                // START INJECTION: Capture New Fields in Payload
+                payload.phone = document.getElementById('auth-phone').value.trim();
+                payload.address = document.getElementById('auth-address').value.trim();
+                
+                if (!payload.name || !payload.phone || !payload.address) { 
+                    errorDiv.innerText = "Please complete all fields for delivery verification."; 
+                    errorDiv.style.display = 'block'; 
+                    btn.innerText = "Create Account"; 
+                    return; 
+                }
+                // END INJECTION
             }
 
             try {
@@ -1816,7 +1845,7 @@
             const input = document.getElementById('master-key').value;
             if(!input) return;
             document.getElementById('admin-auth-err').style.display = 'none';
-            document.getElementById('auth-gate').querySelector('button').innerText = "Decrypting...";
+            document.getElementById('admin-auth-gate').querySelector('button').innerText = "Decrypting...";
             
             try {
                 const orderRes = await fetch(`${RENDER_URL}/api/admin/orders`, { headers: { 'admin-secret-key': input } });
@@ -1831,7 +1860,7 @@
                 populateAdminDashboard();
             } catch (err) {
                 document.getElementById('admin-auth-err').style.display = 'block';
-                document.getElementById('auth-gate').querySelector('button').innerText = "Decrypt Vault";
+                document.getElementById('admin-auth-gate').querySelector('button').innerText = "Decrypt Vault";
                 sessionStorage.removeItem('mxlumes_admin_key');
             }
         }
@@ -1839,7 +1868,7 @@
         function lockVault() {
             sessionStorage.removeItem('mxlumes_admin_key'); document.getElementById('master-key').value = '';
             document.getElementById('admin-auth-gate').style.display = 'flex'; document.getElementById('admin-main-view').style.display = 'none';
-            document.getElementById('auth-gate').querySelector('button').innerText = "Decrypt Vault"; closeAdminPortal();
+            document.getElementById('admin-auth-gate').querySelector('button').innerText = "Decrypt Vault"; closeAdminPortal();
         }
 
         async function fetchAdminData() {
@@ -1969,4 +1998,3 @@
     </script>
 </body>
 </html>
-
