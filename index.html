@@ -181,7 +181,6 @@
         .z-head-title { font-size: 16px; font-weight: 800; color: var(--text-dark); text-transform: uppercase; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; letter-spacing: 1px; }
         .z-head-title::after { content:''; flex:1; height:2px; background: #ccc; }
         
-        /* 🛡️ MOBILE FLEX WRAP FIX */
         .ratio-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
         .ratio-btn { flex: 1; min-width: 60px; padding: 14px; border: 2px solid #aaa; border-radius: 12px; font-size: 14px; font-weight: 800; color: #333; background: #fff; transition: all 0.3s; cursor: pointer; text-align: center; }
         @media (hover: hover) { .ratio-btn:hover { color: #000; border-color: #000; } }
@@ -205,7 +204,6 @@
         .z-slider { -webkit-appearance: none; width: 100%; height: 8px; background: #ccc; border-radius: 4px; outline: none; display: block; margin-top: 10px; }
         .z-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 34px; height: 34px; background: #000; border-radius: 50%; cursor: grab; transition: transform 0.2s var(--ease-spring); border: 4px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         
-        /* 🛡️ MOBILE FLEX WRAP FIX */
         .shape-grid { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px; padding-bottom: 15px; }
         
         .shape-btn { flex: 1; min-width: 90px; padding: 20px 15px; border: 2px solid #aaa; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: all 0.3s; background: rgba(255, 255, 255, 0.9); }
@@ -265,7 +263,6 @@
         /* =========================================
            9. THE ULTIMATE SMART SCANNER
            ========================================= */
-        /* 🛡️ 100DVH iOS Fix */
         .scanner-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh;
             background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
@@ -279,7 +276,6 @@
         .scanner-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; background: #fafafa; }
         .scanner-close { background: none; border: none; font-size: 28px; color: #666; cursor: pointer; line-height: 1; padding: 5px; }
         
-        /* 🛡️ TOUCH-ACTION NONE prevents pull-to-refresh on canvas */
         .scanner-view { position: relative; width: 100%; height: 450px; background: #000; overflow: hidden; touch-action: none; overscroll-behavior: none; }
         .scanner-view video { width: 100%; height: 100%; object-fit: cover; }
         .scanner-view canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 5; cursor: crosshair; touch-action: none; }
@@ -304,7 +300,6 @@
         .r-stars svg { width: 18px; height: 18px; fill: #f59e0b; }
         .r-count-text { font-size: 12px; color: var(--text-dim); font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
         
-        /* 🛡️ SMOOTH SCROLLING FOR NATIVE FEEL */
         .reviews-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 20px; padding-bottom: 20px; scrollbar-width: none; mask-image: linear-gradient(to right, black 90%, transparent 100%); -webkit-overflow-scrolling: touch; }
         .reviews-container::-webkit-scrollbar { display: none; }
         
@@ -319,7 +314,6 @@
         /* =========================================
            11. MODALS (AUTH, PROFILE, PAYMENT)
            ========================================= */
-        /* 🛡️ 100DVH iOS Fix */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh;
             background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
@@ -386,11 +380,9 @@
         .cart-reminder { position: fixed; bottom: 100px; right: 32px; font-size: 35px; z-index: 1999; opacity: 0; pointer-events: none; transform: translate3d(0, 20px, 0); transition: transform 0.5s var(--ease-spring), opacity 0.5s; animation: bounceHand 1s infinite alternate; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); }
         .cart-reminder.show { opacity: 1; transform: translate3d(0, 0, 0); }
         
-        /* 🛡️ 100DVH iOS Fix */
         .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; height: 100dvh; z-index: 3000; pointer-events: none; }
         .cart-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); opacity: 0; transition: opacity 0.5s var(--ease-fluid); cursor: pointer; }
         
-        /* Flexbox structure to ensure bottom button stays visible */
         .cart-inner { 
             position: absolute; right: 0; width: 100%; max-width: 420px; height: 100%; background: #050505; 
             border-left: 1px solid var(--border); transform: translate3d(100%, 0, 0); transition: transform 0.6s var(--ease-fluid); 
@@ -416,7 +408,6 @@
         
         .cart-summary { margin-top:20px; border-top:1px solid var(--border); padding-top:20px; flex-shrink: 0; }
         
-        /* HUGE CHECKOUT BUTTON */
         .checkout-btn { width: 100%; background: #fff; color: #000; padding: 20px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; display: flex; justify-content: center; align-items: center; cursor: pointer; border: none; margin-top: 10px; }
         @media (hover: hover) { .checkout-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2); } }
         .checkout-btn:active:not(:disabled) { transform: scale(0.98); }
@@ -501,7 +492,6 @@
             .specs-layout, .gallery-masonry, .zenith-calc, .dos-donts, .refine-grid { grid-template-columns: 1fr; }
             .gallery-masonry { column-count: 2; column-gap: 10px; }
             
-            /* 🛡️ CART SAFE AREA FOR SAFARI BOTTOM BAR */
             .cart-inner { padding: 25px 25px calc(25px + var(--safe-bottom, 20px)); max-width: 100%; }
             
             .z-controls, .z-display { padding: 30px; }
@@ -571,8 +561,8 @@
             <form id="auth-form" onsubmit="submitAuth(event)">
                 <input type="text" id="auth-name" class="m-input" placeholder="Full Name" autocomplete="name" style="display:none;">
                 <input type="email" id="auth-email" class="m-input" placeholder="Email Address" autocomplete="email" required>
-                <input type="tel" id="auth-phone" class="m-input" placeholder="WhatsApp Number (For Delivery Tracking)" autocomplete="tel" style="display:none;">
-                <textarea id="auth-address" class="m-input" placeholder="Complete Shipping Address (with Pincode)" autocomplete="street-address" style="display:none; height:100px;"></textarea>
+                <input type="tel" id="auth-phone" class="m-input" placeholder="WhatsApp Number" autocomplete="tel" style="display:none;">
+                <textarea id="auth-address" class="m-input" placeholder="Complete Shipping Address" autocomplete="street-address" style="display:none; height:100px;"></textarea>
                 <input type="password" id="auth-password" class="m-input" placeholder="Password" autocomplete="current-password" required>
                 
                 <button type="submit" class="btn btn-primary" style="width:100%; font-size:14px; margin-top:10px; background:#fff; color:#000; padding: 18px;" id="auth-btn">Sign In to Dashboard</button>
@@ -593,7 +583,7 @@
             
             <div style="font-size: 36px; font-weight: 800; color: #fff; font-family:'Space Grotesk', sans-serif; margin-bottom: 20px;" id="payment-total">₹0</div>
             
-            <a id="mobile-pay-btn" class="mobile-pay-btn" href="#" style="display:none;">
+            <a id="mobile-pay-btn" class="mobile-pay-btn" href="#" target="_top" rel="noopener noreferrer" style="display:none;">
                 🚀 Pay via UPI App
             </a>
             
@@ -1651,8 +1641,14 @@
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
             if (!user) { openAuthModal(); showToast("Please Sign In to complete your order", true); return; }
 
-            const upiString = `upi://pay?pa=${MERCHANT_UPI_ID}&pn=MXLumes&am=${checkoutTotal}&cu=INR`;
+            // 🛡️ MOBILE UPI FIX: Forced .00 decimal for PhonePe/GPay + Perfect URI encoding
+            const amountFixed = checkoutTotal.toFixed(2);
+            const payeeName = encodeURIComponent("M-X Lumes");
+            const upiString = `upi://pay?pa=${MERCHANT_UPI_ID}&pn=${payeeName}&am=${amountFixed}&cu=INR&tn=Resin%20Order`;
+            
             document.getElementById('upi-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiString)}`;
+            
+            // 🛡️ MOBILE SAFARI FIX: target="_top" allows Deep Link escape
             document.getElementById('mobile-pay-btn').href = upiString;
             document.getElementById('payment-total').innerText = `₹${checkoutTotal.toLocaleString()}`;
             
@@ -1661,10 +1657,22 @@
             document.body.style.overflow = 'hidden';
         }
 
+        // 🛡️ MODAL STATE RESET: Ensures UI is clean if user cancels or returns via Bfcache
         function closePaymentModal() { 
             blurInputs();
             document.getElementById('payment-modal-overlay').classList.remove('active'); 
             document.body.style.overflow = '';
+            
+            const btn = document.getElementById('pay-confirm-btn');
+            btn.style.display = 'block';
+            btn.disabled = false;
+            btn.innerText = "✓ I Have Completed The Payment";
+            btn.onclick = finalizeOrder; 
+            btn.style.background = "var(--accent)";
+            btn.style.color = "#fff";
+            
+            const trustMsg = document.getElementById('trust-msg-block');
+            if(trustMsg) trustMsg.remove();
         }
 
         async function finalizeOrder() {
@@ -1686,10 +1694,9 @@
                 const trustMsg = document.createElement('div');
                 trustMsg.id = "trust-msg-block";
                 trustMsg.innerHTML = `<div style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success); color: var(--success); padding: 15px; border-radius: 12px; font-size: 13px; line-height: 1.5; margin-bottom: 15px; font-weight: 700; text-align: left;">
-                    ✅ Your payment will be manually verified and updated within a few hours. If you successfully completed the payment, relax! Your order will be generated and shipped as it crosses our double-check to ignore fraud payment cases.
+                    ✅ Payment Logged! Your order <b>${escapeHTML(data.orderId)}</b> has been generated safely. Please send us your invoice receipt on WhatsApp to finalize dispatch.
                 </div>`;
                 btn.parentNode.insertBefore(trustMsg, btn);
-                btn.style.display = 'none';
 
                 let msg = `*NEW ORDER RECEIVED: ${data.orderId}*%0AHi M-X Lumes team,%0AI have transferred ₹${checkoutTotal.toLocaleString()} via UPI.%0A%0A`;
                 cart.forEach(i => { msg += `• ${i.name} x ${i.qty}%0A`; });
@@ -1697,14 +1704,15 @@
                 
                 cart = []; renderCart(); syncCartWithCloud([]); 
                 
-                setTimeout(() => {
-                    closePaymentModal(); 
+                // 🛡️ POPUP BLOCKER FIX: Requires manual tap to enter WhatsApp, preventing Safari rejection
+                btn.innerText = "Proceed to WhatsApp";
+                btn.style.background = "var(--whatsapp)";
+                btn.style.color = "#000";
+                btn.disabled = false;
+                btn.onclick = () => {
                     window.location.href = `https://wa.me/917668077298?text=${encodeURIComponent(msg)}`;
-                    if(document.getElementById('trust-msg-block')) document.getElementById('trust-msg-block').remove();
-                    btn.style.display = 'block';
-                    btn.innerText = "✓ I Have Completed The Payment";
-                    btn.disabled = false;
-                }, 5000); 
+                    closePaymentModal(); // Clean up state behind them
+                };
 
             } catch (error) { 
                 alert(error.message || "Issue logging order. Redirecting to WhatsApp for manual support."); 
@@ -2020,282 +2028,6 @@
         }
         
         function closeAdminPortal() { document.getElementById('supreme-admin-portal').style.display = 'none'; }
-        
-        let globalOrders = []; let globalUsers = [];
-
-        async function unlockDashboard() {
-            const input = document.getElementById('master-key').value;
-            if(!input) return;
-            
-            const btn = document.getElementById('admin-login-btn');
-            btn.disabled = true;
-            btn.innerText = "Decrypting...";
-            document.getElementById('admin-auth-err').style.display = 'none';
-            
-            try {
-                const [orderRes, userRes] = await Promise.all([
-                    fetch(`${RENDER_URL}/api/admin/orders`, { headers: { 'admin-secret-key': input } }),
-                    fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': input } })
-                ]);
-
-                if (!orderRes.ok || !userRes.ok) throw new Error("Invalid Key");
-                
-                globalOrders = await orderRes.json();
-                globalUsers = await userRes.json();
-
-                sessionStorage.setItem('mxlumes_admin_key', input);
-                document.getElementById('admin-auth-gate').style.display = 'none';
-                document.getElementById('admin-main-view').style.display = 'flex';
-                
-                populateAdminDashboard();
-            } catch (err) {
-                document.getElementById('admin-auth-err').style.display = 'block';
-                sessionStorage.removeItem('mxlumes_admin_key');
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "Decrypt Vault";
-            }
-        }
-
-        function lockVault() {
-            sessionStorage.removeItem('mxlumes_admin_key'); document.getElementById('master-key').value = '';
-            document.getElementById('admin-auth-gate').style.display = 'flex'; document.getElementById('admin-main-view').style.display = 'none';
-            closeAdminPortal();
-        }
-
-        async function fetchAdminData() {
-            const key = sessionStorage.getItem('mxlumes_admin_key'); if(!key) return;
-            const btn = document.getElementById('admin-sync-btn');
-            btn.disabled = true;
-            btn.innerText = "Syncing...";
-            try {
-                const [orderRes, userRes] = await Promise.all([
-                    fetch(`${RENDER_URL}/api/admin/orders`, { headers: { 'admin-secret-key': key } }),
-                    fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': key } })
-                ]);
-                globalOrders = await orderRes.json();
-                globalUsers = await userRes.json();
-                populateAdminDashboard();
-            } catch(e) {
-                console.error("Sync failed");
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "⟳ Sync Data";
-            }
-        }
-
-        function populateAdminDashboard() {
-            let totalRev = 0;
-            globalOrders.forEach(o => { if (o.status !== 'Pending Verification') totalRev += o.totalAmount; });
-            document.getElementById('stat-revenue').innerText = '₹' + totalRev.toLocaleString();
-            document.getElementById('stat-orders').innerText = globalOrders.length;
-            document.getElementById('stat-users').innerText = globalUsers.length;
-
-            const oBody = document.getElementById('admin-orders-tbody');
-            let oHtml = '';
-            
-            // Search implementation fallback protection
-            let searchFilter = document.getElementById('order-search') ? document.getElementById('order-search').value.toLowerCase() : '';
-            
-            let filteredOrders = globalOrders;
-            if(searchFilter) {
-                filteredOrders = filteredOrders.filter(o => 
-                    (o.orderId && o.orderId.toLowerCase().includes(searchFilter)) || 
-                    (o.customerEmail && o.customerEmail.toLowerCase().includes(searchFilter))
-                );
-            }
-
-            if(filteredOrders.length === 0) { oHtml = '<tr><td colspan="4" style="text-align:center; color:#888;">No orders found.</td></tr>'; } 
-            else {
-                filteredOrders.forEach(o => {
-                    let userPhone = ''; 
-                    let userAddress = '<span style="color:#ef4444;">Address Not Provided</span>'; 
-                    let linkedUser = globalUsers.find(u => u.email === o.customerEmail); 
-                    if(linkedUser) {
-                        if(linkedUser.phone) userPhone = escapeHTML(linkedUser.phone);
-                        if(linkedUser.address) userAddress = escapeHTML(linkedUser.address);
-                    }
-                    
-                    let statusClass = 'Pending'; if(o.status.includes('Processing')) statusClass = 'Processing'; if(o.status.includes('Shipped')) statusClass = 'Shipped'; if(o.status.includes('Delivered')) statusClass = 'Delivered';
-                    let selectColor = o.status === 'Pending Verification' ? '#ef4444' : (o.status === 'Processing' ? '#6366f1' : '#10b981');
-                    
-                    oHtml += `
-                        <tr style="border-bottom: 1px solid #333;">
-                            <td style="padding:15px; vertical-align:top;">
-                                <div style="font-family:'Space Grotesk', sans-serif; font-weight:800; color:#fff;">${escapeHTML(o.orderId)}</div>
-                                <div style="color:#888; font-size:11px; margin-top:4px;">${o.createdAt ? new Date(o.createdAt).toLocaleDateString() : 'N/A'}</div>
-                                <div style="color:#888; font-size:11px; margin-top:4px;">Geo: ${escapeHTML(o.location) || 'Unknown'}</div>
-                            </td>
-                            <td style="padding:15px; vertical-align:top;">
-                                <div style="color:#fff; font-weight:700;">${escapeHTML(o.customerEmail)}</div>
-                                <div style="color:#aaa; font-size:11px; margin-top:6px; line-height:1.4; max-width:220px; word-wrap: break-word;">
-                                    📍 ${userAddress}
-                                </div>
-                                ${userPhone ? `<a href="https://wa.me/91${userPhone}?text=Hi!%20Update%20regarding%20your%20M-X%20Lumes%20order%20${encodeURIComponent(o.orderId)}:" target="_blank" style="color:var(--whatsapp); text-decoration:none; font-size:11px; display:inline-block; margin-top:6px; border:1px solid var(--whatsapp); padding:3px 6px; border-radius:4px;">WhatsApp</a>` : ''}
-                            </td>
-                            <td style="padding:15px; vertical-align:top; font-weight:800; color:var(--success);">₹${(o.totalAmount || 0).toLocaleString()}</td>
-                            <td style="padding:15px; vertical-align:top;">
-                                <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px;">
-                                    <select onchange="updateOrderStatus('${escapeHTML(o.orderId)}', this.value, this)" style="background:#000; color:${selectColor}; border:1px solid ${selectColor}; padding:6px; border-radius:6px; outline:none; font-size:11px; font-weight:800; cursor:pointer;" data-original="${o.status}">
-                                        <option value="Pending Verification" ${o.status === 'Pending Verification' ? 'selected' : ''}>Pending (Unpaid)</option>
-                                        <option value="Processing" ${o.status === 'Processing' ? 'selected' : ''}>Paid & Processing</option>
-                                        <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
-                                        <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
-                                    </select>
-                                    <button onclick="adminEditOrder('${escapeHTML(o.orderId)}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎ Edit</button>
-                                    <button onclick="adminDeleteOrder('${escapeHTML(o.orderId)}', this)" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕ Del</button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                });
-            }
-            oBody.innerHTML = oHtml;
-
-            const uBody = document.getElementById('admin-users-tbody');
-            let uHtml = '';
-            globalUsers.forEach(u => {
-                uHtml += `
-                    <tr style="border-bottom: 1px solid #333;">
-                        <td style="padding:15px; font-weight:800; color:#fff;">${escapeHTML(u.name)}</td>
-                        <td style="padding:15px; color:#aaa;">${escapeHTML(u.email)}</td>
-                        <td style="padding:15px;">
-                            ${u.phone ? escapeHTML(u.phone) : '<span style="color:#555;">No Phone</span>'}
-                            <div style="font-size: 11px; color: #888; margin-top: 5px; max-width: 250px; line-height: 1.4;">
-                                📍 ${u.address ? escapeHTML(u.address) : 'No address provided'}
-                            </div>
-                        </td>
-                        <td style="padding:15px; display:flex; gap:5px;">
-                            <button onclick="adminEditUser('${u._id}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎</button>
-                            <button onclick="adminDeleteUser('${escapeHTML(u.email)}', this)" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕</button>
-                        </td>
-                    </tr>
-                `;
-            });
-            uBody.innerHTML = uHtml;
-        }
-
-        function adminSwitchTab(tabId, el) {
-            document.querySelectorAll('.admin-nav-item').forEach(t => t.classList.remove('active')); el.classList.add('active');
-            document.querySelectorAll('.admin-data-panel').forEach(p => p.style.display = 'none'); document.getElementById('admin-panel-' + tabId).style.display = 'block';
-        }
-
-        async function updateOrderStatus(orderId, newStatus, selectEl) {
-            const key = sessionStorage.getItem('mxlumes_admin_key');
-            const oldStatus = selectEl.getAttribute('data-original');
-            selectEl.disabled = true;
-            try { 
-                const response = await fetch(`${RENDER_URL}/api/admin/orders/status`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ orderId, status: newStatus }) }); 
-                if (!response.ok) throw new Error("API Failure");
-                selectEl.setAttribute('data-original', newStatus);
-                fetchAdminData(); 
-            } catch (e) { 
-                alert("Failed to update status. Reverting."); 
-                selectEl.value = oldStatus;
-            } finally {
-                selectEl.disabled = false;
-            }
-        }
-
-        async function adminDeleteOrder(id, btnEl) {
-            if(!confirm(`Delete order ${id}?`)) return;
-            btnEl.disabled = true;
-            const key = sessionStorage.getItem('mxlumes_admin_key'); 
-            try {
-                await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { method: 'DELETE', headers: { 'admin-secret-key': key } }); 
-                fetchAdminData();
-            } catch(e) { btnEl.disabled = false; }
-        }
-        
-        async function adminDeleteUser(email, btnEl) {
-            if(!confirm(`Are you sure you want to delete user ${email}? This cannot be undone.`)) return;
-            btnEl.disabled = true;
-            const key = sessionStorage.getItem('mxlumes_admin_key'); 
-            try {
-                const response = await fetch(`${RENDER_URL}/api/admin/users/${encodeURIComponent(email)}`, { method: 'DELETE', headers: { 'admin-secret-key': key } });
-                const data = await response.json();
-                if (response.ok) {
-                    showToast("User deleted successfully");
-                    fetchAdminData(); 
-                } else {
-                    alert("Error: " + data.message);
-                    btnEl.disabled = false;
-                }
-            } catch (e) {
-                alert("Failed to reach server. Check your connection.");
-                btnEl.disabled = false;
-            }
-        }
-
-        function closeAdminEditModal() {
-            document.getElementById('admin-edit-modal').style.display = 'none';
-        }
-        
-        function adminEditOrder(id) {
-            const order = globalOrders.find(o => o.orderId === id); if(!order) return;
-            document.getElementById('admin-edit-title').innerText = `Edit Order: ${id}`;
-            document.getElementById('admin-edit-fields').innerHTML = `<label style="font-size:12px; color:#888;">Total (₹)</label><input type="number" id="ae-amt" value="${order.totalAmount || 0}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"><label style="font-size:12px; color:#888;">Email</label><input type="text" id="ae-email" value="${escapeHTML(order.customerEmail)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px;">`;
-            document.getElementById('admin-edit-modal').style.display = 'flex';
-            
-            const btn = document.getElementById('admin-edit-save');
-            btn.onclick = async () => {
-                const key = sessionStorage.getItem('mxlumes_admin_key');
-                btn.disabled = true;
-                btn.innerText = 'Saving...';
-                try {
-                    await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ totalAmount: document.getElementById('ae-amt').value, customerEmail: document.getElementById('ae-email').value }) });
-                    closeAdminEditModal(); 
-                    fetchAdminData();
-                } finally {
-                    btn.disabled = false;
-                    btn.innerText = 'Save';
-                }
-            };
-        }
-        
-        function adminEditUser(id) {
-            const user = globalUsers.find(u => u._id === id); if(!user) return;
-            document.getElementById('admin-edit-title').innerText = `Edit User`;
-            document.getElementById('admin-edit-fields').innerHTML = `<label style="font-size:12px; color:#888;">Name</label><input type="text" id="ae-u-name" value="${escapeHTML(user.name)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"><label style="font-size:12px; color:#888;">Phone</label><input type="text" id="ae-u-phone" value="${escapeHTML(user.phone)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px;">`;
-            document.getElementById('admin-edit-modal').style.display = 'flex';
-            
-            const btn = document.getElementById('admin-edit-save');
-            btn.onclick = async () => {
-                const key = sessionStorage.getItem('mxlumes_admin_key');
-                btn.disabled = true;
-                btn.innerText = 'Saving...';
-                try {
-                    await fetch(`${RENDER_URL}/api/admin/users/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ name: document.getElementById('ae-u-name').value, phone: document.getElementById('ae-u-phone').value }) });
-                    closeAdminEditModal(); 
-                    fetchAdminData();
-                } finally {
-                    btn.disabled = false;
-                    btn.innerText = 'Save';
-                }
-            };
-        }
-
-        function exportOrdersCSV() {
-            if(globalOrders.length === 0) return alert("No orders.");
-            let csvContent = "Order ID,Date,Email,Phone,Shipping Address,Amount,Status\n";
-            
-            globalOrders.forEach(o => { 
-                let u = globalUsers.find(user => user.email === o.customerEmail);
-                let phone = u && u.phone ? u.phone : 'No Phone';
-                let address = u && u.address ? u.address.replace(/,/g, ' ') : 'No Address'; 
-                
-                csvContent += `${o.orderId},${o.createdAt ? new Date(o.createdAt).toLocaleDateString() : 'N/A'},${o.customerEmail},${phone},"${address}",${o.totalAmount || 0},${o.status}\n`; 
-            });
-            
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.setAttribute("href", url);
-            link.setAttribute("download", `mxlumes_orders.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
     </script>
 </body>
 </html>
