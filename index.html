@@ -63,7 +63,8 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; }
         .section { padding: 100px 0; position: relative; z-index: 2; }
         
-        .reveal { opacity: 0; transform: translate3d(0, 40px, 0); transition: opacity 0.8s var(--ease-fluid), transform 0.8s var(--ease-fluid); }
+        /* Added hardware acceleration to fix rendering jitter */
+        .reveal { opacity: 0; transform: translate3d(0, 40px, 0); transition: opacity 0.8s var(--ease-fluid), transform 0.8s var(--ease-fluid); will-change: transform, opacity; }
         .reveal.active { opacity: 1; transform: translate3d(0, 0, 0); }
 
         .btn { padding: 16px 32px; border-radius: 60px; font-weight: 800; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s; }
@@ -114,7 +115,8 @@
            ========================================= */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         
-        .product-card { padding: 30px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s, border-color 0.4s; background: linear-gradient(135deg, rgba(230, 230, 240, 0.1) 0%, rgba(180, 180, 190, 0.05) 100%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius); }
+        /* Added hardware acceleration for heavy backdrop-filters */
+        .product-card { padding: 30px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s, border-color 0.4s; background: linear-gradient(135deg, rgba(230, 230, 240, 0.1) 0%, rgba(180, 180, 190, 0.05) 100%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius); will-change: transform, box-shadow; transform: translateZ(0); }
         .product-card:hover { transform: translateY(-10px); border-color: rgba(255,255,255,0.4); box-shadow: 0 25px 50px rgba(0,0,0,0.6); }
         
         .p-img { width: 100%; height: 280px; object-fit: cover; border-radius: 16px; margin-bottom: 25px; opacity: 0.9; transition: opacity 0.4s; }
@@ -164,7 +166,7 @@
         /* =========================================
            8. TITAN FUSION CALCULATOR (ORIGINAL UX)
            ========================================= */
-        .zenith-calc { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 40px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 40px 100px -30px rgba(0,0,0,0.8); }
+        .zenith-calc { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 40px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 40px 100px -30px rgba(0,0,0,0.8); transform: translateZ(0); }
         .z-controls { padding: 40px; border-bottom: 1px solid #ccc; position: relative; }
         .z-display { padding: 40px; background: rgba(255, 255, 255, 0.6); display: flex; flex-direction: column; justify-content: space-between; }
         @media (min-width: 900px) { .zenith-calc { display: grid; grid-template-columns: 1.3fr 1fr; } .z-controls { border-right: 1px solid #ccc; border-bottom: none; padding: 60px; } .z-display { padding: 60px; } }
@@ -1300,15 +1302,14 @@
                     body: JSON.stringify({ email: user.email })
                 });
                 const orders = await res.json();
-                tbody.innerHTML = '';
+                let tbodyHtml = '';
                 
                 if(orders.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#555;">No orders found.</td></tr>';
+                    tbodyHtml = '<tr><td colspan="4" style="text-align:center; color:#555;">No orders found.</td></tr>';
                 } else {
                     orders.forEach(o => {
                         const itemsJson = JSON.stringify(o.items).replace(/"/g, '&quot;');
                         
-                        // THE ANTI-ANXIETY SECURITY BLOCK
                         let actionBtn = '';
                         if (o.status === 'Pending Verification') {
                             actionBtn = `
@@ -1327,7 +1328,7 @@
                             actionBtn = `<button class="btn btn-outline" style="padding: 6px 12px; font-size:10px; background:#fff; color:#000;" onclick="printInvoice('${o.orderId}', '${o.createdAt}', ${o.totalAmount}, '${itemsJson}')">Download Invoice</button>`;
                         }
 
-                        tbody.innerHTML += `
+                        tbodyHtml += `
                             <tr>
                                 <td style="font-weight:700; color:#fff;">${o.orderId}</td>
                                 <td>${new Date(o.createdAt).toLocaleDateString()}</td>
@@ -1337,6 +1338,7 @@
                         `;
                     });
                 }
+                tbody.innerHTML = tbodyHtml;
             } catch(e) { console.error(e); }
         }
 
@@ -1509,18 +1511,21 @@
             renderCart(); syncCartWithCloud(cart);
         }
 
+        // Updated for extreme performance: Buffering HTML strings to prevent DOM Thrashing
         function renderCart() {
             const container = document.getElementById('cartItems'); 
-            container.innerHTML = ''; let total = 0; let count = 0;
+            let total = 0; let count = 0; let htmlBuffer = '';
+            
             if (cart.length === 0) {
                 container.innerHTML = '<div class="empty-cart" style="color:#888; margin-top:20px; text-align:center;">Your cart is empty.<br>Start adding some magic. ✨</div>';
                 document.getElementById('cartTotal').innerText = '₹0';
                 document.getElementById('cartCount').innerText = '0';
                 checkoutTotal = 0; updateReminder(); return;
             }
+            
             cart.forEach(item => { 
                 total += item.price * item.qty; count += item.qty;
-                container.innerHTML += `
+                htmlBuffer += `
                 <div class="cart-item">
                     <div class="c-info"><h4 style="margin-bottom:4px; color:#fff;">${item.name}</h4><p style="font-size:12px; color:#888; margin:0;">High-Gloss System</p></div>
                     <div class="c-actions" style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
@@ -1533,6 +1538,8 @@
                     </div>
                 </div>`; 
             });
+            
+            container.innerHTML = htmlBuffer;
             checkoutTotal = total;
             document.getElementById('cartTotal').innerText = `₹${total.toLocaleString()}`; 
             document.getElementById('cartCount').innerText = count;
@@ -1771,12 +1778,15 @@
         // =========================================
         const initialReviews = [ { name: "Sneha Sharma", text: "Absolutely flawless for Varmala preservation. Diamond clear and absolutely no micro-bubbles.", stars: 5 }, { name: "Rahul Verma", text: "The 120-minute pot life is a lifesaver for complex geode pours. Gives me ample time to mix pigments.", stars: 5 }, { name: "Ananya Patel", text: "I was skeptical about the 85 Shore D hardness, but my coasters are practically scratch-proof.", stars: 5 }, { name: "Vikram Singh", text: "Zero VOCs means no headaches! I can finally work in my indoor studio without the strong chemical smell.", stars: 4 }, { name: "Divya Iyer", text: "Best 3:1 epoxy in India hands down. Auto-degassing actually works—I didn't even need my heat gun.", stars: 5 } ];
         let selectedStars = 5;
+        
+        // Updated to use HTML string buffering
         function renderReviews() {
             const container = document.getElementById('reviews-grid'); let storedReviews = JSON.parse(localStorage.getItem('mxlumes_reviews') || '[]'); const allReviews = [...storedReviews, ...initialReviews];
-            container.innerHTML = '';
+            let revHtml = '';
             allReviews.forEach(r => { let starHtml = ''; for(let i=0; i<5; i++) { starHtml += `<svg viewBox="0 0 24 24" style="fill: ${i < r.stars ? '#f59e0b' : '#333'}"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`; }
-                container.innerHTML += `<div class="r-card"><div class="r-card-stars">${starHtml}</div><div class="r-card-text">"${r.text}"</div><div class="r-card-author"><span class="r-verified">✓</span> ${r.name}</div></div>`;
+                revHtml += `<div class="r-card"><div class="r-card-stars">${starHtml}</div><div class="r-card-text">"${r.text}"</div><div class="r-card-author"><span class="r-verified">✓</span> ${r.name}</div></div>`;
             });
+            container.innerHTML = revHtml;
         }
         function openReviewModal() { document.getElementById('review-modal-overlay').classList.add('active'); }
         function closeReviewModal() { document.getElementById('review-modal-overlay').classList.remove('active'); }
@@ -1870,21 +1880,30 @@
             populateAdminDashboard();
         }
 
+        // Updated for extreme performance: Buffering HTML strings and injected Shipping Address
         function populateAdminDashboard() {
             let totalRev = 0;
             globalOrders.forEach(o => { if (o.status !== 'Pending Verification') totalRev += o.totalAmount; });
             document.getElementById('stat-revenue').innerText = '₹' + totalRev.toLocaleString();
             document.getElementById('stat-orders').innerText = globalOrders.length; document.getElementById('stat-users').innerText = globalUsers.length;
 
-            const oBody = document.getElementById('admin-orders-tbody'); oBody.innerHTML = '';
-            if(globalOrders.length === 0) { oBody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888;">No orders found.</td></tr>'; } 
+            const oBody = document.getElementById('admin-orders-tbody');
+            let oHtml = '';
+            if(globalOrders.length === 0) { oHtml = '<tr><td colspan="4" style="text-align:center; color:#888;">No orders found.</td></tr>'; } 
             else {
                 globalOrders.forEach(o => {
-                    let userPhone = ''; let linkedUser = globalUsers.find(u => u.email === o.customerEmail); if(linkedUser && linkedUser.phone) userPhone = linkedUser.phone;
+                    let userPhone = ''; 
+                    let userAddress = '<span style="color:#ef4444;">Address Not Provided</span>'; 
+                    let linkedUser = globalUsers.find(u => u.email === o.customerEmail); 
+                    if(linkedUser) {
+                        if(linkedUser.phone) userPhone = linkedUser.phone;
+                        if(linkedUser.address) userAddress = linkedUser.address;
+                    }
+                    
                     let statusClass = 'Pending'; if(o.status.includes('Processing')) statusClass = 'Processing'; if(o.status.includes('Shipped')) statusClass = 'Shipped'; if(o.status.includes('Delivered')) statusClass = 'Delivered';
                     let selectColor = o.status === 'Pending Verification' ? '#ef4444' : (o.status === 'Processing' ? '#6366f1' : '#10b981');
                     
-                    oBody.innerHTML += `
+                    oHtml += `
                         <tr style="border-bottom: 1px solid #333;">
                             <td style="padding:15px; vertical-align:top;">
                                 <div style="font-family:'Space Grotesk', sans-serif; font-weight:800; color:#fff;">${o.orderId}</div>
@@ -1893,7 +1912,10 @@
                             </td>
                             <td style="padding:15px; vertical-align:top;">
                                 <div style="color:#fff; font-weight:700;">${o.customerEmail}</div>
-                                ${userPhone ? `<a href="https://wa.me/91${userPhone}" target="_blank" style="color:var(--whatsapp); text-decoration:none; font-size:11px; display:inline-block; margin-top:5px; border:1px solid var(--whatsapp); padding:3px 6px; border-radius:4px;">WhatsApp</a>` : ''}
+                                <div style="color:#aaa; font-size:11px; margin-top:6px; line-height:1.4; max-width:220px; word-wrap: break-word;">
+                                    📍 ${userAddress}
+                                </div>
+                                ${userPhone ? `<a href="https://wa.me/91${userPhone}" target="_blank" style="color:var(--whatsapp); text-decoration:none; font-size:11px; display:inline-block; margin-top:6px; border:1px solid var(--whatsapp); padding:3px 6px; border-radius:4px;">WhatsApp</a>` : ''}
                             </td>
                             <td style="padding:15px; vertical-align:top; font-weight:800; color:var(--success);">₹${o.totalAmount.toLocaleString()}</td>
                             <td style="padding:15px; vertical-align:top;">
@@ -1912,10 +1934,12 @@
                     `;
                 });
             }
+            oBody.innerHTML = oHtml;
 
-            const uBody = document.getElementById('admin-users-tbody'); uBody.innerHTML = '';
+            const uBody = document.getElementById('admin-users-tbody');
+            let uHtml = '';
             globalUsers.forEach(u => {
-                uBody.innerHTML += `
+                uHtml += `
                     <tr style="border-bottom: 1px solid #333;">
                         <td style="padding:15px; font-weight:800; color:#fff;">${u.name}</td>
                         <td style="padding:15px; color:#aaa;">${u.email}</td>
@@ -1932,6 +1956,7 @@
                     </tr>
                 `;
             });
+            uBody.innerHTML = uHtml;
         }
 
         function adminSwitchTab(tabId, el) {
@@ -1949,7 +1974,6 @@
             const key = sessionStorage.getItem('mxlumes_admin_key'); await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { method: 'DELETE', headers: { 'admin-secret-key': key } }); fetchAdminData();
         }
         
-        // 👇 DELETE BUG FIXED: Added Master Key Header 
         async function adminDeleteUser(email) {
             if(!confirm(`Are you sure you want to delete user ${email}? This cannot be undone.`)) return;
 
