@@ -172,6 +172,9 @@
             </div>
 
             <div class="table-container">
+                <div style="padding: 10px 20px; text-align:right;">
+                    <button class="export-btn" style="display:inline-flex;" onclick="exportOrdersCSV()">Download Order CSV</button>
+                </div>
                 <table>
                     <thead>
                         <tr>
@@ -203,7 +206,7 @@
                         <tr>
                             <th>Client Name</th>
                             <th>Email Address</th>
-                            <th>WhatsApp</th>
+                            <th>Contact & Shipping</th>
                             <th>Joined Date</th>
                             <th>Control</th>
                         </tr>
@@ -227,6 +230,7 @@
             }
         };
 
+        // 👇 BUG FIX 3: Parallel fetching for lightning-fast dashboard loading
         async function unlockDashboard() {
             const input = document.getElementById('master-key').value;
             if(!input) return;
@@ -235,11 +239,14 @@
             document.getElementById('auth-err').style.display = 'none';
             
             try {
-                const orderRes = await fetch(`${RENDER_URL}/api/admin/orders`, { headers: { 'admin-secret-key': input } });
-                if (!orderRes.ok) throw new Error("Invalid Key");
-                globalOrders = await orderRes.json();
+                const [orderRes, userRes] = await Promise.all([
+                    fetch(`${RENDER_URL}/api/admin/orders`, { headers: { 'admin-secret-key': input } }),
+                    fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': input } })
+                ]);
 
-                const userRes = await fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': input } });
+                if (!orderRes.ok || !userRes.ok) throw new Error("Invalid Key");
+                
+                globalOrders = await orderRes.json();
                 globalUsers = await userRes.json();
 
                 sessionStorage.setItem('mxlumes_admin_key', input);
@@ -265,13 +272,20 @@
         async function fetchData() {
             const key = sessionStorage.getItem('mxlumes_admin_key');
             if(!key) return;
-            const orderRes = await fetch(`${RENDER_URL}/api/admin/orders`, { headers: { 'admin-secret-key': key } });
-            globalOrders = await orderRes.json();
-            const userRes = await fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': key } });
-            globalUsers = await userRes.json();
-            populateDashboard();
+            try {
+                const [orderRes, userRes] = await Promise.all([
+                    fetch(`${RENDER_URL}/api/admin/orders`, { headers: { 'admin-secret-key': key } }),
+                    fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': key } })
+                ]);
+                globalOrders = await orderRes.json();
+                globalUsers = await userRes.json();
+                populateDashboard();
+            } catch(e) {
+                console.error("Sync failed", e);
+            }
         }
 
+        // BUFFERS USED FOR JITTER-FREE RENDERING
         function populateDashboard(filter = 'All', searchTxt = '') {
             let totalRev = 0;
             globalOrders.forEach(o => {
@@ -290,24 +304,33 @@
             }
 
             const oBody = document.getElementById('orders-tbody');
-            oBody.innerHTML = '';
+            let orderHtmlBuffer = ''; 
             
             if(filteredOrders.length === 0) {
-                oBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#888;">No orders found.</td></tr>';
+                orderHtmlBuffer = '<tr><td colspan="5" style="text-align:center; color:#888;">No orders found.</td></tr>';
             } else {
                 filteredOrders.forEach(o => {
                     let userPhone = '';
+                    let userAddress = '<span style="color:#ef4444;">No Address</span>';
+                    
                     let linkedUser = globalUsers.find(u => u.email === o.customerEmail);
-                    if(linkedUser && linkedUser.phone) userPhone = linkedUser.phone;
+                    if(linkedUser) {
+                        if(linkedUser.phone) userPhone = linkedUser.phone;
+                        if(linkedUser.address) userAddress = linkedUser.address;
+                    }
 
-                    let itemString = o.items.map(i => `<b>${i.qty}x</b> ${i.name}`).join('<br>');
+                    // 👇 BUG FIX 1: Safely handle missing/corrupted item arrays
+                    let itemString = '<span style="color:#ef4444">Data missing</span>';
+                    if (Array.isArray(o.items)) {
+                        itemString = o.items.map(i => `<b>${i.qty || 1}x</b> ${i.name || 'Item'}`).join('<br>');
+                    }
                     
                     let statusClass = 'Pending';
                     if(o.status.includes('Processing')) statusClass = 'Processing';
                     if(o.status.includes('Shipped')) statusClass = 'Shipped';
                     if(o.status.includes('Delivered')) statusClass = 'Delivered';
 
-                    oBody.innerHTML += `
+                    orderHtmlBuffer += `
                         <tr>
                             <td>
                                 <div style="font-family:'Space Grotesk', sans-serif; font-weight:800; color:#fff;">${o.orderId}</div>
@@ -316,9 +339,12 @@
                             <td>
                                 <div style="color:#fff; font-weight:700;">${o.customerEmail}</div>
                                 <div style="font-size:11px; color:#888; margin-top:4px;">Geo: ${o.location || 'Unknown'}</div>
+                                <div style="color:#aaa; font-size:11px; margin-top:6px; line-height:1.4; max-width:220px; word-wrap: break-word;">
+                                    📍 ${userAddress}
+                                </div>
                             </td>
                             <td class="item-list">${itemString}</td>
-                            <td style="font-weight:800; color:var(--success);">₹${o.totalAmount.toLocaleString()}</td>
+                            <td style="font-weight:800; color:var(--success);">₹${(o.totalAmount || 0).toLocaleString()}</td>
                             <td>
                                 <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
                                     <select class="status-select ${statusClass}" onchange="updateOrderStatus('${o.orderId}', this.value)">
@@ -344,15 +370,22 @@
                     `;
                 });
             }
+            oBody.innerHTML = orderHtmlBuffer;
 
             const uBody = document.getElementById('users-tbody');
-            uBody.innerHTML = '';
+            let userHtmlBuffer = '';
+            
             globalUsers.forEach(u => {
-                uBody.innerHTML += `
+                userHtmlBuffer += `
                     <tr>
                         <td style="font-weight:800; color:#fff;">${u.name}</td>
                         <td style="color:#aaa;">${u.email}</td>
-                        <td>${u.phone ? `<a href="https://wa.me/91${u.phone}" target="_blank" class="wa-link">Message Client</a>` : '<span style="color:#555;">No Phone</span>'}</td>
+                        <td>
+                            ${u.phone ? `<a href="https://wa.me/91${u.phone}" target="_blank" class="wa-link" style="margin-bottom:6px;">Message Client</a>` : '<span style="color:#555; display:block; margin-bottom:6px;">No Phone</span>'}
+                            <div style="font-size: 11px; color: #888; max-width: 250px; line-height: 1.4;">
+                                📍 ${u.address || 'No address provided'}
+                            </div>
+                        </td>
                         <td style="color:var(--text-dim);">${new Date(u.createdAt).toLocaleDateString()}</td>
                         <td style="display:flex; gap:8px;">
                             <button class="btn-action" title="Edit User" onclick="openEditUser('${u._id}')">
@@ -365,6 +398,7 @@
                     </tr>
                 `;
             });
+            uBody.innerHTML = userHtmlBuffer;
         }
 
         async function updateOrderStatus(orderId, newStatus) {
@@ -385,7 +419,6 @@
         // SUPREME CONTROL LOGIC (EDIT & DELETE)
         // =========================================
         
-        // DELETE
         async function deleteOrder(orderId) {
             if(!confirm(`WARNING: Permanently delete order ${orderId}?`)) return;
             const key = sessionStorage.getItem('mxlumes_admin_key');
@@ -409,7 +442,8 @@
             if(!confirm(`WARNING: Permanently delete account ${email}?`)) return;
             const key = sessionStorage.getItem('mxlumes_admin_key');
             try {
-                const res = await fetch(`${RENDER_URL}/api/admin/users/${email}`, { 
+                const safeEmail = encodeURIComponent(email);
+                const res = await fetch(`${RENDER_URL}/api/admin/users/${safeEmail}`, { 
                     method: 'DELETE', 
                     headers: { 'admin-secret-key': key } 
                 });
@@ -546,7 +580,29 @@
             document.getElementById('panel-' + tabId).classList.add('active');
         }
 
-        // PDF EXPORT LOGIC
+        // 👇 BUG FIX 2: Secure Blob creation for flawless CSV exports
+        function exportOrdersCSV() {
+            if(globalOrders.length === 0) return alert("No orders.");
+            let csvContent = "Order ID,Date,Email,Phone,Shipping Address,Amount,Status\n";
+            
+            globalOrders.forEach(o => { 
+                let u = globalUsers.find(user => user.email === o.customerEmail);
+                let phone = u && u.phone ? u.phone : 'No Phone';
+                let address = u && u.address ? u.address.replace(/,/g, ' ') : 'No Address'; 
+                
+                csvContent += `${o.orderId},${new Date(o.createdAt).toLocaleDateString()},${o.customerEmail},${phone},"${address}",${o.totalAmount || 0},${o.status}\n`; 
+            });
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", `mxlumes_orders.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
         function exportUsersPDF() {
             if(globalUsers.length === 0) return alert("No users to export!");
             const printWindow = window.open('', '_blank');
@@ -566,10 +622,15 @@
                         <p style="margin:0; color:#555;">Generated on: ${new Date().toLocaleDateString()}</p>
                     </div>
                     <table>
-                        <tr><th>Name</th><th>Email</th><th>Phone</th><th>Joined Date</th></tr>
+                        <tr><th>Name</th><th>Email</th><th>Phone & Address</th><th>Joined Date</th></tr>
             `;
             globalUsers.forEach(u => {
-                html += `<tr><td><b>${u.name}</b></td><td>${u.email}</td><td>${u.phone || 'N/A'}</td><td>${new Date(u.createdAt).toLocaleDateString()}</td></tr>`;
+                html += `<tr>
+                            <td><b>${u.name}</b></td>
+                            <td>${u.email}</td>
+                            <td>${u.phone || 'N/A'}<br><span style="font-size:11px; color:#666;">${u.address || 'No Address'}</span></td>
+                            <td>${new Date(u.createdAt).toLocaleDateString()}</td>
+                         </tr>`;
             });
             html += `</table></body></html>`;
             printWindow.document.write(html);
