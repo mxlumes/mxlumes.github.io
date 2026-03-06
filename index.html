@@ -1213,7 +1213,7 @@
                 <div class="admin-data-panel" id="admin-panel-users" style="display:none;">
                     <div style="background:#0a0a0a; border:1px solid #333; border-radius:16px; overflow-x:auto;">
                         <table style="width:100%; min-width:800px; border-collapse:collapse; font-size:13px;">
-                            <thead><tr style="background:#000;"><th style="padding:15px; color:#888; text-align:left;">Name</th><th style="padding:15px; color:#888; text-align:left;">Email</th><th style="padding:15px; color:#888; text-align:left;">Phone</th><th style="padding:15px; color:#888; text-align:left;">Action</th></tr></thead>
+                            <thead><tr style="background:#000;"><th style="padding:15px; color:#888; text-align:left;">Name</th><th style="padding:15px; color:#888; text-align:left;">Email</th><th style="padding:15px; color:#888; text-align:left;">Phone & Address</th><th style="padding:15px; color:#888; text-align:left;">Action</th></tr></thead>
                             <tbody id="admin-users-tbody"></tbody>
                         </table>
                     </div>
@@ -1418,27 +1418,21 @@
             currentAuthMode = mode;
             document.getElementById('auth-error').style.display = 'none';
             const nameInp = document.getElementById('auth-name');
-            // START INJECTION: Get Phone and Address Inputs
             const phoneInp = document.getElementById('auth-phone');
             const addrInp = document.getElementById('auth-address');
-            // END INJECTION
             const btn = document.getElementById('auth-btn');
             
             if (mode === 'signup') {
                 nameInp.style.display = 'block'; nameInp.required = true;
-                // START INJECTION: Show and Require Fields during Signup
                 phoneInp.style.display = 'block'; phoneInp.required = true;
                 addrInp.style.display = 'block'; addrInp.required = true;
-                // END INJECTION
                 btn.innerText = "Create Account";
                 document.getElementById('tab-signup').style.color = "#fff";
                 document.getElementById('tab-login').style.color = "#555";
             } else {
                 nameInp.style.display = 'none'; nameInp.required = false;
-                // START INJECTION: Hide Fields during Login
                 phoneInp.style.display = 'none'; phoneInp.required = false;
                 addrInp.style.display = 'none'; addrInp.required = false;
-                // END INJECTION
                 btn.innerText = "Sign In to Dashboard";
                 document.getElementById('tab-login').style.color = "#fff";
                 document.getElementById('tab-signup').style.color = "#555";
@@ -1454,7 +1448,6 @@
             
             if (currentAuthMode === 'signup') {
                 payload.name = document.getElementById('auth-name').value.trim();
-                // START INJECTION: Capture New Fields in Payload
                 payload.phone = document.getElementById('auth-phone').value.trim();
                 payload.address = document.getElementById('auth-address').value.trim();
                 
@@ -1464,7 +1457,6 @@
                     btn.innerText = "Create Account"; 
                     return; 
                 }
-                // END INJECTION
             }
 
             try {
@@ -1927,7 +1919,12 @@
                     <tr style="border-bottom: 1px solid #333;">
                         <td style="padding:15px; font-weight:800; color:#fff;">${u.name}</td>
                         <td style="padding:15px; color:#aaa;">${u.email}</td>
-                        <td style="padding:15px;">${u.phone || '<span style="color:#555;">No Phone</span>'}</td>
+                        <td style="padding:15px;">
+                            ${u.phone || '<span style="color:#555;">No Phone</span>'}
+                            <div style="font-size: 11px; color: #888; margin-top: 5px; max-width: 250px; line-height: 1.4;">
+                                📍 ${u.address || 'No address provided'}
+                            </div>
+                        </td>
                         <td style="padding:15px; display:flex; gap:5px;">
                             <button onclick="adminEditUser('${u._id}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎</button>
                             <button onclick="adminDeleteUser('${u.email}')" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕</button>
@@ -1951,9 +1948,33 @@
             if(!confirm(`Delete order ${id}?`)) return;
             const key = sessionStorage.getItem('mxlumes_admin_key'); await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { method: 'DELETE', headers: { 'admin-secret-key': key } }); fetchAdminData();
         }
+        
+        // 👇 DELETE BUG FIXED: Added Master Key Header 
         async function adminDeleteUser(email) {
-            if(!confirm(`Delete user ${email}?`)) return;
-            const key = sessionStorage.getItem('mxlumes_admin_key'); await fetch(`${RENDER_URL}/api/admin/users/${email}`, { method: 'DELETE', headers: { 'admin-secret-key': key } }); fetchAdminData();
+            if(!confirm(`Are you sure you want to delete user ${email}? This cannot be undone.`)) return;
+
+            const key = sessionStorage.getItem('mxlumes_admin_key'); 
+            
+            try {
+                const response = await fetch(`${RENDER_URL}/api/admin/users/${email}`, { 
+                    method: 'DELETE', 
+                    headers: { 
+                        'admin-secret-key': key 
+                    } 
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showToast("User deleted successfully");
+                    fetchAdminData(); 
+                } else {
+                    alert("Error: " + data.message);
+                }
+            } catch (e) {
+                console.error("Delete failed:", e);
+                alert("Failed to reach server. Check your connection.");
+            }
         }
         
         function adminEditOrder(id) {
