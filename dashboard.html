@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="description" content="M-X Lumes: Professional 3:1 Epoxy Resin Systems.">
     <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>M-X Lumes | The Professional Standard</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -46,12 +48,12 @@
 
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; line-height: 1.1; letter-spacing: -0.02em; }
         a { text-decoration: none; color: inherit; transition: color 0.3s var(--ease-fluid); }
-        button { cursor: pointer; border: none; outline: none; background: none; font-family: inherit; }
+        button { cursor: pointer; border: none; outline: none; background: none; font-family: inherit; -webkit-appearance: none; appearance: none; }
         button:disabled { opacity: 0.5; cursor: not-allowed; }
         img { display: block; max-width: 100%; height: auto; user-select: none; }
         
-        /* 🛡️ MOBILE INPUT ZOOM PREVENTION */
-        input, select, textarea { font-size: 16px !important; font-family: 'Manrope', sans-serif; -webkit-appearance: none; appearance: none; }
+        /* 🛡️ APPLE SAFARI FIXES: Input Zoom, Rounded Corners & Yellow Autofill */
+        input, select, textarea { font-size: 16px !important; font-family: 'Manrope', sans-serif; -webkit-appearance: none; appearance: none; border-radius: 12px; }
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
         input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active{
@@ -77,6 +79,7 @@
 
         .btn { padding: 16px 32px; border-radius: 60px; font-weight: 800; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s, opacity 0.2s; }
         @media (hover: hover) { .btn:hover:not(:disabled) { transform: translateY(-3px); } .btn-outline:hover:not(:disabled) { border-color: #fff; background: rgba(255,255,255,0.08); } }
+        
         .btn-primary { background: #fff; color: #000; box-shadow: 0 5px 20px rgba(255,255,255,0.15); border: none; }
         .btn-primary:active:not(:disabled) { transform: scale(0.96); } 
         .btn-outline { border: 1px solid var(--border); color: #fff; background: rgba(255,255,255,0.02); }
@@ -318,7 +321,8 @@
             background: #0a0a0a; border: 1px solid var(--border); border-radius: 24px;
             width: 100%; max-width: 400px; padding: 35px; position: relative;
             transform: scale(0.95); transition: transform 0.3s; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-            max-height: 90vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
+            max-height: 90vh; max-height: 90dvh; overflow-y: auto; -webkit-overflow-scrolling: touch;
+            padding-bottom: calc(35px + env(safe-area-inset-bottom));
         }
         .modal-overlay.active .modal-content { transform: scale(1); }
         
@@ -329,6 +333,7 @@
             width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
             padding: 16px; border-radius: 12px; color: #fff; font-size: 14px; font-weight: 500;
             margin-bottom: 15px; outline: none; transition: border-color 0.2s, background 0.2s; font-family: 'Manrope', sans-serif;
+            -webkit-appearance: none;
         }
         .m-input:focus { border-color: var(--accent); }
 
@@ -336,7 +341,7 @@
             background:#0a0a0a; border:1px solid #333; text-align:center; padding: 35px;
             border-radius:24px; max-width:400px; position:relative;
             transform: scale(0.95); transition: transform 0.3s; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-            max-height: 90vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
+            max-height: 90vh; max-height: 90dvh; overflow-y: auto; -webkit-overflow-scrolling: touch;
         }
         .modal-overlay.active .payment-modal { transform: scale(1); }
         
@@ -1295,6 +1300,21 @@
             }, 2000);
         };
 
+        // 🛡️ LEVEL 24: BFCache IOS Safari Reset
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                isVerifying = false;
+                const btn = document.getElementById('pay-confirm-btn');
+                if(btn) {
+                    btn.disabled = false;
+                    btn.innerText = "✓ I Have Completed The Payment";
+                    btn.classList.remove('pulse-btn-accent', 'pulse-btn-green');
+                    btn.style.background = "var(--accent)";
+                    btn.style.color = "#fff";
+                }
+            }
+        });
+
         document.addEventListener("visibilitychange", () => {
             if (document.visibilityState === "visible" && window.paymentIntentFired) {
                 const timeAway = Date.now() - window.paymentIntentFired;
@@ -1333,11 +1353,13 @@
                 const token = localStorage.getItem('mxlumes_token');
                 const authLink = document.getElementById('nav-auth-link');
                 
-                if (user && token) {
+                if (user && token && user.email) {
                     authLink.innerHTML = `Hi, ${escapeHTML(user.name).split(' ')[0]} <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
                     authLink.onclick = (e) => { e.preventDefault(); openProfileModal(); vibrate(50); }; 
                     syncCartWithCloud(); 
                 } else {
+                    localStorage.removeItem('mxlumes_user');
+                    localStorage.removeItem('mxlumes_token');
                     authLink.innerHTML = `Sign In <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
                     authLink.onclick = (e) => { e.preventDefault(); openAuthModal(); vibrate(50); };
                 }
@@ -1875,7 +1897,7 @@
             if (cart.length === 0) return showToast("Your cart is empty", true);
             
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
-            if (!user) { 
+            if (!user || !user.email) { 
                 pendingCheckout = true; 
                 openGuestCheckoutModal(); 
                 return; 
@@ -1937,7 +1959,22 @@
             btn.disabled = true; 
             errBox.style.display = 'none';
 
-            const user = JSON.parse(localStorage.getItem('mxlumes_user'));
+            let user = null;
+            try {
+                user = JSON.parse(localStorage.getItem('mxlumes_user'));
+            } catch(e){}
+
+            // 🛡️ FRONTEND FAILSAFE: Catches corrupted local storage before hitting backend
+            if (!user || !user.email) {
+                errBox.innerText = "⚠ Session expired. Please close this and securely re-enter your delivery details.";
+                errBox.style.display = 'block';
+                btn.innerText = "✓ Try Verification Again";
+                btn.disabled = false;
+                isVerifying = false;
+                logout(new Event('click')); // Force cleanup
+                return;
+            }
+
             const payload = { email: user.email, items: cart, totalAmount: checkoutTotal, location: userLocation };
 
             try {
