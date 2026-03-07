@@ -54,10 +54,7 @@
         input, select, textarea { font-size: 16px !important; font-family: 'Manrope', sans-serif; -webkit-appearance: none; appearance: none; }
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover, 
-        input:-webkit-autofill:focus, 
-        input:-webkit-autofill:active{
+        input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active{
             -webkit-box-shadow: 0 0 0 30px #0a0a0a inset !important;
             -webkit-text-fill-color: white !important;
             transition: background-color 5000s ease-in-out 0s;
@@ -352,6 +349,7 @@
             background:#0a0a0a; border:1px solid #333; text-align:center; padding: 35px;
             border-radius:24px; max-width:400px; position:relative;
             transform: scale(0.95); transition: transform 0.3s; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+            max-height: 90vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
         }
         .modal-overlay.active .payment-modal { transform: scale(1); }
         
@@ -567,11 +565,11 @@
         <div class="modal-content">
             <button class="m-close" onclick="closeAuthModal()">×</button>
             <div style="text-align:center; margin-bottom: 25px;">
-                <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;">M-X LUMES</h3>
-                <p style="color: var(--text-muted); font-size: 13px; font-weight: 500;">The Professional Standard.</p>
+                <h3 id="auth-modal-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;">M-X LUMES</h3>
+                <p id="auth-modal-subtitle" style="color: var(--text-muted); font-size: 13px; font-weight: 500;">The Professional Standard.</p>
             </div>
             
-            <div style="display:flex; justify-content: center; gap:30px; margin-bottom:25px; border-bottom:2px solid #222; padding-bottom:10px;">
+            <div id="auth-tabs" style="display:flex; justify-content: center; gap:30px; margin-bottom:25px; border-bottom:2px solid #222; padding-bottom:10px;">
                 <span id="tab-login" style="font-size:15px; font-weight: 800; cursor:pointer; color:#fff; transition: color 0.2s;" onclick="switchAuthTab('login')">Sign In</span>
                 <span id="tab-signup" style="font-size:15px; font-weight: 800; cursor:pointer; color:#555; transition: color 0.2s;" onclick="switchAuthTab('signup')">Create Account</span>
             </div>
@@ -580,7 +578,8 @@
                 <input type="text" id="auth-name" class="m-input" placeholder="Full Name" autocomplete="name" enterkeyhint="next" style="display:none;">
                 <input type="email" id="auth-email" class="m-input" placeholder="Email Address" autocomplete="email" enterkeyhint="next" required>
                 <input type="tel" id="auth-phone" class="m-input" placeholder="WhatsApp Number" autocomplete="tel" inputmode="numeric" pattern="[0-9]*" enterkeyhint="next" style="display:none;">
-                <textarea id="auth-address" class="m-input" placeholder="Complete Shipping Address" autocomplete="street-address" enterkeyhint="done" style="display:none; height:100px;"></textarea>
+                <textarea id="auth-address" class="m-input" placeholder="Complete Shipping Address (with Pincode)" autocomplete="street-address" enterkeyhint="done" style="display:none; height:100px;"></textarea>
+                
                 <input type="password" id="auth-password" class="m-input" placeholder="Password" autocomplete="current-password" enterkeyhint="done" required>
                 
                 <button type="submit" class="btn btn-primary" style="width:100%; font-size:14px; margin-top:10px; background:#fff; color:#000; padding: 18px;" id="auth-btn">Sign In to Dashboard</button>
@@ -690,7 +689,6 @@
             <button class="btn btn-primary" id="rv-submit-btn" style="width:100%; font-size:13px;" onclick="submitReview()">Post Review</button>
         </div>
     </div>
-
 
     <div class="bg-layer"></div>
     <div class="bg-gradient"></div>
@@ -1045,11 +1043,6 @@
                         </ul>
                     </div>
 
-                    <div class="safety-report danger" id="auth-alert" style="display:none; border-left-color: var(--warning); background: rgba(245, 158, 11, 0.1);">
-                        <div class="sr-head" style="color:#000;">⚠️ Account Verification Required</div>
-                        <p style="font-size:12px; color:#333; margin-top:5px;">To ensure accurate shipping for M-X Lume resin orders, please update your WhatsApp number and Address during signup.</p>
-                    </div>
-
                     <div class="cost-card">
                         <div><div class="z-label" style="margin:0;">Cost (₹/kg)</div><input type="number" id="costInput" class="cost-inp" placeholder="1000" oninput="runCalc()"></div>
                         <div style="font-size:20px; font-weight:800; color: var(--text-dark);" id="est-cost">₹0</div>
@@ -1286,7 +1279,7 @@
         
         let isVerifying = false;
         window.paymentIntentFired = null;
-        let pendingCheckout = false; // 🛡️ CRO: Saves intent if guest tries to checkout
+        let pendingCheckout = false; 
 
         const escapeHTML = (str) => {
             if (str == null) return '';
@@ -1606,7 +1599,27 @@
             lockScroll(); 
             switchAuthTab('login'); 
         }
-        
+
+        function openGuestCheckoutModal() {
+            document.getElementById('auth-modal-overlay').classList.add('active'); 
+            lockScroll(); 
+            currentAuthMode = 'guest';
+
+            document.getElementById('auth-error').style.display = 'none';
+            
+            document.getElementById('auth-modal-title').innerText = "Delivery Details";
+            document.getElementById('auth-modal-subtitle').innerText = "Where should we send your order?";
+            document.getElementById('auth-tabs').style.display = 'none';
+
+            document.getElementById('auth-name').style.display = 'block'; document.getElementById('auth-name').required = true;
+            document.getElementById('auth-phone').style.display = 'block'; document.getElementById('auth-phone').required = true;
+            document.getElementById('auth-address').style.display = 'block'; document.getElementById('auth-address').required = true;
+            
+            document.getElementById('auth-password').style.display = 'none'; document.getElementById('auth-password').required = false;
+
+            document.getElementById('auth-btn').innerHTML = "Continue to Payment &nbsp; 🔒";
+        }
+
         function closeAuthModal() { 
             blurInputs();
             document.getElementById('auth-modal-overlay').classList.remove('active'); 
@@ -1616,6 +1629,13 @@
         function switchAuthTab(mode) {
             currentAuthMode = mode;
             document.getElementById('auth-error').style.display = 'none';
+            
+            document.getElementById('auth-modal-title').innerText = "M-X LUMES";
+            document.getElementById('auth-modal-subtitle').innerText = "The Professional Standard.";
+            document.getElementById('auth-tabs').style.display = 'flex';
+            
+            document.getElementById('auth-password').style.display = 'block'; document.getElementById('auth-password').required = true;
+
             const nameInp = document.getElementById('auth-name');
             const phoneInp = document.getElementById('auth-phone');
             const addrInp = document.getElementById('auth-address');
@@ -1645,9 +1665,65 @@
             const errorDiv = document.getElementById('auth-error');
             
             btn.disabled = true;
+            const originalBtnText = btn.innerHTML;
             btn.innerText = "Processing..."; 
             errorDiv.style.display = 'none';
-            
+
+            if (currentAuthMode === 'guest') {
+                const name = document.getElementById('auth-name').value.trim();
+                const email = document.getElementById('auth-email').value.trim();
+                const phone = document.getElementById('auth-phone').value.trim();
+                const address = document.getElementById('auth-address').value.trim();
+                const password = phone; 
+
+                if (!name || !email || !phone || !address) {
+                    errorDiv.innerText = "Please complete all fields for delivery.";
+                    errorDiv.style.display = 'block';
+                    btn.innerHTML = originalBtnText;
+                    btn.disabled = false;
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${RENDER_URL}/api/signup`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, phone, address, password }) });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        localStorage.setItem('mxlumes_token', data.token);
+                        localStorage.setItem('mxlumes_user', JSON.stringify(data.user));
+                        closeAuthModal();
+                        checkAuthStatus();
+                        initiateCheckout(); 
+                        return;
+                    } else if (response.status === 400 || response.status === 409) {
+                        const loginRes = await fetch(`${RENDER_URL}/api/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+                        if (loginRes.ok) {
+                            const loginData = await loginRes.json();
+                            localStorage.setItem('mxlumes_token', loginData.token);
+                            localStorage.setItem('mxlumes_user', JSON.stringify(loginData.user));
+                            closeAuthModal();
+                            checkAuthStatus();
+                            initiateCheckout(); 
+                            return;
+                        } else {
+                            throw new Error("Looks like you have an account. Please sign in.");
+                        }
+                    } else {
+                        throw new Error("Failed to process delivery details.");
+                    }
+                } catch(err) {
+                    errorDiv.innerText = err.message; 
+                    errorDiv.style.display = 'block'; 
+                    if(err.message.includes("sign in")) {
+                        setTimeout(() => { switchAuthTab('login'); document.getElementById('auth-email').value = email; }, 1500);
+                    }
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = originalBtnText;
+                }
+                return;
+            }
+
             const payload = { email: document.getElementById('auth-email').value.trim(), password: document.getElementById('auth-password').value };
             
             if (currentAuthMode === 'signup') {
@@ -1658,7 +1734,7 @@
                 if (!payload.name || !payload.phone || !payload.address) { 
                     errorDiv.innerText = "Please complete all fields for delivery verification."; 
                     errorDiv.style.display = 'block'; 
-                    btn.innerText = "Create Account"; 
+                    btn.innerHTML = originalBtnText; 
                     btn.disabled = false;
                     return; 
                 }
@@ -1685,7 +1761,6 @@
                 document.getElementById('auth-form').reset();
                 checkAuthStatus();
                 
-                // 🛡️ CRO LEVEL 21: Auto-Resume Checkout if they came from the cart
                 if (pendingCheckout) {
                     pendingCheckout = false;
                     setTimeout(() => { initiateCheckout(); }, 600);
@@ -1696,7 +1771,7 @@
                 errorDiv.style.display = 'block'; 
             } finally { 
                 btn.disabled = false;
-                btn.innerText = currentAuthMode === 'signup' ? "Create Account" : "Sign In to Dashboard"; 
+                btn.innerHTML = originalBtnText;
             }
         }
 
@@ -1818,8 +1893,7 @@
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
             if (!user) { 
                 pendingCheckout = true; 
-                openAuthModal(); 
-                showToast("Please create an account to secure your delivery.", true); 
+                openGuestCheckoutModal(); 
                 return; 
             }
 
@@ -1840,7 +1914,6 @@
             document.getElementById('payment-modal-overlay').classList.add('active');
             lockScroll();
             
-            // Reset error box just in case
             document.getElementById('payment-error-msg').style.display = 'none';
         }
 
