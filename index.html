@@ -50,7 +50,7 @@
         button:disabled { opacity: 0.5; cursor: not-allowed; }
         img { display: block; max-width: 100%; height: auto; user-select: none; }
         
-        /* 🛡️ APPLE SAFARI FIXES: Input Zoom & Yellow Autofill Backgrounds */
+        /* 🛡️ MOBILE INPUT ZOOM PREVENTION */
         input, select, textarea { font-size: 16px !important; font-family: 'Manrope', sans-serif; -webkit-appearance: none; appearance: none; }
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
@@ -358,8 +358,21 @@
         .qr-box-container { display: block; }
         .qr-box { background: #fff; border: 1px solid #e5e7eb; padding: 20px; border-radius: 16px; margin: 10px auto 20px; display: inline-block; }
         
-        .upi-app-btn { font-family: 'Space Grotesk', sans-serif; text-decoration: none; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 14px; border-radius: 12px; font-weight: 800; font-size: 14px; display: flex; justify-content: center; align-items: center; transition: transform 0.2s, box-shadow 0.2s; text-transform: uppercase; letter-spacing: 1px; }
+        .upi-app-btn { font-family: 'Space Grotesk', sans-serif; text-decoration: none; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 14px; border-radius: 12px; font-weight: 800; font-size: 14px; display: flex; justify-content: center; align-items: center; transition: transform 0.2s, box-shadow 0.2s; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; }
         .upi-app-btn:active { transform: scale(0.95); }
+        
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); transform: scale(1); }
+            50% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); transform: scale(1.02); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); transform: scale(1); }
+        }
+        @keyframes pulse-accent {
+            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); transform: scale(1); }
+            50% { box-shadow: 0 0 0 15px rgba(99, 102, 241, 0); transform: scale(1.02); }
+            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); transform: scale(1); }
+        }
+        .pulse-btn-green { animation: pulse-green 2s infinite; }
+        .pulse-btn-accent { animation: pulse-accent 2s infinite; border: 2px solid var(--accent) !important; background: rgba(99, 102, 241, 0.2) !important;}
 
         .profile-header { text-align:center; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
         .prof-orders table { width: 100%; border-collapse: collapse; font-size: 13px; color: #ccc; }
@@ -564,11 +577,11 @@
             </div>
             
             <form id="auth-form" onsubmit="submitAuth(event)">
-                <input type="text" id="auth-name" class="m-input" placeholder="Full Name" autocomplete="name" style="display:none;">
-                <input type="email" id="auth-email" class="m-input" placeholder="Email Address" autocomplete="email" required>
-                <input type="tel" id="auth-phone" class="m-input" placeholder="WhatsApp Number" autocomplete="tel" style="display:none;">
-                <textarea id="auth-address" class="m-input" placeholder="Complete Shipping Address" autocomplete="street-address" style="display:none; height:100px;"></textarea>
-                <input type="password" id="auth-password" class="m-input" placeholder="Password" autocomplete="current-password" required>
+                <input type="text" id="auth-name" class="m-input" placeholder="Full Name" autocomplete="name" enterkeyhint="next" style="display:none;">
+                <input type="email" id="auth-email" class="m-input" placeholder="Email Address" autocomplete="email" enterkeyhint="next" required>
+                <input type="tel" id="auth-phone" class="m-input" placeholder="WhatsApp Number" autocomplete="tel" inputmode="numeric" pattern="[0-9]*" enterkeyhint="next" style="display:none;">
+                <textarea id="auth-address" class="m-input" placeholder="Complete Shipping Address" autocomplete="street-address" enterkeyhint="done" style="display:none; height:100px;"></textarea>
+                <input type="password" id="auth-password" class="m-input" placeholder="Password" autocomplete="current-password" enterkeyhint="done" required>
                 
                 <button type="submit" class="btn btn-primary" style="width:100%; font-size:14px; margin-top:10px; background:#fff; color:#000; padding: 18px;" id="auth-btn">Sign In to Dashboard</button>
             </form>
@@ -591,12 +604,12 @@
             <div id="mobile-upi-options" class="mobile-only" style="flex-direction: column; gap: 10px; margin-bottom: 20px;">
                 <p style="color: var(--text-dim); font-size: 12px; margin-bottom: 5px;">Tap to open your UPI App directly:</p>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <a id="btn-gpay" class="upi-app-btn" href="#" style="background: #111;">Google Pay</a>
-                    <a id="btn-phonepe" class="upi-app-btn" href="#" style="background: #5e35b1;">PhonePe</a>
-                    <a id="btn-paytm" class="upi-app-btn" href="#" style="background: #0288d1;">Paytm</a>
-                    <a id="btn-bhim" class="upi-app-btn" href="#" style="background: #e65100;">BHIM App</a>
+                    <a id="btn-gpay" class="upi-app-btn" href="#" onclick="trackPaymentIntent(); vibrate(50);" style="background: #111;">Google Pay</a>
+                    <a id="btn-phonepe" class="upi-app-btn" href="#" onclick="trackPaymentIntent(); vibrate(50);" style="background: #5e35b1;">PhonePe</a>
+                    <a id="btn-paytm" class="upi-app-btn" href="#" onclick="trackPaymentIntent(); vibrate(50);" style="background: #0288d1;">Paytm</a>
+                    <a id="btn-bhim" class="upi-app-btn" href="#" onclick="trackPaymentIntent(); vibrate(50);" style="background: #e65100;">BHIM App</a>
                 </div>
-                <a id="btn-generic" class="upi-app-btn" href="#" style="background: transparent; border: 1px solid #333; color: #888; margin-top: 5px;">Other UPI App</a>
+                <a id="btn-generic" class="upi-app-btn" href="#" onclick="trackPaymentIntent(); vibrate(50);" style="background: transparent; border: 1px solid #333; color: #888; margin-top: 5px;">Other UPI App</a>
             </div>
             
             <div class="qr-box-container desktop-only">
@@ -640,7 +653,7 @@
                         Enter the real-world length of the <span style="color:#ef4444; text-decoration:underline;">RED TOP EDGE</span>:
                     </p>
                     <div class="scan-inputs">
-                        <input type="number" id="scan-line-length" placeholder="Length (e.g. 15)">
+                        <input type="number" id="scan-line-length" placeholder="Length (e.g. 15)" inputmode="decimal">
                         <select id="scan-unit">
                             <option value="cm">cm</option>
                             <option value="mm">mm</option>
@@ -659,7 +672,7 @@
             <h3 style="font-size: 24px; margin-bottom: 5px; font-weight: 800; font-family: 'Space Grotesk', sans-serif; color: #fff;">Share Your Experience</h3>
             <p style="color:var(--text-dim); font-size:13px; margin-bottom:20px;">Your feedback helps thousands of Indian resin artists make the right choice.</p>
             
-            <input type="text" id="rv-name" class="m-input" placeholder="Your Name">
+            <input type="text" id="rv-name" class="m-input" placeholder="Your Name" enterkeyhint="next">
             <div class="rm-star-select" id="rv-stars">
                 <svg data-val="1" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                 <svg data-val="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -667,10 +680,11 @@
                 <svg data-val="4" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                 <svg data-val="5" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
-            <textarea id="rv-text" class="m-input" placeholder="How was the clarity, bubble release, or curing time?"></textarea>
+            <textarea id="rv-text" class="m-input" placeholder="How was the clarity, bubble release, or curing time?" enterkeyhint="done"></textarea>
             <button class="btn btn-primary" id="rv-submit-btn" style="width:100%; font-size:13px;" onclick="submitReview()">Post Review</button>
         </div>
     </div>
+
 
     <div class="bg-layer"></div>
     <div class="bg-gradient"></div>
@@ -907,40 +921,40 @@
                     <div class="z-group">
                         <div class="z-label">Mixing Ratio</div>
                         <div class="ratio-grid">
-                            <button class="ratio-btn active" onclick="setRatio(3,1, this)">3:1</button>
-                            <button class="ratio-btn" onclick="setRatio(2,1, this)">2:1</button>
-                            <button class="ratio-btn" onclick="setRatio(1,1, this)">1:1</button>
-                            <button class="ratio-btn" onclick="toggleCustomRatio(this)">Custom</button>
+                            <button class="ratio-btn active" onclick="setRatio(3,1, this); vibrate(50);">3:1</button>
+                            <button class="ratio-btn" onclick="setRatio(2,1, this); vibrate(50);">2:1</button>
+                            <button class="ratio-btn" onclick="setRatio(1,1, this); vibrate(50);">1:1</button>
+                            <button class="ratio-btn" onclick="toggleCustomRatio(this); vibrate(50);">Custom</button>
                         </div>
                         <div id="custom-ratio" style="display:none; gap:10px; margin-bottom:15px;">
                             <input type="number" id="ratioA" class="z-number" value="3" style="width:100%;" oninput="runCalc()">
                             <input type="number" id="ratioB" class="z-number" value="1" style="width:100%;" oninput="runCalc()">
                         </div>
                         <div class="mode-toggle">
-                            <div class="mode-opt active" id="mode-cast" onclick="setMode('cast')">Casting (Deep)</div>
-                            <div class="mode-opt" id="mode-coat" onclick="setMode('coat')">Coating (Thin)</div>
+                            <div class="mode-opt active" id="mode-cast" onclick="setMode('cast'); vibrate(50);">Casting (Deep)</div>
+                            <div class="mode-opt" id="mode-coat" onclick="setMode('coat'); vibrate(50);">Coating (Thin)</div>
                         </div>
                     </div>
 
                     <div class="z-head-title">2. Dimensions</div>
                     <div class="shape-grid">
-                        <div class="shape-btn" id="btn-scan" onclick="openScanner()" style="border-color: var(--accent); background: rgba(99,102,241,0.05);">
+                        <div class="shape-btn" id="btn-scan" onclick="openScanner(); vibrate(50);" style="border-color: var(--accent); background: rgba(99,102,241,0.05);">
                             <svg viewBox="0 0 24 24" stroke="var(--accent)"><path d="M3 3h6v2H5v4H3V3zm18 0h-6v2h4v4h2V3zM3 21h6v-2H5v-4H3v6zm18 0h-6v-2h4v-4h2v6z" fill="currentColor"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
                             <span style="color: var(--accent);">Smart Scan</span>
                         </div>
                         
-                        <div class="shape-btn active" id="btn-rect" onclick="setShape('rect')"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/></svg><span>Square</span></div>
-                        <div class="shape-btn" id="btn-circ" onclick="setShape('circ')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg><span>Circle</span></div>
-                        <div class="shape-btn" id="btn-tri" onclick="setShape('tri')"><svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/></svg><span>Triangle</span></div>
-                        <div class="shape-btn" id="btn-pyr" onclick="setShape('pyr')"><svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z" fill="none" stroke="currentColor"/><path d="M12 2v20"/></svg><span>Pyramid</span></div>
-                        <div class="shape-btn" id="btn-sph" onclick="setShape('sph')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><span>Orb</span></div>
+                        <div class="shape-btn active" id="btn-rect" onclick="setShape('rect'); vibrate(50);"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/></svg><span>Square</span></div>
+                        <div class="shape-btn" id="btn-circ" onclick="setShape('circ'); vibrate(50);"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg><span>Circle</span></div>
+                        <div class="shape-btn" id="btn-tri" onclick="setShape('tri'); vibrate(50);"><svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/></svg><span>Triangle</span></div>
+                        <div class="shape-btn" id="btn-pyr" onclick="setShape('pyr'); vibrate(50);"><svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z" fill="none" stroke="currentColor"/><path d="M12 2v20"/></svg><span>Pyramid</span></div>
+                        <div class="shape-btn" id="btn-sph" onclick="setShape('sph'); vibrate(50);"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><span>Orb</span></div>
                     </div>
 
                     <div class="preset-row">
-                        <button class="preset-btn" onclick="setPreset('varmala')">Varmala</button>
-                        <button class="preset-btn" onclick="setPreset('clock')">Clock</button>
-                        <button class="preset-btn" onclick="setPreset('geode')">Geode</button>
-                        <button class="preset-btn" onclick="setPreset('tray')">Tray</button>
+                        <button class="preset-btn" onclick="setPreset('varmala'); vibrate(50);">Varmala</button>
+                        <button class="preset-btn" onclick="setPreset('clock'); vibrate(50);">Clock</button>
+                        <button class="preset-btn" onclick="setPreset('geode'); vibrate(50);">Geode</button>
+                        <button class="preset-btn" onclick="setPreset('tray'); vibrate(50);">Tray</button>
                     </div>
 
                     <div id="dims-rect">
@@ -978,7 +992,7 @@
                         </div>
                     </div>
                     <div class="env-card" id="env-card">
-                        <button class="auto-btn" onclick="autoDetectWeather()"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Auto-Detect Conditions</button>
+                        <button class="auto-btn" onclick="autoDetectWeather(); vibrate(50);"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Auto-Detect Conditions</button>
                         <div id="weather-status" style="font-size:11px; text-align:center; color:var(--text-muted); margin-bottom:15px; display:none;">Searching GPS & IP...</div>
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
                             <div><div class="z-label">Indoor Temp</div><input type="range" class="z-slider" id="env-temp" min="5" max="50" value="25" oninput="runCalc(); document.getElementById('val-temp').innerText=this.value+'°C'"><div id="val-temp" style="font-size:14px; font-weight:800; text-align:right; margin-top:5px; color:var(--text-dark);">25°C</div></div>
@@ -1157,7 +1171,7 @@
 
     <div class="cart-reminder" id="cartReminder">👇</div>
 
-    <div class="cart-fab" onclick="toggleCart()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-7-2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2zm-5-10h2l1 14h13"/></svg><div class="cart-count" id="cartCount">0</div></div>
+    <div class="cart-fab" onclick="toggleCart(); vibrate(50);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-7-2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2zm-5-10h2l1 14h13"/></svg><div class="cart-count" id="cartCount">0</div></div>
     
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-overlay" onclick="toggleCart()"></div>
@@ -1175,7 +1189,7 @@
                     <span id="cartTotal" style="color:#fff;">₹0</span>
                 </div>
                 
-                <button id="main-checkout-btn" class="checkout-btn" onclick="initiateCheckout()">
+                <button id="main-checkout-btn" class="checkout-btn" onclick="initiateCheckout(); vibrate(50);">
                     Proceed to Secure Checkout
                 </button>
             </div>
@@ -1195,7 +1209,7 @@
             </div>
         </div>
 
-        <div id="admin-main-view" style="display:none; height:100vh;">
+        <div id="admin-main-view" style="display:none; height:100vh; height:100dvh;">
             <div class="admin-sidebar">
                 <div style="font-family:'Space Grotesk', sans-serif; font-size:24px; font-weight:800; margin-bottom:40px;">M-X LUMES.</div>
                 <div class="admin-nav-item active" onclick="adminSwitchTab('orders', this)">Orders</div>
@@ -1263,10 +1277,19 @@
         let currentAuthMode = 'login';
         let checkoutTotal = 0;
         let userLocation = "Unknown";
+        
+        // 🛡️ AUTO-SENSING PAYMENT VARS
+        let isVerifying = false;
+        window.paymentIntentFired = null;
 
         const escapeHTML = (str) => {
             if (str == null) return '';
             return String(str).replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+        };
+        
+        // 🛡️ HAPTIC FEEDBACK ENGINE
+        const vibrate = (ms) => {
+            try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {}
         };
 
         window.onload = () => {
@@ -1287,12 +1310,29 @@
             }, 2000);
         };
 
+        // 🛡️ LEVEL 20: SMART AUTO-SENSOR WITH VERIFICATION PROMPT
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "visible" && window.paymentIntentFired) {
+                const timeAway = Date.now() - window.paymentIntentFired;
+                window.paymentIntentFired = null; 
+                
+                // If they were gone for at least 4 seconds, prompt them to verify
+                if (timeAway > 4000 && !isVerifying && cart.length > 0) {
+                    const btn = document.getElementById('pay-confirm-btn');
+                    if(btn && !btn.disabled) {
+                        btn.innerText = "Tap to Verify Payment ➝";
+                        btn.classList.add('pulse-btn-accent'); // Add glowing animation
+                        showToast("Welcome back! Please verify your order.");
+                    }
+                }
+            }
+        });
+
         // =========================================
         // 2. AUTHENTICATION & PROFILE 
         // =========================================
         function blurInputs() { document.activeElement?.blur(); }
 
-        // 🛡️ MOBILE SCROLL LOCK HELPERS
         function lockScroll() {
             document.body.style.overflow = 'hidden';
             document.documentElement.style.overscrollBehavior = 'none';
@@ -1312,11 +1352,11 @@
                 
                 if (user && token) {
                     authLink.innerHTML = `Hi, ${escapeHTML(user.name).split(' ')[0]} <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
-                    authLink.onclick = (e) => { e.preventDefault(); openProfileModal(); }; 
+                    authLink.onclick = (e) => { e.preventDefault(); openProfileModal(); vibrate(50); }; 
                     syncCartWithCloud(); 
                 } else {
                     authLink.innerHTML = `Sign In <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
-                    authLink.onclick = (e) => { e.preventDefault(); openAuthModal(); };
+                    authLink.onclick = (e) => { e.preventDefault(); openAuthModal(); vibrate(50); };
                 }
             } catch(e) {
                 localStorage.removeItem('mxlumes_user');
@@ -1373,7 +1413,7 @@
                                 </div>
                             `;
                         } else {
-                            actionBtn = `<button class="btn btn-outline" style="padding: 6px 12px; font-size:10px; background:#fff; color:#000;" onclick="printInvoice('${escapeHTML(o.orderId)}', '${escapeHTML(o.createdAt)}', ${o.totalAmount}, '${itemsJson}')">Download Invoice</button>`;
+                            actionBtn = `<button class="btn btn-outline" style="padding: 6px 12px; font-size:10px; background:#fff; color:#000;" onclick="printInvoice('${escapeHTML(o.orderId)}', '${escapeHTML(o.createdAt)}', ${o.totalAmount}, '${itemsJson}'); vibrate(50);">Download Invoice</button>`;
                         }
 
                         tbodyHtml += `
@@ -1444,7 +1484,6 @@
                         .qr-box img { width: 80px; height: 80px; border-radius: 8px; border: 1px solid var(--border); padding: 4px; }
                         .qr-box span { display: block; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); margin-top: 8px; }
                         
-                        /* 🛡️ SAFARI PRINT FIX */
                         .btn-print { background: var(--black); color: #fff; padding: 15px 30px; text-align: center; border-radius: 30px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-size: 12px; margin-bottom: 20px; display: inline-block; }
                         @media print {
                             @page { size: A4; margin: 0; }
@@ -1671,6 +1710,7 @@
         }
 
         function addToCart(name, price) {
+            vibrate(50); // Haptic response
             let totalUniqueItems = cart.length;
             let existingItem = cart.find(i => i.name === name);
             
@@ -1691,6 +1731,7 @@
         }
 
         function updateQty(name, change) {
+            vibrate(30);
             let item = cart.find(i => i.name === name);
             if(item) { item.qty += change; if(item.qty <= 0) cart = cart.filter(i => i.name !== name); }
             renderCart(); syncCartWithCloud(cart);
@@ -1749,13 +1790,14 @@
         // 4. M-X SECUREPAY GATEWAY LOGIC
         // =========================================
         
+        let currentUpiString = "";
+
         function initiateCheckout() {
             if (cart.length === 0) return alert('Your cart is empty!');
             
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
             if (!user) { openAuthModal(); showToast("Please Sign In to complete your order", true); return; }
 
-            // 🛡️ NATIVE IOS ANCHOR INTENTS
             const amountFixed = checkoutTotal.toFixed(2);
             const payeeName = encodeURIComponent("M-X Lumes");
             const baseParams = `pa=${MERCHANT_UPI_ID}&pn=${payeeName}&am=${amountFixed}&cu=INR&tn=Resin%20Order`;
@@ -1779,6 +1821,9 @@
             document.getElementById('payment-modal-overlay').classList.remove('active'); 
             unlockScroll();
             
+            isVerifying = false;
+            window.paymentIntentFired = null;
+            
             const btn = document.getElementById('pay-confirm-btn');
             btn.style.display = 'block';
             btn.disabled = false;
@@ -1786,18 +1831,26 @@
             btn.onclick = finalizeOrder; 
             btn.style.background = "var(--accent)";
             btn.style.color = "#fff";
+            btn.classList.remove('pulse-btn-accent');
+            btn.classList.remove('pulse-btn-green');
             
             const trustMsg = document.getElementById('trust-msg-block');
             if(trustMsg) trustMsg.remove();
         }
 
         async function finalizeOrder() {
-            const user = JSON.parse(localStorage.getItem('mxlumes_user'));
-            const payload = { email: user.email, items: cart, totalAmount: checkoutTotal, location: userLocation };
-
             const btn = document.getElementById('pay-confirm-btn');
+            
+            if (isVerifying || btn.disabled) return;
+            isVerifying = true;
+            vibrate(50);
+            
+            btn.classList.remove('pulse-btn-accent');
             btn.innerText = "Verifying with Bank API...";
             btn.disabled = true; 
+
+            const user = JSON.parse(localStorage.getItem('mxlumes_user'));
+            const payload = { email: user.email, items: cart, totalAmount: checkoutTotal, location: userLocation };
 
             try {
                 const response = await fetch(`${RENDER_URL}/api/orders`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
@@ -1820,20 +1873,22 @@
                 
                 cart = []; renderCart(); syncCartWithCloud([]); 
                 
-                // 🛡️ NATIVE IOS WHATSAPP LAUNCHER
-                btn.innerText = "Proceed to WhatsApp";
+                // 🛡️ STEP 2 WHATSAPP HANDOFF
+                btn.innerText = "Step 2: Send Receipt on WhatsApp";
                 btn.style.background = "var(--whatsapp)";
                 btn.style.color = "#000";
+                btn.classList.add('pulse-btn-green');
                 btn.disabled = false;
                 btn.onclick = () => {
+                    vibrate(50);
                     window.location.href = `https://wa.me/917668077298?text=${encodeURIComponent(msg)}`;
-                    closePaymentModal();
                 };
 
             } catch (error) { 
                 alert(error.message || "Issue logging order. Redirecting to WhatsApp for manual support."); 
                 btn.innerText = "✓ I Have Completed The Payment";
                 btn.disabled = false;
+                isVerifying = false;
             }
         }
 
