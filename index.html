@@ -48,9 +48,23 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        html { font-size: 16px; scroll-behavior: smooth; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        /* 🛡️ LEVEL 28: SCROLL LOCK FIX (Removed smooth scroll & dual hidden states) */
+        html, body {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden; 
+        }
         
-        body { background-color: var(--bg-oled); color: var(--text-main); font-family: 'Manrope', sans-serif; line-height: 1.6; width: 100%; max-width: 100vw; overflow-x: hidden; position: relative; overscroll-behavior-y: none; }
+        body { 
+            background-color: var(--bg-oled); 
+            color: var(--text-main); 
+            font-family: 'Manrope', sans-serif; 
+            line-height: 1.6; 
+            position: relative; 
+            font-size: 16px;
+        }
 
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; line-height: 1.1; letter-spacing: -0.02em; }
         a { text-decoration: none; color: inherit; transition: color 0.3s var(--ease-fluid); }
@@ -58,7 +72,6 @@
         button:disabled { opacity: 0.5; cursor: not-allowed; }
         img { display: block; max-width: 100%; height: auto; user-select: none; }
         
-        /* Input Overrides */
         input, select, textarea { font-size: 16px !important; font-family: 'Manrope', sans-serif; -webkit-appearance: none; appearance: none; border-radius: 12px; }
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
@@ -69,10 +82,10 @@
         }
 
         /* =========================================
-           2. PERFORMANCE BACKGROUND ENGINE (Blank Page Fix)
+           2. ORIGINAL BACKGROUND ENGINE
            ========================================= */
-        .bg-layer { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -5; background-color: var(--bg-oled); background-image: url('product-1.webp'); background-position: center bottom; background-repeat: no-repeat; background-size: 65%; opacity: 0.5; transform: translateZ(0); }
-        .bg-gradient { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -4; background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.9) 50%, #000000 90%); pointer-events: none; transform: translateZ(0); }
+        .bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; z-index: -5; background-color: var(--bg-oled); background-image: url('product-1.webp'); background-position: center bottom; background-repeat: no-repeat; background-size: 65%; opacity: 0.5; transform: translateZ(0); }
+        .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; z-index: -4; background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.9) 50%, #000000 90%); pointer-events: none; transform: translateZ(0); }
 
         /* =========================================
            3. UI COMPONENTS & ANIMATIONS
@@ -80,7 +93,6 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; }
         .section { padding: 100px 0; position: relative; z-index: 2; }
         
-        /* REMOVED will-change to prevent VRAM crashes */
         .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s var(--ease-fluid), transform 0.8s var(--ease-fluid); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
@@ -452,7 +464,7 @@
         .v-send:disabled { background: #333; cursor: not-allowed; }
 
         /* =========================================
-           14. FOOTER (HIGH CONTRAST)
+           14. FOOTER 
            ========================================= */
         .footer { padding: 120px 20px 60px; background: #ffffff; border-top: 1px solid var(--border-light); }
         .f-top-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; margin-bottom: 100px; max-width: 1200px; margin: 0 auto; }
@@ -471,7 +483,7 @@
         .f-copy { font-size: 12px; color: #555555; font-weight: 800; cursor: pointer; user-select: none; }
 
         /* =========================================
-           15. SECRET SUPREME ADMIN PORTAL 
+           15. ADMIN PORTAL 
            ========================================= */
         #supreme-admin-portal {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh;
@@ -582,7 +594,7 @@
             
             <form id="auth-form" onsubmit="submitAuth(event)">
                 <input type="text" id="auth-name" class="m-input" placeholder="Full Name" autocomplete="name" enterkeyhint="next" style="display:none;">
-                <input type="email" id="auth-email" class="m-input" placeholder="Email Address (Optional)" autocomplete="email" enterkeyhint="next" style="display:none;">
+                <input type="email" id="auth-email" class="m-input" placeholder="Email Address" autocomplete="email" enterkeyhint="next" style="display:none;">
                 
                 <input type="tel" id="auth-phone" class="m-input" placeholder="10-Digit Mobile Number" autocomplete="tel" inputmode="numeric" pattern="[0-9]*" enterkeyhint="done" required>
                 
@@ -695,7 +707,6 @@
             <button class="btn btn-primary" id="rv-submit-btn" style="width:100%; font-size:13px;" onclick="submitReview()">Post Review</button>
         </div>
     </div>
-
 
     <div class="bg-layer"></div>
     <div class="bg-gradient"></div>
@@ -1146,7 +1157,7 @@
                 </div>
                 
                 <div class="f-copy" onclick="window.open('dashboard.html', '_blank')" style="cursor:pointer; user-select:none;">
-    © 2026 M-X Lumes. Engineered in Meerut. v2.7
+    © 2026 M-X Lumes. Engineered in Meerut. v2.8
 </div>
             </div>
         </div>
@@ -1288,6 +1299,7 @@
         window.paymentIntentFired = null;
         let pendingCheckout = false; 
 
+        // 🛡️ FRONTEND AUTO-HEALER
         const escapeHTML = (str) => {
             if (str == null) return '';
             return String(str).replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
@@ -1315,11 +1327,34 @@
             }, 2000);
         };
 
-        // 🛡️ LEVEL 27: SAFARI BF-CACHE RESET (Blank Page Fix)
+        // 🛡️ LEVEL 28: STATEFUL SCROLL LOCK ENGINE
+        let scrollLockCount = 0;
+        
+        function lockScroll() {
+            scrollLockCount++;
+            if (scrollLockCount === 1) {
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function unlockScroll() {
+            scrollLockCount--;
+            if (scrollLockCount <= 0) {
+                scrollLockCount = 0;
+                document.body.style.overflow = '';
+            }
+        }
+
+        function forceUnlockScroll() {
+            scrollLockCount = 0;
+            document.body.style.overflow = '';
+        }
+
+        // 🛡️ SAFARI BF-CACHE EMERGENCY RESET
         window.addEventListener('pageshow', function(event) {
             if (event.persisted) {
                 isVerifying = false;
-                unlockScroll();
+                forceUnlockScroll();
                 document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
                 const btn = document.getElementById('pay-confirm-btn');
                 if(btn) {
@@ -1352,17 +1387,6 @@
         // 2. AUTHENTICATION & PROFILE 
         // =========================================
         function blurInputs() { document.activeElement?.blur(); }
-
-        function lockScroll() {
-            document.body.style.overflow = 'hidden';
-            document.documentElement.style.overscrollBehavior = 'none';
-            document.body.style.overscrollBehavior = 'none';
-        }
-        function unlockScroll() {
-            document.body.style.overflow = '';
-            document.documentElement.style.overscrollBehavior = '';
-            document.body.style.overscrollBehavior = '';
-        }
 
         function checkAuthStatus() {
             try {
@@ -1643,9 +1667,7 @@
             document.getElementById('auth-name').style.display = 'block'; document.getElementById('auth-name').required = true;
             document.getElementById('auth-phone').style.display = 'block'; document.getElementById('auth-phone').required = true;
             document.getElementById('auth-address').style.display = 'block'; document.getElementById('auth-address').required = true;
-            
-            // Optional Email for Guest Checkout
-            document.getElementById('auth-email').style.display = 'block'; document.getElementById('auth-email').required = false;
+            document.getElementById('auth-email').style.display = 'block'; document.getElementById('auth-email').required = true;
             
             document.getElementById('auth-btn').innerHTML = "Continue to Payment &nbsp; 🔒";
         }
@@ -1672,7 +1694,7 @@
             
             if (mode === 'signup') {
                 nameInp.style.display = 'block'; nameInp.required = true;
-                emailInp.style.display = 'block'; emailInp.required = false;
+                emailInp.style.display = 'block'; emailInp.required = true;
                 phoneInp.style.display = 'block'; phoneInp.required = true;
                 addrInp.style.display = 'block'; addrInp.required = true;
                 btn.innerText = "Create Account";
@@ -1700,7 +1722,6 @@
             btn.innerText = "Processing..."; 
             errorDiv.style.display = 'none';
 
-            // 🛡️ EXTRACT EXACTLY 10 DIGITS
             const rawPhone = document.getElementById('auth-phone').value.trim();
             const cleanPhone = rawPhone.replace(/\D/g, '').slice(-10);
 
@@ -1712,7 +1733,6 @@
                 return;
             }
 
-            // 🛡️ DEDICATED PHONE LOGIN
             if (currentAuthMode === 'login') {
                 try {
                     const response = await fetch(`${RENDER_URL}/api/login/phone`, { 
@@ -1742,7 +1762,6 @@
                 return;
             }
 
-            // 🛡️ GUEST CHECKOUT / SIGNUP ROUTER
             const name = document.getElementById('auth-name').value.trim();
             let email = document.getElementById('auth-email').value.trim();
             const address = document.getElementById('auth-address').value.trim();
@@ -1770,7 +1789,10 @@
                     localStorage.setItem('mxlumes_user', JSON.stringify(data.user));
                     closeAuthModal();
                     checkAuthStatus();
-                    if(currentAuthMode === 'guest' || pendingCheckout) initiateCheckout(); 
+                    if(currentAuthMode === 'guest' || pendingCheckout) {
+                        pendingCheckout = false;
+                        initiateCheckout(); 
+                    }
                     return;
                 } else if (response.status === 400 || response.status === 409) {
                     
@@ -1785,7 +1807,10 @@
                         localStorage.setItem('mxlumes_user', JSON.stringify(loginData.user));
                         closeAuthModal();
                         checkAuthStatus();
-                        if(currentAuthMode === 'guest' || pendingCheckout) initiateCheckout(); 
+                        if(currentAuthMode === 'guest' || pendingCheckout) {
+                            pendingCheckout = false;
+                            initiateCheckout(); 
+                        }
                         return;
                     } else {
                         throw new Error("Email exists, but phone number doesn't match our records. Please try logging in.");
@@ -1893,8 +1918,13 @@
 
         function toggleCart() { 
             const sidebar = document.getElementById('cartSidebar');
-            sidebar.classList.toggle('active'); 
-            if(sidebar.classList.contains('active')) lockScroll(); else unlockScroll();
+            if (sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                unlockScroll();
+            } else {
+                sidebar.classList.add('active');
+                lockScroll();
+            }
             updateReminder(); 
         }
         
@@ -1928,6 +1958,8 @@
             
             if (!user || !user.phone) { 
                 pendingCheckout = true; 
+                document.getElementById('cartSidebar').classList.remove('active');
+                forceUnlockScroll();
                 openGuestCheckoutModal(); 
                 return; 
             }
@@ -1945,7 +1977,9 @@
             document.getElementById('upi-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent('upi://pay?' + baseParams)}`;
             document.getElementById('payment-total').innerText = `₹${checkoutTotal.toLocaleString()}`;
             
-            toggleCart(); 
+            document.getElementById('cartSidebar').classList.remove('active');
+            forceUnlockScroll();
+            
             document.getElementById('payment-modal-overlay').classList.add('active');
             lockScroll();
             
