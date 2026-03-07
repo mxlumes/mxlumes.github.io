@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="description" content="M-X Lumes: Professional 3:1 Epoxy Resin Systems.">
     <meta name="theme-color" content="#000000">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <title>M-X Lumes | The Professional Standard</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,7 +55,7 @@
         button:disabled { opacity: 0.5; cursor: not-allowed; }
         img { display: block; max-width: 100%; height: auto; user-select: none; }
         
-        input, select, textarea { font-size: 16px !important; font-family: 'Manrope', sans-serif; -webkit-appearance: none; appearance: none; }
+        input, select, textarea { font-size: 16px !important; font-family: 'Manrope', sans-serif; -webkit-appearance: none; appearance: none; border-radius: 12px; }
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
         input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active{
@@ -106,23 +111,19 @@
         .hero { min-height: 80dvh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; padding-top: 80px; padding-bottom: 40px; position: relative; }
         .hero h1 { font-size: clamp(42px, 10vw, 100px); margin-bottom: 24px; font-weight: 800; background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
         .hero p { color: var(--text-dim); font-size: 18px; max-width: 500px; margin-bottom: 40px; padding: 0 20px; font-weight: 400;}
-
         .premium-stamp { position: absolute; top: 20%; right: 12%; width: 140px; height: 140px; animation: spinStamp 15s linear infinite; z-index: 5; pointer-events: none; opacity: 0.9; filter: drop-shadow(0 10px 20px rgba(239, 68, 68, 0.3)); }
         @keyframes spinStamp { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
         .marquee { position: absolute; bottom: 0; width: 100%; background: #000; border-top: 1px solid var(--border); padding: 16px 0; overflow: hidden; white-space: nowrap; user-select: none; }
         .marquee-content { display: inline-block; animation: scroll 40s linear infinite; }
         .marquee-item { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: var(--text-dim); margin: 0 40px; opacity: 0.7; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* =========================================
-           6. SHOP & GRIDS (RESTORED GLASS)
+           6. SHOP & GRIDS 
            ========================================= */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        
         .product-card { padding: 30px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s, border-color 0.4s; background: linear-gradient(135deg, rgba(230, 230, 240, 0.1) 0%, rgba(180, 180, 190, 0.05) 100%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius); will-change: transform, box-shadow; transform: translateZ(0); }
         @media (hover: hover) { .product-card:hover { transform: translateY(-10px); border-color: rgba(255,255,255,0.4); box-shadow: 0 25px 50px rgba(0,0,0,0.6); } }
-        
         .p-img { width: 100%; height: 280px; object-fit: cover; border-radius: 16px; margin-bottom: 25px; opacity: 0.9; transition: opacity 0.4s; }
         .product-card:hover .p-img { opacity: 1; }
         .p-tag { font-size: 10px; font-weight: 800; border: 1px solid var(--border); padding: 6px 12px; border-radius: 20px; color: var(--text-dim); text-transform: uppercase; display: inline-block; margin-bottom: 15px; letter-spacing: 1px; }
@@ -168,7 +169,7 @@
         @media (hover: hover) { .dd-box.donts:hover { border-color: rgba(239, 68, 68, 0.5); box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1); } }
 
         /* =========================================
-           8. TITAN FUSION CALCULATOR (ORIGINAL UX)
+           8. TITAN FUSION CALCULATOR 
            ========================================= */
         .zenith-calc { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 40px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 40px 100px -30px rgba(0,0,0,0.8); transform: translateZ(0); }
         .z-controls { padding: 40px; border-bottom: 1px solid #ccc; position: relative; }
@@ -322,7 +323,8 @@
             background: #0a0a0a; border: 1px solid var(--border); border-radius: 24px;
             width: 100%; max-width: 400px; padding: 35px; position: relative;
             transform: scale(0.95); transition: transform 0.3s; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-            max-height: 90vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
+            max-height: 90vh; max-height: 90dvh; overflow-y: auto; -webkit-overflow-scrolling: touch;
+            padding-bottom: calc(35px + env(safe-area-inset-bottom));
         }
         .modal-overlay.active .modal-content { transform: scale(1); }
         
@@ -333,6 +335,7 @@
             width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
             padding: 16px; border-radius: 12px; color: #fff; font-size: 14px; font-weight: 500;
             margin-bottom: 15px; outline: none; transition: border-color 0.2s, background 0.2s; font-family: 'Manrope', sans-serif;
+            -webkit-appearance: none;
         }
         .m-input:focus { border-color: var(--accent); }
 
@@ -340,7 +343,7 @@
             background:#0a0a0a; border:1px solid #333; text-align:center; padding: 35px;
             border-radius:24px; max-width:400px; position:relative;
             transform: scale(0.95); transition: transform 0.3s; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-            max-height: 90vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
+            max-height: 90vh; max-height: 90dvh; overflow-y: auto; -webkit-overflow-scrolling: touch;
         }
         .modal-overlay.active .payment-modal { transform: scale(1); }
         
@@ -1130,7 +1133,7 @@
                 </div>
                 
                 <div class="f-copy" onclick="window.open('dashboard.html', '_blank')" style="cursor:pointer; user-select:none;">
-    © 2026 M-X Lumes. Engineered in Meerut.
+    © 2026 M-X Lumes. Engineered in Meerut. v2.6
 </div>
             </div>
         </div>
@@ -1272,6 +1275,7 @@
         window.paymentIntentFired = null;
         let pendingCheckout = false; 
 
+        // 🛡️ FRONTEND AUTO-HEALER
         const escapeHTML = (str) => {
             if (str == null) return '';
             return String(str).replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
@@ -1298,6 +1302,21 @@
                 }
             }, 2000);
         };
+
+        // 🛡️ LEVEL 26: SAFARI BF-CACHE RESET
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                isVerifying = false;
+                const btn = document.getElementById('pay-confirm-btn');
+                if(btn) {
+                    btn.disabled = false;
+                    btn.innerText = "✓ I Have Completed The Payment";
+                    btn.classList.remove('pulse-btn-accent', 'pulse-btn-green');
+                    btn.style.background = "var(--accent)";
+                    btn.style.color = "#fff";
+                }
+            }
+        });
 
         document.addEventListener("visibilitychange", () => {
             if (document.visibilityState === "visible" && window.paymentIntentFired) {
@@ -1337,11 +1356,13 @@
                 const token = localStorage.getItem('mxlumes_token');
                 const authLink = document.getElementById('nav-auth-link');
                 
-                if (user && token) {
+                if (user && token && user.phone) {
                     authLink.innerHTML = `Hi, ${escapeHTML(user.name).split(' ')[0]} <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
                     authLink.onclick = (e) => { e.preventDefault(); openProfileModal(); vibrate(50); }; 
                     syncCartWithCloud(); 
                 } else {
+                    localStorage.removeItem('mxlumes_user');
+                    localStorage.removeItem('mxlumes_token');
                     authLink.innerHTML = `Sign In <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
                     authLink.onclick = (e) => { e.preventDefault(); openAuthModal(); vibrate(50); };
                 }
@@ -1358,16 +1379,20 @@
             if(!user) return;
             
             document.getElementById('prof-name').innerText = escapeHTML(user.name);
-            document.getElementById('prof-email').innerText = escapeHTML(user.email);
+            document.getElementById('prof-email').innerText = escapeHTML(user.email || user.phone);
             
             const tbody = document.getElementById('prof-orders-tbody');
             tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888;">Loading orders...</td></tr>';
+
+            // GENERATE SAFE EMAIL FOR FETCH
+            let safeEmail = user.email;
+            if(!safeEmail) safeEmail = `user_${user.phone}@mxlumes.com`;
 
             try {
                 const res = await fetch(`${RENDER_URL}/api/user/orders`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ email: user.email })
+                    body: JSON.stringify({ email: safeEmail })
                 });
                 
                 if (res.status === 429) {
@@ -1432,7 +1457,7 @@
             const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(waLink)}`;
 
             const safeName = escapeHTML(user.name);
-            const safeEmail = escapeHTML(user.email);
+            const safeEmail = escapeHTML(user.email || user.phone);
             const safePhone = user.phone ? escapeHTML(user.phone) : 'No Phone Provided';
             const safeAddress = user.address ? escapeHTML(user.address).replace(/\n/g, '<br>') : 'Address not provided during checkout.';
 
@@ -1660,7 +1685,7 @@
             btn.innerText = "Processing..."; 
             errorDiv.style.display = 'none';
 
-            // 🛡️ MOBILE NUMBER PARSER: Extracts exactly 10 digits regardless of spaces or +91
+            // 🛡️ EXTRACT EXACTLY 10 DIGITS
             const rawPhone = document.getElementById('auth-phone').value.trim();
             const cleanPhone = rawPhone.replace(/\D/g, '').slice(-10);
 
@@ -1704,11 +1729,14 @@
 
             // 🛡️ GUEST CHECKOUT / SIGNUP ROUTER
             const name = document.getElementById('auth-name').value.trim();
-            const email = document.getElementById('auth-email').value.trim();
+            let email = document.getElementById('auth-email').value.trim();
             const address = document.getElementById('auth-address').value.trim();
-            const password = cleanPhone; // Use phone as backend password bypass
+            const password = cleanPhone; 
+            
+            // 🛡️ AUTO-HEALER: Generate fallback email if blank
+            if (!email) email = `user_${cleanPhone}@mxlumes.com`;
 
-            if (!name || !email || !address) {
+            if (!name || !address) {
                 errorDiv.innerText = "Please complete all fields.";
                 errorDiv.style.display = 'block';
                 btn.innerHTML = originalBtnText;
@@ -1731,7 +1759,7 @@
                     if(currentAuthMode === 'guest' || pendingCheckout) initiateCheckout(); 
                     return;
                 } else if (response.status === 400 || response.status === 409) {
-                    // SILENT AUTO-LOGIN: Email already exists, intercepting and logging them in instantly
+                    
                     const loginRes = await fetch(`${RENDER_URL}/api/login/phone`, { 
                         method: 'POST', headers: { 'Content-Type': 'application/json' }, 
                         body: JSON.stringify({ phone: cleanPhone }) 
@@ -1749,13 +1777,13 @@
                         throw new Error("Email exists, but phone number doesn't match our records. Please try logging in.");
                     }
                 } else {
-                    throw new Error("Failed to process details. Please try again.");
+                    throw new Error("Failed to process delivery details. Please try again.");
                 }
             } catch(err) {
                 errorDiv.innerText = err.message; 
                 errorDiv.style.display = 'block'; 
                 if(err.message.includes("logging in")) {
-                    setTimeout(() => { switchAuthTab('login'); document.getElementById('auth-phone').value = rawPhone; }, 2000);
+                    setTimeout(() => { switchAuthTab('login'); document.getElementById('auth-phone').value = cleanPhone; }, 2000);
                 }
             } finally {
                 btn.disabled = false;
@@ -1777,7 +1805,11 @@
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
             if (!user) return;
             try {
-                const response = await fetch(`${RENDER_URL}/api/user/sync-cart`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: user.email, cartData }) });
+                // Generate safe email for cloud sync
+                let safeEmail = user.email;
+                if (!safeEmail) safeEmail = `user_${user.phone}@mxlumes.com`;
+                
+                const response = await fetch(`${RENDER_URL}/api/user/sync-cart`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: safeEmail, cartData }) });
                 if (response.status === 429) return; 
                 const data = await response.json();
                 if (!cartData && data.cart && data.cart.length > 0) { cart = data.cart; renderCart(); }
@@ -1878,8 +1910,11 @@
         function initiateCheckout() {
             if (cart.length === 0) return showToast("Your cart is empty", true);
             
-            const user = JSON.parse(localStorage.getItem('mxlumes_user'));
-            if (!user) { 
+            let user = null;
+            try { user = JSON.parse(localStorage.getItem('mxlumes_user')); } catch(e){}
+            
+            // Allow checkout if user exists and has a phone number
+            if (!user || !user.phone) { 
                 pendingCheckout = true; 
                 openGuestCheckoutModal(); 
                 return; 
@@ -1941,8 +1976,30 @@
             btn.disabled = true; 
             errBox.style.display = 'none';
 
-            const user = JSON.parse(localStorage.getItem('mxlumes_user'));
-            const payload = { email: user.email, items: cart, totalAmount: checkoutTotal, location: userLocation };
+            let user = null;
+            try { user = JSON.parse(localStorage.getItem('mxlumes_user')); } catch(e){}
+
+            if (!user || !user.phone) {
+                errBox.innerText = "⚠ Session expired. Please close this and securely re-enter your delivery details.";
+                errBox.style.display = 'block';
+                btn.innerText = "✓ Try Verification Again";
+                btn.disabled = false;
+                isVerifying = false;
+                logout(new Event('click')); 
+                return;
+            }
+
+            // 🛡️ FRONTEND AUTO-HEALER: Generates safe email if empty, maps pure JS object for Cart
+            let safeEmail = user.email;
+            if(!safeEmail) safeEmail = `user_${user.phone}@mxlumes.com`;
+            
+            const cleanCart = cart.map(item => ({ 
+                name: escapeHTML(item.name), 
+                price: Number(item.price), 
+                qty: Number(item.qty) 
+            }));
+
+            const payload = { email: safeEmail, items: cleanCart, totalAmount: checkoutTotal, location: userLocation };
 
             try {
                 const response = await fetch(`${RENDER_URL}/api/orders`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
@@ -2401,171 +2458,4 @@
                                 <div style="color:#aaa; font-size:11px; margin-top:6px; line-height:1.4; max-width:220px; word-wrap: break-word;">
                                     📍 ${userAddress}
                                 </div>
-                                ${userPhone ? `<a href="https://wa.me/91${userPhone}?text=Hi!%20Update%20regarding%20your%20M-X%20Lumes%20order%20${encodeURIComponent(o.orderId)}:" target="_blank" style="color:var(--whatsapp); text-decoration:none; font-size:11px; display:inline-block; margin-top:6px; border:1px solid var(--whatsapp); padding:3px 6px; border-radius:4px;">WhatsApp</a>` : ''}
-                            </td>
-                            <td style="padding:15px; vertical-align:top; font-weight:800; color:var(--success);">₹${(o.totalAmount || 0).toLocaleString()}</td>
-                            <td style="padding:15px; vertical-align:top;">
-                                <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px;">
-                                    <select onchange="updateOrderStatus('${escapeHTML(o.orderId)}', this.value, this)" style="background:#000; color:${selectColor}; border:1px solid ${selectColor}; padding:6px; border-radius:6px; outline:none; font-size:11px; font-weight:800; cursor:pointer;" data-original="${o.status}">
-                                        <option value="Pending Verification" ${o.status === 'Pending Verification' ? 'selected' : ''}>Pending (Unpaid)</option>
-                                        <option value="Processing" ${o.status === 'Processing' ? 'selected' : ''}>Paid & Processing</option>
-                                        <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
-                                        <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
-                                    </select>
-                                    <button onclick="adminEditOrder('${escapeHTML(o.orderId)}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎ Edit</button>
-                                    <button onclick="adminDeleteOrder('${escapeHTML(o.orderId)}', this)" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕ Del</button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                });
-            }
-            oBody.innerHTML = oHtml;
-
-            const uBody = document.getElementById('admin-users-tbody');
-            let uHtml = '';
-            globalUsers.forEach(u => {
-                uHtml += `
-                    <tr style="border-bottom: 1px solid #333;">
-                        <td style="padding:15px; font-weight:800; color:#fff;">${escapeHTML(u.name)}</td>
-                        <td style="padding:15px; color:#aaa;">${escapeHTML(u.email)}</td>
-                        <td style="padding:15px;">
-                            ${u.phone ? escapeHTML(u.phone) : '<span style="color:#555;">No Phone</span>'}
-                            <div style="font-size: 11px; color: #888; margin-top: 5px; max-width: 250px; line-height: 1.4;">
-                                📍 ${u.address ? escapeHTML(u.address) : 'No address provided'}
-                            </div>
-                        </td>
-                        <td style="padding:15px; display:flex; gap:5px;">
-                            <button onclick="adminEditUser('${u._id}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎</button>
-                            <button onclick="adminDeleteUser('${escapeHTML(u.email)}', this)" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕</button>
-                        </td>
-                    </tr>
-                `;
-            });
-            uBody.innerHTML = uHtml;
-        }
-
-        function adminSwitchTab(tabId, el) {
-            document.querySelectorAll('.admin-nav-item').forEach(t => t.classList.remove('active')); el.classList.add('active');
-            document.querySelectorAll('.admin-data-panel').forEach(p => p.style.display = 'none'); document.getElementById('admin-panel-' + tabId).style.display = 'block';
-        }
-
-        async function updateOrderStatus(orderId, newStatus, selectEl) {
-            const key = sessionStorage.getItem('mxlumes_admin_key');
-            const oldStatus = selectEl.getAttribute('data-original');
-            selectEl.disabled = true;
-            try { 
-                const response = await fetch(`${RENDER_URL}/api/admin/orders/status`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ orderId, status: newStatus }) }); 
-                if (!response.ok) throw new Error("API Failure");
-                selectEl.setAttribute('data-original', newStatus);
-                fetchAdminData(); 
-            } catch (e) { 
-                alert("Failed to update status. Reverting."); 
-                selectEl.value = oldStatus;
-            } finally {
-                selectEl.disabled = false;
-            }
-        }
-
-        async function adminDeleteOrder(id, btnEl) {
-            if(!confirm(`Delete order ${id}?`)) return;
-            btnEl.disabled = true;
-            const key = sessionStorage.getItem('mxlumes_admin_key'); 
-            try {
-                await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { method: 'DELETE', headers: { 'admin-secret-key': key } }); 
-                fetchAdminData();
-            } catch(e) { btnEl.disabled = false; }
-        }
-        
-        async function adminDeleteUser(email, btnEl) {
-            if(!confirm(`Are you sure you want to delete user ${email}? This cannot be undone.`)) return;
-            btnEl.disabled = true;
-            const key = sessionStorage.getItem('mxlumes_admin_key'); 
-            try {
-                const response = await fetch(`${RENDER_URL}/api/admin/users/${encodeURIComponent(email)}`, { method: 'DELETE', headers: { 'admin-secret-key': key } });
-                const data = await response.json();
-                if (response.ok) {
-                    showToast("User deleted successfully");
-                    fetchAdminData(); 
-                } else {
-                    alert("Error: " + data.message);
-                    btnEl.disabled = false;
-                }
-            } catch (e) {
-                alert("Failed to reach server. Check your connection.");
-                btnEl.disabled = false;
-            }
-        }
-
-        function closeAdminEditModal() {
-            document.getElementById('admin-edit-modal').style.display = 'none';
-        }
-        
-        function adminEditOrder(id) {
-            const order = globalOrders.find(o => o.orderId === id); if(!order) return;
-            document.getElementById('admin-edit-title').innerText = `Edit Order: ${id}`;
-            document.getElementById('admin-edit-fields').innerHTML = `<label style="font-size:12px; color:#888;">Total (₹)</label><input type="number" id="ae-amt" value="${order.totalAmount || 0}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"><label style="font-size:12px; color:#888;">Email</label><input type="text" id="ae-email" value="${escapeHTML(order.customerEmail)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px;">`;
-            document.getElementById('admin-edit-modal').style.display = 'flex';
-            
-            const btn = document.getElementById('admin-edit-save');
-            btn.onclick = async () => {
-                const key = sessionStorage.getItem('mxlumes_admin_key');
-                btn.disabled = true;
-                btn.innerText = 'Saving...';
-                try {
-                    await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ totalAmount: document.getElementById('ae-amt').value, customerEmail: document.getElementById('ae-email').value }) });
-                    closeAdminEditModal(); 
-                    fetchAdminData();
-                } finally {
-                    btn.disabled = false;
-                    btn.innerText = 'Save';
-                }
-            };
-        }
-        
-        function adminEditUser(id) {
-            const user = globalUsers.find(u => u._id === id); if(!user) return;
-            document.getElementById('admin-edit-title').innerText = `Edit User`;
-            document.getElementById('admin-edit-fields').innerHTML = `<label style="font-size:12px; color:#888;">Name</label><input type="text" id="ae-u-name" value="${escapeHTML(user.name)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"><label style="font-size:12px; color:#888;">Phone</label><input type="text" id="ae-u-phone" value="${escapeHTML(user.phone)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px;">`;
-            document.getElementById('admin-edit-modal').style.display = 'flex';
-            
-            const btn = document.getElementById('admin-edit-save');
-            btn.onclick = async () => {
-                const key = sessionStorage.getItem('mxlumes_admin_key');
-                btn.disabled = true;
-                btn.innerText = 'Saving...';
-                try {
-                    await fetch(`${RENDER_URL}/api/admin/users/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ name: document.getElementById('ae-u-name').value, phone: document.getElementById('ae-u-phone').value }) });
-                    closeAdminEditModal(); 
-                    fetchAdminData();
-                } finally {
-                    btn.disabled = false;
-                    btn.innerText = 'Save';
-                }
-            };
-        }
-
-        function exportOrdersCSV() {
-            if(globalOrders.length === 0) return alert("No orders.");
-            let csvContent = "Order ID,Date,Email,Phone,Shipping Address,Amount,Status\n";
-            
-            globalOrders.forEach(o => { 
-                let u = globalUsers.find(user => user.email === o.customerEmail);
-                let phone = u && u.phone ? u.phone : 'No Phone';
-                let address = u && u.address ? u.address.replace(/,/g, ' ') : 'No Address'; 
-                
-                csvContent += `${o.orderId},${o.createdAt ? new Date(o.createdAt).toLocaleDateString() : 'N/A'},${o.customerEmail},${phone},"${address}",${o.totalAmount || 0},${o.status}\n`; 
-            });
-            
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.setAttribute("href", url);
-            link.setAttribute("download", `mxlumes_orders.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-    </script>
-</body>
-</html>
+                                ${userPhone ? `<a href="https://wa.me/91${userPhone}?text=Hi!%
