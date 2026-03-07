@@ -352,6 +352,7 @@
             background:#0a0a0a; border:1px solid #333; text-align:center; padding: 35px;
             border-radius:24px; max-width:400px; position:relative;
             transform: scale(0.95); transition: transform 0.3s; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+            max-height: 90vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
         }
         .modal-overlay.active .payment-modal { transform: scale(1); }
         
@@ -567,11 +568,11 @@
         <div class="modal-content">
             <button class="m-close" onclick="closeAuthModal()">×</button>
             <div style="text-align:center; margin-bottom: 25px;">
-                <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;">M-X LUMES</h3>
-                <p style="color: var(--text-muted); font-size: 13px; font-weight: 500;">The Professional Standard.</p>
+                <h3 id="auth-modal-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;">M-X LUMES</h3>
+                <p id="auth-modal-subtitle" style="color: var(--text-muted); font-size: 13px; font-weight: 500;">The Professional Standard.</p>
             </div>
             
-            <div style="display:flex; justify-content: center; gap:30px; margin-bottom:25px; border-bottom:2px solid #222; padding-bottom:10px;">
+            <div id="auth-tabs" style="display:flex; justify-content: center; gap:30px; margin-bottom:25px; border-bottom:2px solid #222; padding-bottom:10px;">
                 <span id="tab-login" style="font-size:15px; font-weight: 800; cursor:pointer; color:#fff; transition: color 0.2s;" onclick="switchAuthTab('login')">Sign In</span>
                 <span id="tab-signup" style="font-size:15px; font-weight: 800; cursor:pointer; color:#555; transition: color 0.2s;" onclick="switchAuthTab('signup')">Create Account</span>
             </div>
@@ -580,7 +581,8 @@
                 <input type="text" id="auth-name" class="m-input" placeholder="Full Name" autocomplete="name" enterkeyhint="next" style="display:none;">
                 <input type="email" id="auth-email" class="m-input" placeholder="Email Address" autocomplete="email" enterkeyhint="next" required>
                 <input type="tel" id="auth-phone" class="m-input" placeholder="WhatsApp Number" autocomplete="tel" inputmode="numeric" pattern="[0-9]*" enterkeyhint="next" style="display:none;">
-                <textarea id="auth-address" class="m-input" placeholder="Complete Shipping Address" autocomplete="street-address" enterkeyhint="done" style="display:none; height:100px;"></textarea>
+                <textarea id="auth-address" class="m-input" placeholder="Complete Shipping Address (with Pincode)" autocomplete="street-address" enterkeyhint="done" style="display:none; height:100px;"></textarea>
+                
                 <input type="password" id="auth-password" class="m-input" placeholder="Password" autocomplete="current-password" enterkeyhint="done" required>
                 
                 <button type="submit" class="btn btn-primary" style="width:100%; font-size:14px; margin-top:10px; background:#fff; color:#000; padding: 18px;" id="auth-btn">Sign In to Dashboard</button>
@@ -601,7 +603,7 @@
             
             <div style="font-size: 36px; font-weight: 800; color: #fff; font-family:'Space Grotesk', sans-serif; margin-bottom: 20px;" id="payment-total">₹0</div>
             
-            <div id="mobile-upi-options" class="mobile-only" style="flex-direction: column; gap: 10px; margin-bottom: 20px;">
+            <div id="mobile-upi-options" class="mobile-only" style="flex-direction: column; gap: 10px; margin-bottom: 10px;">
                 <p style="color: var(--text-dim); font-size: 12px; margin-bottom: 5px;">Tap to open your UPI App directly:</p>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                     <a id="btn-gpay" class="upi-app-btn" href="#" onclick="trackPaymentIntent(); vibrate(50);" style="background: #111;">Google Pay</a>
@@ -612,6 +614,10 @@
                 <a id="btn-generic" class="upi-app-btn" href="#" onclick="trackPaymentIntent(); vibrate(50);" style="background: transparent; border: 1px solid #333; color: #888; margin-top: 5px;">Other UPI App</a>
             </div>
             
+            <div class="mobile-only" style="text-align:center; margin-bottom:20px;">
+                <span style="font-size:11px; color:var(--text-dim); cursor:pointer; text-decoration:underline;" onclick="copyUPI()">Can't open app? Copy UPI ID: 7668077298@ybl</span>
+            </div>
+            
             <div class="qr-box-container desktop-only">
                 <p style="color: var(--text-dim); font-size: 13px; line-height: 1.5; margin-bottom: 10px;">Scan QR with any UPI App:</p>
                 <div class="qr-box">
@@ -619,6 +625,8 @@
                 </div>
             </div>
             
+            <div id="payment-error-msg" style="display:none; background: rgba(239,68,68,0.1); border: 1px solid var(--danger); color: var(--danger); padding: 12px; border-radius: 12px; font-size: 12px; font-weight: 700; margin-bottom: 15px; text-align: left; line-height: 1.4;"></div>
+
             <button id="pay-confirm-btn" class="btn btn-primary" style="width:100%; background:var(--accent); color:#fff; border:none; margin-bottom: 10px; padding:20px; font-size:14px; transition: 0.3s;" onclick="finalizeOrder()">
                 ✓ I Have Completed The Payment
             </button>
@@ -916,45 +924,45 @@
             
             <div class="zenith-calc">
                 <div class="z-controls">
-                    <div class="z-head-title">1. Resin Setup <div class="unit-wrap"><button class="unit-btn active" id="unit-cm" onclick="setUnit('cm')">CM</button><button class="unit-btn" id="unit-in" onclick="setUnit('in')">IN</button></div></div>
+                    <div class="z-head-title">1. Resin Setup <div class="unit-wrap"><button class="unit-btn active" id="unit-cm" onclick="setUnit('cm'); vibrate(30);">CM</button><button class="unit-btn" id="unit-in" onclick="setUnit('in'); vibrate(30);">IN</button></div></div>
                     
                     <div class="z-group">
                         <div class="z-label">Mixing Ratio</div>
                         <div class="ratio-grid">
-                            <button class="ratio-btn active" onclick="setRatio(3,1, this); vibrate(50);">3:1</button>
-                            <button class="ratio-btn" onclick="setRatio(2,1, this); vibrate(50);">2:1</button>
-                            <button class="ratio-btn" onclick="setRatio(1,1, this); vibrate(50);">1:1</button>
-                            <button class="ratio-btn" onclick="toggleCustomRatio(this); vibrate(50);">Custom</button>
+                            <button class="ratio-btn active" onclick="setRatio(3,1, this); vibrate(30);">3:1</button>
+                            <button class="ratio-btn" onclick="setRatio(2,1, this); vibrate(30);">2:1</button>
+                            <button class="ratio-btn" onclick="setRatio(1,1, this); vibrate(30);">1:1</button>
+                            <button class="ratio-btn" onclick="toggleCustomRatio(this); vibrate(30);">Custom</button>
                         </div>
                         <div id="custom-ratio" style="display:none; gap:10px; margin-bottom:15px;">
                             <input type="number" id="ratioA" class="z-number" value="3" style="width:100%;" oninput="runCalc()">
                             <input type="number" id="ratioB" class="z-number" value="1" style="width:100%;" oninput="runCalc()">
                         </div>
                         <div class="mode-toggle">
-                            <div class="mode-opt active" id="mode-cast" onclick="setMode('cast'); vibrate(50);">Casting (Deep)</div>
-                            <div class="mode-opt" id="mode-coat" onclick="setMode('coat'); vibrate(50);">Coating (Thin)</div>
+                            <div class="mode-opt active" id="mode-cast" onclick="setMode('cast'); vibrate(30);">Casting (Deep)</div>
+                            <div class="mode-opt" id="mode-coat" onclick="setMode('coat'); vibrate(30);">Coating (Thin)</div>
                         </div>
                     </div>
 
                     <div class="z-head-title">2. Dimensions</div>
                     <div class="shape-grid">
-                        <div class="shape-btn" id="btn-scan" onclick="openScanner(); vibrate(50);" style="border-color: var(--accent); background: rgba(99,102,241,0.05);">
+                        <div class="shape-btn" id="btn-scan" onclick="openScanner(); vibrate(30);" style="border-color: var(--accent); background: rgba(99,102,241,0.05);">
                             <svg viewBox="0 0 24 24" stroke="var(--accent)"><path d="M3 3h6v2H5v4H3V3zm18 0h-6v2h4v4h2V3zM3 21h6v-2H5v-4H3v6zm18 0h-6v-2h4v-4h2v6z" fill="currentColor"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
                             <span style="color: var(--accent);">Smart Scan</span>
                         </div>
                         
-                        <div class="shape-btn active" id="btn-rect" onclick="setShape('rect'); vibrate(50);"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/></svg><span>Square</span></div>
-                        <div class="shape-btn" id="btn-circ" onclick="setShape('circ'); vibrate(50);"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg><span>Circle</span></div>
-                        <div class="shape-btn" id="btn-tri" onclick="setShape('tri'); vibrate(50);"><svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/></svg><span>Triangle</span></div>
-                        <div class="shape-btn" id="btn-pyr" onclick="setShape('pyr'); vibrate(50);"><svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z" fill="none" stroke="currentColor"/><path d="M12 2v20"/></svg><span>Pyramid</span></div>
-                        <div class="shape-btn" id="btn-sph" onclick="setShape('sph'); vibrate(50);"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><span>Orb</span></div>
+                        <div class="shape-btn active" id="btn-rect" onclick="setShape('rect'); vibrate(30);"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/></svg><span>Square</span></div>
+                        <div class="shape-btn" id="btn-circ" onclick="setShape('circ'); vibrate(30);"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg><span>Circle</span></div>
+                        <div class="shape-btn" id="btn-tri" onclick="setShape('tri'); vibrate(30);"><svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/></svg><span>Triangle</span></div>
+                        <div class="shape-btn" id="btn-pyr" onclick="setShape('pyr'); vibrate(30);"><svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z" fill="none" stroke="currentColor"/><path d="M12 2v20"/></svg><span>Pyramid</span></div>
+                        <div class="shape-btn" id="btn-sph" onclick="setShape('sph'); vibrate(30);"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><span>Orb</span></div>
                     </div>
 
                     <div class="preset-row">
-                        <button class="preset-btn" onclick="setPreset('varmala'); vibrate(50);">Varmala</button>
-                        <button class="preset-btn" onclick="setPreset('clock'); vibrate(50);">Clock</button>
-                        <button class="preset-btn" onclick="setPreset('geode'); vibrate(50);">Geode</button>
-                        <button class="preset-btn" onclick="setPreset('tray'); vibrate(50);">Tray</button>
+                        <button class="preset-btn" onclick="setPreset('varmala'); vibrate(30);">Varmala</button>
+                        <button class="preset-btn" onclick="setPreset('clock'); vibrate(30);">Clock</button>
+                        <button class="preset-btn" onclick="setPreset('geode'); vibrate(30);">Geode</button>
+                        <button class="preset-btn" onclick="setPreset('tray'); vibrate(30);">Tray</button>
                     </div>
 
                     <div id="dims-rect">
@@ -992,7 +1000,7 @@
                         </div>
                     </div>
                     <div class="env-card" id="env-card">
-                        <button class="auto-btn" onclick="autoDetectWeather(); vibrate(50);"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Auto-Detect Conditions</button>
+                        <button class="auto-btn" onclick="autoDetectWeather(); vibrate(30);"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Auto-Detect Conditions</button>
                         <div id="weather-status" style="font-size:11px; text-align:center; color:var(--text-muted); margin-bottom:15px; display:none;">Searching GPS & IP...</div>
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
                             <div><div class="z-label">Indoor Temp</div><input type="range" class="z-slider" id="env-temp" min="5" max="50" value="25" oninput="runCalc(); document.getElementById('val-temp').innerText=this.value+'°C'"><div id="val-temp" style="font-size:14px; font-weight:800; text-align:right; margin-top:5px; color:var(--text-dark);">25°C</div></div>
@@ -1013,7 +1021,7 @@
                         </div>
                     </div>
 
-                    <div class="refine-toggle" onclick="document.getElementById('refine-panel').classList.toggle('show')"><span>⚙️ Advanced Settings</span></div>
+                    <div class="refine-toggle" onclick="document.getElementById('refine-panel').classList.toggle('show'); vibrate(30);"><span>⚙️ Advanced Settings</span></div>
                     <div id="refine-panel" class="refine-panel">
                         <div class="refine-grid">
                             <div><div class="z-label">Density</div><select id="densitySelect" onchange="runCalc()" class="refine-inp"><option value="1.13">Standard (1.13)</option><option value="1.05">Low Visc (1.05)</option></select></div>
@@ -1037,11 +1045,6 @@
                         <ul class="sr-list" id="safety-list">
                             <li class="sr-item"><span>✓</span> Conditions are optimal.</li>
                         </ul>
-                    </div>
-
-                    <div class="safety-report danger" id="auth-alert" style="display:none; border-left-color: var(--warning); background: rgba(245, 158, 11, 0.1);">
-                        <div class="sr-head" style="color:#000;">⚠️ Account Verification Required</div>
-                        <p style="font-size:12px; color:#333; margin-top:5px;">To ensure accurate shipping for M-X Lume resin orders, please update your WhatsApp number and Address during signup.</p>
                     </div>
 
                     <div class="cost-card">
@@ -1278,16 +1281,15 @@
         let checkoutTotal = 0;
         let userLocation = "Unknown";
         
-        // 🛡️ AUTO-SENSING PAYMENT VARS
         let isVerifying = false;
         window.paymentIntentFired = null;
+        let pendingCheckout = false; 
 
         const escapeHTML = (str) => {
             if (str == null) return '';
             return String(str).replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
         };
         
-        // 🛡️ HAPTIC FEEDBACK ENGINE
         const vibrate = (ms) => {
             try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {}
         };
@@ -1310,18 +1312,16 @@
             }, 2000);
         };
 
-        // 🛡️ LEVEL 20: SMART AUTO-SENSOR WITH VERIFICATION PROMPT
         document.addEventListener("visibilitychange", () => {
             if (document.visibilityState === "visible" && window.paymentIntentFired) {
                 const timeAway = Date.now() - window.paymentIntentFired;
                 window.paymentIntentFired = null; 
                 
-                // If they were gone for at least 4 seconds, prompt them to verify
                 if (timeAway > 4000 && !isVerifying && cart.length > 0) {
                     const btn = document.getElementById('pay-confirm-btn');
                     if(btn && !btn.disabled) {
                         btn.innerText = "Tap to Verify Payment ➝";
-                        btn.classList.add('pulse-btn-accent'); // Add glowing animation
+                        btn.classList.add('pulse-btn-accent'); 
                         showToast("Welcome back! Please verify your order.");
                     }
                 }
@@ -1603,14 +1603,44 @@
             lockScroll(); 
             switchAuthTab('login'); 
         }
+
+        // 🛡️ LEVEL 21: THE GUEST CHECKOUT MORPH
+        function openGuestCheckoutModal() {
+            document.getElementById('auth-modal-overlay').classList.add('active'); 
+            lockScroll(); 
+            currentAuthMode = 'guest';
+
+            document.getElementById('auth-error').style.display = 'none';
+            
+            document.getElementById('auth-modal-title').innerText = "Delivery Details";
+            document.getElementById('auth-modal-subtitle').innerText = "Where should we send your order?";
+            document.getElementById('auth-tabs').style.display = 'none';
+
+            document.getElementById('auth-name').style.display = 'block'; document.getElementById('auth-name').required = true;
+            document.getElementById('auth-phone').style.display = 'block'; document.getElementById('auth-phone').required = true;
+            document.getElementById('auth-address').style.display = 'block'; document.getElementById('auth-address').required = true;
+            
+            document.getElementById('auth-password').style.display = 'none'; document.getElementById('auth-password').required = false;
+
+            document.getElementById('auth-btn').innerHTML = "Continue to Payment &nbsp; 🔒";
+        }
+
         function closeAuthModal() { 
             blurInputs();
             document.getElementById('auth-modal-overlay').classList.remove('active'); 
             unlockScroll();
         }
+
         function switchAuthTab(mode) {
             currentAuthMode = mode;
             document.getElementById('auth-error').style.display = 'none';
+            
+            document.getElementById('auth-modal-title').innerText = "M-X LUMES";
+            document.getElementById('auth-modal-subtitle').innerText = "The Professional Standard.";
+            document.getElementById('auth-tabs').style.display = 'flex';
+            
+            document.getElementById('auth-password').style.display = 'block'; document.getElementById('auth-password').required = true;
+
             const nameInp = document.getElementById('auth-name');
             const phoneInp = document.getElementById('auth-phone');
             const addrInp = document.getElementById('auth-address');
@@ -1640,9 +1670,67 @@
             const errorDiv = document.getElementById('auth-error');
             
             btn.disabled = true;
+            const originalBtnText = btn.innerHTML;
             btn.innerText = "Processing..."; 
             errorDiv.style.display = 'none';
-            
+
+            // 🛡️ LEVEL 21: GUEST CHECKOUT AUTO-ACCOUNT ENGINE
+            if (currentAuthMode === 'guest') {
+                const name = document.getElementById('auth-name').value.trim();
+                const email = document.getElementById('auth-email').value.trim();
+                const phone = document.getElementById('auth-phone').value.trim();
+                const address = document.getElementById('auth-address').value.trim();
+                const password = phone; 
+
+                if (!name || !email || !phone || !address) {
+                    errorDiv.innerText = "Please complete all fields for delivery.";
+                    errorDiv.style.display = 'block';
+                    btn.innerHTML = originalBtnText;
+                    btn.disabled = false;
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${RENDER_URL}/api/signup`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, phone, address, password }) });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        localStorage.setItem('mxlumes_token', data.token);
+                        localStorage.setItem('mxlumes_user', JSON.stringify(data.user));
+                        closeAuthModal();
+                        checkAuthStatus();
+                        initiateCheckout(); 
+                        return;
+                    } else if (response.status === 400 || response.status === 409) {
+                        const loginRes = await fetch(`${RENDER_URL}/api/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+                        if (loginRes.ok) {
+                            const loginData = await loginRes.json();
+                            localStorage.setItem('mxlumes_token', loginData.token);
+                            localStorage.setItem('mxlumes_user', JSON.stringify(loginData.user));
+                            closeAuthModal();
+                            checkAuthStatus();
+                            initiateCheckout();
+                            return;
+                        } else {
+                            throw new Error("Looks like you have an account. Please sign in.");
+                        }
+                    } else {
+                        throw new Error("Failed to process delivery details.");
+                    }
+                } catch(err) {
+                    errorDiv.innerText = err.message; 
+                    errorDiv.style.display = 'block'; 
+                    if(err.message.includes("sign in")) {
+                        setTimeout(() => { switchAuthTab('login'); document.getElementById('auth-email').value = email; }, 1500);
+                    }
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = originalBtnText;
+                }
+                return;
+            }
+
+            // STANDARD LOGIN/SIGNUP
             const payload = { email: document.getElementById('auth-email').value.trim(), password: document.getElementById('auth-password').value };
             
             if (currentAuthMode === 'signup') {
@@ -1679,6 +1767,12 @@
                 closeAuthModal();
                 document.getElementById('auth-form').reset();
                 checkAuthStatus();
+                
+                if (pendingCheckout) {
+                    pendingCheckout = false;
+                    setTimeout(() => { initiateCheckout(); }, 600);
+                }
+                
             } catch (error) { 
                 errorDiv.innerText = error.message; 
                 errorDiv.style.display = 'block'; 
@@ -1710,7 +1804,7 @@
         }
 
         function addToCart(name, price) {
-            vibrate(50); // Haptic response
+            vibrate(50);
             let totalUniqueItems = cart.length;
             let existingItem = cart.find(i => i.name === name);
             
@@ -1790,13 +1884,25 @@
         // 4. M-X SECUREPAY GATEWAY LOGIC
         // =========================================
         
-        let currentUpiString = "";
+        function trackPaymentIntent() {
+            window.paymentIntentFired = Date.now();
+        }
+
+        function copyUPI() {
+            navigator.clipboard.writeText("7668077298@ybl");
+            showToast("UPI ID Copied! Paste it in your app.");
+            vibrate(50);
+        }
 
         function initiateCheckout() {
-            if (cart.length === 0) return alert('Your cart is empty!');
+            if (cart.length === 0) return showToast("Your cart is empty", true);
             
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
-            if (!user) { openAuthModal(); showToast("Please Sign In to complete your order", true); return; }
+            if (!user) { 
+                pendingCheckout = true; 
+                openGuestCheckoutModal(); 
+                return; 
+            }
 
             const amountFixed = checkoutTotal.toFixed(2);
             const payeeName = encodeURIComponent("M-X Lumes");
@@ -1814,6 +1920,8 @@
             toggleCart(); 
             document.getElementById('payment-modal-overlay').classList.add('active');
             lockScroll();
+            
+            document.getElementById('payment-error-msg').style.display = 'none';
         }
 
         function closePaymentModal() { 
@@ -1823,6 +1931,7 @@
             
             isVerifying = false;
             window.paymentIntentFired = null;
+            document.getElementById('payment-error-msg').style.display = 'none';
             
             const btn = document.getElementById('pay-confirm-btn');
             btn.style.display = 'block';
@@ -1840,6 +1949,7 @@
 
         async function finalizeOrder() {
             const btn = document.getElementById('pay-confirm-btn');
+            const errBox = document.getElementById('payment-error-msg');
             
             if (isVerifying || btn.disabled) return;
             isVerifying = true;
@@ -1848,6 +1958,7 @@
             btn.classList.remove('pulse-btn-accent');
             btn.innerText = "Verifying with Bank API...";
             btn.disabled = true; 
+            errBox.style.display = 'none';
 
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
             const payload = { email: user.email, items: cart, totalAmount: checkoutTotal, location: userLocation };
@@ -1855,10 +1966,10 @@
             try {
                 const response = await fetch(`${RENDER_URL}/api/orders`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 
-                if (response.status === 429) throw new Error("Server is busy. Please try again in 1 minute.");
+                if (response.status === 429) throw new Error("System is busy. Please wait 30 seconds.");
                 
                 const data = await response.json();
-                if (!response.ok) throw new Error("Could not log order.");
+                if (!response.ok) throw new Error(data.message || "Failed to communicate with server.");
 
                 const trustMsg = document.createElement('div');
                 trustMsg.id = "trust-msg-block";
@@ -1873,7 +1984,6 @@
                 
                 cart = []; renderCart(); syncCartWithCloud([]); 
                 
-                // 🛡️ STEP 2 WHATSAPP HANDOFF
                 btn.innerText = "Step 2: Send Receipt on WhatsApp";
                 btn.style.background = "var(--whatsapp)";
                 btn.style.color = "#000";
@@ -1885,8 +1995,9 @@
                 };
 
             } catch (error) { 
-                alert(error.message || "Issue logging order. Redirecting to WhatsApp for manual support."); 
-                btn.innerText = "✓ I Have Completed The Payment";
+                errBox.innerText = "⚠ " + (error.message || "Verification failed. Check network connection.");
+                errBox.style.display = 'block';
+                btn.innerText = "✓ Try Verification Again";
                 btn.disabled = false;
                 isVerifying = false;
             }
@@ -2443,37 +2554,4 @@
                 btn.disabled = true;
                 btn.innerText = 'Saving...';
                 try {
-                    await fetch(`${RENDER_URL}/api/admin/users/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ name: document.getElementById('ae-u-name').value, phone: document.getElementById('ae-u-phone').value }) });
-                    closeAdminEditModal(); 
-                    fetchAdminData();
-                } finally {
-                    btn.disabled = false;
-                    btn.innerText = 'Save';
-                }
-            };
-        }
-
-        function exportOrdersCSV() {
-            if(globalOrders.length === 0) return alert("No orders.");
-            let csvContent = "Order ID,Date,Email,Phone,Shipping Address,Amount,Status\n";
-            
-            globalOrders.forEach(o => { 
-                let u = globalUsers.find(user => user.email === o.customerEmail);
-                let phone = u && u.phone ? u.phone : 'No Phone';
-                let address = u && u.address ? u.address.replace(/,/g, ' ') : 'No Address'; 
-                
-                csvContent += `${o.orderId},${o.createdAt ? new Date(o.createdAt).toLocaleDateString() : 'N/A'},${o.customerEmail},${phone},"${address}",${o.totalAmount || 0},${o.status}\n`; 
-            });
-            
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.setAttribute("href", url);
-            link.setAttribute("download", `mxlumes_orders.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-    </script>
-</body>
-</html>
+                    await fetch(`${RENDER_URL}/api/admin/users/${id}`, { method: 'PUT', headers: { '
