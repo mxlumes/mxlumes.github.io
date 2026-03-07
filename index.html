@@ -50,7 +50,6 @@
         button:disabled { opacity: 0.5; cursor: not-allowed; }
         img { display: block; max-width: 100%; height: auto; user-select: none; }
         
-        /* 🛡️ MOBILE INPUT ZOOM PREVENTION */
         input, select, textarea { font-size: 16px !important; font-family: 'Manrope', sans-serif; -webkit-appearance: none; appearance: none; }
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
@@ -76,11 +75,7 @@
         .reveal.active { opacity: 1; transform: translate3d(0, 0, 0); }
 
         .btn { padding: 16px 32px; border-radius: 60px; font-weight: 800; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s, opacity 0.2s; }
-        
-        @media (hover: hover) {
-            .btn:hover:not(:disabled) { transform: translateY(-3px); }
-            .btn-outline:hover:not(:disabled) { border-color: #fff; background: rgba(255,255,255,0.08); }
-        }
+        @media (hover: hover) { .btn:hover:not(:disabled) { transform: translateY(-3px); } .btn-outline:hover:not(:disabled) { border-color: #fff; background: rgba(255,255,255,0.08); } }
         
         .btn-primary { background: #fff; color: #000; box-shadow: 0 5px 20px rgba(255,255,255,0.15); border: none; }
         .btn-primary:active:not(:disabled) { transform: scale(0.96); } 
@@ -97,14 +92,11 @@
         .navbar { position: fixed; top: 0; width: 100%; height: 80px; z-index: 1000; display: flex; align-items: center; transition: box-shadow 0.3s, height 0.3s; background-color: var(--bg-milky); border-bottom: 1px solid var(--border-light); padding-top: var(--safe-top); }
         .navbar.scrolled { box-shadow: 0 10px 30px rgba(0,0,0,0.05); height: 70px; }
         .nav-inner { width: 100%; display: flex; justify-content: space-between; align-items: center; }
-        
         .logo-wrapper { position: relative; display: flex; align-items: center; }
         .logo { font-weight: 800; font-size: 18px; letter-spacing: 3px; color: var(--text-dark); flex-shrink: 0; margin-right: 20px; transition: color 0.3s;}
-
         .nav-links { display: flex; gap: 30px; align-items: center; margin-left: auto; }
         .nav-link { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; white-space: nowrap; transition: color 0.3s;}
         .nav-link:hover { color: var(--text-dark); }
-        
         .nav-auth-btn { display:flex; align-items:center; background:#050505; color:#fff !important; padding:10px 20px; border-radius:30px; transition: transform 0.3s, box-shadow 0.3s; }
         .nav-auth-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
@@ -210,7 +202,6 @@
         .z-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 34px; height: 34px; background: #000; border-radius: 50%; cursor: grab; transition: transform 0.2s var(--ease-spring); border: 4px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         
         .shape-grid { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px; padding-bottom: 15px; }
-        
         .shape-btn { flex: 1; min-width: 90px; padding: 20px 15px; border: 2px solid #aaa; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: all 0.3s; background: rgba(255, 255, 255, 0.9); }
         @media (hover: hover) { .shape-btn:hover { border-color: #555; background: #fff; transform: translateY(-2px); } }
         .shape-btn.active { background: #fff; border-color: #000; transform: translateY(0); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
@@ -576,13 +567,13 @@
             
             <form id="auth-form" onsubmit="submitAuth(event)">
                 <input type="text" id="auth-name" class="m-input" placeholder="Full Name" autocomplete="name" enterkeyhint="next" style="display:none;">
-                <input type="email" id="auth-email" class="m-input" placeholder="Email Address" autocomplete="email" enterkeyhint="next" required>
-                <input type="tel" id="auth-phone" class="m-input" placeholder="WhatsApp Number" autocomplete="tel" inputmode="numeric" pattern="[0-9]*" enterkeyhint="next" style="display:none;">
+                <input type="email" id="auth-email" class="m-input" placeholder="Email Address" autocomplete="email" enterkeyhint="next" style="display:none;">
+                
+                <input type="tel" id="auth-phone" class="m-input" placeholder="10-Digit Mobile Number" autocomplete="tel" inputmode="numeric" pattern="[0-9]*" enterkeyhint="done" required>
+                
                 <textarea id="auth-address" class="m-input" placeholder="Complete Shipping Address (with Pincode)" autocomplete="street-address" enterkeyhint="done" style="display:none; height:100px;"></textarea>
                 
-                <input type="password" id="auth-password" class="m-input" placeholder="Password" autocomplete="current-password" enterkeyhint="done" required>
-                
-                <button type="submit" class="btn btn-primary" style="width:100%; font-size:14px; margin-top:10px; background:#fff; color:#000; padding: 18px;" id="auth-btn">Sign In to Dashboard</button>
+                <button type="submit" class="btn btn-primary" style="width:100%; font-size:14px; margin-top:10px; background:#fff; color:#000; padding: 18px;" id="auth-btn">Secure Login</button>
             </form>
             
             <div id="auth-error" style="color:var(--danger); background: rgba(239,68,68,0.1); border: 1px solid var(--danger); border-radius: 8px; padding: 12px; font-size:12px; font-weight: 600; margin-top:15px; text-align:center; display:none;"></div>
@@ -1614,9 +1605,8 @@
             document.getElementById('auth-name').style.display = 'block'; document.getElementById('auth-name').required = true;
             document.getElementById('auth-phone').style.display = 'block'; document.getElementById('auth-phone').required = true;
             document.getElementById('auth-address').style.display = 'block'; document.getElementById('auth-address').required = true;
+            document.getElementById('auth-email').style.display = 'block'; document.getElementById('auth-email').required = true;
             
-            document.getElementById('auth-password').style.display = 'none'; document.getElementById('auth-password').required = false;
-
             document.getElementById('auth-btn').innerHTML = "Continue to Payment &nbsp; 🔒";
         }
 
@@ -1633,16 +1623,16 @@
             document.getElementById('auth-modal-title').innerText = "M-X LUMES";
             document.getElementById('auth-modal-subtitle').innerText = "The Professional Standard.";
             document.getElementById('auth-tabs').style.display = 'flex';
-            
-            document.getElementById('auth-password').style.display = 'block'; document.getElementById('auth-password').required = true;
 
             const nameInp = document.getElementById('auth-name');
+            const emailInp = document.getElementById('auth-email');
             const phoneInp = document.getElementById('auth-phone');
             const addrInp = document.getElementById('auth-address');
             const btn = document.getElementById('auth-btn');
             
             if (mode === 'signup') {
                 nameInp.style.display = 'block'; nameInp.required = true;
+                emailInp.style.display = 'block'; emailInp.required = true;
                 phoneInp.style.display = 'block'; phoneInp.required = true;
                 addrInp.style.display = 'block'; addrInp.required = true;
                 btn.innerText = "Create Account";
@@ -1650,9 +1640,10 @@
                 document.getElementById('tab-login').style.color = "#555";
             } else {
                 nameInp.style.display = 'none'; nameInp.required = false;
-                phoneInp.style.display = 'none'; phoneInp.required = false;
+                emailInp.style.display = 'none'; emailInp.required = false;
                 addrInp.style.display = 'none'; addrInp.required = false;
-                btn.innerText = "Sign In to Dashboard";
+                phoneInp.style.display = 'block'; phoneInp.required = true;
+                btn.innerText = "Secure Login";
                 document.getElementById('tab-login').style.color = "#fff";
                 document.getElementById('tab-signup').style.color = "#555";
             }
@@ -1669,54 +1660,41 @@
             btn.innerText = "Processing..."; 
             errorDiv.style.display = 'none';
 
-            if (currentAuthMode === 'guest') {
-                const name = document.getElementById('auth-name').value.trim();
-                const email = document.getElementById('auth-email').value.trim();
-                const phone = document.getElementById('auth-phone').value.trim();
-                const address = document.getElementById('auth-address').value.trim();
-                const password = phone; 
+            // 🛡️ MOBILE NUMBER PARSER: Extracts exactly 10 digits regardless of spaces or +91
+            const rawPhone = document.getElementById('auth-phone').value.trim();
+            const cleanPhone = rawPhone.replace(/\D/g, '').slice(-10);
 
-                if (!name || !email || !phone || !address) {
-                    errorDiv.innerText = "Please complete all fields for delivery.";
-                    errorDiv.style.display = 'block';
-                    btn.innerHTML = originalBtnText;
-                    btn.disabled = false;
-                    return;
-                }
+            if (cleanPhone.length !== 10) {
+                errorDiv.innerText = "Please enter a valid 10-digit mobile number.";
+                errorDiv.style.display = 'block';
+                btn.innerHTML = originalBtnText;
+                btn.disabled = false;
+                return;
+            }
 
+            // 🛡️ DEDICATED PHONE LOGIN
+            if (currentAuthMode === 'login') {
                 try {
-                    const response = await fetch(`${RENDER_URL}/api/signup`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, phone, address, password }) });
+                    const response = await fetch(`${RENDER_URL}/api/login/phone`, { 
+                        method: 'POST', headers: { 'Content-Type': 'application/json' }, 
+                        body: JSON.stringify({ phone: cleanPhone }) 
+                    });
                     
-                    if (response.ok) {
-                        const data = await response.json();
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.message || "Account not found. Please sign up.");
+                    
+                    try {
                         localStorage.setItem('mxlumes_token', data.token);
                         localStorage.setItem('mxlumes_user', JSON.stringify(data.user));
-                        closeAuthModal();
-                        checkAuthStatus();
-                        initiateCheckout(); 
-                        return;
-                    } else if (response.status === 400 || response.status === 409) {
-                        const loginRes = await fetch(`${RENDER_URL}/api/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
-                        if (loginRes.ok) {
-                            const loginData = await loginRes.json();
-                            localStorage.setItem('mxlumes_token', loginData.token);
-                            localStorage.setItem('mxlumes_user', JSON.stringify(loginData.user));
-                            closeAuthModal();
-                            checkAuthStatus();
-                            initiateCheckout(); 
-                            return;
-                        } else {
-                            throw new Error("Looks like you have an account. Please sign in.");
-                        }
-                    } else {
-                        throw new Error("Failed to process delivery details.");
-                    }
-                } catch(err) {
-                    errorDiv.innerText = err.message; 
+                    } catch(err) {}
+
+                    showToast("Login Successful!");
+                    closeAuthModal();
+                    document.getElementById('auth-form').reset();
+                    checkAuthStatus();
+                } catch (error) {
+                    errorDiv.innerText = error.message; 
                     errorDiv.style.display = 'block'; 
-                    if(err.message.includes("sign in")) {
-                        setTimeout(() => { switchAuthTab('login'); document.getElementById('auth-email').value = email; }, 1500);
-                    }
                 } finally {
                     btn.disabled = false;
                     btn.innerHTML = originalBtnText;
@@ -1724,52 +1702,62 @@
                 return;
             }
 
-            const payload = { email: document.getElementById('auth-email').value.trim(), password: document.getElementById('auth-password').value };
-            
-            if (currentAuthMode === 'signup') {
-                payload.name = document.getElementById('auth-name').value.trim();
-                payload.phone = document.getElementById('auth-phone').value.trim();
-                payload.address = document.getElementById('auth-address').value.trim();
-                
-                if (!payload.name || !payload.phone || !payload.address) { 
-                    errorDiv.innerText = "Please complete all fields for delivery verification."; 
-                    errorDiv.style.display = 'block'; 
-                    btn.innerHTML = originalBtnText; 
-                    btn.disabled = false;
-                    return; 
-                }
+            // 🛡️ GUEST CHECKOUT / SIGNUP ROUTER
+            const name = document.getElementById('auth-name').value.trim();
+            const email = document.getElementById('auth-email').value.trim();
+            const address = document.getElementById('auth-address').value.trim();
+            const password = cleanPhone; // Use phone as backend password bypass
+
+            if (!name || !email || !address) {
+                errorDiv.innerText = "Please complete all fields.";
+                errorDiv.style.display = 'block';
+                btn.innerHTML = originalBtnText;
+                btn.disabled = false;
+                return;
             }
 
             try {
-                const endpoint = currentAuthMode === 'signup' ? '/api/signup' : '/api/login';
-                const response = await fetch(`${RENDER_URL}${endpoint}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const response = await fetch(`${RENDER_URL}/api/signup`, { 
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ name, email, phone: cleanPhone, address, password }) 
+                });
                 
-                if (response.status === 429) throw new Error("Too many requests. Please wait a minute.");
-                
-                const data = await response.json();
-                if (!response.ok) throw new Error(data.message || "Authentication failed.");
-                
-                try {
+                if (response.ok) {
+                    const data = await response.json();
                     localStorage.setItem('mxlumes_token', data.token);
                     localStorage.setItem('mxlumes_user', JSON.stringify(data.user));
-                } catch(err) {
-                    console.warn("Local storage blocked, continuing with session memory.");
+                    closeAuthModal();
+                    checkAuthStatus();
+                    if(currentAuthMode === 'guest' || pendingCheckout) initiateCheckout(); 
+                    return;
+                } else if (response.status === 400 || response.status === 409) {
+                    // SILENT AUTO-LOGIN: Email already exists, intercepting and logging them in instantly
+                    const loginRes = await fetch(`${RENDER_URL}/api/login/phone`, { 
+                        method: 'POST', headers: { 'Content-Type': 'application/json' }, 
+                        body: JSON.stringify({ phone: cleanPhone }) 
+                    });
+                    
+                    if (loginRes.ok) {
+                        const loginData = await loginRes.json();
+                        localStorage.setItem('mxlumes_token', loginData.token);
+                        localStorage.setItem('mxlumes_user', JSON.stringify(loginData.user));
+                        closeAuthModal();
+                        checkAuthStatus();
+                        if(currentAuthMode === 'guest' || pendingCheckout) initiateCheckout(); 
+                        return;
+                    } else {
+                        throw new Error("Email exists, but phone number doesn't match our records. Please try logging in.");
+                    }
+                } else {
+                    throw new Error("Failed to process details. Please try again.");
                 }
-
-                showToast(data.message);
-                closeAuthModal();
-                document.getElementById('auth-form').reset();
-                checkAuthStatus();
-                
-                if (pendingCheckout) {
-                    pendingCheckout = false;
-                    setTimeout(() => { initiateCheckout(); }, 600);
-                }
-                
-            } catch (error) { 
-                errorDiv.innerText = error.message; 
+            } catch(err) {
+                errorDiv.innerText = err.message; 
                 errorDiv.style.display = 'block'; 
-            } finally { 
+                if(err.message.includes("logging in")) {
+                    setTimeout(() => { switchAuthTab('login'); document.getElementById('auth-phone').value = rawPhone; }, 2000);
+                }
+            } finally {
                 btn.disabled = false;
                 btn.innerHTML = originalBtnText;
             }
