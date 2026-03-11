@@ -90,7 +90,7 @@
         .toast.show { transform: translate3d(-50%, 0, 0); opacity: 1; }
 
         /* =========================================
-           4. NAVIGATION 
+           4. NAVIGATION & HEADER STAMP
            ========================================= */
         .navbar { position: fixed; top: 0; width: 100%; height: 80px; z-index: 1000; display: flex; align-items: center; transition: box-shadow 0.3s, height 0.3s; background-color: var(--bg-milky); border-bottom: 1px solid var(--border-light); padding-top: var(--safe-top); }
         .navbar.scrolled { box-shadow: 0 10px 30px rgba(0,0,0,0.05); height: 70px; }
@@ -102,27 +102,16 @@
         .nav-link:hover { color: var(--text-dark); }
         .nav-auth-btn { display:flex; align-items:center; background:#050505; color:#fff !important; padding:10px 20px; border-radius:30px; transition: transform 0.3s, box-shadow 0.3s; }
         .nav-auth-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        
+        .nav-stamp { width: 55px; height: 55px; animation: spinStamp 25s linear infinite; z-index: 5; pointer-events: none; opacity: 0.85; filter: drop-shadow(0 2px 10px rgba(239, 68, 68, 0.2)); flex-shrink: 0; margin-left: 15px; display: flex; align-items: center; justify-content: center;}
+        @keyframes spinStamp { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         /* =========================================
            5. HERO SECTION
            ========================================= */
         .hero { min-height: 80dvh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; padding-top: 80px; padding-bottom: 40px; position: relative; }
-        .hero h1 { font-size: clamp(42px, 10vw, 100px); margin-bottom: 24px; font-weight: 800; background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
+        .hero h1 { font-size: clamp(36px, 10vw, 100px); margin-bottom: 24px; font-weight: 800; background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
         .hero p { color: var(--text-dim); font-size: 18px; max-width: 500px; margin-bottom: 40px; padding: 0 20px; font-weight: 400;}
-        
-        .premium-stamp { 
-            position: absolute; 
-            top: 12%; 
-            right: 15%; 
-            width: 130px; 
-            height: 130px; 
-            animation: spinStamp 25s linear infinite; 
-            z-index: 5; 
-            pointer-events: none; 
-            opacity: 0.85; 
-            filter: drop-shadow(0 4px 15px rgba(239, 68, 68, 0.15)); 
-        }
-        @keyframes spinStamp { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
         .marquee { position: absolute; bottom: 0; width: 100%; background: #000; border-top: 1px solid var(--border); padding: 16px 0; overflow: hidden; white-space: nowrap; user-select: none; }
         .marquee-content { display: inline-block; animation: scroll 40s linear infinite; }
@@ -506,11 +495,15 @@
             
             .bg-layer { background-size: cover; opacity: 0.85; background-attachment: scroll; background-position: center center; }
             
-            .nav-inner { justify-content: space-between; gap: 5px; flex-wrap: nowrap; padding: 0 5px; }
-            .logo { font-size: 14px; letter-spacing: 1px; margin-right: 5px; white-space: nowrap; }
-            .nav-links { gap: 10px; white-space: nowrap; }
+            .navbar { height: 65px; padding-top: var(--safe-top); }
+            .navbar.scrolled { height: 60px; }
+            .nav-inner { justify-content: space-between; gap: 5px; padding: 0 10px; }
+            .logo { font-size: 13px; letter-spacing: 1px; margin-right: auto; white-space: nowrap; }
+            .nav-links { gap: 8px; white-space: nowrap; }
             .nav-link { font-size: 10px; }
-            .nav-auth-btn { padding: 6px 10px; border-radius: 12px; font-size: 10px; }
+            .nav-auth-btn { padding: 6px 10px; border-radius: 12px; font-size: 9px; }
+            .hide-mobile { display: none !important; }
+            .nav-stamp { width: 42px; height: 42px; margin-left: 5px; }
 
             .grid-3 { grid-template-columns: 100%; } 
             .specs-layout, .gallery-masonry, .zenith-calc, .dos-donts, .refine-grid { grid-template-columns: 1fr; }
@@ -532,14 +525,19 @@
 
             #supreme-admin-portal .admin-sidebar { position:relative; width:100%; height:auto; border-right:none; border-bottom:1px solid #333;}
             #supreme-admin-portal .admin-main { margin-left:0; padding:20px;}
-            
-            .premium-stamp {
-                width: 85px;
-                height: 85px;
-                top: 12%; 
-                right: -10px;
-                opacity: 0.6;
-            }
+        }
+        
+        /* 🛡️ ULTRA-SMALL IOS (iPhone 12 Mini, SE) OPTIMIZATIONS */
+        @media (max-width: 400px) {
+            .nav-inner { padding: 0 8px; gap: 4px; }
+            .logo { font-size: 12px; letter-spacing: 0; margin-right: auto; }
+            .nav-links { gap: 6px; }
+            .nav-link { font-size: 9px; }
+            .nav-auth-btn { padding: 6px 10px; border-radius: 10px; font-size: 9px; }
+            .nav-auth-btn svg { width: 12px; height: 12px; margin-left: 2px; }
+            .nav-stamp { width: 36px; height: 36px; margin-left: 4px; }
+            .hero h1 { font-size: clamp(36px, 10vw, 42px); }
+            .product-card { padding: 20px; }
         }
     </style>
 </head>
@@ -706,33 +704,29 @@
             </div>
             <div class="nav-links">
                 <a href="#shop" class="nav-link" style="color: var(--accent); border-bottom: 2px solid var(--accent);">Order Now</a>
-                <a href="#shop" class="nav-link">Lineup</a>
-                <a href="#specs" class="nav-link">Specs</a>
-                <a href="#calc" class="nav-link">Calc</a>
+                <a href="#shop" class="nav-link hide-mobile">Lineup</a>
+                <a href="#specs" class="nav-link hide-mobile">Specs</a>
+                <a href="#calc" class="nav-link hide-mobile">Calc</a>
                 <a href="#" class="nav-link nav-auth-btn" id="nav-auth-link">
                     Sign In
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 </a>
             </div>
+            <div class="nav-stamp">
+                <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; overflow: visible;">
+                    <circle cx="50" cy="50" r="46" fill="none" stroke="#ef4444" stroke-width="0.5" opacity="0.4" stroke-dasharray="2 3"/>
+                    <circle cx="50" cy="50" r="27" fill="none" stroke="#ef4444" stroke-width="0.5" opacity="0.4" />
+                    <path id="stamp-curve" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="none" />
+                    <text font-size="10.5" font-weight="800" fill="#ef4444" letter-spacing="2" font-family="'Space Grotesk', sans-serif">
+                        <textPath href="#stamp-curve" startOffset="0%" textLength="220">PREMIUM PRODUCT ✦ PREMIUM PRODUCT ✦ </textPath>
+                    </text>
+                    <path d="M50 38 L52 48 L62 50 L52 52 L50 62 L48 52 L38 50 L48 48 Z" fill="#ef4444" opacity="0.9" />
+                </svg>
+            </div>
         </div>
     </nav>
 
     <header class="hero">
-        <div class="premium-stamp">
-            <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; overflow: visible;">
-                <circle cx="50" cy="50" r="46" fill="none" stroke="#ef4444" stroke-width="0.5" opacity="0.4" stroke-dasharray="2 3"/>
-                <circle cx="50" cy="50" r="27" fill="none" stroke="#ef4444" stroke-width="0.5" opacity="0.4" />
-                
-                <path id="stamp-curve" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="none" />
-                
-                <text font-size="10.5" font-weight="800" fill="#ef4444" letter-spacing="2" font-family="'Space Grotesk', sans-serif">
-                    <textPath href="#stamp-curve" startOffset="0%" textLength="220">PREMIUM PRODUCT ✦ PREMIUM PRODUCT ✦ </textPath>
-                </text>
-                
-                <path d="M50 38 L52 48 L62 50 L52 52 L50 62 L48 52 L38 50 L48 48 Z" fill="#ef4444" opacity="0.9" />
-            </svg>
-        </div>
-
         <div class="reveal active">
             <h1>Molecular Clarity.<br>OLED Contrast.</h1>
             <p>The definitive 3:1 epoxy system. Engineered for professional artisans.</p>
@@ -1553,7 +1547,7 @@
                                     <h1 class="brand-name">M-X LUMES</h1>
                                     <div class="brand-tagline">Premium Resin Systems</div>
                                 </div>
-                                <h2 class="invoice-title">Invoice</h2>
+                                <h2 class="invoice-title">Tax Invoice</h2>
                             </div>
 
                             <div class="info-grid">
@@ -2494,208 +2488,3 @@
                     const safeItemsAdmin = JSON.stringify(o.items || []).replace(/"/g, '&quot;');
                     
                     const txEncAdmin = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
-                    const userEncAdmin = encodeURIComponent(JSON.stringify(resolvedUserObj)).replace(/'/g, "%27");
-
-                    oHtml += `
-                        <tr style="border-bottom: 1px solid #333;">
-                            <td style="padding:15px; vertical-align:top;">
-                                <div style="font-family:'Space Grotesk', sans-serif; font-weight:800; color:#fff;">${escapeHTML(o.orderId)}</div>
-                                <div style="color:#888; font-size:11px; margin-top:4px;">${o.createdAt ? new Date(o.createdAt).toLocaleDateString() : 'N/A'}</div>
-                                <div style="color:#888; font-size:11px; margin-top:4px;">Geo: ${escapeHTML(o.location) || 'Unknown'}</div>
-                            </td>
-                            <td style="padding:15px; vertical-align:top;">
-                                <div style="color:#fff; font-weight:700;">${escapeHTML(o.customerEmail)}</div>
-                                <div style="color:#aaa; font-size:11px; margin-top:6px; line-height:1.4; max-width:220px; word-wrap: break-word;">
-                                    📍 ${userAddress}
-                                </div>
-                                ${userPhone ? `<a href="https://wa.me/91${userPhone}?text=Hi!%20Update%20regarding%20your%20M-X%20Lumes%20order%20${encodeURIComponent(o.orderId)}:" target="_blank" style="color:var(--whatsapp); text-decoration:none; font-size:11px; display:inline-block; margin-top:6px; border:1px solid var(--whatsapp); padding:3px 6px; border-radius:4px;">WhatsApp</a>` : ''}
-                            </td>
-                            <td style="padding:15px; vertical-align:top; font-weight:800; color:var(--success);">₹${(o.totalAmount || 0).toLocaleString()}</td>
-                            <td style="padding:15px; vertical-align:top;">
-                                <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px;">
-                                    <select onchange="updateOrderStatus('${escapeHTML(o.orderId)}', this.value, this)" style="background:#000; color:${selectColor}; border:1px solid ${selectColor}; padding:6px; border-radius:6px; outline:none; font-size:11px; font-weight:800; cursor:pointer;" data-original="${o.status}">
-                                        <option value="Pending Verification" ${o.status === 'Pending Verification' ? 'selected' : ''}>Pending (Unpaid)</option>
-                                        <option value="Processing" ${o.status === 'Processing' ? 'selected' : ''}>Paid & Processing</option>
-                                        <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
-                                        <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
-                                    </select>
-                                    <button onclick="adminEditOrder('${escapeHTML(o.orderId)}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎ Edit</button>
-                                    <button onclick="printInvoice('${escapeHTML(o.orderId)}', '${o.createdAt || 'N/A'}', ${o.totalAmount}, '${safeItemsAdmin}', '${txEncAdmin}', '${userEncAdmin}')" style="background:transparent; border:1px solid #6366f1; color:#6366f1; padding:6px; border-radius:6px; cursor:pointer;">🖨️ Invoice</button>
-                                    <button onclick="adminDeleteOrder('${escapeHTML(o.orderId)}', this)" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕ Del</button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                });
-            }
-            oBody.innerHTML = oHtml;
-
-            const uBody = document.getElementById('admin-users-tbody');
-            let uHtml = '';
-            globalUsers.forEach(u => {
-                uHtml += `
-                    <tr style="border-bottom: 1px solid #333;">
-                        <td style="padding:15px; font-weight:800; color:#fff;">${escapeHTML(u.name)}</td>
-                        <td style="padding:15px; color:#aaa;">${escapeHTML(u.email)}</td>
-                        <td style="padding:15px;">
-                            ${u.phone ? escapeHTML(u.phone) : '<span style="color:#555;">No Phone</span>'}
-                            <div style="font-size: 11px; color: #888; margin-top: 5px; max-width: 250px; line-height: 1.4;">
-                                📍 ${u.address ? escapeHTML(u.address) : 'No address provided'}
-                            </div>
-                        </td>
-                        <td style="padding:15px; display:flex; gap:5px;">
-                            <button onclick="adminEditUser('${u._id}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎</button>
-                            <button onclick="adminDeleteUser('${escapeHTML(u.email)}', this)" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕</button>
-                        </td>
-                    </tr>
-                `;
-            });
-            uBody.innerHTML = uHtml;
-        }
-
-        function adminSwitchTab(tabId, el) {
-            document.querySelectorAll('.admin-nav-item').forEach(t => t.classList.remove('active')); el.classList.add('active');
-            document.querySelectorAll('.admin-data-panel').forEach(p => p.style.display = 'none'); document.getElementById('admin-panel-' + tabId).style.display = 'block';
-        }
-
-        async function updateOrderStatus(orderId, newStatus, selectEl) {
-            const key = sessionStorage.getItem('mxlumes_admin_key');
-            const oldStatus = selectEl.getAttribute('data-original');
-            selectEl.disabled = true;
-            try { 
-                const response = await fetch(`${RENDER_URL}/api/admin/orders/status`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ orderId, status: newStatus }) }); 
-                if (!response.ok) throw new Error("API Failure");
-                selectEl.setAttribute('data-original', newStatus);
-                fetchAdminData(); 
-            } catch (e) { 
-                alert("Failed to update status. Reverting."); 
-                selectEl.value = oldStatus;
-            } finally {
-                selectEl.disabled = false;
-            }
-        }
-
-        async function adminDeleteOrder(id, btnEl) {
-            if(!confirm(`Delete order ${id}?`)) return;
-            btnEl.disabled = true;
-            const key = sessionStorage.getItem('mxlumes_admin_key'); 
-            try {
-                await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { method: 'DELETE', headers: { 'admin-secret-key': key } }); 
-                fetchAdminData();
-            } catch(e) { btnEl.disabled = false; }
-        }
-        
-        async function adminDeleteUser(email, btnEl) {
-            if(!confirm(`Are you sure you want to delete user ${email}? This cannot be undone.`)) return;
-            btnEl.disabled = true;
-            const key = sessionStorage.getItem('mxlumes_admin_key'); 
-            try {
-                const response = await fetch(`${RENDER_URL}/api/admin/users/${encodeURIComponent(email)}`, { method: 'DELETE', headers: { 'admin-secret-key': key } });
-                const data = await response.json();
-                if (response.ok) {
-                    showToast("User deleted successfully");
-                    fetchAdminData(); 
-                } else {
-                    alert("Error: " + data.message);
-                    btnEl.disabled = false;
-                }
-            } catch (e) {
-                alert("Failed to reach server. Check your connection.");
-                btnEl.disabled = false;
-            }
-        }
-
-        function closeAdminEditModal() {
-            document.getElementById('admin-edit-modal').style.display = 'none';
-        }
-        
-        function adminEditOrder(id) {
-            const order = globalOrders.find(o => o.orderId === id); if(!order) return;
-            document.getElementById('admin-edit-title').innerText = `Edit Order: ${id}`;
-            document.getElementById('admin-edit-fields').innerHTML = `
-                <label style="font-size:12px; color:#888;">Total (₹)</label>
-                <input type="number" id="ae-amt" value="${order.totalAmount || 0}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
-                <label style="font-size:12px; color:#888;">Email</label>
-                <input type="text" id="ae-email" value="${escapeHTML(order.customerEmail)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
-                <label style="font-size:12px; color:#888;">Transaction / Payment Details (Prints on Invoice)</label>
-                <textarea id="ae-tx" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px; height:80px; font-family:inherit; margin-bottom:10px;" placeholder="e.g. Paid via UPI Ref: 123456789">${escapeHTML(order.transactionDetails || '')}</textarea>
-            `;
-            document.getElementById('admin-edit-modal').style.display = 'flex';
-            
-            const btn = document.getElementById('admin-edit-save');
-            btn.onclick = async () => {
-                const key = sessionStorage.getItem('mxlumes_admin_key');
-                btn.disabled = true;
-                btn.innerText = 'Saving...';
-                try {
-                    await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { 
-                        method: 'PUT', 
-                        headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, 
-                        body: JSON.stringify({ 
-                            totalAmount: Number(document.getElementById('ae-amt').value), 
-                            customerEmail: document.getElementById('ae-email').value,
-                            transactionDetails: document.getElementById('ae-tx').value
-                        }) 
-                    });
-                    closeAdminEditModal(); 
-                    fetchAdminData();
-                } finally {
-                    btn.disabled = false;
-                    btn.innerText = 'Save';
-                }
-            };
-        }
-        
-        function adminEditUser(id) {
-            const user = globalUsers.find(u => u._id === id); if(!user) return;
-            document.getElementById('admin-edit-title').innerText = `Edit User`;
-            document.getElementById('admin-edit-fields').innerHTML = `<label style="font-size:12px; color:#888;">Name</label><input type="text" id="ae-u-name" value="${escapeHTML(user.name)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"><label style="font-size:12px; color:#888;">Phone</label><input type="text" id="ae-u-phone" value="${escapeHTML(user.phone)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px;">`;
-            document.getElementById('admin-edit-modal').style.display = 'flex';
-            
-            const btn = document.getElementById('admin-edit-save');
-            btn.onclick = async () => {
-                const key = sessionStorage.getItem('mxlumes_admin_key');
-                btn.disabled = true;
-                btn.innerText = 'Saving...';
-                try {
-                    await fetch(`${RENDER_URL}/api/admin/users/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ name: document.getElementById('ae-u-name').value, phone: document.getElementById('ae-u-phone').value }) });
-                    closeAdminEditModal(); 
-                    fetchAdminData();
-                } finally {
-                    btn.disabled = false;
-                    btn.innerText = 'Save';
-                }
-            };
-        }
-
-        function exportOrdersCSV() {
-            if(globalOrders.length === 0) return alert("No orders.");
-            let csvContent = "Order ID,Date,Email,Phone,Shipping Address,Amount,Status,Transaction Details\n";
-            
-            globalOrders.forEach(o => { 
-                let u = globalUsers.find(user => user.email === o.customerEmail);
-                let phone = u && u.phone ? u.phone : 'No Phone';
-                
-                let rawAddress = u && u.address ? u.address : 'No Address'; 
-                let safeAddress = rawAddress.replace(/"/g, '""'); 
-                
-                let rawTx = o.transactionDetails ? o.transactionDetails : '';
-                let safeTx = rawTx.replace(/"/g, '""').replace(/\n/g, ' ');
-
-                let dateStr = o.createdAt ? new Date(o.createdAt).toLocaleDateString() : 'N/A';
-                
-                csvContent += `"${o.orderId}","${dateStr}","${o.customerEmail}","${phone}","${safeAddress}",${o.totalAmount || 0},"${o.status}","${safeTx}"\n`; 
-            });
-            
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.setAttribute("href", url);
-            link.setAttribute("download", `mxlumes_orders_${new Date().toISOString().split('T')[0]}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-    </script>
-</body>
-</html>
