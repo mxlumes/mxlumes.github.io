@@ -1391,7 +1391,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}` // 🛡️ Token added
+                        'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}`
                     },
                     body: JSON.stringify({ email: user.email })
                 });
@@ -1485,52 +1485,56 @@
                     <style>
                         :root { --black: #050505; --gray: #888888; --light-gray: #f4f4f5; --border: #e5e7eb; }
                         body { font-family: 'Manrope', sans-serif; color: var(--black); margin: 0; padding: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-                        .invoice-box { max-width: 800px; margin: auto; padding: 50px; background: #fff; position: relative; overflow: hidden; min-height: 100vh; }
-                        .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-family: 'Space Grotesk', sans-serif; font-size: 120px; font-weight: 700; color: rgba(0, 0, 0, 0.02); white-space: nowrap; z-index: 0; pointer-events: none; }
+                        .invoice-box { max-width: 800px; margin: auto; padding: 30px; background: transparent; position: relative; box-sizing: border-box; }
+                        .watermark { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-family: 'Space Grotesk', sans-serif; font-size: 140px; font-weight: 800; color: rgba(0, 0, 0, 0.03); white-space: nowrap; z-index: -1; pointer-events: none; user-select: none; }
                         .content { position: relative; z-index: 1; }
-                        .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid var(--black); padding-bottom: 30px; margin-bottom: 40px; }
+                        .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid var(--black); padding-bottom: 20px; margin-bottom: 25px; }
                         .brand-name { font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; letter-spacing: -1px; margin: 0; }
                         .brand-tagline { font-size: 12px; color: var(--gray); text-transform: uppercase; letter-spacing: 2px; margin-top: 5px; }
-                        .invoice-title { font-family: 'Space Grotesk', sans-serif; font-size: 42px; font-weight: 500; text-transform: uppercase; margin: 0; line-height: 1; color: #e5e5e5; }
-                        .info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-bottom: 50px; }
-                        .info-block h4 { font-size: 10px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin: 0 0 10px 0; }
-                        .info-block p { margin: 0 0 5px 0; font-size: 13px; line-height: 1.5; font-weight: 600; }
+                        .invoice-title { font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 500; text-transform: uppercase; margin: 0; line-height: 1; color: #e5e5e5; }
+                        .info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 25px; }
+                        .info-block h4 { font-size: 10px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin: 0 0 5px 0; }
+                        .info-block p { margin: 0; font-size: 12px; line-height: 1.4; font-weight: 600; }
                         .info-block p span { font-weight: 400; color: #555; }
-                        table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
-                        th { text-align: left; padding: 15px 10px; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); border-bottom: 1px solid var(--border); }
-                        td { padding: 20px 10px; font-size: 14px; font-weight: 600; border-bottom: 1px solid var(--light-gray); }
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 25px; }
+                        th { text-align: left; padding: 10px; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); border-bottom: 1px solid var(--border); }
+                        td { padding: 12px 10px; font-size: 13px; font-weight: 600; border-bottom: 1px solid var(--light-gray); }
                         .totals-container { display: flex; justify-content: flex-end; margin-bottom: 20px; }
-                        .totals-box { width: 300px; background: var(--light-gray); padding: 30px; border-radius: 16px; }
-                        .total-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 15px; font-weight: 600; }
-                        .total-final { display: flex; justify-content: space-between; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; border-top: 1px solid #ccc; padding-top: 15px; margin-top: 5px; }
-                        .footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 30px; margin-top: 30px;}
-                        .footer-notes h4 { font-family: 'Space Grotesk', sans-serif; font-size: 16px; margin: 0 0 5px 0; }
-                        .footer-notes p { font-size: 12px; color: var(--gray); margin: 0; line-height: 1.5; }
+                        .totals-box { width: 280px; background: var(--light-gray); padding: 20px; border-radius: 12px; }
+                        .total-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 10px; font-weight: 600; }
+                        .total-final { display: flex; justify-content: space-between; font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; border-top: 1px solid #ccc; padding-top: 12px; margin-top: 5px; }
+                        .footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 20px; margin-top: 20px;}
+                        .footer-notes h4 { font-family: 'Space Grotesk', sans-serif; font-size: 14px; margin: 0 0 5px 0; }
+                        .footer-notes p { font-size: 11px; color: var(--gray); margin: 0; line-height: 1.4; }
                         .qr-box { text-align: center; }
-                        .qr-box img { width: 80px; height: 80px; border-radius: 8px; border: 1px solid var(--border); padding: 4px; }
-                        .qr-box span { display: block; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); margin-top: 8px; }
-                        .btn-print { background: var(--black); color: #fff; padding: 15px 30px; text-align: center; border-radius: 30px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-size: 12px; margin-bottom: 20px; display: inline-block; }
+                        .qr-box img { width: 60px; height: 60px; border-radius: 8px; border: 1px solid var(--border); padding: 4px; }
+                        .qr-box span { display: block; font-size: 8px; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); margin-top: 5px; }
+                        .btn-print { background: var(--black); color: #fff; padding: 12px 25px; text-align: center; border-radius: 30px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-size: 11px; margin-bottom: 20px; display: inline-block; }
+                        
+                        /* A4 Print Layout Fixes */
                         @media print {
-                            @page { size: A4; margin: 0; }
+                            @page { size: A4; margin: 10mm; }
                             body { background: #fff; }
-                            .invoice-box { padding: 2cm; max-width: 100%; box-shadow: none; height: 100%; }
+                            .invoice-box { padding: 0; width: 100%; max-width: 100%; box-shadow: none; height: auto; page-break-inside: avoid; }
                             .no-print { display: none !important; }
                         }
                     </style>
                 </head>
                 <body>
-                    <div style="text-align:center; padding-top: 20px;" class="no-print">
+                    <div style="text-align:center; padding-top: 15px;" class="no-print">
                         <div class="btn-print" onclick="window.print()">🖨️ Tap Here to Save as PDF</div>
                     </div>
+                    
+                    <div class="watermark">M-X LUMES</div>
+                    
                     <div class="invoice-box">
-                        <div class="watermark">M-X LUMES</div>
                         <div class="content">
                             <div class="header">
                                 <div>
                                     <h1 class="brand-name">M-X LUMES</h1>
                                     <div class="brand-tagline">Premium Resin Systems</div>
                                 </div>
-                                <h2 class="invoice-title">Tax Invoice</h2>
+                                <h2 class="invoice-title">Invoice</h2>
                             </div>
 
                             <div class="info-grid">
@@ -1591,31 +1595,19 @@
                                 </div>
                             </div>
 
-                            <div style="padding: 20px; background: var(--light-gray); border-radius: 12px; margin-bottom: 20px;">
-                                <h4 style="margin: 0 0 8px 0; font-size: 11px; text-transform: uppercase; color: var(--gray); letter-spacing: 1px;">Payment & Transaction Details</h4>
-                                <p style="margin: 0; font-size: 14px; font-weight: 600; color: var(--black); line-height: 1.5; word-break: break-all;">
+                            <div style="padding: 15px; background: var(--light-gray); border-radius: 10px; margin-bottom: 15px;">
+                                <h4 style="margin: 0 0 5px 0; font-size: 10px; text-transform: uppercase; color: var(--gray); letter-spacing: 1px;">Payment & Transaction Details</h4>
+                                <p style="margin: 0; font-size: 12px; font-weight: 600; color: var(--black); line-height: 1.4; word-break: break-all;">
                                     ${transactionDetails || 'Payment Pending / No manual details provided.'}
                                 </p>
                             </div>
 
-                            <div class="company-details" style="margin-top: 40px; padding-top: 30px; border-top: 2px solid var(--black); display: flex; justify-content: space-between;">
-                                <div>
-                                    <h4 style="font-family: 'Space Grotesk', sans-serif; margin: 0 0 10px 0; font-size: 18px;">M-X Lumes</h4>
-                                    <p style="margin: 0; color: #555; font-size: 12px; line-height: 1.6;">
-                                        Meerut, Uttar Pradesh, India<br>
-                                        Website: mxlumes.com<br>
-                                        Email: support@mxlumes.com
-                                    </p>
-                                </div>
-                                <div style="text-align: right;">
-                                    <h4 style="font-family: 'Space Grotesk', sans-serif; margin: 0 0 10px 0; font-size: 14px; color: var(--gray);">Bank & Tax Details</h4>
-                                    <p style="margin: 0; color: #555; font-size: 12px; line-height: 1.6;">
-                                        <strong>Acct Name:</strong> M-X Lumes<br>
-                                        <strong>Acct No:</strong> XXXXXXXXXXXX<br>
-                                        <strong>IFSC Code:</strong> XXXXXXX<br>
-                                        <strong>GSTIN:</strong> 09XXXXX...
-                                    </p>
-                                </div>
+                            <div class="company-details" style="margin-top: 20px; padding-top: 15px; border-top: 2px solid var(--black); text-align: center;">
+                                <h4 style="font-family: 'Space Grotesk', sans-serif; margin: 0 0 5px 0; font-size: 16px;">M-X LUMES</h4>
+                                <p style="margin: 0; color: #555; font-size: 11px; line-height: 1.4; font-weight: 600;">
+                                    Achronda Kashi Road, Partapur, Meerut, 250103<br>
+                                    Website: mxlumes.com | Support: +91-7668077298
+                                </p>
                             </div>
 
                             <div class="footer">
@@ -1625,7 +1617,7 @@
                                 </div>
                                 <div class="qr-box">
                                     <img src="${qrSrc}" alt="WhatsApp QR" onload="window.print()" onerror="window.print()">
-                                    <span>Scan for Support</span>
+                                    <span>Support</span>
                                 </div>
                             </div>
                         </div>
