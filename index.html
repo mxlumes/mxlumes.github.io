@@ -7,17 +7,11 @@
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-
     <title>M-X Lumes | The Professional Standard</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <style>
@@ -48,24 +42,9 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        /* 🛡️ SCROLL LOCK FIX */
-        html, body {
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden; 
-            touch-action: manipulation; /* Prevents double-tap zoom on iOS */
-        }
+        html { font-size: 16px; scroll-behavior: smooth; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
         
-        body { 
-            background-color: var(--bg-oled); 
-            color: var(--text-main); 
-            font-family: 'Manrope', sans-serif; 
-            line-height: 1.6; 
-            position: relative; 
-            font-size: 16px;
-        }
+        body { background-color: var(--bg-oled); color: var(--text-main); font-family: 'Manrope', sans-serif; line-height: 1.6; width: 100%; max-width: 100vw; overflow-x: hidden; position: relative; }
 
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; line-height: 1.1; letter-spacing: -0.02em; }
         a { text-decoration: none; color: inherit; transition: color 0.3s var(--ease-fluid); }
@@ -73,6 +52,7 @@
         button:disabled { opacity: 0.5; cursor: not-allowed; }
         img { display: block; max-width: 100%; height: auto; user-select: none; }
         
+        /* 🛡️ APPLE SAFARI FIXES: Input Zoom, Rounded Corners & Yellow Autofill */
         input, select, textarea { font-size: 16px !important; font-family: 'Manrope', sans-serif; -webkit-appearance: none; appearance: none; border-radius: 12px; }
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
@@ -85,8 +65,8 @@
         /* =========================================
            2. ORIGINAL BACKGROUND ENGINE
            ========================================= */
-        .bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; z-index: -5; background-color: var(--bg-oled); background-image: url('product-1.webp'); background-position: center bottom; background-repeat: no-repeat; background-size: 65%; opacity: 0.5; transform: translateZ(0); }
-        .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; z-index: -4; background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.9) 50%, #000000 90%); pointer-events: none; transform: translateZ(0); }
+        .bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; z-index: -5; background-color: var(--bg-oled); background-image: url('product-1.webp'); background-position: center bottom; background-repeat: no-repeat; background-size: 65%; opacity: 0.5; }
+        .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; z-index: -4; background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.9) 50%, #000000 90%); pointer-events: none; }
 
         /* =========================================
            3. UI COMPONENTS & ANIMATIONS
@@ -94,8 +74,8 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; }
         .section { padding: 100px 0; position: relative; z-index: 2; }
         
-        .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s var(--ease-fluid), transform 0.8s var(--ease-fluid); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal { opacity: 0; transform: translate3d(0, 40px, 0); transition: opacity 0.8s var(--ease-fluid), transform 0.8s var(--ease-fluid); will-change: transform, opacity; }
+        .reveal.active { opacity: 1; transform: translate3d(0, 0, 0); }
 
         .btn { padding: 16px 32px; border-radius: 60px; font-weight: 800; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s, opacity 0.2s; }
         @media (hover: hover) { .btn:hover:not(:disabled) { transform: translateY(-3px); } .btn-outline:hover:not(:disabled) { border-color: #fff; background: rgba(255,255,255,0.08); } }
@@ -126,7 +106,7 @@
         /* =========================================
            5. HERO SECTION
            ========================================= */
-        .hero { min-height: 80vh; min-height: 80dvh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; padding-top: 80px; padding-bottom: 40px; position: relative; }
+        .hero { min-height: 80dvh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; padding-top: 80px; padding-bottom: 40px; position: relative; }
         .hero h1 { font-size: clamp(42px, 10vw, 100px); margin-bottom: 24px; font-weight: 800; background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
         .hero p { color: var(--text-dim); font-size: 18px; max-width: 500px; margin-bottom: 40px; padding: 0 20px; font-weight: 400;}
         .premium-stamp { position: absolute; top: 20%; right: 12%; width: 140px; height: 140px; animation: spinStamp 15s linear infinite; z-index: 5; pointer-events: none; opacity: 0.9; filter: drop-shadow(0 10px 20px rgba(239, 68, 68, 0.3)); }
@@ -140,7 +120,7 @@
            6. SHOP & GRIDS 
            ========================================= */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .product-card { padding: 30px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s, border-color 0.4s; background: linear-gradient(135deg, rgba(230, 230, 240, 0.1) 0%, rgba(180, 180, 190, 0.05) 100%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius); }
+        .product-card { padding: 30px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s, border-color 0.4s; background: linear-gradient(135deg, rgba(230, 230, 240, 0.1) 0%, rgba(180, 180, 190, 0.05) 100%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius); will-change: transform, box-shadow; transform: translateZ(0); }
         @media (hover: hover) { .product-card:hover { transform: translateY(-10px); border-color: rgba(255,255,255,0.4); box-shadow: 0 25px 50px rgba(0,0,0,0.6); } }
         .p-img { width: 100%; height: 280px; object-fit: cover; border-radius: 16px; margin-bottom: 25px; opacity: 0.9; transition: opacity 0.4s; }
         .product-card:hover .p-img { opacity: 1; }
@@ -152,7 +132,7 @@
         /* =========================================
            7. TECHNOLOGY & SPECS
            ========================================= */
-        .tech-card { padding: 40px; border-top: 1px solid rgba(255,255,255,0.15); transition: transform 0.4s, box-shadow 0.4s; height: 100%; display: flex; flex-direction: column; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: var(--radius); }
+        .tech-card { padding: 40px; border-top: 1px solid rgba(255,255,255,0.15); transition: transform 0.4s, box-shadow 0.4s; height: 100%; display: flex; flex-direction: column; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); border-radius: var(--radius); }
         @media (hover: hover) { .tech-card:hover { border-color: var(--accent); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); } }
         .tech-icon { font-size: 40px; margin-bottom: 20px; }
         .tech-sub { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 15px; font-weight: 800; }
@@ -179,7 +159,7 @@
         .comp-footer { margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--border); display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
 
         .dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .dd-box { padding: 50px; border-radius: 24px; border: 1px solid var(--border); transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s; background: rgba(20,20,20,0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+        .dd-box { padding: 50px; border-radius: 24px; border: 1px solid var(--border); transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s; background: rgba(20,20,20,0.8); backdrop-filter: blur(10px); }
         @media (hover: hover) { .dd-box:hover { transform: translateY(-5px); } }
         .dd-box.dos { border-color: rgba(16, 185, 129, 0.2); }
         @media (hover: hover) { .dd-box.dos:hover { border-color: rgba(16, 185, 129, 0.5); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1); } }
@@ -189,7 +169,7 @@
         /* =========================================
            8. TITAN FUSION CALCULATOR 
            ========================================= */
-        .zenith-calc { background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 40px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 40px 100px -30px rgba(0,0,0,0.8); }
+        .zenith-calc { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 40px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 40px 100px -30px rgba(0,0,0,0.8); transform: translateZ(0); }
         .z-controls { padding: 40px; border-bottom: 1px solid #ccc; position: relative; }
         .z-display { padding: 40px; background: rgba(255, 255, 255, 0.6); display: flex; flex-direction: column; justify-content: space-between; }
         @media (min-width: 900px) { .zenith-calc { display: grid; grid-template-columns: 1.3fr 1fr; } .z-controls { border-right: 1px solid #ccc; border-bottom: none; padding: 60px; } .z-display { padding: 60px; } }
@@ -291,7 +271,7 @@
         .scanner-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; background: #fafafa; }
         .scanner-close { background: none; border: none; font-size: 28px; color: #666; cursor: pointer; line-height: 1; padding: 5px; }
         
-        .scanner-view { position: relative; width: 100%; height: 450px; background: #000; overflow: hidden; touch-action: none; }
+        .scanner-view { position: relative; width: 100%; height: 450px; background: #000; overflow: hidden; touch-action: none; overscroll-behavior: none; }
         .scanner-view video { width: 100%; height: 100%; object-fit: cover; }
         .scanner-view canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 5; cursor: crosshair; touch-action: none; }
         
@@ -390,7 +370,7 @@
         .prof-orders td { padding: 15px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
 
         /* =========================================
-           12. CART SIDEBAR
+           12. CART SIDEBAR (FIXED MOBILE HEIGHT)
            ========================================= */
         .cart-fab {
             position: fixed; bottom: 30px; right: 20px; width: 65px; height: 65px;
@@ -465,7 +445,7 @@
         .v-send:disabled { background: #333; cursor: not-allowed; }
 
         /* =========================================
-           14. FOOTER 
+           14. FOOTER (HIGH CONTRAST)
            ========================================= */
         .footer { padding: 120px 20px 60px; background: #ffffff; border-top: 1px solid var(--border-light); }
         .f-top-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; margin-bottom: 100px; max-width: 1200px; margin: 0 auto; }
@@ -478,18 +458,13 @@
         .f-badges { display: flex; gap: 15px; align-items: flex-start; flex-wrap: wrap; }
         .f-badge { padding: 12px 24px; border: 1px solid #ccc; border-radius: 50px; font-size: 12px; color: #000; font-weight: 800; letter-spacing: 0.5px; background: #fff; cursor: default; }
         .f-bottom-row { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 40px; border-top: 1px solid #e5e7eb; max-width: 1200px; margin: 0 auto; }
-        .f-nav { display: flex; gap: 30px; align-items: center; }
+        .f-nav { display: flex; gap: 30px; }
         .f-nav-link { font-size: 13px; color: #555555; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; transition: color 0.3s; }
         .f-nav-link:hover { color: #000000; }
-        
-        /* 🛡️ THE NEW ADMIN TRIGGER (Discrete Lock Icon) */
-        .admin-trigger { color: #ccc; cursor: pointer; font-size: 14px; margin-left: 20px; transition: 0.3s; }
-        .admin-trigger:hover { color: #000; }
-        
-        .f-copy { font-size: 12px; color: #555555; font-weight: 800; user-select: none; }
+        .f-copy { font-size: 12px; color: #555555; font-weight: 800; cursor: pointer; user-select: none; }
 
         /* =========================================
-           15. ADMIN PORTAL 
+           15. SECRET SUPREME ADMIN PORTAL 
            ========================================= */
         #supreme-admin-portal {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh;
@@ -508,20 +483,13 @@
         @media (hover: hover) { #supreme-admin-portal .btn-delete:hover:not(:disabled) { background: #ef4444; color: #fff; } }
 
         /* =========================================
-           16. MOBILE OPTIMIZATIONS (FPS FIX)
+           16. MOBILE OPTIMIZATIONS
            ========================================= */
         .mobile-only { display: none !important; }
         
         @media (max-width: 900px) {
             .mobile-only { display: flex !important; }
             .desktop-only { display: none !important; }
-            
-            /* 🛡️ FPS BOOST: Strip heavy blur from scrolling elements on phones */
-            .product-card, .tech-card, .dd-box {
-                backdrop-filter: none !important;
-                -webkit-backdrop-filter: none !important;
-                background: #0f0f0f;
-            }
             
             .bg-layer { background-size: cover; opacity: 0.85; background-attachment: scroll; background-position: center center; }
             
@@ -600,7 +568,7 @@
             
             <form id="auth-form" onsubmit="submitAuth(event)">
                 <input type="text" id="auth-name" class="m-input" placeholder="Full Name" autocomplete="name" enterkeyhint="next" style="display:none;">
-                <input type="email" id="auth-email" class="m-input" placeholder="Email Address (Optional)" autocomplete="email" enterkeyhint="next" style="display:none;">
+                <input type="email" id="auth-email" class="m-input" placeholder="Email Address" autocomplete="email" enterkeyhint="next" style="display:none;">
                 
                 <input type="tel" id="auth-phone" class="m-input" placeholder="10-Digit Mobile Number" autocomplete="tel" inputmode="numeric" pattern="[0-9]*" enterkeyhint="done" required>
                 
@@ -627,12 +595,12 @@
             <div id="mobile-upi-options" class="mobile-only" style="flex-direction: column; gap: 10px; margin-bottom: 10px;">
                 <p style="color: var(--text-dim); font-size: 12px; margin-bottom: 5px;">Tap to open your UPI App directly:</p>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <button id="btn-gpay" class="upi-app-btn" onclick="openUPI('gpay')" style="background: #111;">Google Pay</button>
-                    <button id="btn-phonepe" class="upi-app-btn" onclick="openUPI('phonepe')" style="background: #5e35b1;">PhonePe</button>
-                    <button id="btn-paytm" class="upi-app-btn" onclick="openUPI('paytm')" style="background: #0288d1;">Paytm</button>
-                    <button id="btn-bhim" class="upi-app-btn" onclick="openUPI('bhim')" style="background: #e65100;">BHIM App</button>
+                    <a id="btn-gpay" class="upi-app-btn" href="#" onclick="trackPaymentIntent(); vibrate(50);" style="background: #111;">Google Pay</a>
+                    <a id="btn-phonepe" class="upi-app-btn" href="#" onclick="trackPaymentIntent(); vibrate(50);" style="background: #5e35b1;">PhonePe</a>
+                    <a id="btn-paytm" class="upi-app-btn" href="#" onclick="trackPaymentIntent(); vibrate(50);" style="background: #0288d1;">Paytm</a>
+                    <a id="btn-bhim" class="upi-app-btn" href="#" onclick="trackPaymentIntent(); vibrate(50);" style="background: #e65100;">BHIM App</a>
                 </div>
-                <button id="btn-generic" class="upi-app-btn" onclick="openUPI('generic')" style="background: transparent; border: 1px solid #333; color: #888; margin-top: 5px; width: 100%;">Other UPI App</button>
+                <a id="btn-generic" class="upi-app-btn" href="#" onclick="trackPaymentIntent(); vibrate(50);" style="background: transparent; border: 1px solid #333; color: #888; margin-top: 5px;">Other UPI App</a>
             </div>
             
             <div class="mobile-only" style="text-align:center; margin-bottom:20px;">
@@ -1162,10 +1130,9 @@
                     <a href="#" class="f-nav-link">Contact</a>
                 </div>
                 
-                <div class="f-copy" style="user-select:none;">
-                    © 2026 M-X Lumes. Engineered in Meerut. 
-                    <span onclick="triggerAdmin()" class="admin-trigger" title="Admin Portal">⚙️</span>
-                </div>
+                <div class="f-copy" onclick="triggerAdmin()" style="cursor:pointer; user-select:none;">
+    © 2026 M-X Lumes. Engineered in Meerut.
+</div>
             </div>
         </div>
     </footer>
@@ -1222,7 +1189,7 @@
 
     <div id="supreme-admin-portal">
         <div id="admin-auth-gate">
-            <div class="admin-auth-box" style="background:#0a0a0a; border:1px solid #333; padding: 40px; border-radius: 24px; max-width: 400px; width: 90%; margin: 100px auto; text-align: center;">
+            <div class="admin-auth-box">
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" style="margin-bottom:20px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                 <h2 style="font-family:'Space Grotesk', sans-serif; margin-bottom: 5px;">M-X Command</h2>
                 <p style="color:#888; font-size:13px; margin-bottom:20px;">Restricted Administrative Access</p>
@@ -1236,13 +1203,13 @@
         <div id="admin-main-view" style="display:none; height:100vh; height:100dvh;">
             <div class="admin-sidebar">
                 <div style="font-family:'Space Grotesk', sans-serif; font-size:24px; font-weight:800; margin-bottom:40px;">M-X LUMES.</div>
-                <div class="admin-nav-item active" onclick="adminSwitchTab('orders', this)" style="padding: 15px; cursor: pointer; color: #fff; font-weight: 800;">Orders</div>
-                <div class="admin-nav-item" onclick="adminSwitchTab('users', this)" style="padding: 15px; cursor: pointer; color: #888; font-weight: 800;">Customers</div>
+                <div class="admin-nav-item active" onclick="adminSwitchTab('orders', this)">Orders</div>
+                <div class="admin-nav-item" onclick="adminSwitchTab('users', this)">Customers</div>
                 <div style="flex:1;"></div>
-                <div class="admin-nav-item" onclick="lockVault()" style="color:#ef4444; padding: 15px; cursor: pointer; font-weight: 800;">Lock Vault</div>
+                <div class="admin-nav-item" onclick="lockVault()" style="color:#ef4444;">Lock Vault</div>
             </div>
             
-            <div class="admin-main" style="width: 100%;">
+            <div class="admin-main">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
                     <h1 style="font-family:'Space Grotesk', sans-serif; font-size:32px;">Command Center</h1>
                     <button class="export-btn" id="admin-sync-btn" onclick="fetchAdminData()">⟳ Sync Data</button>
@@ -1256,7 +1223,7 @@
 
                 <div class="admin-data-panel active" id="admin-panel-orders">
                     <div style="margin-bottom:20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                        <input type="text" id="order-search" placeholder="Search orders..." onkeyup="populateAdminDashboard()" style="padding: 10px; border-radius: 8px; background: #000; border: 1px solid #333; color: #fff; outline: none;">
+                        <input type="text" id="order-search" placeholder="Search orders or transactions..." onkeyup="populateAdminDashboard()" style="padding: 10px; border-radius: 8px; background: #000; border: 1px solid #333; color: #fff; outline: none;">
                         <button class="export-btn" onclick="exportOrdersCSV()">Download Order CSV</button>
                     </div>
                     <div style="background:#0a0a0a; border:1px solid #333; border-radius:16px; overflow-x:auto; -webkit-overflow-scrolling: touch;">
@@ -1306,7 +1273,6 @@
         window.paymentIntentFired = null;
         let pendingCheckout = false; 
 
-        // 🛡️ FRONTEND AUTO-HEALER
         const escapeHTML = (str) => {
             if (str == null) return '';
             return String(str).replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
@@ -1334,35 +1300,10 @@
             }, 2000);
         };
 
-        // 🛡️ LEVEL 28: STATEFUL SCROLL LOCK ENGINE
-        let scrollLockCount = 0;
-        
-        function lockScroll() {
-            scrollLockCount++;
-            if (scrollLockCount === 1) {
-                document.body.style.overflow = 'hidden';
-            }
-        }
-        
-        function unlockScroll() {
-            scrollLockCount--;
-            if (scrollLockCount <= 0) {
-                scrollLockCount = 0;
-                document.body.style.overflow = '';
-            }
-        }
-
-        function forceUnlockScroll() {
-            scrollLockCount = 0;
-            document.body.style.overflow = '';
-        }
-
-        // 🛡️ SAFARI BF-CACHE EMERGENCY RESET
+        // 🛡️ LEVEL 24: BFCache IOS Safari Reset
         window.addEventListener('pageshow', function(event) {
             if (event.persisted) {
                 isVerifying = false;
-                forceUnlockScroll();
-                document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
                 const btn = document.getElementById('pay-confirm-btn');
                 if(btn) {
                     btn.disabled = false;
@@ -1373,24 +1314,6 @@
                 }
             }
         });
-
-        // 🛡️ PAYMENT DIRECT INTENT
-        function openUPI(app) {
-            trackPaymentIntent();
-            vibrate(50);
-            
-            const amountFixed = checkoutTotal.toFixed(2);
-            const tr = "MXL" + Date.now();
-            const baseParams = `pa=${MERCHANT_UPI_ID}&pn=MXLumes&am=${amountFixed}&cu=INR&tn=ResinOrder&tr=${tr}`;
-            
-            let finalLink = `upi://pay?${baseParams}`;
-            if(app === 'gpay') finalLink = `gpay://upi/pay?${baseParams}`;
-            if(app === 'phonepe') finalLink = `phonepe://pay?${baseParams}`;
-            if(app === 'paytm') finalLink = `paytmmp://pay?${baseParams}`;
-            if(app === 'bhim') finalLink = `bhim://pay?${baseParams}`;
-
-            window.location.href = finalLink;
-        }
 
         document.addEventListener("visibilitychange", () => {
             if (document.visibilityState === "visible" && window.paymentIntentFired) {
@@ -1413,13 +1336,24 @@
         // =========================================
         function blurInputs() { document.activeElement?.blur(); }
 
+        function lockScroll() {
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overscrollBehavior = 'none';
+            document.body.style.overscrollBehavior = 'none';
+        }
+        function unlockScroll() {
+            document.body.style.overflow = '';
+            document.documentElement.style.overscrollBehavior = '';
+            document.body.style.overscrollBehavior = '';
+        }
+
         function checkAuthStatus() {
             try {
                 const user = JSON.parse(localStorage.getItem('mxlumes_user'));
                 const token = localStorage.getItem('mxlumes_token');
                 const authLink = document.getElementById('nav-auth-link');
                 
-                if (user && token && user.phone) {
+                if (user && token && user.email) {
                     authLink.innerHTML = `Hi, ${escapeHTML(user.name).split(' ')[0]} <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
                     authLink.onclick = (e) => { e.preventDefault(); openProfileModal(); vibrate(50); }; 
                     syncCartWithCloud(); 
@@ -1442,19 +1376,24 @@
             if(!user) return;
             
             document.getElementById('prof-name').innerText = escapeHTML(user.name);
-            document.getElementById('prof-email').innerText = escapeHTML(user.email || user.phone);
+            document.getElementById('prof-email').innerText = escapeHTML(user.email);
             
             const tbody = document.getElementById('prof-orders-tbody');
             tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888;">Loading orders...</td></tr>';
 
-            let safeEmail = user.email;
-            if(!safeEmail) safeEmail = `user_${user.phone}@mxlumes.com`;
+            // Isolate user string for printing
+            const isolatedUserStr = encodeURIComponent(JSON.stringify({
+                name: user.name, email: user.email, phone: user.phone, address: user.address
+            })).replace(/'/g, "%27");
 
             try {
                 const res = await fetch(`${RENDER_URL}/api/user/orders`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ email: safeEmail })
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}` // 🛡️ Token added
+                    },
+                    body: JSON.stringify({ email: user.email })
                 });
                 
                 if (res.status === 429) {
@@ -1472,6 +1411,9 @@
                         const safeItems = o.items.map(i => ({ name: escapeHTML(i.name), qty: i.qty, price: i.price }));
                         const itemsJson = JSON.stringify(safeItems).replace(/"/g, '&quot;');
                         
+                        // FIX: Safely encode apostrophes for inline HTML injection
+                        const txEnc = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
+                        
                         let actionBtn = '';
                         if (o.status === 'Pending Verification') {
                             actionBtn = `
@@ -1487,7 +1429,7 @@
                                 </div>
                             `;
                         } else {
-                            actionBtn = `<button class="btn btn-outline" style="padding: 6px 12px; font-size:10px; background:#fff; color:#000;" onclick="printInvoice('${escapeHTML(o.orderId)}', '${escapeHTML(o.createdAt)}', ${o.totalAmount}, '${itemsJson}'); vibrate(50);">Download Invoice</button>`;
+                            actionBtn = `<button class="btn btn-outline" style="padding: 6px 12px; font-size:10px; background:#fff; color:#000;" onclick="printInvoice('${escapeHTML(o.orderId)}', '${escapeHTML(o.createdAt)}', ${o.totalAmount}, '${itemsJson}', '${txEnc}', '${isolatedUserStr}'); vibrate(50);">Download Invoice</button>`;
                         }
 
                         tbodyHtml += `
@@ -1512,16 +1454,26 @@
             unlockScroll(); 
         }
 
-        function printInvoice(orderId, dateStr, amount, itemsJson) {
+        function printInvoice(orderId, dateStr, amount, itemsJson, txEncoded = '', userEncoded = '') {
             const items = JSON.parse(itemsJson.replace(/&quot;/g, '"'));
-            const user = JSON.parse(localStorage.getItem('mxlumes_user'));
+            
+            // SECURITY FIX: Parse isolated user data passed from the click, fallback to safe defaults
+            let invoiceUser = { name: 'Valued Customer', email: 'N/A', phone: 'N/A', address: 'N/A' };
+            try {
+                if(userEncoded) invoiceUser = JSON.parse(decodeURIComponent(userEncoded));
+            } catch(e) { console.error("Invoice user parse error"); }
+
             const waLink = `https://wa.me/917668077298?text=Hi,%20I%20need%20help%20with%20Order%20${encodeURIComponent(orderId)}`;
             const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(waLink)}`;
 
-            const safeName = escapeHTML(user.name);
-            const safeEmail = escapeHTML(user.email || user.phone);
-            const safePhone = user.phone ? escapeHTML(user.phone) : 'No Phone Provided';
-            const safeAddress = user.address ? escapeHTML(user.address).replace(/\n/g, '<br>') : 'Address not provided during checkout.';
+            const safeName = escapeHTML(invoiceUser.name);
+            const safeEmail = escapeHTML(invoiceUser.email);
+            const safePhone = invoiceUser.phone ? escapeHTML(invoiceUser.phone) : 'No Phone Provided';
+            const safeAddress = invoiceUser.address ? escapeHTML(invoiceUser.address).replace(/\n/g, '<br>') : 'Address not provided.';
+            
+            // SECURITY FIX: Re-escape HTML after decoding to prevent Stored XSS
+            const decodedTx = decodeURIComponent(txEncoded);
+            const transactionDetails = escapeHTML(decodedTx).replace(/\n/g, '<br>');
 
             const printWindow = window.open('', '_blank');
             printWindow.document.write(`
@@ -1547,17 +1499,16 @@
                         table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
                         th { text-align: left; padding: 15px 10px; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); border-bottom: 1px solid var(--border); }
                         td { padding: 20px 10px; font-size: 14px; font-weight: 600; border-bottom: 1px solid var(--light-gray); }
-                        .totals-container { display: flex; justify-content: flex-end; margin-bottom: 50px; }
+                        .totals-container { display: flex; justify-content: flex-end; margin-bottom: 20px; }
                         .totals-box { width: 300px; background: var(--light-gray); padding: 30px; border-radius: 16px; }
                         .total-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 15px; font-weight: 600; }
                         .total-final { display: flex; justify-content: space-between; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; border-top: 1px solid #ccc; padding-top: 15px; margin-top: 5px; }
-                        .footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 30px; }
+                        .footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 30px; margin-top: 30px;}
                         .footer-notes h4 { font-family: 'Space Grotesk', sans-serif; font-size: 16px; margin: 0 0 5px 0; }
                         .footer-notes p { font-size: 12px; color: var(--gray); margin: 0; line-height: 1.5; }
                         .qr-box { text-align: center; }
                         .qr-box img { width: 80px; height: 80px; border-radius: 8px; border: 1px solid var(--border); padding: 4px; }
                         .qr-box span { display: block; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); margin-top: 8px; }
-                        
                         .btn-print { background: var(--black); color: #fff; padding: 15px 30px; text-align: center; border-radius: 30px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-size: 12px; margin-bottom: 20px; display: inline-block; }
                         @media print {
                             @page { size: A4; margin: 0; }
@@ -1579,7 +1530,7 @@
                                     <h1 class="brand-name">M-X LUMES</h1>
                                     <div class="brand-tagline">Premium Resin Systems</div>
                                 </div>
-                                <h2 class="invoice-title">Receipt</h2>
+                                <h2 class="invoice-title">Tax Invoice</h2>
                             </div>
 
                             <div class="info-grid">
@@ -1640,21 +1591,45 @@
                                 </div>
                             </div>
 
+                            <div style="padding: 20px; background: var(--light-gray); border-radius: 12px; margin-bottom: 20px;">
+                                <h4 style="margin: 0 0 8px 0; font-size: 11px; text-transform: uppercase; color: var(--gray); letter-spacing: 1px;">Payment & Transaction Details</h4>
+                                <p style="margin: 0; font-size: 14px; font-weight: 600; color: var(--black); line-height: 1.5; word-break: break-all;">
+                                    ${transactionDetails || 'Payment Pending / No manual details provided.'}
+                                </p>
+                            </div>
+
+                            <div class="company-details" style="margin-top: 40px; padding-top: 30px; border-top: 2px solid var(--black); display: flex; justify-content: space-between;">
+                                <div>
+                                    <h4 style="font-family: 'Space Grotesk', sans-serif; margin: 0 0 10px 0; font-size: 18px;">M-X Lumes</h4>
+                                    <p style="margin: 0; color: #555; font-size: 12px; line-height: 1.6;">
+                                        Meerut, Uttar Pradesh, India<br>
+                                        Website: mxlumes.com<br>
+                                        Email: support@mxlumes.com
+                                    </p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <h4 style="font-family: 'Space Grotesk', sans-serif; margin: 0 0 10px 0; font-size: 14px; color: var(--gray);">Bank & Tax Details</h4>
+                                    <p style="margin: 0; color: #555; font-size: 12px; line-height: 1.6;">
+                                        <strong>Acct Name:</strong> M-X Lumes<br>
+                                        <strong>Acct No:</strong> XXXXXXXXXXXX<br>
+                                        <strong>IFSC Code:</strong> XXXXXXX<br>
+                                        <strong>GSTIN:</strong> 09XXXXX...
+                                    </p>
+                                </div>
+                            </div>
+
                             <div class="footer">
                                 <div class="footer-notes">
                                     <h4>Thank you for your trust.</h4>
                                     <p>If you have any questions about mixing ratios, curing times, or your shipment,<br>scan the QR code to connect directly with our expert team on WhatsApp.</p>
                                 </div>
                                 <div class="qr-box">
-                                    <img src="${qrSrc}" alt="WhatsApp QR">
+                                    <img src="${qrSrc}" alt="WhatsApp QR" onload="window.print()" onerror="window.print()">
                                     <span>Scan for Support</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <script>
-                        window.onload = () => { setTimeout(() => window.print(), 500); }
-                    <\/script>
                 </body>
                 </html>
             `);
@@ -1791,13 +1766,11 @@
 
             // 🛡️ GUEST CHECKOUT / SIGNUP ROUTER
             const name = document.getElementById('auth-name').value.trim();
-            let email = document.getElementById('auth-email').value.trim();
+            const email = document.getElementById('auth-email').value.trim();
             const address = document.getElementById('auth-address').value.trim();
             const password = cleanPhone; 
-            
-            if (!email) email = `user_${cleanPhone}@mxlumes.com`;
 
-            if (!name || !address) {
+            if (!name || !email || !address) {
                 errorDiv.innerText = "Please complete all fields.";
                 errorDiv.style.display = 'block';
                 btn.innerHTML = originalBtnText;
@@ -1817,10 +1790,7 @@
                     localStorage.setItem('mxlumes_user', JSON.stringify(data.user));
                     closeAuthModal();
                     checkAuthStatus();
-                    if(currentAuthMode === 'guest' || pendingCheckout) {
-                        pendingCheckout = false;
-                        initiateCheckout(); 
-                    }
+                    if(currentAuthMode === 'guest' || pendingCheckout) initiateCheckout(); 
                     return;
                 } else if (response.status === 400 || response.status === 409) {
                     
@@ -1835,10 +1805,7 @@
                         localStorage.setItem('mxlumes_user', JSON.stringify(loginData.user));
                         closeAuthModal();
                         checkAuthStatus();
-                        if(currentAuthMode === 'guest' || pendingCheckout) {
-                            pendingCheckout = false;
-                            initiateCheckout(); 
-                        }
+                        if(currentAuthMode === 'guest' || pendingCheckout) initiateCheckout(); 
                         return;
                     } else {
                         throw new Error("Email exists, but phone number doesn't match our records. Please try logging in.");
@@ -1872,10 +1839,14 @@
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
             if (!user) return;
             try {
-                let safeEmail = user.email;
-                if (!safeEmail) safeEmail = `user_${user.phone}@mxlumes.com`;
-                
-                const response = await fetch(`${RENDER_URL}/api/user/sync-cart`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: safeEmail, cartData }) });
+                const response = await fetch(`${RENDER_URL}/api/user/sync-cart`, { 
+                    method: 'POST', 
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}` // 🛡️ Token added
+                    }, 
+                    body: JSON.stringify({ email: user.email, cartData }) 
+                });
                 if (response.status === 429) return; 
                 const data = await response.json();
                 if (!cartData && data.cart && data.cart.length > 0) { cart = data.cart; renderCart(); }
@@ -1946,13 +1917,8 @@
 
         function toggleCart() { 
             const sidebar = document.getElementById('cartSidebar');
-            if (sidebar.classList.contains('active')) {
-                sidebar.classList.remove('active');
-                unlockScroll();
-            } else {
-                sidebar.classList.add('active');
-                lockScroll();
-            }
+            sidebar.classList.toggle('active'); 
+            if(sidebar.classList.contains('active')) lockScroll(); else unlockScroll();
             updateReminder(); 
         }
         
@@ -1981,13 +1947,9 @@
         function initiateCheckout() {
             if (cart.length === 0) return showToast("Your cart is empty", true);
             
-            let user = null;
-            try { user = JSON.parse(localStorage.getItem('mxlumes_user')); } catch(e){}
-            
-            if (!user || !user.phone) { 
+            const user = JSON.parse(localStorage.getItem('mxlumes_user'));
+            if (!user || !user.email) { 
                 pendingCheckout = true; 
-                document.getElementById('cartSidebar').classList.remove('active');
-                forceUnlockScroll();
                 openGuestCheckoutModal(); 
                 return; 
             }
@@ -2005,9 +1967,7 @@
             document.getElementById('upi-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent('upi://pay?' + baseParams)}`;
             document.getElementById('payment-total').innerText = `₹${checkoutTotal.toLocaleString()}`;
             
-            document.getElementById('cartSidebar').classList.remove('active');
-            forceUnlockScroll();
-            
+            toggleCart(); 
             document.getElementById('payment-modal-overlay').classList.add('active');
             lockScroll();
             
@@ -2051,31 +2011,32 @@
             errBox.style.display = 'none';
 
             let user = null;
-            try { user = JSON.parse(localStorage.getItem('mxlumes_user')); } catch(e){}
+            try {
+                user = JSON.parse(localStorage.getItem('mxlumes_user'));
+            } catch(e){}
 
-            if (!user || !user.phone) {
+            // 🛡️ FRONTEND FAILSAFE: Catches corrupted local storage before hitting backend
+            if (!user || !user.email) {
                 errBox.innerText = "⚠ Session expired. Please close this and securely re-enter your delivery details.";
                 errBox.style.display = 'block';
                 btn.innerText = "✓ Try Verification Again";
                 btn.disabled = false;
                 isVerifying = false;
-                logout(new Event('click')); 
+                logout(new Event('click')); // Force cleanup
                 return;
             }
 
-            let safeEmail = user.email;
-            if(!safeEmail) safeEmail = `user_${user.phone}@mxlumes.com`;
-            
-            const cleanCart = cart.map(item => ({ 
-                name: escapeHTML(item.name), 
-                price: Number(item.price), 
-                qty: Number(item.qty) 
-            }));
-
-            const payload = { email: safeEmail, items: cleanCart, totalAmount: checkoutTotal, location: userLocation };
+            const payload = { email: user.email, items: cart, totalAmount: checkoutTotal, location: userLocation };
 
             try {
-                const response = await fetch(`${RENDER_URL}/api/orders`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const response = await fetch(`${RENDER_URL}/api/orders`, { 
+                    method: 'POST', 
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}` // 🛡️ Token added
+                    }, 
+                    body: JSON.stringify(payload) 
+                });
                 
                 if (response.status === 429) throw new Error("System is busy. Please wait 30 seconds.");
                 
@@ -2413,7 +2374,6 @@
             if(adminClicks >= 3) {
                 document.getElementById('supreme-admin-portal').style.display = 'block';
                 adminClicks = 0;
-                lockScroll();
                 if (sessionStorage.getItem('mxlumes_admin_key')) {
                     document.getElementById('master-key').value = sessionStorage.getItem('mxlumes_admin_key');
                     unlockDashboard();
@@ -2421,10 +2381,7 @@
             }
         }
         
-        function closeAdminPortal() { 
-            document.getElementById('supreme-admin-portal').style.display = 'none'; 
-            unlockScroll();
-        }
+        function closeAdminPortal() { document.getElementById('supreme-admin-portal').style.display = 'none'; }
         
         let globalOrders = []; let globalUsers = [];
 
@@ -2504,8 +2461,9 @@
             let filteredOrders = globalOrders;
             if(searchFilter) {
                 filteredOrders = filteredOrders.filter(o => 
-                    (o.orderId && o.orderId.toLowerCase().includes(searchFilter)) || 
-                    (o.customerEmail && o.customerEmail.toLowerCase().includes(searchFilter))
+                    (o.orderId?.toLowerCase().includes(searchFilter)) || 
+                    (o.customerEmail?.toLowerCase().includes(searchFilter)) ||
+                    (o.transactionDetails?.toLowerCase().includes(searchFilter)) 
                 );
             }
 
@@ -2515,14 +2473,23 @@
                     let userPhone = ''; 
                     let userAddress = '<span style="color:#ef4444;">Address Not Provided</span>'; 
                     let linkedUser = globalUsers.find(u => u.email === o.customerEmail); 
+                    
+                    let resolvedUserObj = { name: 'Guest User', email: o.customerEmail, phone: '', address: '' };
+
                     if(linkedUser) {
-                        if(linkedUser.phone) userPhone = escapeHTML(linkedUser.phone);
-                        if(linkedUser.address) userAddress = escapeHTML(linkedUser.address);
+                        resolvedUserObj.name = linkedUser.name || 'User';
+                        if(linkedUser.phone) { userPhone = escapeHTML(linkedUser.phone); resolvedUserObj.phone = linkedUser.phone; }
+                        if(linkedUser.address) { userAddress = escapeHTML(linkedUser.address); resolvedUserObj.address = linkedUser.address; }
                     }
                     
                     let statusClass = 'Pending'; if(o.status.includes('Processing')) statusClass = 'Processing'; if(o.status.includes('Shipped')) statusClass = 'Shipped'; if(o.status.includes('Delivered')) statusClass = 'Delivered';
                     let selectColor = o.status === 'Pending Verification' ? '#ef4444' : (o.status === 'Processing' ? '#6366f1' : '#10b981');
                     
+                    const safeItemsAdmin = JSON.stringify(o.items || []).replace(/"/g, '&quot;');
+                    
+                    const txEncAdmin = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
+                    const userEncAdmin = encodeURIComponent(JSON.stringify(resolvedUserObj)).replace(/'/g, "%27");
+
                     oHtml += `
                         <tr style="border-bottom: 1px solid #333;">
                             <td style="padding:15px; vertical-align:top;">
@@ -2547,6 +2514,7 @@
                                         <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
                                     </select>
                                     <button onclick="adminEditOrder('${escapeHTML(o.orderId)}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎ Edit</button>
+                                    <button onclick="printInvoice('${escapeHTML(o.orderId)}', '${o.createdAt || 'N/A'}', ${o.totalAmount}, '${safeItemsAdmin}', '${txEncAdmin}', '${userEncAdmin}')" style="background:transparent; border:1px solid #6366f1; color:#6366f1; padding:6px; border-radius:6px; cursor:pointer;">🖨️ Invoice</button>
                                     <button onclick="adminDeleteOrder('${escapeHTML(o.orderId)}', this)" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕ Del</button>
                                 </div>
                             </td>
@@ -2638,7 +2606,14 @@
         function adminEditOrder(id) {
             const order = globalOrders.find(o => o.orderId === id); if(!order) return;
             document.getElementById('admin-edit-title').innerText = `Edit Order: ${id}`;
-            document.getElementById('admin-edit-fields').innerHTML = `<label style="font-size:12px; color:#888;">Total (₹)</label><input type="number" id="ae-amt" value="${order.totalAmount || 0}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"><label style="font-size:12px; color:#888;">Email</label><input type="text" id="ae-email" value="${escapeHTML(order.customerEmail)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px;">`;
+            document.getElementById('admin-edit-fields').innerHTML = `
+                <label style="font-size:12px; color:#888;">Total (₹)</label>
+                <input type="number" id="ae-amt" value="${order.totalAmount || 0}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
+                <label style="font-size:12px; color:#888;">Email</label>
+                <input type="text" id="ae-email" value="${escapeHTML(order.customerEmail)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
+                <label style="font-size:12px; color:#888;">Transaction / Payment Details (Prints on Invoice)</label>
+                <textarea id="ae-tx" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px; height:80px; font-family:inherit; margin-bottom:10px;" placeholder="e.g. Paid via UPI Ref: 123456789">${escapeHTML(order.transactionDetails || '')}</textarea>
+            `;
             document.getElementById('admin-edit-modal').style.display = 'flex';
             
             const btn = document.getElementById('admin-edit-save');
@@ -2647,7 +2622,15 @@
                 btn.disabled = true;
                 btn.innerText = 'Saving...';
                 try {
-                    await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ totalAmount: document.getElementById('ae-amt').value, customerEmail: document.getElementById('ae-email').value }) });
+                    await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { 
+                        method: 'PUT', 
+                        headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, 
+                        body: JSON.stringify({ 
+                            totalAmount: Number(document.getElementById('ae-amt').value), 
+                            customerEmail: document.getElementById('ae-email').value,
+                            transactionDetails: document.getElementById('ae-tx').value
+                        }) 
+                    });
                     closeAdminEditModal(); 
                     fetchAdminData();
                 } finally {
@@ -2681,21 +2664,28 @@
 
         function exportOrdersCSV() {
             if(globalOrders.length === 0) return alert("No orders.");
-            let csvContent = "Order ID,Date,Email,Phone,Shipping Address,Amount,Status\n";
+            let csvContent = "Order ID,Date,Email,Phone,Shipping Address,Amount,Status,Transaction Details\n";
             
             globalOrders.forEach(o => { 
                 let u = globalUsers.find(user => user.email === o.customerEmail);
                 let phone = u && u.phone ? u.phone : 'No Phone';
-                let address = u && u.address ? u.address.replace(/,/g, ' ') : 'No Address'; 
                 
-                csvContent += `${o.orderId},${o.createdAt ? new Date(o.createdAt).toLocaleDateString() : 'N/A'},${o.customerEmail},${phone},"${address}",${o.totalAmount || 0},${o.status}\n`; 
+                let rawAddress = u && u.address ? u.address : 'No Address'; 
+                let safeAddress = rawAddress.replace(/"/g, '""'); 
+                
+                let rawTx = o.transactionDetails ? o.transactionDetails : '';
+                let safeTx = rawTx.replace(/"/g, '""').replace(/\n/g, ' ');
+
+                let dateStr = o.createdAt ? new Date(o.createdAt).toLocaleDateString() : 'N/A';
+                
+                csvContent += `"${o.orderId}","${dateStr}","${o.customerEmail}","${phone}","${safeAddress}",${o.totalAmount || 0},"${o.status}","${safeTx}"\n`; 
             });
             
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.setAttribute("href", url);
-            link.setAttribute("download", `mxlumes_orders.csv`);
+            link.setAttribute("download", `mxlumes_orders_${new Date().toISOString().split('T')[0]}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
