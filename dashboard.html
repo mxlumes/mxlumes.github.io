@@ -1130,7 +1130,7 @@
                     <a href="#" class="f-nav-link">Contact</a>
                 </div>
                 
-                <div class="f-copy" onclick="window.open('dashboard.html', '_blank')" style="cursor:pointer; user-select:none;">
+                <div class="f-copy" onclick="triggerAdmin()" style="cursor:pointer; user-select:none;">
     © 2026 M-X Lumes. Engineered in Meerut.
 </div>
             </div>
@@ -1223,7 +1223,7 @@
 
                 <div class="admin-data-panel active" id="admin-panel-orders">
                     <div style="margin-bottom:20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                        <input type="text" id="order-search" placeholder="Search orders..." onkeyup="populateAdminDashboard()" style="padding: 10px; border-radius: 8px; background: #000; border: 1px solid #333; color: #fff; outline: none;">
+                        <input type="text" id="order-search" placeholder="Search orders or transactions..." onkeyup="populateAdminDashboard()" style="padding: 10px; border-radius: 8px; background: #000; border: 1px solid #333; color: #fff; outline: none;">
                         <button class="export-btn" onclick="exportOrdersCSV()">Download Order CSV</button>
                     </div>
                     <div style="background:#0a0a0a; border:1px solid #333; border-radius:16px; overflow-x:auto; -webkit-overflow-scrolling: touch;">
@@ -1381,10 +1381,18 @@
             const tbody = document.getElementById('prof-orders-tbody');
             tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888;">Loading orders...</td></tr>';
 
+            // Isolate user string for printing
+            const isolatedUserStr = encodeURIComponent(JSON.stringify({
+                name: user.name, email: user.email, phone: user.phone, address: user.address
+            })).replace(/'/g, "%27");
+
             try {
                 const res = await fetch(`${RENDER_URL}/api/user/orders`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}` // 🛡️ Token added
+                    },
                     body: JSON.stringify({ email: user.email })
                 });
                 
@@ -1403,6 +1411,9 @@
                         const safeItems = o.items.map(i => ({ name: escapeHTML(i.name), qty: i.qty, price: i.price }));
                         const itemsJson = JSON.stringify(safeItems).replace(/"/g, '&quot;');
                         
+                        // FIX: Safely encode apostrophes for inline HTML injection
+                        const txEnc = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
+                        
                         let actionBtn = '';
                         if (o.status === 'Pending Verification') {
                             actionBtn = `
@@ -1418,7 +1429,7 @@
                                 </div>
                             `;
                         } else {
-                            actionBtn = `<button class="btn btn-outline" style="padding: 6px 12px; font-size:10px; background:#fff; color:#000;" onclick="printInvoice('${escapeHTML(o.orderId)}', '${escapeHTML(o.createdAt)}', ${o.totalAmount}, '${itemsJson}'); vibrate(50);">Download Invoice</button>`;
+                            actionBtn = `<button class="btn btn-outline" style="padding: 6px 12px; font-size:10px; background:#fff; color:#000;" onclick="printInvoice('${escapeHTML(o.orderId)}', '${escapeHTML(o.createdAt)}', ${o.totalAmount}, '${itemsJson}', '${txEnc}', '${isolatedUserStr}'); vibrate(50);">Download Invoice</button>`;
                         }
 
                         tbodyHtml += `
@@ -1443,16 +1454,26 @@
             unlockScroll(); 
         }
 
-        function printInvoice(orderId, dateStr, amount, itemsJson) {
+        function printInvoice(orderId, dateStr, amount, itemsJson, txEncoded = '', userEncoded = '') {
             const items = JSON.parse(itemsJson.replace(/&quot;/g, '"'));
-            const user = JSON.parse(localStorage.getItem('mxlumes_user'));
+            
+            // SECURITY FIX: Parse isolated user data passed from the click, fallback to safe defaults
+            let invoiceUser = { name: 'Valued Customer', email: 'N/A', phone: 'N/A', address: 'N/A' };
+            try {
+                if(userEncoded) invoiceUser = JSON.parse(decodeURIComponent(userEncoded));
+            } catch(e) { console.error("Invoice user parse error"); }
+
             const waLink = `https://wa.me/917668077298?text=Hi,%20I%20need%20help%20with%20Order%20${encodeURIComponent(orderId)}`;
             const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(waLink)}`;
 
-            const safeName = escapeHTML(user.name);
-            const safeEmail = escapeHTML(user.email);
-            const safePhone = user.phone ? escapeHTML(user.phone) : 'No Phone Provided';
-            const safeAddress = user.address ? escapeHTML(user.address).replace(/\n/g, '<br>') : 'Address not provided during checkout.';
+            const safeName = escapeHTML(invoiceUser.name);
+            const safeEmail = escapeHTML(invoiceUser.email);
+            const safePhone = invoiceUser.phone ? escapeHTML(invoiceUser.phone) : 'No Phone Provided';
+            const safeAddress = invoiceUser.address ? escapeHTML(invoiceUser.address).replace(/\n/g, '<br>') : 'Address not provided.';
+            
+            // SECURITY FIX: Re-escape HTML after decoding to prevent Stored XSS
+            const decodedTx = decodeURIComponent(txEncoded);
+            const transactionDetails = escapeHTML(decodedTx).replace(/\n/g, '<br>');
 
             const printWindow = window.open('', '_blank');
             printWindow.document.write(`
@@ -1478,17 +1499,16 @@
                         table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
                         th { text-align: left; padding: 15px 10px; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); border-bottom: 1px solid var(--border); }
                         td { padding: 20px 10px; font-size: 14px; font-weight: 600; border-bottom: 1px solid var(--light-gray); }
-                        .totals-container { display: flex; justify-content: flex-end; margin-bottom: 50px; }
+                        .totals-container { display: flex; justify-content: flex-end; margin-bottom: 20px; }
                         .totals-box { width: 300px; background: var(--light-gray); padding: 30px; border-radius: 16px; }
                         .total-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 15px; font-weight: 600; }
                         .total-final { display: flex; justify-content: space-between; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; border-top: 1px solid #ccc; padding-top: 15px; margin-top: 5px; }
-                        .footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 30px; }
+                        .footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 30px; margin-top: 30px;}
                         .footer-notes h4 { font-family: 'Space Grotesk', sans-serif; font-size: 16px; margin: 0 0 5px 0; }
                         .footer-notes p { font-size: 12px; color: var(--gray); margin: 0; line-height: 1.5; }
                         .qr-box { text-align: center; }
                         .qr-box img { width: 80px; height: 80px; border-radius: 8px; border: 1px solid var(--border); padding: 4px; }
                         .qr-box span { display: block; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); margin-top: 8px; }
-                        
                         .btn-print { background: var(--black); color: #fff; padding: 15px 30px; text-align: center; border-radius: 30px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-size: 12px; margin-bottom: 20px; display: inline-block; }
                         @media print {
                             @page { size: A4; margin: 0; }
@@ -1510,7 +1530,7 @@
                                     <h1 class="brand-name">M-X LUMES</h1>
                                     <div class="brand-tagline">Premium Resin Systems</div>
                                 </div>
-                                <h2 class="invoice-title">Receipt</h2>
+                                <h2 class="invoice-title">Tax Invoice</h2>
                             </div>
 
                             <div class="info-grid">
@@ -1571,21 +1591,45 @@
                                 </div>
                             </div>
 
+                            <div style="padding: 20px; background: var(--light-gray); border-radius: 12px; margin-bottom: 20px;">
+                                <h4 style="margin: 0 0 8px 0; font-size: 11px; text-transform: uppercase; color: var(--gray); letter-spacing: 1px;">Payment & Transaction Details</h4>
+                                <p style="margin: 0; font-size: 14px; font-weight: 600; color: var(--black); line-height: 1.5; word-break: break-all;">
+                                    ${transactionDetails || 'Payment Pending / No manual details provided.'}
+                                </p>
+                            </div>
+
+                            <div class="company-details" style="margin-top: 40px; padding-top: 30px; border-top: 2px solid var(--black); display: flex; justify-content: space-between;">
+                                <div>
+                                    <h4 style="font-family: 'Space Grotesk', sans-serif; margin: 0 0 10px 0; font-size: 18px;">M-X Lumes</h4>
+                                    <p style="margin: 0; color: #555; font-size: 12px; line-height: 1.6;">
+                                        Meerut, Uttar Pradesh, India<br>
+                                        Website: mxlumes.com<br>
+                                        Email: support@mxlumes.com
+                                    </p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <h4 style="font-family: 'Space Grotesk', sans-serif; margin: 0 0 10px 0; font-size: 14px; color: var(--gray);">Bank & Tax Details</h4>
+                                    <p style="margin: 0; color: #555; font-size: 12px; line-height: 1.6;">
+                                        <strong>Acct Name:</strong> M-X Lumes<br>
+                                        <strong>Acct No:</strong> XXXXXXXXXXXX<br>
+                                        <strong>IFSC Code:</strong> XXXXXXX<br>
+                                        <strong>GSTIN:</strong> 09XXXXX...
+                                    </p>
+                                </div>
+                            </div>
+
                             <div class="footer">
                                 <div class="footer-notes">
                                     <h4>Thank you for your trust.</h4>
                                     <p>If you have any questions about mixing ratios, curing times, or your shipment,<br>scan the QR code to connect directly with our expert team on WhatsApp.</p>
                                 </div>
                                 <div class="qr-box">
-                                    <img src="${qrSrc}" alt="WhatsApp QR">
+                                    <img src="${qrSrc}" alt="WhatsApp QR" onload="window.print()" onerror="window.print()">
                                     <span>Scan for Support</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <script>
-                        window.onload = () => { setTimeout(() => window.print(), 500); }
-                    <\/script>
                 </body>
                 </html>
             `);
@@ -1795,7 +1839,14 @@
             const user = JSON.parse(localStorage.getItem('mxlumes_user'));
             if (!user) return;
             try {
-                const response = await fetch(`${RENDER_URL}/api/user/sync-cart`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: user.email, cartData }) });
+                const response = await fetch(`${RENDER_URL}/api/user/sync-cart`, { 
+                    method: 'POST', 
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}` // 🛡️ Token added
+                    }, 
+                    body: JSON.stringify({ email: user.email, cartData }) 
+                });
                 if (response.status === 429) return; 
                 const data = await response.json();
                 if (!cartData && data.cart && data.cart.length > 0) { cart = data.cart; renderCart(); }
@@ -1978,7 +2029,14 @@
             const payload = { email: user.email, items: cart, totalAmount: checkoutTotal, location: userLocation };
 
             try {
-                const response = await fetch(`${RENDER_URL}/api/orders`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const response = await fetch(`${RENDER_URL}/api/orders`, { 
+                    method: 'POST', 
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}` // 🛡️ Token added
+                    }, 
+                    body: JSON.stringify(payload) 
+                });
                 
                 if (response.status === 429) throw new Error("System is busy. Please wait 30 seconds.");
                 
@@ -2403,8 +2461,9 @@
             let filteredOrders = globalOrders;
             if(searchFilter) {
                 filteredOrders = filteredOrders.filter(o => 
-                    (o.orderId && o.orderId.toLowerCase().includes(searchFilter)) || 
-                    (o.customerEmail && o.customerEmail.toLowerCase().includes(searchFilter))
+                    (o.orderId?.toLowerCase().includes(searchFilter)) || 
+                    (o.customerEmail?.toLowerCase().includes(searchFilter)) ||
+                    (o.transactionDetails?.toLowerCase().includes(searchFilter)) 
                 );
             }
 
@@ -2414,14 +2473,23 @@
                     let userPhone = ''; 
                     let userAddress = '<span style="color:#ef4444;">Address Not Provided</span>'; 
                     let linkedUser = globalUsers.find(u => u.email === o.customerEmail); 
+                    
+                    let resolvedUserObj = { name: 'Guest User', email: o.customerEmail, phone: '', address: '' };
+
                     if(linkedUser) {
-                        if(linkedUser.phone) userPhone = escapeHTML(linkedUser.phone);
-                        if(linkedUser.address) userAddress = escapeHTML(linkedUser.address);
+                        resolvedUserObj.name = linkedUser.name || 'User';
+                        if(linkedUser.phone) { userPhone = escapeHTML(linkedUser.phone); resolvedUserObj.phone = linkedUser.phone; }
+                        if(linkedUser.address) { userAddress = escapeHTML(linkedUser.address); resolvedUserObj.address = linkedUser.address; }
                     }
                     
                     let statusClass = 'Pending'; if(o.status.includes('Processing')) statusClass = 'Processing'; if(o.status.includes('Shipped')) statusClass = 'Shipped'; if(o.status.includes('Delivered')) statusClass = 'Delivered';
                     let selectColor = o.status === 'Pending Verification' ? '#ef4444' : (o.status === 'Processing' ? '#6366f1' : '#10b981');
                     
+                    const safeItemsAdmin = JSON.stringify(o.items || []).replace(/"/g, '&quot;');
+                    
+                    const txEncAdmin = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
+                    const userEncAdmin = encodeURIComponent(JSON.stringify(resolvedUserObj)).replace(/'/g, "%27");
+
                     oHtml += `
                         <tr style="border-bottom: 1px solid #333;">
                             <td style="padding:15px; vertical-align:top;">
@@ -2446,6 +2514,7 @@
                                         <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
                                     </select>
                                     <button onclick="adminEditOrder('${escapeHTML(o.orderId)}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎ Edit</button>
+                                    <button onclick="printInvoice('${escapeHTML(o.orderId)}', '${o.createdAt || 'N/A'}', ${o.totalAmount}, '${safeItemsAdmin}', '${txEncAdmin}', '${userEncAdmin}')" style="background:transparent; border:1px solid #6366f1; color:#6366f1; padding:6px; border-radius:6px; cursor:pointer;">🖨️ Invoice</button>
                                     <button onclick="adminDeleteOrder('${escapeHTML(o.orderId)}', this)" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕ Del</button>
                                 </div>
                             </td>
@@ -2537,7 +2606,14 @@
         function adminEditOrder(id) {
             const order = globalOrders.find(o => o.orderId === id); if(!order) return;
             document.getElementById('admin-edit-title').innerText = `Edit Order: ${id}`;
-            document.getElementById('admin-edit-fields').innerHTML = `<label style="font-size:12px; color:#888;">Total (₹)</label><input type="number" id="ae-amt" value="${order.totalAmount || 0}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"><label style="font-size:12px; color:#888;">Email</label><input type="text" id="ae-email" value="${escapeHTML(order.customerEmail)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px;">`;
+            document.getElementById('admin-edit-fields').innerHTML = `
+                <label style="font-size:12px; color:#888;">Total (₹)</label>
+                <input type="number" id="ae-amt" value="${order.totalAmount || 0}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
+                <label style="font-size:12px; color:#888;">Email</label>
+                <input type="text" id="ae-email" value="${escapeHTML(order.customerEmail)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
+                <label style="font-size:12px; color:#888;">Transaction / Payment Details (Prints on Invoice)</label>
+                <textarea id="ae-tx" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px; height:80px; font-family:inherit; margin-bottom:10px;" placeholder="e.g. Paid via UPI Ref: 123456789">${escapeHTML(order.transactionDetails || '')}</textarea>
+            `;
             document.getElementById('admin-edit-modal').style.display = 'flex';
             
             const btn = document.getElementById('admin-edit-save');
@@ -2546,7 +2622,15 @@
                 btn.disabled = true;
                 btn.innerText = 'Saving...';
                 try {
-                    await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ totalAmount: document.getElementById('ae-amt').value, customerEmail: document.getElementById('ae-email').value }) });
+                    await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { 
+                        method: 'PUT', 
+                        headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, 
+                        body: JSON.stringify({ 
+                            totalAmount: Number(document.getElementById('ae-amt').value), 
+                            customerEmail: document.getElementById('ae-email').value,
+                            transactionDetails: document.getElementById('ae-tx').value
+                        }) 
+                    });
                     closeAdminEditModal(); 
                     fetchAdminData();
                 } finally {
@@ -2580,21 +2664,28 @@
 
         function exportOrdersCSV() {
             if(globalOrders.length === 0) return alert("No orders.");
-            let csvContent = "Order ID,Date,Email,Phone,Shipping Address,Amount,Status\n";
+            let csvContent = "Order ID,Date,Email,Phone,Shipping Address,Amount,Status,Transaction Details\n";
             
             globalOrders.forEach(o => { 
                 let u = globalUsers.find(user => user.email === o.customerEmail);
                 let phone = u && u.phone ? u.phone : 'No Phone';
-                let address = u && u.address ? u.address.replace(/,/g, ' ') : 'No Address'; 
                 
-                csvContent += `${o.orderId},${o.createdAt ? new Date(o.createdAt).toLocaleDateString() : 'N/A'},${o.customerEmail},${phone},"${address}",${o.totalAmount || 0},${o.status}\n`; 
+                let rawAddress = u && u.address ? u.address : 'No Address'; 
+                let safeAddress = rawAddress.replace(/"/g, '""'); 
+                
+                let rawTx = o.transactionDetails ? o.transactionDetails : '';
+                let safeTx = rawTx.replace(/"/g, '""').replace(/\n/g, ' ');
+
+                let dateStr = o.createdAt ? new Date(o.createdAt).toLocaleDateString() : 'N/A';
+                
+                csvContent += `"${o.orderId}","${dateStr}","${o.customerEmail}","${phone}","${safeAddress}",${o.totalAmount || 0},"${o.status}","${safeTx}"\n`; 
             });
             
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.setAttribute("href", url);
-            link.setAttribute("download", `mxlumes_orders.csv`);
+            link.setAttribute("download", `mxlumes_orders_${new Date().toISOString().split('T')[0]}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
