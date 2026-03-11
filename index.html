@@ -592,26 +592,18 @@
             
             <div style="font-size: 36px; font-weight: 800; color: #fff; font-family:'Space Grotesk', sans-serif; margin-bottom: 20px;" id="payment-total">₹0</div>
             
-            <div id="mobile-upi-options" class="mobile-only" style="flex-direction: column; gap: 10px; margin-bottom: 10px;">
-                <p style="color: var(--text-dim); font-size: 12px; margin-bottom: 5px;">Tap to open your UPI App directly:</p>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <a id="btn-gpay" class="upi-app-btn" href="#" onclick="trackPaymentIntent(); vibrate(50);" style="background: #111;">Google Pay</a>
-                    <a id="btn-phonepe" class="upi-app-btn" href="#" onclick="trackPaymentIntent(); vibrate(50);" style="background: #5e35b1;">PhonePe</a>
-                    <a id="btn-paytm" class="upi-app-btn" href="#" onclick="trackPaymentIntent(); vibrate(50);" style="background: #0288d1;">Paytm</a>
-                    <a id="btn-bhim" class="upi-app-btn" href="#" onclick="trackPaymentIntent(); vibrate(50);" style="background: #e65100;">BHIM App</a>
-                </div>
-                <a id="btn-generic" class="upi-app-btn" href="#" onclick="trackPaymentIntent(); vibrate(50);" style="background: transparent; border: 1px solid #333; color: #888; margin-top: 5px;">Other UPI App</a>
-            </div>
-            
-            <div class="mobile-only" style="text-align:center; margin-bottom:20px;">
-                <span style="font-size:11px; color:var(--text-dim); cursor:pointer; text-decoration:underline;" onclick="copyUPI()">Can't open app? Copy UPI ID: 7668077298@ybl</span>
-            </div>
-            
-            <div class="qr-box-container desktop-only">
-                <p style="color: var(--text-dim); font-size: 13px; line-height: 1.5; margin-bottom: 10px;">Scan QR with any UPI App:</p>
+            <div class="qr-box-container" style="display: block;">
+                <p style="color: var(--text-dim); font-size: 13px; line-height: 1.5; margin-bottom: 10px;">Scan QR or screenshot to pay with any UPI App:</p>
                 <div class="qr-box">
                     <img id="upi-qr" src="" alt="UPI QR Code">
                 </div>
+            </div>
+            
+            <div style="text-align:center; margin-bottom:20px;">
+                <span style="font-size:13px; font-weight: 800; color:var(--accent); cursor:pointer; text-decoration:underline; display: inline-flex; align-items: center; gap: 5px;" onclick="copyUPI()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy UPI ID: 7668077298@ybl
+                </span>
             </div>
             
             <div id="payment-error-msg" style="display:none; background: rgba(239,68,68,0.1); border: 1px solid var(--danger); color: var(--danger); padding: 12px; border-radius: 12px; font-size: 12px; font-weight: 700; margin-bottom: 15px; text-align: left; line-height: 1.4;"></div>
@@ -1391,7 +1383,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}`
+                        'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}` // 🛡️ Token added
                     },
                     body: JSON.stringify({ email: user.email })
                 });
@@ -1534,7 +1526,7 @@
                                     <h1 class="brand-name">M-X LUMES</h1>
                                     <div class="brand-tagline">Premium Resin Systems</div>
                                 </div>
-                                <h2 class="invoice-title">Invoice</h2>
+                                <h2 class="invoice-title">Tax Invoice</h2>
                             </div>
 
                             <div class="info-grid">
@@ -1950,12 +1942,7 @@
             const payeeName = encodeURIComponent("M-X Lumes");
             const baseParams = `pa=${MERCHANT_UPI_ID}&pn=${payeeName}&am=${amountFixed}&cu=INR&tn=Resin%20Order`;
             
-            document.getElementById('btn-gpay').href = `gpay://upi/pay?${baseParams}`;
-            document.getElementById('btn-phonepe').href = `phonepe://pay?${baseParams}`;
-            document.getElementById('btn-paytm').href = `paytmmp://pay?${baseParams}`;
-            document.getElementById('btn-bhim').href = `bhim://pay?${baseParams}`;
-            document.getElementById('btn-generic').href = `upi://pay?${baseParams}`;
-
+            // Generate universal QR code
             document.getElementById('upi-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent('upi://pay?' + baseParams)}`;
             document.getElementById('payment-total').innerText = `₹${checkoutTotal.toLocaleString()}`;
             
