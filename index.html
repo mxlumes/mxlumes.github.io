@@ -109,8 +109,21 @@
         .hero { min-height: 80dvh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; padding-top: 80px; padding-bottom: 40px; position: relative; }
         .hero h1 { font-size: clamp(42px, 10vw, 100px); margin-bottom: 24px; font-weight: 800; background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
         .hero p { color: var(--text-dim); font-size: 18px; max-width: 500px; margin-bottom: 40px; padding: 0 20px; font-weight: 400;}
-        .premium-stamp { position: absolute; top: 20%; right: 12%; width: 140px; height: 140px; animation: spinStamp 15s linear infinite; z-index: 5; pointer-events: none; opacity: 0.9; filter: drop-shadow(0 10px 20px rgba(239, 68, 68, 0.3)); }
+        
+        .premium-stamp { 
+            position: absolute; 
+            top: 12%; 
+            right: 15%; 
+            width: 130px; 
+            height: 130px; 
+            animation: spinStamp 25s linear infinite; 
+            z-index: 5; 
+            pointer-events: none; 
+            opacity: 0.85; 
+            filter: drop-shadow(0 4px 15px rgba(239, 68, 68, 0.15)); 
+        }
         @keyframes spinStamp { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
         .marquee { position: absolute; bottom: 0; width: 100%; background: #000; border-top: 1px solid var(--border); padding: 16px 0; overflow: hidden; white-space: nowrap; user-select: none; }
         .marquee-content { display: inline-block; animation: scroll 40s linear infinite; }
         .marquee-item { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: var(--text-dim); margin: 0 40px; opacity: 0.7; }
@@ -519,6 +532,14 @@
 
             #supreme-admin-portal .admin-sidebar { position:relative; width:100%; height:auto; border-right:none; border-bottom:1px solid #333;}
             #supreme-admin-portal .admin-main { margin-left:0; padding:20px;}
+            
+            .premium-stamp {
+                width: 85px;
+                height: 85px;
+                top: 12%; 
+                right: -10px;
+                opacity: 0.6;
+            }
         }
     </style>
 </head>
@@ -699,10 +720,16 @@
     <header class="hero">
         <div class="premium-stamp">
             <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; overflow: visible;">
+                <circle cx="50" cy="50" r="46" fill="none" stroke="#ef4444" stroke-width="0.5" opacity="0.4" stroke-dasharray="2 3"/>
+                <circle cx="50" cy="50" r="27" fill="none" stroke="#ef4444" stroke-width="0.5" opacity="0.4" />
+                
                 <path id="stamp-curve" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="none" />
-                <text font-size="11" font-weight="800" fill="#ef4444" letter-spacing="3" font-family="'Space Grotesk', sans-serif">
-                    <textPath href="#stamp-curve" startOffset="0%" textLength="219">PREMIUM PRODUCT ✦ PREMIUM PRODUCT ✦ </textPath>
+                
+                <text font-size="10.5" font-weight="800" fill="#ef4444" letter-spacing="2" font-family="'Space Grotesk', sans-serif">
+                    <textPath href="#stamp-curve" startOffset="0%" textLength="220">PREMIUM PRODUCT ✦ PREMIUM PRODUCT ✦ </textPath>
                 </text>
+                
+                <path d="M50 38 L52 48 L62 50 L52 52 L50 62 L48 52 L38 50 L48 48 Z" fill="#ef4444" opacity="0.9" />
             </svg>
         </div>
 
@@ -1383,7 +1410,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}` // 🛡️ Token added
+                        'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}`
                     },
                     body: JSON.stringify({ email: user.email })
                 });
@@ -1526,7 +1553,7 @@
                                     <h1 class="brand-name">M-X LUMES</h1>
                                     <div class="brand-tagline">Premium Resin Systems</div>
                                 </div>
-                                <h2 class="invoice-title">Tax Invoice</h2>
+                                <h2 class="invoice-title">Invoice</h2>
                             </div>
 
                             <div class="info-grid">
@@ -1827,7 +1854,7 @@
                     method: 'POST', 
                     headers: { 
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}` // 🛡️ Token added
+                        'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}`
                     }, 
                     body: JSON.stringify({ email: user.email, cartData }) 
                 });
@@ -2012,7 +2039,7 @@
                     method: 'POST', 
                     headers: { 
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}` // 🛡️ Token added
+                        'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}` 
                     }, 
                     body: JSON.stringify(payload) 
                 });
