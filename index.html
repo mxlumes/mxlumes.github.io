@@ -476,7 +476,7 @@
         #supreme-admin-portal .admin-sidebar { width: 280px; background: #0a0a0a; border-right: 1px solid rgba(255,255,255,0.1); padding: 30px 20px; display: flex; flex-direction: column; position: fixed; height: 100vh; height: 100dvh; left: 0; top: 0;}
         #supreme-admin-portal .admin-main { margin-left: 280px; padding: 40px 50px; min-height: 100vh; min-height: 100dvh; }
         #supreme-admin-portal .admin-stat-card { background: #0a0a0a; border: 1px solid rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; }
-        #supreme-admin-portal table { width: 100%; border-collapse: collapse; min-width: 800px;}
+        #supreme-admin-portal table { width: 100%; border-collapse: collapse; min-width: 1000px;}
         #supreme-admin-portal th { text-align: left; padding: 20px; font-size: 11px; text-transform: uppercase; color: #888; border-bottom: 1px solid rgba(255,255,255,0.1); background: #050505; }
         #supreme-admin-portal td { padding: 20px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
         #supreme-admin-portal .export-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 20px; border-radius: 12px; font-size: 13px; font-weight: 800; cursor: pointer; transition: 0.2s; display:inline-flex; align-items:center; gap:8px;}
@@ -523,8 +523,8 @@
             .f-top-grid { grid-template-columns: 1fr; gap: 40px; }
             .f-bottom-row { flex-direction: column; align-items: flex-start; gap: 20px; }
 
-            #supreme-admin-portal .admin-sidebar { position:relative; width:100%; height:auto; border-right:none; border-bottom:1px solid #333;}
-            #supreme-admin-portal .admin-main { margin-left:0; padding:20px;}
+            #supreme-admin-portal .admin-sidebar { position:relative; width:100%; height:auto; border-right:none; border-bottom:1px solid #333; padding: 15px;}
+            #supreme-admin-portal .admin-main { margin-left:0; padding:15px;}
         }
         
         /* 🛡️ ULTRA-SMALL IOS (iPhone 12 Mini, SE) OPTIMIZATIONS */
@@ -711,17 +711,18 @@
                     Sign In
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 </a>
-            </div>
-            <div class="nav-stamp">
-                <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; overflow: visible;">
-                    <circle cx="50" cy="50" r="46" fill="none" stroke="#ef4444" stroke-width="0.5" opacity="0.4" stroke-dasharray="2 3"/>
-                    <circle cx="50" cy="50" r="27" fill="none" stroke="#ef4444" stroke-width="0.5" opacity="0.4" />
-                    <path id="stamp-curve" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="none" />
-                    <text font-size="10.5" font-weight="800" fill="#ef4444" letter-spacing="2" font-family="'Space Grotesk', sans-serif">
-                        <textPath href="#stamp-curve" startOffset="0%" textLength="220">PREMIUM PRODUCT ✦ PREMIUM PRODUCT ✦ </textPath>
-                    </text>
-                    <path d="M50 38 L52 48 L62 50 L52 52 L50 62 L48 52 L38 50 L48 48 Z" fill="#ef4444" opacity="0.9" />
-                </svg>
+                
+                <div class="nav-stamp">
+                    <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; overflow: visible;">
+                        <circle cx="50" cy="50" r="46" fill="none" stroke="#ef4444" stroke-width="0.5" opacity="0.4" stroke-dasharray="2 3"/>
+                        <circle cx="50" cy="50" r="27" fill="none" stroke="#ef4444" stroke-width="0.5" opacity="0.4" />
+                        <path id="stamp-curve" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="none" />
+                        <text font-size="10.5" font-weight="800" fill="#ef4444" letter-spacing="2" font-family="'Space Grotesk', sans-serif">
+                            <textPath href="#stamp-curve" startOffset="0%" textLength="220">PREMIUM PRODUCT ✦ PREMIUM PRODUCT ✦ </textPath>
+                        </text>
+                        <path d="M50 38 L52 48 L62 50 L52 52 L50 62 L48 52 L38 50 L48 48 Z" fill="#ef4444" opacity="0.9" />
+                    </svg>
+                </div>
             </div>
         </div>
     </nav>
@@ -1217,6 +1218,7 @@
             <div class="admin-sidebar">
                 <div style="font-family:'Space Grotesk', sans-serif; font-size:24px; font-weight:800; margin-bottom:40px;">M-X LUMES.</div>
                 <div class="admin-nav-item active" onclick="adminSwitchTab('orders', this)">Orders</div>
+                <div class="admin-nav-item" onclick="adminSwitchTab('logistics', this)">Logistics</div>
                 <div class="admin-nav-item" onclick="adminSwitchTab('users', this)">Customers</div>
                 <div style="flex:1;"></div>
                 <div class="admin-nav-item" onclick="lockVault()" style="color:#ef4444;">Lock Vault</div>
@@ -1243,6 +1245,15 @@
                         <table style="width:100%; min-width:800px; border-collapse:collapse; font-size:13px;">
                             <thead><tr style="background:#000;"><th style="padding:15px; color:#888; text-align:left;">Order / Location</th><th style="padding:15px; color:#888; text-align:left;">Customer</th><th style="padding:15px; color:#888; text-align:left;">Amount</th><th style="padding:15px; color:#888; text-align:left;">Status & Action</th></tr></thead>
                             <tbody id="admin-orders-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="admin-data-panel" id="admin-panel-logistics" style="display:none;">
+                    <div style="background:#0a0a0a; border:1px solid #333; border-radius:16px; overflow-x:auto; -webkit-overflow-scrolling: touch;">
+                        <table style="width:100%; min-width:800px; border-collapse:collapse; font-size:13px;">
+                            <thead><tr style="background:#000;"><th style="padding:15px; color:#888; text-align:left;">Order Details</th><th style="padding:15px; color:#888; text-align:left;">Shipping Details</th><th style="padding:15px; color:#888; text-align:left;">Dispatch Info (AWB)</th><th style="padding:15px; color:#888; text-align:left;">Actions</th></tr></thead>
+                            <tbody id="admin-logistics-tbody"></tbody>
                         </table>
                     </div>
                 </div>
@@ -1424,7 +1435,6 @@
                         const safeItems = o.items.map(i => ({ name: escapeHTML(i.name), qty: i.qty, price: i.price }));
                         const itemsJson = JSON.stringify(safeItems).replace(/"/g, '&quot;');
                         
-                        // FIX: Safely encode apostrophes for inline HTML injection
                         const txEnc = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
                         
                         let actionBtn = '';
@@ -1470,7 +1480,6 @@
         function printInvoice(orderId, dateStr, amount, itemsJson, txEncoded = '', userEncoded = '') {
             const items = JSON.parse(itemsJson.replace(/&quot;/g, '"'));
             
-            // SECURITY FIX: Parse isolated user data passed from the click, fallback to safe defaults
             let invoiceUser = { name: 'Valued Customer', email: 'N/A', phone: 'N/A', address: 'N/A' };
             try {
                 if(userEncoded) invoiceUser = JSON.parse(decodeURIComponent(userEncoded));
@@ -1484,7 +1493,6 @@
             const safePhone = invoiceUser.phone ? escapeHTML(invoiceUser.phone) : 'No Phone Provided';
             const safeAddress = invoiceUser.address ? escapeHTML(invoiceUser.address).replace(/\n/g, '<br>') : 'Address not provided.';
             
-            // SECURITY FIX: Re-escape HTML after decoding to prevent Stored XSS
             const decodedTx = decodeURIComponent(txEncoded);
             const transactionDetails = escapeHTML(decodedTx).replace(/\n/g, '<br>');
 
@@ -2250,6 +2258,119 @@
         }
 
         // =========================================
+        // 9. LIVE REVIEWS (XSS PROTECTED)
+        // =========================================
+        const initialReviews = [ { name: "Sneha Sharma", text: "Absolutely flawless for Varmala preservation. Diamond clear and absolutely no micro-bubbles.", stars: 5 }, { name: "Rahul Verma", text: "The 120-minute pot life is a lifesaver for complex geode pours. Gives me ample time to mix pigments.", stars: 5 }, { name: "Ananya Patel", text: "I was skeptical about the 85 Shore D hardness, but my coasters are practically scratch-proof.", stars: 5 }, { name: "Vikram Singh", text: "Zero VOCs means no headaches! I can finally work in my indoor studio without the strong chemical smell.", stars: 4 }, { name: "Divya Iyer", text: "Best 3:1 epoxy in India hands down. Auto-degassing actually works—I didn't even need my heat gun.", stars: 5 } ];
+        let selectedStars = 5;
+        
+        function renderReviews() {
+            const container = document.getElementById('reviews-grid'); 
+            let storedReviews = [];
+            try { storedReviews = JSON.parse(localStorage.getItem('mxlumes_reviews') || '[]'); } catch(e){}
+            const allReviews = [...storedReviews, ...initialReviews];
+            
+            let revHtml = '';
+            allReviews.forEach(r => { 
+                let starHtml = ''; 
+                for(let i=0; i<5; i++) { 
+                    starHtml += `<svg viewBox="0 0 24 24" style="fill: ${i < r.stars ? '#f59e0b' : '#333'}"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`; 
+                }
+                revHtml += `<div class="r-card"><div class="r-card-stars">${starHtml}</div><div class="r-card-text">"${escapeHTML(r.text)}"</div><div class="r-card-author"><span class="r-verified">✓</span> ${escapeHTML(r.name)}</div></div>`;
+            });
+            container.innerHTML = revHtml;
+        }
+
+        function openReviewModal() { 
+            document.getElementById('review-modal-overlay').classList.add('active'); 
+            lockScroll();
+        }
+        
+        function closeReviewModal() { 
+            blurInputs();
+            document.getElementById('review-modal-overlay').classList.remove('active'); 
+            unlockScroll();
+            selectedStars = 5;
+            document.querySelectorAll('#rv-stars svg').forEach(s => s.classList.add('active'));
+        }
+        
+        function setupReviewStars() {
+            const stars = document.querySelectorAll('#rv-stars svg');
+            stars.forEach(star => { star.addEventListener('click', (e) => { selectedStars = parseInt(e.currentTarget.dataset.val); stars.forEach(s => { if(parseInt(s.dataset.val) <= selectedStars) s.classList.add('active'); else s.classList.remove('active'); }); }); });
+        }
+
+        function submitReview() {
+            const btn = document.getElementById('rv-submit-btn');
+            btn.disabled = true;
+
+            const name = document.getElementById('rv-name').value.trim(); const text = document.getElementById('rv-text').value.trim();
+            if(!name || !text) {
+                alert("Please enter your name and review.");
+                btn.disabled = false;
+                return;
+            }
+            
+            let storedReviews = [];
+            try { storedReviews = JSON.parse(localStorage.getItem('mxlumes_reviews') || '[]'); } catch(e){}
+            
+            const newReview = { name: name, text: text, stars: selectedStars }; 
+            storedReviews.unshift(newReview); 
+            
+            if (storedReviews.length > 20) storedReviews.pop();
+            
+            try { localStorage.setItem('mxlumes_reviews', JSON.stringify(storedReviews)); } catch(e) { console.warn("Storage quota exceeded"); }
+            
+            document.getElementById('rv-name').value = ''; document.getElementById('rv-text').value = ''; 
+            closeReviewModal(); 
+            renderReviews(); 
+            showToast("Review published!");
+            btn.disabled = false;
+        }
+
+        // =========================================
+        // 10. VIJETA AI ASSISTANT
+        // =========================================
+        function toggleVijeta() {
+            document.getElementById('vGreeting')?.classList.remove('show'); 
+            document.getElementById('vijetaPanel').classList.toggle('active');
+            if(document.getElementById('vChatBox').innerHTML === "") { renderBotMessage("Namaste! 🙏 I am Vijeta, your official M-X Lumes AI Expert. I can diagnose pouring issues, explain our chemical science, and assist with your resin art. How can I help you today?"); }
+        }
+        function handleVijetaEnter(e) { if(e.key === 'Enter') sendVijetaMsg(); }
+        
+        async function sendVijetaMsg() {
+            const input = document.getElementById('vInput'); 
+            const text = input.value.trim(); 
+            if(!text) return;
+            
+            const sendBtn = document.getElementById('v-send-btn');
+            sendBtn.disabled = true; 
+
+            renderUserMessage(text); input.value = '';
+            const chatBox = document.getElementById('vChatBox'); const loadingId = 'loading-' + Date.now();
+            chatBox.innerHTML += `<div id="${loadingId}" class="msg bot">Vijeta is thinking... 🧠</div>`; chatBox.scrollTop = chatBox.scrollHeight;
+            
+            try { 
+                const response = await fetch(`${RENDER_URL}/api/chat`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: text }) }); 
+                document.getElementById(loadingId)?.remove();
+                
+                if (response.status === 429) {
+                    renderBotMessage("I am receiving too many requests right now. Please wait a minute and ask again! ⏳");
+                } else if (!response.ok) {
+                    throw new Error("API Offline");
+                } else {
+                    const data = await response.json(); 
+                    renderBotMessage(data.reply);
+                }
+            } catch (error) { 
+                document.getElementById(loadingId)?.remove(); 
+                renderBotMessage("I'm having a little trouble connecting to my lab right now. Please try again or reach out on WhatsApp! 🛠️"); 
+            } finally {
+                sendBtn.disabled = false;
+            }
+        }
+        function renderUserMessage(text) { const chatBox = document.getElementById('vChatBox'); chatBox.innerHTML += `<div class="msg user">${escapeHTML(text)}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
+        function renderBotMessage(text) { const chatBox = document.getElementById('vChatBox'); let formattedText = escapeHTML(text).replace(/\n/g, '<br>'); chatBox.innerHTML += `<div class="msg bot" style="white-space: pre-wrap; line-height: 1.5;">${formattedText}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
+
+        // =========================================
         // 11. SECRET ADMIN DASHBOARD LOGIC
         // =========================================
         let adminClicks = 0;
@@ -2261,7 +2382,6 @@
             if(adminClicks >= 3) {
                 document.getElementById('supreme-admin-portal').style.display = 'block';
                 adminClicks = 0;
-                lockScroll();
                 if (sessionStorage.getItem('mxlumes_admin_key')) {
                     document.getElementById('master-key').value = sessionStorage.getItem('mxlumes_admin_key');
                     unlockDashboard();
@@ -2269,10 +2389,7 @@
             }
         }
         
-        function closeAdminPortal() { 
-            document.getElementById('supreme-admin-portal').style.display = 'none'; 
-            unlockScroll();
-        }
+        function closeAdminPortal() { document.getElementById('supreme-admin-portal').style.display = 'none'; }
         
         let globalOrders = []; let globalUsers = [];
 
@@ -2345,32 +2462,49 @@
             document.getElementById('stat-users').innerText = globalUsers.length;
 
             const oBody = document.getElementById('admin-orders-tbody');
+            const lBody = document.getElementById('admin-logistics-tbody');
+            
             let oHtml = '';
+            let lHtml = '';
             
             let searchFilter = document.getElementById('order-search') ? document.getElementById('order-search').value.toLowerCase() : '';
             
             let filteredOrders = globalOrders;
             if(searchFilter) {
                 filteredOrders = filteredOrders.filter(o => 
-                    (o.orderId && o.orderId.toLowerCase().includes(searchFilter)) || 
-                    (o.customerEmail && o.customerEmail.toLowerCase().includes(searchFilter))
+                    (o.orderId?.toLowerCase().includes(searchFilter)) || 
+                    (o.customerEmail?.toLowerCase().includes(searchFilter)) ||
+                    (o.transactionDetails?.toLowerCase().includes(searchFilter)) ||
+                    (o.trackingNumber?.toLowerCase().includes(searchFilter)) 
                 );
             }
 
-            if(filteredOrders.length === 0) { oHtml = '<tr><td colspan="4" style="text-align:center; color:#888;">No orders found.</td></tr>'; } 
+            if(filteredOrders.length === 0) { 
+                oHtml = '<tr><td colspan="4" style="text-align:center; color:#888;">No orders found.</td></tr>'; 
+                lHtml = '<tr><td colspan="4" style="text-align:center; color:#888;">No orders found.</td></tr>';
+            } 
             else {
                 filteredOrders.forEach(o => {
                     let userPhone = ''; 
                     let userAddress = '<span style="color:#ef4444;">Address Not Provided</span>'; 
                     let linkedUser = globalUsers.find(u => u.email === o.customerEmail); 
+                    
+                    let resolvedUserObj = { name: 'Guest User', email: o.customerEmail, phone: '', address: '' };
+
                     if(linkedUser) {
-                        if(linkedUser.phone) userPhone = escapeHTML(linkedUser.phone);
-                        if(linkedUser.address) userAddress = escapeHTML(linkedUser.address);
+                        resolvedUserObj.name = linkedUser.name || 'User';
+                        if(linkedUser.phone) { userPhone = escapeHTML(linkedUser.phone); resolvedUserObj.phone = linkedUser.phone; }
+                        if(linkedUser.address) { userAddress = escapeHTML(linkedUser.address); resolvedUserObj.address = linkedUser.address; }
                     }
                     
                     let statusClass = 'Pending'; if(o.status.includes('Processing')) statusClass = 'Processing'; if(o.status.includes('Shipped')) statusClass = 'Shipped'; if(o.status.includes('Delivered')) statusClass = 'Delivered';
                     let selectColor = o.status === 'Pending Verification' ? '#ef4444' : (o.status === 'Processing' ? '#6366f1' : '#10b981');
                     
+                    const safeItemsAdmin = JSON.stringify(o.items || []).replace(/"/g, '&quot;');
+                    const txEncAdmin = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
+                    const userEncAdmin = encodeURIComponent(JSON.stringify(resolvedUserObj)).replace(/'/g, "%27");
+
+                    // MAIN ORDERS TAB HTML
                     oHtml += `
                         <tr style="border-bottom: 1px solid #333;">
                             <td style="padding:15px; vertical-align:top;">
@@ -2395,14 +2529,59 @@
                                         <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
                                     </select>
                                     <button onclick="adminEditOrder('${escapeHTML(o.orderId)}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎ Edit</button>
+                                    <button onclick="printInvoice('${escapeHTML(o.orderId)}', '${o.createdAt || 'N/A'}', ${o.totalAmount}, '${safeItemsAdmin}', '${txEncAdmin}', '${userEncAdmin}')" style="background:transparent; border:1px solid #6366f1; color:#6366f1; padding:6px; border-radius:6px; cursor:pointer;">🖨️ Invoice</button>
                                     <button onclick="adminDeleteOrder('${escapeHTML(o.orderId)}', this)" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕ Del</button>
                                 </div>
                             </td>
                         </tr>
                     `;
+
+                    // LOGISTICS TAB HTML (Only show if not "Pending Verification")
+                    if (o.status !== 'Pending Verification') {
+                        lHtml += `
+                            <tr style="border-bottom: 1px solid #333;">
+                                <td style="padding:15px; vertical-align:top;">
+                                    <div style="font-family:'Space Grotesk', sans-serif; font-weight:800; color:#fff;">${escapeHTML(o.orderId)}</div>
+                                    <div style="color:#888; font-size:11px; margin-top:4px;">${o.createdAt ? new Date(o.createdAt).toLocaleDateString() : 'N/A'}</div>
+                                    <div style="margin-top:8px; font-size:11px; font-weight:800; padding:4px 8px; border-radius:4px; display:inline-block; border: 1px solid ${selectColor}; color: ${selectColor};">${escapeHTML(o.status)}</div>
+                                </td>
+                                <td style="padding:15px; vertical-align:top;">
+                                    <div style="color:#fff; font-weight:700;">${escapeHTML(resolvedUserObj.name)}</div>
+                                    <div style="color:#aaa; font-size:11px; margin-top:4px;">${escapeHTML(resolvedUserObj.phone || 'No Phone')}</div>
+                                    <div style="color:#888; font-size:11px; margin-top:6px; line-height:1.4; max-width:250px; word-wrap: break-word;">
+                                        📍 ${userAddress}
+                                    </div>
+                                </td>
+                                <td style="padding:15px; vertical-align:top;">
+                                    <div style="display:flex; flex-direction:column; gap:8px;">
+                                        <select id="courier-${escapeHTML(o.orderId)}" style="background:#000; color:#fff; border:1px solid #555; padding:8px; border-radius:8px; font-size:12px; outline:none; width: 200px;">
+                                            <option value="">Select Courier...</option>
+                                            <option value="Delhivery" ${o.courierCompany === 'Delhivery' ? 'selected' : ''}>Delhivery</option>
+                                            <option value="DTDC" ${o.courierCompany === 'DTDC' ? 'selected' : ''}>DTDC</option>
+                                            <option value="Trackon" ${o.courierCompany === 'Trackon' ? 'selected' : ''}>Trackon</option>
+                                            <option value="Fship" ${o.courierCompany === 'Fship' ? 'selected' : ''}>Fship</option>
+                                            <option value="Shipmozo" ${o.courierCompany === 'Shipmozo' ? 'selected' : ''}>Shipmozo</option>
+                                            <option value="India Post" ${o.courierCompany === 'India Post' ? 'selected' : ''}>India Post</option>
+                                            <option value="Other" ${o.courierCompany === 'Other' ? 'selected' : ''}>Other</option>
+                                        </select>
+                                        <input type="text" id="awb-${escapeHTML(o.orderId)}" value="${escapeHTML(o.trackingNumber || '')}" placeholder="AWB / Tracking Number" style="background:#000; color:#fff; border:1px solid #555; padding:8px; border-radius:8px; font-size:12px; outline:none; width: 200px;">
+                                    </div>
+                                </td>
+                                <td style="padding:15px; vertical-align:top;">
+                                    <div style="display:flex; flex-direction:column; gap:8px; width: 120px;">
+                                        <button id="btn-save-log-${escapeHTML(o.orderId)}" onclick="saveTracking('${escapeHTML(o.orderId)}')" style="background:var(--accent); color:#fff; padding:8px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer; border:none;">Save</button>
+                                        <button onclick="sendTrackingWhatsApp('${escapeHTML(o.orderId)}')" style="background:var(--whatsapp); color:#000; padding:8px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer; border:none; display:flex; align-items:center; justify-content:center; gap:5px;">
+                                            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg> Notify
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    }
                 });
             }
             oBody.innerHTML = oHtml;
+            lBody.innerHTML = lHtml;
 
             const uBody = document.getElementById('admin-users-tbody');
             let uHtml = '';
@@ -2486,7 +2665,14 @@
         function adminEditOrder(id) {
             const order = globalOrders.find(o => o.orderId === id); if(!order) return;
             document.getElementById('admin-edit-title').innerText = `Edit Order: ${id}`;
-            document.getElementById('admin-edit-fields').innerHTML = `<label style="font-size:12px; color:#888;">Total (₹)</label><input type="number" id="ae-amt" value="${order.totalAmount || 0}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"><label style="font-size:12px; color:#888;">Email</label><input type="text" id="ae-email" value="${escapeHTML(order.customerEmail)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px;">`;
+            document.getElementById('admin-edit-fields').innerHTML = `
+                <label style="font-size:12px; color:#888;">Total (₹)</label>
+                <input type="number" id="ae-amt" value="${order.totalAmount || 0}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
+                <label style="font-size:12px; color:#888;">Email</label>
+                <input type="text" id="ae-email" value="${escapeHTML(order.customerEmail)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
+                <label style="font-size:12px; color:#888;">Transaction / Payment Details (Prints on Invoice)</label>
+                <textarea id="ae-tx" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px; height:80px; font-family:inherit; margin-bottom:10px;" placeholder="e.g. Paid via UPI Ref: 123456789">${escapeHTML(order.transactionDetails || '')}</textarea>
+            `;
             document.getElementById('admin-edit-modal').style.display = 'flex';
             
             const btn = document.getElementById('admin-edit-save');
@@ -2495,7 +2681,17 @@
                 btn.disabled = true;
                 btn.innerText = 'Saving...';
                 try {
-                    await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ totalAmount: document.getElementById('ae-amt').value, customerEmail: document.getElementById('ae-email').value }) });
+                    await fetch(`${RENDER_URL}/api/admin/orders/${id}`, { 
+                        method: 'PUT', 
+                        headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, 
+                        body: JSON.stringify({ 
+                            totalAmount: Number(document.getElementById('ae-amt').value), 
+                            customerEmail: document.getElementById('ae-email').value,
+                            transactionDetails: document.getElementById('ae-tx').value,
+                            trackingNumber: order.trackingNumber, // Preserve existing
+                            courierCompany: order.courierCompany // Preserve existing
+                        }) 
+                    });
                     closeAdminEditModal(); 
                     fetchAdminData();
                 } finally {
@@ -2527,23 +2723,98 @@
             };
         }
 
+        // 🛡️ NEW: Save Tracking Data from Logistics Tab
+        async function saveTracking(orderId) {
+            const order = globalOrders.find(o => o.orderId === orderId);
+            if(!order) return;
+            
+            const awb = document.getElementById(`awb-${orderId}`).value.trim();
+            const courier = document.getElementById(`courier-${orderId}`).value;
+            const key = sessionStorage.getItem('mxlumes_admin_key');
+
+            const btn = document.getElementById(`btn-save-log-${orderId}`);
+            btn.innerText = "⏳";
+            
+            try {
+                const response = await fetch(`${RENDER_URL}/api/admin/orders/${orderId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'admin-secret-key': key },
+                    body: JSON.stringify({
+                        totalAmount: order.totalAmount,
+                        customerEmail: order.customerEmail,
+                        transactionDetails: order.transactionDetails,
+                        trackingNumber: awb,
+                        courierCompany: courier
+                    })
+                });
+                
+                if (!response.ok) throw new Error("Save failed");
+                
+                order.trackingNumber = awb;
+                order.courierCompany = courier;
+                btn.innerText = "✓ Saved";
+                setTimeout(()=> btn.innerText = "Save", 2000);
+            } catch(e) {
+                btn.innerText = "Error";
+                setTimeout(()=> btn.innerText = "Save", 2000);
+            }
+        }
+
+        // 🛡️ NEW: 1-Click WhatsApp Dispatch Notification
+        function sendTrackingWhatsApp(orderId) {
+            const order = globalOrders.find(o => o.orderId === orderId);
+            if(!order) return;
+            
+            const user = globalUsers.find(u => u.email === order.customerEmail);
+            if (!user || !user.phone) return alert("Customer phone number is missing.");
+
+            const awb = order.trackingNumber || "Pending";
+            const courier = order.courierCompany || "Assigned Courier";
+            let trackingLink = "";
+
+            if (courier === "Delhivery" && awb !== "Pending") {
+                trackingLink = `https://www.delhivery.com/track/package/${awb}`;
+            } else if (courier === "DTDC" && awb !== "Pending") {
+                trackingLink = `https://www.dtdc.in/tracking/shipment-tracking.asp`; 
+            } else if (courier === "Trackon" && awb !== "Pending") {
+                trackingLink = `https://trackon.in/Tracking/Tracking_results?TrackingNumber=${awb}`;
+            } else if (awb !== "Pending") {
+                trackingLink = `Tracking AWB: ${awb}`;
+            } else {
+                trackingLink = "Your tracking number will be updated shortly.";
+            }
+
+            let firstName = user.name.split(' ')[0] || "Artist";
+
+            let msg = `*M-X LUMES DISPATCH UPDATE* 🚚%0A%0AHi ${firstName}, your premium resin order *${order.orderId}* has been dispatched!%0A%0A*Courier:* ${courier}%0A*AWB Number:* ${awb}%0A%0A*Track your shipment here:*%0A${trackingLink}%0A%0AThank you for creating with M-X Lumes! ✨`;
+
+            window.open(`https://wa.me/91${user.phone}?text=${msg}`, '_blank');
+        }
+
         function exportOrdersCSV() {
             if(globalOrders.length === 0) return alert("No orders.");
-            let csvContent = "Order ID,Date,Email,Phone,Shipping Address,Amount,Status\n";
+            let csvContent = "Order ID,Date,Email,Phone,Shipping Address,Amount,Status,Transaction Details,Courier,AWB\n";
             
             globalOrders.forEach(o => { 
                 let u = globalUsers.find(user => user.email === o.customerEmail);
                 let phone = u && u.phone ? u.phone : 'No Phone';
-                let address = u && u.address ? u.address.replace(/,/g, ' ') : 'No Address'; 
                 
-                csvContent += `${o.orderId},${o.createdAt ? new Date(o.createdAt).toLocaleDateString() : 'N/A'},${o.customerEmail},${phone},"${address}",${o.totalAmount || 0},${o.status}\n`; 
+                let rawAddress = u && u.address ? u.address : 'No Address'; 
+                let safeAddress = rawAddress.replace(/"/g, '""'); 
+                
+                let rawTx = o.transactionDetails ? o.transactionDetails : '';
+                let safeTx = rawTx.replace(/"/g, '""').replace(/\n/g, ' ');
+
+                let dateStr = o.createdAt ? new Date(o.createdAt).toLocaleDateString() : 'N/A';
+                
+                csvContent += `"${o.orderId}","${dateStr}","${o.customerEmail}","${phone}","${safeAddress}",${o.totalAmount || 0},"${o.status}","${safeTx}","${o.courierCompany || ''}","${o.trackingNumber || ''}"\n`; 
             });
             
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.setAttribute("href", url);
-            link.setAttribute("download", `mxlumes_orders.csv`);
+            link.setAttribute("download", `mxlumes_orders_${new Date().toISOString().split('T')[0]}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -2551,4 +2822,3 @@
     </script>
 </body>
 </html>
-
