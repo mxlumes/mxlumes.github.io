@@ -1435,7 +1435,6 @@
                         const safeItems = o.items.map(i => ({ name: escapeHTML(i.name), qty: i.qty, price: i.price }));
                         const itemsJson = JSON.stringify(safeItems).replace(/"/g, '&quot;');
                         
-                        // FIX: Safely encode apostrophes for inline HTML injection
                         const txEnc = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
                         
                         let actionBtn = '';
@@ -1481,7 +1480,6 @@
         function printInvoice(orderId, dateStr, amount, itemsJson, txEncoded = '', userEncoded = '') {
             const items = JSON.parse(itemsJson.replace(/&quot;/g, '"'));
             
-            // Parse isolated user data passed from the click, fallback to safe defaults
             let invoiceUser = { name: 'Valued Customer', email: 'N/A', phone: 'N/A', address: 'N/A' };
             try {
                 if(userEncoded) invoiceUser = JSON.parse(decodeURIComponent(userEncoded));
@@ -1557,7 +1555,7 @@
                                     <h1 class="brand-name">M-X LUMES</h1>
                                     <div class="brand-tagline">Premium Resin Systems</div>
                                 </div>
-                                <h2 class="invoice-title">Invoice</h2>
+                                <h2 class="invoice-title">Tax Invoice</h2>
                             </div>
 
                             <div class="info-grid">
@@ -1973,7 +1971,6 @@
             const payeeName = encodeURIComponent("M-X Lumes");
             const baseParams = `pa=${MERCHANT_UPI_ID}&pn=${payeeName}&am=${amountFixed}&cu=INR&tn=Resin%20Order`;
             
-            // Generate universal QR code
             document.getElementById('upi-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent('upi://pay?' + baseParams)}`;
             document.getElementById('payment-total').innerText = `₹${checkoutTotal.toLocaleString()}`;
             
@@ -2372,8 +2369,7 @@
         function renderUserMessage(text) { const chatBox = document.getElementById('vChatBox'); chatBox.innerHTML += `<div class="msg user">${escapeHTML(text)}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
         function renderBotMessage(text) { const chatBox = document.getElementById('vChatBox'); let formattedText = escapeHTML(text).replace(/\n/g, '<br>'); chatBox.innerHTML += `<div class="msg bot" style="white-space: pre-wrap; line-height: 1.5;">${formattedText}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
 
-        // =========================================
-       =========================================
+        =========================================
         // 11. SECRET ADMIN DASHBOARD LOGIC
         // =========================================
         let adminClicks = 0;
