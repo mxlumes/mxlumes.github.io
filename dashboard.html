@@ -52,7 +52,7 @@
         button:disabled { opacity: 0.5; cursor: not-allowed; }
         img { display: block; max-width: 100%; height: auto; user-select: none; }
         
-        /* 🛡️ APPLE SAFARI FIXES: Input Zoom, Rounded Corners & Yellow Autofill */
+        /* 🛡️ APPLE SAFARI FIXES */
         input, select, textarea { font-size: 16px !important; font-family: 'Manrope', sans-serif; -webkit-appearance: none; appearance: none; border-radius: 12px; }
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
@@ -1282,9 +1282,6 @@
     </div>
 
     <script>
-        // =========================================
-        // 1. GLOBAL VARS & CONFIG
-        // =========================================
         const RENDER_URL = 'https://mxlumes-api.onrender.com';
         const MERCHANT_UPI_ID = "7668077298@ybl"; 
         
@@ -1324,7 +1321,6 @@
             }, 2000);
         };
 
-        // 🛡️ LEVEL 24: BFCache IOS Safari Reset
         window.addEventListener('pageshow', function(event) {
             if (event.persisted) {
                 isVerifying = false;
@@ -1355,9 +1351,6 @@
             }
         });
 
-        // =========================================
-        // 2. AUTHENTICATION & PROFILE 
-        // =========================================
         function blurInputs() { document.activeElement?.blur(); }
 
         function lockScroll() {
@@ -1405,7 +1398,6 @@
             const tbody = document.getElementById('prof-orders-tbody');
             tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888;">Loading orders...</td></tr>';
 
-            // Isolate user string for printing
             const isolatedUserStr = encodeURIComponent(JSON.stringify({
                 name: user.name, email: user.email, phone: user.phone, address: user.address
             })).replace(/'/g, "%27");
@@ -1735,7 +1727,6 @@
             btn.innerText = "Processing..."; 
             errorDiv.style.display = 'none';
 
-            // 🛡️ EXTRACT EXACTLY 10 DIGITS
             const rawPhone = document.getElementById('auth-phone').value.trim();
             const cleanPhone = rawPhone.replace(/\D/g, '').slice(-10);
 
@@ -1747,7 +1738,6 @@
                 return;
             }
 
-            // 🛡️ DEDICATED PHONE LOGIN
             if (currentAuthMode === 'login') {
                 try {
                     const response = await fetch(`${RENDER_URL}/api/login/phone`, { 
@@ -1777,7 +1767,6 @@
                 return;
             }
 
-            // 🛡️ GUEST CHECKOUT / SIGNUP ROUTER
             const name = document.getElementById('auth-name').value.trim();
             const email = document.getElementById('auth-email').value.trim();
             const address = document.getElementById('auth-address').value.trim();
@@ -1838,9 +1827,6 @@
             }
         }
 
-        // =========================================
-        // 3. CART & CLOUD SYNC LOGIC
-        // =========================================
         function updateReminder() {
             const reminder = document.getElementById('cartReminder');
             const sidebar = document.getElementById('cartSidebar');
@@ -1943,10 +1929,6 @@
             setTimeout(() => t.classList.remove('show'), 3000); 
         }
 
-        // =========================================
-        // 4. M-X SECUREPAY GATEWAY LOGIC
-        // =========================================
-        
         function trackPaymentIntent() {
             window.paymentIntentFired = Date.now();
         }
@@ -2022,14 +2004,13 @@
                 user = JSON.parse(localStorage.getItem('mxlumes_user'));
             } catch(e){}
 
-            // 🛡️ FRONTEND FAILSAFE: Catches corrupted local storage before hitting backend
             if (!user || !user.email) {
                 errBox.innerText = "⚠ Session expired. Please close this and securely re-enter your delivery details.";
                 errBox.style.display = 'block';
                 btn.innerText = "✓ Try Verification Again";
                 btn.disabled = false;
                 isVerifying = false;
-                logout(new Event('click')); // Force cleanup
+                logout(new Event('click')); 
                 return;
             }
 
@@ -2082,9 +2063,6 @@
             }
         }
 
-        // =========================================
-        // 5. CORE UI SCROLLING
-        // =========================================
         let tickingScroll = false;
         window.addEventListener('scroll', () => { 
             if (!tickingScroll) { window.requestAnimationFrame(() => { document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50); tickingScroll = false; }); tickingScroll = true; }
@@ -2093,9 +2071,6 @@
         const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if(entry.isIntersecting) { entry.target.classList.add('active'); } }); }, {threshold: 0.1});
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // =========================================
-        // 6. TITAN FUSION CALCULATOR LOGIC
-        // =========================================
         let appState = { unit: 'cm', shape: 'rect', ratioA: 3, ratioB: 1, mode: 'cast', scannedArea: 0 };
         function setUnit(u) {
             if(appState.unit !== u) {
@@ -2163,9 +2138,6 @@
             setTimeout(() => { btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg> Auto-Detect Conditions'; status.style.display = 'none'; btn.disabled = false; }, 3000);
         }
 
-        // =========================================
-        // 7. SMART SCANNER WITH PERSPECTIVE MATH
-        // =========================================
         let camStream = null; let polyNodes = []; let draggingNode = null;
         async function openScanner() {
             setShape('scan'); const overlay = document.getElementById('smart-scanner'); overlay.style.display = 'flex'; setTimeout(()=> overlay.classList.add('active'), 10); 
@@ -2225,9 +2197,6 @@
             appState.scannedArea = areaCm2; document.getElementById('scan-area-display').innerText = areaCm2.toFixed(1) + ' cm²'; closeScanner(); runCalc();
         }
 
-        // =========================================
-        // 8. CALCULATOR ENGINE
-        // =========================================
         function runCalc() {
             let h = parseFloat(document.getElementById('input-D').value) || 0; let factor = appState.unit === 'in' ? 2.54 : 1; let h_cm = h * factor; let vol = 0;
             if (appState.shape === 'rect') vol = ((parseFloat(document.getElementById('input-L').value)||0) * factor) * ((parseFloat(document.getElementById('input-W').value)||0) * factor) * h_cm;
@@ -2256,9 +2225,6 @@
             else { sStatus.innerText = "ALERT"; sStatus.style.color = "var(--danger)"; sCard.className = "safety-report danger"; }
         }
 
-        // =========================================
-        // 9. LIVE REVIEWS (XSS PROTECTED)
-        // =========================================
         const initialReviews = [ { name: "Sneha Sharma", text: "Absolutely flawless for Varmala preservation. Diamond clear and absolutely no micro-bubbles.", stars: 5 }, { name: "Rahul Verma", text: "The 120-minute pot life is a lifesaver for complex geode pours. Gives me ample time to mix pigments.", stars: 5 }, { name: "Ananya Patel", text: "I was skeptical about the 85 Shore D hardness, but my coasters are practically scratch-proof.", stars: 5 }, { name: "Vikram Singh", text: "Zero VOCs means no headaches! I can finally work in my indoor studio without the strong chemical smell.", stars: 4 }, { name: "Divya Iyer", text: "Best 3:1 epoxy in India hands down. Auto-degassing actually works—I didn't even need my heat gun.", stars: 5 } ];
         let selectedStars = 5;
         
@@ -2325,9 +2291,6 @@
             btn.disabled = false;
         }
 
-        // =========================================
-        // 10. VIJETA AI ASSISTANT
-        // =========================================
         function toggleVijeta() {
             document.getElementById('vGreeting')?.classList.remove('show'); 
             document.getElementById('vijetaPanel').classList.toggle('active');
@@ -2369,11 +2332,8 @@
         function renderUserMessage(text) { const chatBox = document.getElementById('vChatBox'); chatBox.innerHTML += `<div class="msg user">${escapeHTML(text)}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
         function renderBotMessage(text) { const chatBox = document.getElementById('vChatBox'); let formattedText = escapeHTML(text).replace(/\n/g, '<br>'); chatBox.innerHTML += `<div class="msg bot" style="white-space: pre-wrap; line-height: 1.5;">${formattedText}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
 
-        =========================================
-        // 11. SECRET ADMIN DASHBOARD LOGIC
-        // =========================================
         let adminClicks = 0;
-        let adminTimer =// null;
+        let adminTimer = null;
         function triggerAdmin() {
             adminClicks++;
             clearTimeout(adminTimer);
@@ -2461,7 +2421,10 @@
             document.getElementById('stat-users').innerText = globalUsers.length;
 
             const oBody = document.getElementById('admin-orders-tbody');
+            const lBody = document.getElementById('admin-logistics-tbody');
+            
             let oHtml = '';
+            let lHtml = '';
             
             let searchFilter = document.getElementById('order-search') ? document.getElementById('order-search').value.toLowerCase() : '';
             
@@ -2470,11 +2433,15 @@
                 filteredOrders = filteredOrders.filter(o => 
                     (o.orderId?.toLowerCase().includes(searchFilter)) || 
                     (o.customerEmail?.toLowerCase().includes(searchFilter)) ||
-                    (o.transactionDetails?.toLowerCase().includes(searchFilter)) 
+                    (o.transactionDetails?.toLowerCase().includes(searchFilter)) ||
+                    (o.trackingNumber?.toLowerCase().includes(searchFilter)) 
                 );
             }
 
-            if(filteredOrders.length === 0) { oHtml = '<tr><td colspan="4" style="text-align:center; color:#888;">No orders found.</td></tr>'; } 
+            if(filteredOrders.length === 0) { 
+                oHtml = '<tr><td colspan="4" style="text-align:center; color:#888;">No orders found.</td></tr>'; 
+                lHtml = '<tr><td colspan="4" style="text-align:center; color:#888;">No orders found.</td></tr>';
+            } 
             else {
                 filteredOrders.forEach(o => {
                     let userPhone = ''; 
@@ -2493,7 +2460,6 @@
                     let selectColor = o.status === 'Pending Verification' ? '#ef4444' : (o.status === 'Processing' ? '#6366f1' : '#10b981');
                     
                     const safeItemsAdmin = JSON.stringify(o.items || []).replace(/"/g, '&quot;');
-                    
                     const txEncAdmin = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
                     const userEncAdmin = encodeURIComponent(JSON.stringify(resolvedUserObj)).replace(/'/g, "%27");
 
@@ -2527,9 +2493,52 @@
                             </td>
                         </tr>
                     `;
+
+                    if (o.status !== 'Pending Verification') {
+                        lHtml += `
+                            <tr style="border-bottom: 1px solid #333;">
+                                <td style="padding:15px; vertical-align:top;">
+                                    <div style="font-family:'Space Grotesk', sans-serif; font-weight:800; color:#fff;">${escapeHTML(o.orderId)}</div>
+                                    <div style="color:#888; font-size:11px; margin-top:4px;">${o.createdAt ? new Date(o.createdAt).toLocaleDateString() : 'N/A'}</div>
+                                    <div style="margin-top:8px; font-size:11px; font-weight:800; padding:4px 8px; border-radius:4px; display:inline-block; border: 1px solid ${selectColor}; color: ${selectColor};">${escapeHTML(o.status)}</div>
+                                </td>
+                                <td style="padding:15px; vertical-align:top;">
+                                    <div style="color:#fff; font-weight:700;">${escapeHTML(resolvedUserObj.name)}</div>
+                                    <div style="color:#aaa; font-size:11px; margin-top:4px;">${escapeHTML(resolvedUserObj.phone || 'No Phone')}</div>
+                                    <div style="color:#888; font-size:11px; margin-top:6px; line-height:1.4; max-width:250px; word-wrap: break-word;">
+                                        📍 ${userAddress}
+                                    </div>
+                                </td>
+                                <td style="padding:15px; vertical-align:top;">
+                                    <div style="display:flex; flex-direction:column; gap:8px;">
+                                        <select id="courier-${escapeHTML(o.orderId)}" style="background:#000; color:#fff; border:1px solid #555; padding:8px; border-radius:8px; font-size:12px; outline:none; width: 200px;">
+                                            <option value="">Select Courier...</option>
+                                            <option value="Delhivery" ${o.courierCompany === 'Delhivery' ? 'selected' : ''}>Delhivery</option>
+                                            <option value="DTDC" ${o.courierCompany === 'DTDC' ? 'selected' : ''}>DTDC</option>
+                                            <option value="Trackon" ${o.courierCompany === 'Trackon' ? 'selected' : ''}>Trackon</option>
+                                            <option value="Fship" ${o.courierCompany === 'Fship' ? 'selected' : ''}>Fship</option>
+                                            <option value="Shipmozo" ${o.courierCompany === 'Shipmozo' ? 'selected' : ''}>Shipmozo</option>
+                                            <option value="India Post" ${o.courierCompany === 'India Post' ? 'selected' : ''}>India Post</option>
+                                            <option value="Other" ${o.courierCompany === 'Other' ? 'selected' : ''}>Other</option>
+                                        </select>
+                                        <input type="text" id="awb-${escapeHTML(o.orderId)}" value="${escapeHTML(o.trackingNumber || '')}" placeholder="AWB / Tracking Number" style="background:#000; color:#fff; border:1px solid #555; padding:8px; border-radius:8px; font-size:12px; outline:none; width: 200px;">
+                                    </div>
+                                </td>
+                                <td style="padding:15px; vertical-align:top;">
+                                    <div style="display:flex; flex-direction:column; gap:8px; width: 120px;">
+                                        <button id="btn-save-log-${escapeHTML(o.orderId)}" onclick="saveTracking('${escapeHTML(o.orderId)}')" style="background:var(--accent); color:#fff; padding:8px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer; border:none;">Save</button>
+                                        <button onclick="sendTrackingWhatsApp('${escapeHTML(o.orderId)}')" style="background:var(--whatsapp); color:#000; padding:8px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer; border:none; display:flex; align-items:center; justify-content:center; gap:5px;">
+                                            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg> Notify
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    }
                 });
             }
             oBody.innerHTML = oHtml;
+            lBody.innerHTML = lHtml;
 
             const uBody = document.getElementById('admin-users-tbody');
             let uHtml = '';
@@ -2635,7 +2644,9 @@
                         body: JSON.stringify({ 
                             totalAmount: Number(document.getElementById('ae-amt').value), 
                             customerEmail: document.getElementById('ae-email').value,
-                            transactionDetails: document.getElementById('ae-tx').value
+                            transactionDetails: document.getElementById('ae-tx').value,
+                            trackingNumber: order.trackingNumber, 
+                            courierCompany: order.courierCompany 
                         }) 
                     });
                     closeAdminEditModal(); 
@@ -2669,9 +2680,75 @@
             };
         }
 
+        async function saveTracking(orderId) {
+            const order = globalOrders.find(o => o.orderId === orderId);
+            if(!order) return;
+            
+            const awb = document.getElementById(`awb-${orderId}`).value.trim();
+            const courier = document.getElementById(`courier-${orderId}`).value;
+            const key = sessionStorage.getItem('mxlumes_admin_key');
+
+            const btn = document.getElementById(`btn-save-log-${orderId}`);
+            btn.innerText = "⏳";
+            
+            try {
+                const response = await fetch(`${RENDER_URL}/api/admin/orders/${orderId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'admin-secret-key': key },
+                    body: JSON.stringify({
+                        totalAmount: order.totalAmount,
+                        customerEmail: order.customerEmail,
+                        transactionDetails: order.transactionDetails,
+                        trackingNumber: awb,
+                        courierCompany: courier
+                    })
+                });
+                
+                if (!response.ok) throw new Error("Save failed");
+                
+                order.trackingNumber = awb;
+                order.courierCompany = courier;
+                btn.innerText = "✓ Saved";
+                setTimeout(()=> btn.innerText = "Save", 2000);
+            } catch(e) {
+                btn.innerText = "Error";
+                setTimeout(()=> btn.innerText = "Save", 2000);
+            }
+        }
+
+        function sendTrackingWhatsApp(orderId) {
+            const order = globalOrders.find(o => o.orderId === orderId);
+            if(!order) return;
+            
+            const user = globalUsers.find(u => u.email === order.customerEmail);
+            if (!user || !user.phone) return alert("Customer phone number is missing.");
+
+            const awb = order.trackingNumber || "Pending";
+            const courier = order.courierCompany || "Assigned Courier";
+            let trackingLink = "";
+
+            if (courier === "Delhivery" && awb !== "Pending") {
+                trackingLink = `https://www.delhivery.com/track/package/${awb}`;
+            } else if (courier === "DTDC" && awb !== "Pending") {
+                trackingLink = `https://www.dtdc.in/tracking/shipment-tracking.asp`; 
+            } else if (courier === "Trackon" && awb !== "Pending") {
+                trackingLink = `https://trackon.in/Tracking/Tracking_results?TrackingNumber=${awb}`;
+            } else if (awb !== "Pending") {
+                trackingLink = `Tracking AWB: ${awb}`;
+            } else {
+                trackingLink = "Your tracking number will be updated shortly.";
+            }
+
+            let firstName = user.name.split(' ')[0] || "Artist";
+
+            let msg = `*M-X LUMES DISPATCH UPDATE* 🚚%0A%0AHi ${firstName}, your premium resin order *${order.orderId}* has been dispatched!%0A%0A*Courier:* ${courier}%0A*AWB Number:* ${awb}%0A%0A*Track your shipment here:*%0A${trackingLink}%0A%0AThank you for creating with M-X Lumes! ✨`;
+
+            window.open(`https://wa.me/91${user.phone}?text=${msg}`, '_blank');
+        }
+
         function exportOrdersCSV() {
             if(globalOrders.length === 0) return alert("No orders.");
-            let csvContent = "Order ID,Date,Email,Phone,Shipping Address,Amount,Status,Transaction Details\n";
+            let csvContent = "Order ID,Date,Email,Phone,Shipping Address,Amount,Status,Transaction Details,Courier,AWB\n";
             
             globalOrders.forEach(o => { 
                 let u = globalUsers.find(user => user.email === o.customerEmail);
@@ -2685,7 +2762,7 @@
 
                 let dateStr = o.createdAt ? new Date(o.createdAt).toLocaleDateString() : 'N/A';
                 
-                csvContent += `"${o.orderId}","${dateStr}","${o.customerEmail}","${phone}","${safeAddress}",${o.totalAmount || 0},"${o.status}","${safeTx}"\n`; 
+                csvContent += `"${o.orderId}","${dateStr}","${o.customerEmail}","${phone}","${safeAddress}",${o.totalAmount || 0},"${o.status}","${safeTx}","${o.courierCompany || ''}","${o.trackingNumber || ''}"\n`; 
             });
             
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
