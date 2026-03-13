@@ -15,71 +15,39 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <style>
-        /* =========================================
-           1. CORE VARIABLES & RESET
-           ========================================= */
         :root {
-            --bg-oled: #000000;
-            --bg-panel: #0a0a0a;
-            --text-main: #ffffff;
-            --text-dim: #9ca3af;
-            --bg-milky: #ffffff;
-            --text-dark: #050505;
-            --text-muted: #4b5563;
-            --border-light: #e5e7eb;
-            --accent: #6366f1;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --border: rgba(255, 255, 255, 0.1);
-            --radius: 24px;
-            --ease-fluid: cubic-bezier(0.16, 1, 0.3, 1); 
-            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-            --whatsapp: #25D366;
-            --safe-top: env(safe-area-inset-top);
-            --safe-bottom: env(safe-area-inset-bottom);
+            --bg-oled: #000000; --bg-panel: #0a0a0a; --text-main: #ffffff; --text-dim: #9ca3af;
+            --bg-milky: #ffffff; --text-dark: #050505; --text-muted: #4b5563; --border-light: #e5e7eb;
+            --accent: #6366f1; --success: #10b981; --danger: #ef4444; --warning: #f59e0b;
+            --border: rgba(255, 255, 255, 0.1); --radius: 24px;
+            --ease-fluid: cubic-bezier(0.16, 1, 0.3, 1); --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --whatsapp: #25D366; --safe-top: env(safe-area-inset-top); --safe-bottom: env(safe-area-inset-bottom);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
         html { font-size: 16px; scroll-behavior: smooth; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-        
         body { background-color: var(--bg-oled); color: var(--text-main); font-family: 'Manrope', sans-serif; line-height: 1.6; width: 100%; max-width: 100vw; overflow-x: hidden; position: relative; }
-
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; line-height: 1.1; letter-spacing: -0.02em; }
         a { text-decoration: none; color: inherit; transition: color 0.3s var(--ease-fluid); }
         button { cursor: pointer; border: none; outline: none; background: none; font-family: inherit; -webkit-appearance: none; appearance: none; }
         button:disabled { opacity: 0.5; cursor: not-allowed; }
         img { display: block; max-width: 100%; height: auto; user-select: none; }
         
-        /* 🛡️ APPLE SAFARI FIXES: Input Zoom, Rounded Corners & Yellow Autofill */
         input, select, textarea { font-size: 16px !important; font-family: 'Manrope', sans-serif; -webkit-appearance: none; appearance: none; border-radius: 12px; }
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
-        input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active{
-            -webkit-box-shadow: 0 0 0 30px #0a0a0a inset !important;
-            -webkit-text-fill-color: white !important;
-            transition: background-color 5000s ease-in-out 0s;
-        }
+        input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active{ -webkit-box-shadow: 0 0 0 30px #0a0a0a inset !important; -webkit-text-fill-color: white !important; transition: background-color 5000s ease-in-out 0s; }
 
-        /* =========================================
-           2. ORIGINAL BACKGROUND ENGINE
-           ========================================= */
         .bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; z-index: -5; background-color: var(--bg-oled); background-image: url('product-1.webp'); background-position: center bottom; background-repeat: no-repeat; background-size: 65%; opacity: 0.5; }
         .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; z-index: -4; background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.9) 50%, #000000 90%); pointer-events: none; }
 
-        /* =========================================
-           3. UI COMPONENTS & ANIMATIONS
-           ========================================= */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; }
         .section { padding: 100px 0; position: relative; z-index: 2; }
-        
         .reveal { opacity: 0; transform: translate3d(0, 40px, 0); transition: opacity 0.8s var(--ease-fluid), transform 0.8s var(--ease-fluid); will-change: transform, opacity; }
         .reveal.active { opacity: 1; transform: translate3d(0, 0, 0); }
 
         .btn { padding: 16px 32px; border-radius: 60px; font-weight: 800; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s, opacity 0.2s; }
         @media (hover: hover) { .btn:hover:not(:disabled) { transform: translateY(-3px); } .btn-outline:hover:not(:disabled) { border-color: #fff; background: rgba(255,255,255,0.08); } }
-        
         .btn-primary { background: #fff; color: #000; box-shadow: 0 5px 20px rgba(255,255,255,0.15); border: none; }
         .btn-primary:active:not(:disabled) { transform: scale(0.96); } 
         .btn-outline { border: 1px solid var(--border); color: #fff; background: rgba(255,255,255,0.02); }
@@ -89,9 +57,6 @@
         .toast.error::before { content:'⚠'; color:var(--danger); }
         .toast.show { transform: translate3d(-50%, 0, 0); opacity: 1; }
 
-        /* =========================================
-           4. NAVIGATION 
-           ========================================= */
         .navbar { position: fixed; top: 0; width: 100%; height: 80px; z-index: 1000; display: flex; align-items: center; transition: box-shadow 0.3s, height 0.3s; background-color: var(--bg-milky); border-bottom: 1px solid var(--border-light); padding-top: var(--safe-top); }
         .navbar.scrolled { box-shadow: 0 10px 30px rgba(0,0,0,0.05); height: 70px; }
         .nav-inner { width: 100%; display: flex; justify-content: space-between; align-items: center; }
@@ -102,23 +67,17 @@
         .nav-link:hover { color: var(--text-dark); }
         .nav-auth-btn { display:flex; align-items:center; background:#050505; color:#fff !important; padding:10px 20px; border-radius:30px; transition: transform 0.3s, box-shadow 0.3s; }
         .nav-auth-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .nav-stamp { width: 55px; height: 55px; animation: spinStamp 25s linear infinite; z-index: 5; pointer-events: none; opacity: 0.85; filter: drop-shadow(0 2px 10px rgba(239, 68, 68, 0.2)); flex-shrink: 0; margin-left: 15px; display: flex; align-items: center; justify-content: center;}
+        @keyframes spinStamp { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* =========================================
-           5. HERO SECTION
-           ========================================= */
         .hero { min-height: 80dvh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; padding-top: 80px; padding-bottom: 40px; position: relative; }
         .hero h1 { font-size: clamp(36px, 10vw, 100px); margin-bottom: 24px; font-weight: 800; background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
         .hero p { color: var(--text-dim); font-size: 18px; max-width: 500px; margin-bottom: 40px; padding: 0 20px; font-weight: 400;}
-        .premium-stamp { position: absolute; top: 20%; right: 12%; width: 140px; height: 140px; animation: spinStamp 15s linear infinite; z-index: 5; pointer-events: none; opacity: 0.9; filter: drop-shadow(0 10px 20px rgba(239, 68, 68, 0.3)); }
-        @keyframes spinStamp { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .marquee { position: absolute; bottom: 0; width: 100%; background: #000; border-top: 1px solid var(--border); padding: 16px 0; overflow: hidden; white-space: nowrap; user-select: none; }
         .marquee-content { display: inline-block; animation: scroll 40s linear infinite; }
         .marquee-item { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: var(--text-dim); margin: 0 40px; opacity: 0.7; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* =========================================
-           6. SHOP & GRIDS 
-           ========================================= */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .product-card { padding: 30px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s, border-color 0.4s; background: linear-gradient(135deg, rgba(230, 230, 240, 0.1) 0%, rgba(180, 180, 190, 0.05) 100%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius); will-change: transform, box-shadow; transform: translateZ(0); }
         @media (hover: hover) { .product-card:hover { transform: translateY(-10px); border-color: rgba(255,255,255,0.4); box-shadow: 0 25px 50px rgba(0,0,0,0.6); } }
@@ -129,9 +88,6 @@
         .support-card { background: linear-gradient(135deg, rgba(37, 211, 102, 0.05) 0%, rgba(0,0,0,0) 100%); border: 1px solid rgba(37, 211, 102, 0.2); text-align: center; padding: 60px 30px; transition: transform 0.4s, box-shadow 0.4s, border-color 0.4s; border-radius: var(--radius); }
         @media (hover: hover) { .support-card:hover { border-color: rgba(37, 211, 102, 0.5); box-shadow: 0 20px 50px rgba(37, 211, 102, 0.1); transform: translateY(-5px); } }
 
-        /* =========================================
-           7. TECHNOLOGY & SPECS
-           ========================================= */
         .tech-card { padding: 40px; border-top: 1px solid rgba(255,255,255,0.15); transition: transform 0.4s, box-shadow 0.4s; height: 100%; display: flex; flex-direction: column; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); border-radius: var(--radius); }
         @media (hover: hover) { .tech-card:hover { border-color: var(--accent); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); } }
         .tech-icon { font-size: 40px; margin-bottom: 20px; }
@@ -166,9 +122,6 @@
         .dd-box.donts { border-color: rgba(239, 68, 68, 0.2); }
         @media (hover: hover) { .dd-box.donts:hover { border-color: rgba(239, 68, 68, 0.5); box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1); } }
 
-        /* =========================================
-           8. TITAN FUSION CALCULATOR 
-           ========================================= */
         .zenith-calc { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 40px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 40px 100px -30px rgba(0,0,0,0.8); transform: translateZ(0); }
         .z-controls { padding: 40px; border-bottom: 1px solid #ccc; position: relative; }
         .z-display { padding: 40px; background: rgba(255, 255, 255, 0.6); display: flex; flex-direction: column; justify-content: space-between; }
@@ -268,6 +221,7 @@
         .scanner-view video { width: 100%; height: 100%; object-fit: cover; }
         .scanner-view canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 5; cursor: crosshair; touch-action: none; }
         .scan-instruction { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px; border-radius: 30px; font-size: 13px; font-weight: 800; z-index: 10; text-align: center; white-space: nowrap; border: 1px solid rgba(255,255,255,0.2);}
+
         .scanned-area-display { display:none; flex-direction:column; align-items:center; margin-bottom:30px; padding:25px; background:rgba(16,185,129,0.1); border:2px dashed var(--success); border-radius:16px; transition: all 0.3s; }
         .scanned-area-display.active { display: flex; animation: popIn 0.4s var(--ease-spring); }
         .scanned-lbl { font-size:12px; font-weight:800; color:var(--success); text-transform:uppercase; letter-spacing:1px; margin-bottom:5px; }
@@ -285,8 +239,10 @@
         .r-stars-count { display: flex; flex-direction: column; gap: 4px; }
         .r-stars svg { width: 18px; height: 18px; fill: #f59e0b; }
         .r-count-text { font-size: 12px; color: var(--text-dim); font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
+        
         .reviews-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 20px; padding-bottom: 20px; scrollbar-width: none; mask-image: linear-gradient(to right, black 90%, transparent 100%); -webkit-overflow-scrolling: touch; }
         .reviews-container::-webkit-scrollbar { display: none; }
+        
         .r-card { min-width: 320px; max-width: 320px; scroll-snap-align: start; background: #0a0a0a; border: 1px solid var(--border); border-radius: 20px; padding: 25px; display: flex; flex-direction: column; transition: transform 0.3s; }
         @media (hover: hover) { .r-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); } }
         .r-card-stars { margin-bottom: 15px; display: flex; gap: 2px;}
@@ -313,6 +269,7 @@
         .qr-box { background: #fff; border: 1px solid #e5e7eb; padding: 20px; border-radius: 16px; margin: 10px auto 20px; display: inline-block; }
         .upi-app-btn { font-family: 'Space Grotesk', sans-serif; text-decoration: none; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 14px; border-radius: 12px; font-weight: 800; font-size: 14px; display: flex; justify-content: center; align-items: center; transition: transform 0.2s, box-shadow 0.2s; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; }
         .upi-app-btn:active { transform: scale(0.95); }
+        
         @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); transform: scale(1); } 50% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); transform: scale(1.02); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); transform: scale(1); } }
         @keyframes pulse-accent { 0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); transform: scale(1); } 50% { box-shadow: 0 0 0 15px rgba(99, 102, 241, 0); transform: scale(1.02); } 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); transform: scale(1); } }
         .pulse-btn-green { animation: pulse-green 2s infinite; }
@@ -376,8 +333,30 @@
         .v-send:disabled { background: #333; cursor: not-allowed; }
 
         /* =========================================
-           14. FOOTER & ADMIN
+           14. ADMIN & FOOTER 
            ========================================= */
+        #supreme-admin-portal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; background: #000; z-index: 100000; display: none; overflow-y: auto; -webkit-overflow-scrolling: touch; font-family: 'Manrope', sans-serif; color: #fff; }
+        #supreme-admin-portal .admin-sidebar { width: 280px; background: #0a0a0a; border-right: 1px solid rgba(255,255,255,0.1); padding: 30px 20px; display: flex; flex-direction: column; position: fixed; height: 100vh; height: 100dvh; left: 0; top: 0;}
+        #supreme-admin-portal .admin-main { margin-left: 280px; padding: 40px 50px; min-height: 100vh; min-height: 100dvh; }
+        #supreme-admin-portal .admin-stat-card { background: #0a0a0a; border: 1px solid rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; }
+        #supreme-admin-portal table { width: 100%; border-collapse: collapse; min-width: 1000px;}
+        #supreme-admin-portal th { text-align: left; padding: 20px; font-size: 11px; text-transform: uppercase; color: #888; border-bottom: 1px solid rgba(255,255,255,0.1); background: #050505; }
+        #supreme-admin-portal td { padding: 20px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
+        #supreme-admin-portal .export-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 20px; border-radius: 12px; font-size: 13px; font-weight: 800; cursor: pointer; transition: 0.2s; display:inline-flex; align-items:center; gap:8px;}
+        @media (hover: hover) { #supreme-admin-portal .export-btn:hover:not(:disabled) { background: #fff; color: #000; } }
+        #supreme-admin-portal .btn-delete { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); padding:6px 10px; border-radius:8px; cursor:pointer;}
+        @media (hover: hover) { #supreme-admin-portal .btn-delete:hover:not(:disabled) { background: #ef4444; color: #fff; } }
+        .admin-nav-item { padding: 15px; color: #888; font-weight: 800; cursor: pointer; border-radius: 12px; transition: 0.3s; margin-bottom: 5px; }
+        .admin-nav-item:hover, .admin-nav-item.active { background: rgba(255,255,255,0.1); color: #fff; }
+
+        /* INVENTORY CARD STYLES */
+        .inv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .inv-card { background: #0a0a0a; border: 1px solid #333; border-radius: 16px; padding: 20px; position: relative; }
+        .inv-img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; background: #111; }
+        .inv-card input { width: 100%; background: #000; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 13px; }
+        .inv-card label { font-size: 11px; color: #888; text-transform: uppercase; margin-bottom: 4px; display: block; }
+        .inv-card textarea { width: 100%; background: #000; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 13px; resize: vertical; min-height: 60px; }
+        
         .footer { padding: 120px 20px 60px; background: #ffffff; border-top: 1px solid var(--border-light); }
         .f-top-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; margin-bottom: 100px; max-width: 1200px; margin: 0 auto; }
         .f-vision-title { font-size: 12px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
@@ -394,21 +373,6 @@
         .f-nav-link:hover { color: #000000; }
         .f-copy { font-size: 12px; color: #555555; font-weight: 800; cursor: pointer; user-select: none; }
 
-        #supreme-admin-portal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; background: #000; z-index: 100000; display: none; overflow-y: auto; -webkit-overflow-scrolling: touch; font-family: 'Manrope', sans-serif; color: #fff; }
-        #supreme-admin-portal .admin-sidebar { width: 280px; background: #0a0a0a; border-right: 1px solid rgba(255,255,255,0.1); padding: 30px 20px; display: flex; flex-direction: column; position: fixed; height: 100vh; height: 100dvh; left: 0; top: 0;}
-        #supreme-admin-portal .admin-main { margin-left: 280px; padding: 40px 50px; min-height: 100vh; min-height: 100dvh; }
-        #supreme-admin-portal .admin-stat-card { background: #0a0a0a; border: 1px solid rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; }
-        #supreme-admin-portal table { width: 100%; border-collapse: collapse; min-width: 1000px;}
-        #supreme-admin-portal th { text-align: left; padding: 20px; font-size: 11px; text-transform: uppercase; color: #888; border-bottom: 1px solid rgba(255,255,255,0.1); background: #050505; }
-        #supreme-admin-portal td { padding: 20px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
-        #supreme-admin-portal .export-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 20px; border-radius: 12px; font-size: 13px; font-weight: 800; cursor: pointer; transition: 0.2s; display:inline-flex; align-items:center; gap:8px;}
-        @media (hover: hover) { #supreme-admin-portal .export-btn:hover:not(:disabled) { background: #fff; color: #000; } }
-        #supreme-admin-portal .btn-delete { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); padding:6px 10px; border-radius:8px; cursor:pointer;}
-        @media (hover: hover) { #supreme-admin-portal .btn-delete:hover:not(:disabled) { background: #ef4444; color: #fff; } }
-
-        /* =========================================
-           16. MOBILE OPTIMIZATIONS
-           ========================================= */
         .mobile-only { display: none !important; }
         @media (max-width: 900px) {
             .mobile-only { display: flex !important; }
@@ -437,7 +401,8 @@
             .scanner-ui { max-width: 95%; }
             .f-top-grid { grid-template-columns: 1fr; gap: 40px; }
             .f-bottom-row { flex-direction: column; align-items: flex-start; gap: 20px; }
-            #supreme-admin-portal .admin-sidebar { position:relative; width:100%; height:auto; border-right:none; border-bottom:1px solid #333; padding: 15px;}
+            #supreme-admin-portal .admin-sidebar { position:relative; width:100%; height:auto; border-right:none; border-bottom:1px solid #333; padding: 15px; display: flex; flex-direction: row; flex-wrap: wrap; gap: 10px;}
+            #supreme-admin-portal .admin-nav-item { flex: 1; text-align: center; padding: 10px; font-size: 12px; }
             #supreme-admin-portal .admin-main { margin-left:0; padding:15px;}
         }
         @media (max-width: 400px) {
@@ -583,6 +548,7 @@
                 <a href="#specs" class="nav-link hide-mobile">Specs</a>
                 <a href="#calc" class="nav-link hide-mobile">Calc</a>
                 <a href="#" class="nav-link nav-auth-btn" id="nav-auth-link">Sign In <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
+                
                 <div class="nav-stamp">
                     <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; overflow: visible;">
                         <circle cx="50" cy="50" r="46" fill="none" stroke="#ef4444" stroke-width="0.5" opacity="0.4" stroke-dasharray="2 3"/>
@@ -615,49 +581,8 @@
     <section id="shop" class="section" style="padding-top: 40px;">
         <div class="container">
             <h2 style="text-align:center; font-size:42px; margin-bottom:80px;">Studio Lineup</h2>
-            <div class="grid-3">
-                <div class="product-card reveal">
-                    <div>
-                        <span class="p-tag">Starter Kit</span>
-                        <img src="product-1.webp" alt="1.2 KG Kit" class="p-img" loading="lazy" decoding="async">
-                        <h3>1.2 KG Master Kit</h3>
-                        <p style="color:var(--text-dim); font-size:14px; margin-top:5px;">900g Resin + 300g Hardener.</p>
-                        <div style="display:flex; align-items:center; margin-top:10px; color:var(--success); font-size:11px; font-weight:700; letter-spacing:1px;"><span style="margin-right:5px;">🚚</span> No Extra Shipping Charges</div>
-                    </div>
-                    <div style="margin-top:20px;">
-                        <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:15px;"><div style="font-size:24px; font-weight:700;">₹1,250</div><div style="font-size:16px; text-decoration:line-through; color:var(--text-dim);">₹1,450</div></div>
-                        <button class="btn btn-primary" style="width:100%;" onclick="addToCart('1.2 KG Master Kit', 1250)">Add to Cart</button>
-                    </div>
-                </div>
-
-                <div class="product-card reveal" style="border-color:rgba(255,255,255,0.4) !important;">
-                    <div>
-                        <span class="p-tag" style="background:#fff; color:#000; border-color:#fff;">Best Seller</span>
-                        <img src="MX_LUMES_4_8kg_Master_Kit.png" alt="4.8 KG Kit" class="p-img" loading="lazy" decoding="async">
-                        <h3>4.8 KG Master Kit</h3>
-                        <p style="color:var(--text-dim); font-size:14px; margin-top:5px;">3.6kg Resin + 1.2kg Hardener.</p>
-                        <div style="display:flex; align-items:center; margin-top:10px; color:var(--success); font-size:11px; font-weight:700; letter-spacing:1px;"><span style="margin-right:5px;">🚚</span> No Extra Shipping Charges</div>
-                    </div>
-                    <div style="margin-top:20px;">
-                        <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:15px;"><div style="font-size:24px; font-weight:700;">₹4,400</div><div style="font-size:16px; text-decoration:line-through; color:var(--text-dim);">₹5,000</div></div>
-                        <button class="btn btn-primary" style="width:100%;" onclick="addToCart('4.8 KG Master Kit', 4400)">Add to Cart</button>
-                    </div>
-                </div>
-
-                <div class="product-card reveal" style="position:relative; overflow:hidden;">
-                    <div style="position:absolute; top:20px; right:-30px; background:var(--accent); padding:5px 30px; transform:rotate(45deg); font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:1px; z-index:2;">Super Saver</div>
-                    <div>
-                        <span class="p-tag" style="color:var(--accent); border-color:var(--accent);">Monthly Pack</span>
-                        <img src="MX_LUMES_20kg_Set_15kg_Resin_5kg_Hardener.png" alt="20 KG Set" class="p-img" loading="lazy" decoding="async">
-                        <h3>20 KG Studio Set</h3>
-                        <p style="color:var(--text-dim); font-size:14px; margin-top:5px;">15kg Resin + 5kg Hardener.</p>
-                        <div style="margin-top:10px; font-size:12px; font-weight:700; color:#fff;">Only <span style="color:var(--accent);">₹850/kg</span> for premium quality.</div>
-                    </div>
-                    <div style="margin-top:20px;">
-                        <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:15px;"><div style="font-size:24px; font-weight:700;">₹17,000</div><div style="font-size:16px; text-decoration:line-through; color:var(--text-dim);">₹25,000</div></div>
-                        <button class="btn btn-primary" style="width:100%;" onclick="addToCart('20 KG Studio Set', 17000)">Add to Cart</button>
-                    </div>
-                </div>
+            <div class="grid-3" id="product-grid">
+                <div style="color:var(--text-dim); text-align:center; width:100%; grid-column:1/-1;">Loading Live Inventory...</div>
             </div>
         </div>
     </section>
@@ -807,6 +732,7 @@
                             <svg viewBox="0 0 24 24" stroke="var(--accent)"><path d="M3 3h6v2H5v4H3V3zm18 0h-6v2h4v4h2V3zM3 21h6v-2H5v-4H3v6zm18 0h-6v-2h4v-4h2v6z" fill="currentColor"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
                             <span style="color: var(--accent);">Smart Scan</span>
                         </div>
+                        
                         <div class="shape-btn active" id="btn-rect" onclick="setShape('rect'); vibrate(30);"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/></svg><span>Square</span></div>
                         <div class="shape-btn" id="btn-circ" onclick="setShape('circ'); vibrate(30);"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg><span>Circle</span></div>
                         <div class="shape-btn" id="btn-tri" onclick="setShape('tri'); vibrate(30);"><svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/></svg><span>Triangle</span></div>
@@ -999,8 +925,8 @@
                 </div>
                 
                 <div class="f-copy" onclick="triggerAdmin()" style="cursor:pointer; user-select:none;">
-    © 2026 M-X Lumes. Engineered in Meerut.
-</div>
+                    © 2026 M-X Lumes. Engineered in Meerut.
+                </div>
             </div>
         </div>
     </footer>
@@ -1073,6 +999,7 @@
                 <div style="font-family:'Space Grotesk', sans-serif; font-size:24px; font-weight:800; margin-bottom:40px;">M-X LUMES.</div>
                 <div class="admin-nav-item active" onclick="adminSwitchTab('orders', this)">Orders</div>
                 <div class="admin-nav-item" onclick="adminSwitchTab('logistics', this)">Logistics</div>
+                <div class="admin-nav-item" onclick="adminSwitchTab('inventory', this)">Inventory</div>
                 <div class="admin-nav-item" onclick="adminSwitchTab('users', this)">Customers</div>
                 <div style="flex:1;"></div>
                 <div class="admin-nav-item" onclick="lockVault()" style="color:#ef4444;">Lock Vault</div>
@@ -1112,6 +1039,14 @@
                     </div>
                 </div>
 
+                <div class="admin-data-panel" id="admin-panel-inventory" style="display:none;">
+                    <div style="display:flex; justify-content: flex-end; margin-bottom:20px;">
+                        <button onclick="adminEditProduct('new')" style="background:var(--accent); color:#fff; padding:10px 20px; border-radius:8px; font-weight:800; border:none; cursor:pointer;">+ Add New Product</button>
+                    </div>
+                    <div class="inv-grid" id="admin-inventory-grid">
+                        </div>
+                </div>
+
                 <div class="admin-data-panel" id="admin-panel-users" style="display:none;">
                     <div style="background:#0a0a0a; border:1px solid #333; border-radius:16px; overflow-x:auto; -webkit-overflow-scrolling: touch;">
                         <table style="width:100%; min-width:800px; border-collapse:collapse; font-size:13px;">
@@ -1122,9 +1057,8 @@
                 </div>
             </div>
         </div>
-
         <div id="admin-edit-modal" style="position:fixed; top:0; left:0; width:100%; height:100vh; height:100dvh; background:rgba(0,0,0,0.9); z-index:100001; display:none; justify-content:center; align-items:center;">
-            <div style="background:#111; padding:30px; border-radius:20px; border:1px solid #333; width:100%; max-width:400px; -webkit-overflow-scrolling: touch;">
+            <div style="background:#111; padding:30px; border-radius:20px; border:1px solid #333; width:100%; max-width:400px; max-height:90vh; overflow-y:auto; -webkit-overflow-scrolling: touch;">
                 <h3 id="admin-edit-title" style="margin-bottom:20px;">Edit</h3>
                 <div id="admin-edit-fields"></div>
                 <div style="display:flex; gap:10px; margin-top:20px;">
@@ -1148,6 +1082,9 @@
         window.paymentIntentFired = null;
         let pendingCheckout = false; 
 
+        // INVENTORY DATA
+        let liveProducts = [];
+
         const escapeHTML = (str) => {
             if (str == null) return '';
             return String(str).replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
@@ -1162,6 +1099,7 @@
             setupReviewStars();
             checkAuthStatus(); 
             runCalc(); 
+            fetchLiveInventory();
 
             fetch('https://ipapi.co/json/').then(r=>r.json()).then(data => { userLocation = data.city + ", " + data.region; }).catch(e => {});
 
@@ -1204,6 +1142,65 @@
                 }
             }
         });
+
+        // =========================================
+        // 📦 INVENTORY FETCHING & RENDERING (STOREFRONT)
+        // =========================================
+        async function fetchLiveInventory() {
+            try {
+                const res = await fetch(`${RENDER_URL}/api/products`);
+                if(!res.ok) throw new Error();
+                liveProducts = await res.json();
+                renderStorefront();
+            } catch(e) {
+                console.error("Using fallback inventory");
+            }
+        }
+
+        function renderStorefront() {
+            const grid = document.getElementById('product-grid');
+            if(!grid) return;
+            
+            if(liveProducts.length === 0) {
+                grid.innerHTML = `<div style="color:var(--text-dim); text-align:center; width:100%; grid-column:1/-1;">Inventory currently updating...</div>`;
+                return;
+            }
+
+            let html = '';
+            liveProducts.forEach(p => {
+                if(!p.inStock) return; 
+                
+                let tagStyle = '';
+                if(p.tag === 'Best Seller') tagStyle = 'background:#fff; color:#000; border-color:#fff;';
+                else if(p.tag === 'Monthly Pack') tagStyle = 'color:var(--accent); border-color:var(--accent);';
+
+                let cornerBadge = '';
+                if(p.tag === 'Monthly Pack') {
+                    cornerBadge = `<div style="position:absolute; top:20px; right:-30px; background:var(--accent); padding:5px 30px; transform:rotate(45deg); font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:1px; z-index:2;">Super Saver</div>`;
+                }
+
+                let borderStyle = p.tag === 'Best Seller' ? 'border-color:rgba(255,255,255,0.4) !important;' : '';
+
+                html += `
+                <div class="product-card reveal active" style="position:relative; overflow:hidden; ${borderStyle}">
+                    ${cornerBadge}
+                    <div>
+                        <span class="p-tag" style="${tagStyle}">${escapeHTML(p.tag)}</span>
+                        <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}" class="p-img" loading="lazy" decoding="async">
+                        <h3>${escapeHTML(p.name)}</h3>
+                        <p style="color:var(--text-dim); font-size:14px; margin-top:5px;">${escapeHTML(p.description)}</p>
+                    </div>
+                    <div style="margin-top:20px;">
+                        <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:15px;">
+                            <div style="font-size:24px; font-weight:700;">₹${p.currentPrice.toLocaleString()}</div>
+                            <div style="font-size:16px; text-decoration:line-through; color:var(--text-dim);">₹${p.originalPrice.toLocaleString()}</div>
+                        </div>
+                        <button class="btn btn-primary" style="width:100%;" onclick="addToCart('${escapeHTML(p.name)}', ${p.currentPrice})">Add to Cart</button>
+                    </div>
+                </div>`;
+            });
+            grid.innerHTML = html;
+        }
 
         function blurInputs() { document.activeElement?.blur(); }
 
@@ -1864,7 +1861,7 @@
                 btn.innerText = "✓ Try Verification Again";
                 btn.disabled = false;
                 isVerifying = false;
-                logout(new Event('click'));
+                logout(new Event('click')); 
                 return;
             }
 
@@ -2204,7 +2201,7 @@
         
         function closeAdminPortal() { document.getElementById('supreme-admin-portal').style.display = 'none'; }
         
-        let globalOrders = []; let globalUsers = [];
+        let globalOrders = []; let globalUsers = []; let globalProducts = [];
 
         async function unlockDashboard() {
             const input = document.getElementById('master-key').value;
@@ -2216,15 +2213,17 @@
             document.getElementById('admin-auth-err').style.display = 'none';
             
             try {
-                const [orderRes, userRes] = await Promise.all([
+                const [orderRes, userRes, prodRes] = await Promise.all([
                     fetch(`${RENDER_URL}/api/admin/orders`, { headers: { 'admin-secret-key': input } }),
-                    fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': input } })
+                    fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': input } }),
+                    fetch(`${RENDER_URL}/api/admin/products`, { headers: { 'admin-secret-key': input } })
                 ]);
 
                 if (!orderRes.ok || !userRes.ok) throw new Error("Invalid Key");
                 
                 globalOrders = await orderRes.json();
                 globalUsers = await userRes.json();
+                globalProducts = await prodRes.json();
 
                 sessionStorage.setItem('mxlumes_admin_key', input);
                 document.getElementById('admin-auth-gate').style.display = 'none';
@@ -2252,12 +2251,14 @@
             btn.disabled = true;
             btn.innerText = "Syncing...";
             try {
-                const [orderRes, userRes] = await Promise.all([
+                const [orderRes, userRes, prodRes] = await Promise.all([
                     fetch(`${RENDER_URL}/api/admin/orders`, { headers: { 'admin-secret-key': key } }),
-                    fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': key } })
+                    fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': key } }),
+                    fetch(`${RENDER_URL}/api/admin/products`, { headers: { 'admin-secret-key': key } })
                 ]);
                 globalOrders = await orderRes.json();
                 globalUsers = await userRes.json();
+                globalProducts = await prodRes.json();
                 populateAdminDashboard();
             } catch(e) {
                 console.error("Sync failed");
@@ -2266,7 +2267,6 @@
                 btn.innerText = "⟳ Sync Data";
             }
         }
-
         function populateAdminDashboard() {
             let totalRev = 0;
             globalOrders.forEach(o => { if (o.status !== 'Pending Verification') totalRev += o.totalAmount; });
@@ -2276,9 +2276,11 @@
 
             const oBody = document.getElementById('admin-orders-tbody');
             const lBody = document.getElementById('admin-logistics-tbody');
+            const pGrid = document.getElementById('admin-inventory-grid');
             
             let oHtml = '';
             let lHtml = '';
+            let pHtml = '';
             
             let searchFilter = document.getElementById('order-search') ? document.getElementById('order-search').value.toLowerCase() : '';
             
@@ -2349,6 +2351,17 @@
                     `;
 
                     if (o.status !== 'Pending Verification') {
+                        let safeTrackingLink = "";
+                        let awbClean = escapeHTML(o.trackingNumber || '');
+                        let cour = escapeHTML(o.courierCompany || '');
+                        
+                        if (o.trackingNumber && o.trackingNumber !== "Pending") {
+                            if (cour === "Delhivery") safeTrackingLink = `https://www.delhivery.com/track/package/${awbClean}`;
+                            else if (cour === "DTDC") safeTrackingLink = `https://www.dtdc.in/`;
+                            else if (cour === "Trackon") safeTrackingLink = `https://trackon.in/`;
+                            else if (cour === "India Post") safeTrackingLink = `https://www.indiapost.gov.in/`;
+                        }
+
                         lHtml += `
                             <tr style="border-bottom: 1px solid #333;">
                                 <td style="padding:15px; vertical-align:top;">
@@ -2375,7 +2388,8 @@
                                             <option value="India Post" ${o.courierCompany === 'India Post' ? 'selected' : ''}>India Post</option>
                                             <option value="Other" ${o.courierCompany === 'Other' ? 'selected' : ''}>Other</option>
                                         </select>
-                                        <input type="text" id="awb-${escapeHTML(o.orderId)}" value="${escapeHTML(o.trackingNumber || '')}" placeholder="AWB / Tracking Number" style="background:#000; color:#fff; border:1px solid #555; padding:8px; border-radius:8px; font-size:12px; outline:none; width: 200px;">
+                                        <input type="text" id="awb-${escapeHTML(o.orderId)}" value="${awbClean}" placeholder="AWB / Tracking Number" style="background:#000; color:#fff; border:1px solid #555; padding:8px; border-radius:8px; font-size:12px; outline:none; width: 200px;">
+                                        ${safeTrackingLink ? `<a href="${safeTrackingLink}" target="_blank" style="font-size:10px; color:#6366f1; text-decoration:underline;">Test Link</a>` : ''}
                                     </div>
                                 </td>
                                 <td style="padding:15px; vertical-align:top;">
@@ -2393,6 +2407,23 @@
             }
             oBody.innerHTML = oHtml;
             lBody.innerHTML = lHtml;
+
+            // RENDER INVENTORY
+            if(globalProducts.length === 0) {
+                pHtml = `<div style="color:#888;">No products found. Add one above.</div>`;
+            } else {
+                globalProducts.forEach(p => {
+                    pHtml += `
+                        <div class="inv-card">
+                            <button onclick="adminDeleteProduct('${p._id}', this)" style="position:absolute; top:10px; right:10px; background:rgba(239,68,68,0.2); color:#ef4444; border:none; padding:5px 10px; border-radius:6px; cursor:pointer;">✕</button>
+                            <img src="${escapeHTML(p.image)}" class="inv-img" onerror="this.src='product-1.webp'">
+                            <h4 style="font-size:16px; margin-bottom:10px;">${escapeHTML(p.name)}</h4>
+                            <button onclick="adminEditProduct('${p._id}')" style="width:100%; padding:10px; background:#fff; color:#000; border-radius:8px; font-weight:800; cursor:pointer; border:none;">✎ Edit Product</button>
+                        </div>
+                    `;
+                });
+            }
+            pGrid.innerHTML = pHtml;
 
             const uBody = document.getElementById('admin-users-tbody');
             let uHtml = '';
@@ -2534,6 +2565,58 @@
             };
         }
 
+        // 📦 INVENTORY MANAGEMENT LOGIC
+        function adminEditProduct(id) {
+            let p = { name: '', tag: 'Premium Kit', image: 'product-1.webp', description: '', originalPrice: 0, currentPrice: 0, inStock: true };
+            if (id !== 'new') p = globalProducts.find(x => x._id === id) || p;
+
+            document.getElementById('admin-edit-title').innerText = id === 'new' ? 'Add New Product' : 'Edit Product';
+            document.getElementById('admin-edit-fields').innerHTML = `
+                <label>Product Name</label><input type="text" id="ep-name" value="${escapeHTML(p.name)}">
+                <label>Badge/Tag (e.g. Best Seller)</label><input type="text" id="ep-tag" value="${escapeHTML(p.tag)}">
+                <label>Image Filename</label><input type="text" id="ep-img" value="${escapeHTML(p.image)}">
+                <label>Description</label><textarea id="ep-desc">${escapeHTML(p.description)}</textarea>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <div><label>Original Price (₹)</label><input type="number" id="ep-orig" value="${p.originalPrice}"></div>
+                    <div><label>Current Price (₹)</label><input type="number" id="ep-curr" value="${p.currentPrice}"></div>
+                </div>
+                <label style="display:flex; align-items:center; gap:10px; margin-top:10px; cursor:pointer; color:#fff; font-size:14px;">
+                    <input type="checkbox" id="ep-stock" style="width:20px; height:20px; margin:0;" ${p.inStock ? 'checked' : ''}> In Stock (Visible on site)
+                </label>
+            `;
+            document.getElementById('admin-edit-modal').style.display = 'flex';
+
+            const btn = document.getElementById('admin-edit-save');
+            btn.onclick = async () => {
+                const key = sessionStorage.getItem('mxlumes_admin_key');
+                btn.disabled = true; btn.innerText = 'Saving...';
+                
+                const payload = {
+                    name: document.getElementById('ep-name').value, tag: document.getElementById('ep-tag').value,
+                    image: document.getElementById('ep-img').value, description: document.getElementById('ep-desc').value,
+                    originalPrice: document.getElementById('ep-orig').value, currentPrice: document.getElementById('ep-curr').value,
+                    inStock: document.getElementById('ep-stock').checked
+                };
+
+                const url = id === 'new' ? `${RENDER_URL}/api/admin/products` : `${RENDER_URL}/api/admin/products/${id}`;
+                const method = id === 'new' ? 'POST' : 'PUT';
+
+                try {
+                    await fetch(url, { method, headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify(payload) });
+                    closeAdminEditModal(); fetchAdminData(); fetchLiveInventory(); 
+                } finally { btn.disabled = false; btn.innerText = 'Save'; }
+            };
+        }
+
+        async function adminDeleteProduct(id, btnEl) {
+            if(!confirm(`Delete this product? This will remove it from the website.`)) return;
+            btnEl.disabled = true; const key = sessionStorage.getItem('mxlumes_admin_key'); 
+            try {
+                await fetch(`${RENDER_URL}/api/admin/products/${id}`, { method: 'DELETE', headers: { 'admin-secret-key': key } }); 
+                fetchAdminData(); fetchLiveInventory();
+            } catch(e) { btnEl.disabled = false; }
+        }
+
         async function saveTracking(orderId) {
             const order = globalOrders.find(o => o.orderId === orderId);
             if(!order) return;
@@ -2571,7 +2654,8 @@
         }
 
         function sendTrackingWhatsApp(orderId) {
-            const order = globalOrders.find(o => o.orderId === orderId);
+            const order =
+                globalOrders.find(o => o.orderId === orderId);
             if(!order) return;
             
             const user = globalUsers.find(u => u.email === order.customerEmail);
@@ -2581,16 +2665,18 @@
             const courier = order.courierCompany || "Assigned Courier";
             let trackingLink = "";
 
-            if (courier === "Delhivery" && awb !== "Pending") {
-                trackingLink = `https://www.delhivery.com/track/package/${awb}`;
-            } else if (courier === "DTDC" && awb !== "Pending") {
-                trackingLink = `https://www.dtdc.in/tracking/shipment-tracking.asp`; 
-            } else if (courier === "Trackon" && awb !== "Pending") {
-                trackingLink = `https://trackon.in/Tracking/Tracking_results?TrackingNumber=${awb}`;
-            } else if (awb !== "Pending") {
-                trackingLink = `Tracking AWB: ${awb}`;
-            } else {
+            if (awb === "Pending") {
                 trackingLink = "Your tracking number will be updated shortly.";
+            } else if (courier === "Delhivery") {
+                trackingLink = `https://www.delhivery.com/track/package/${awb}`;
+            } else if (courier === "DTDC") {
+                trackingLink = `https://www.dtdc.in/  (Enter AWB: ${awb})`; 
+            } else if (courier === "Trackon") {
+                trackingLink = `https://trackon.in/  (Enter AWB: ${awb})`;
+            } else if (courier === "India Post") {
+                trackingLink = `https://www.indiapost.gov.in/  (Enter AWB: ${awb})`;
+            } else {
+                trackingLink = `Tracking AWB: ${awb} (Please check via courier website)`;
             }
 
             let firstName = user.name.split(' ')[0] || "Artist";
