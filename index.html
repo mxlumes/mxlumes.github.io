@@ -90,7 +90,7 @@
         .toast.show { transform: translate3d(-50%, 0, 0); opacity: 1; }
 
         /* =========================================
-           4. NAVIGATION & HEADER STAMP
+           4. NAVIGATION 
            ========================================= */
         .navbar { position: fixed; top: 0; width: 100%; height: 80px; z-index: 1000; display: flex; align-items: center; transition: box-shadow 0.3s, height 0.3s; background-color: var(--bg-milky); border-bottom: 1px solid var(--border-light); padding-top: var(--safe-top); }
         .navbar.scrolled { box-shadow: 0 10px 30px rgba(0,0,0,0.05); height: 70px; }
@@ -102,9 +102,6 @@
         .nav-link:hover { color: var(--text-dark); }
         .nav-auth-btn { display:flex; align-items:center; background:#050505; color:#fff !important; padding:10px 20px; border-radius:30px; transition: transform 0.3s, box-shadow 0.3s; }
         .nav-auth-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        
-        .nav-stamp { width: 55px; height: 55px; animation: spinStamp 25s linear infinite; z-index: 5; pointer-events: none; opacity: 0.85; filter: drop-shadow(0 2px 10px rgba(239, 68, 68, 0.2)); flex-shrink: 0; margin-left: 15px; display: flex; align-items: center; justify-content: center;}
-        @keyframes spinStamp { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         /* =========================================
            5. HERO SECTION
@@ -112,7 +109,8 @@
         .hero { min-height: 80dvh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; padding-top: 80px; padding-bottom: 40px; position: relative; }
         .hero h1 { font-size: clamp(36px, 10vw, 100px); margin-bottom: 24px; font-weight: 800; background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
         .hero p { color: var(--text-dim); font-size: 18px; max-width: 500px; margin-bottom: 40px; padding: 0 20px; font-weight: 400;}
-        
+        .premium-stamp { position: absolute; top: 20%; right: 12%; width: 140px; height: 140px; animation: spinStamp 15s linear infinite; z-index: 5; pointer-events: none; opacity: 0.9; filter: drop-shadow(0 10px 20px rgba(239, 68, 68, 0.3)); }
+        @keyframes spinStamp { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .marquee { position: absolute; bottom: 0; width: 100%; background: #000; border-top: 1px solid var(--border); padding: 16px 0; overflow: hidden; white-space: nowrap; user-select: none; }
         .marquee-content { display: inline-block; animation: scroll 40s linear infinite; }
         .marquee-item { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: var(--text-dim); margin: 0 40px; opacity: 0.7; }
@@ -260,25 +258,16 @@
         /* =========================================
            9. THE ULTIMATE SMART SCANNER
            ========================================= */
-        .scanner-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh;
-            background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            z-index: 9999; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.4s var(--ease-fluid);
-        }
+        .scanner-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 9999; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.4s var(--ease-fluid); }
         .scanner-overlay.active { opacity: 1; display: flex; }
-        
         .scanner-ui { background: #fff; border-radius: 24px; overflow: hidden; width: 100%; max-width: 500px; box-shadow: 0 30px 60px rgba(0,0,0,0.8); display: flex; flex-direction: column; transform: scale(0.95); transition: transform 0.4s var(--ease-spring); }
         .scanner-overlay.active .scanner-ui { transform: scale(1); }
-        
         .scanner-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; background: #fafafa; }
         .scanner-close { background: none; border: none; font-size: 28px; color: #666; cursor: pointer; line-height: 1; padding: 5px; }
-        
         .scanner-view { position: relative; width: 100%; height: 450px; background: #000; overflow: hidden; touch-action: none; overscroll-behavior: none; }
         .scanner-view video { width: 100%; height: 100%; object-fit: cover; }
         .scanner-view canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 5; cursor: crosshair; touch-action: none; }
-        
         .scan-instruction { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px; border-radius: 30px; font-size: 13px; font-weight: 800; z-index: 10; text-align: center; white-space: nowrap; border: 1px solid rgba(255,255,255,0.2);}
-
         .scanned-area-display { display:none; flex-direction:column; align-items:center; margin-bottom:30px; padding:25px; background:rgba(16,185,129,0.1); border:2px dashed var(--success); border-radius:16px; transition: all 0.3s; }
         .scanned-area-display.active { display: flex; animation: popIn 0.4s var(--ease-spring); }
         .scanned-lbl { font-size:12px; font-weight:800; color:var(--success); text-transform:uppercase; letter-spacing:1px; margin-bottom:5px; }
@@ -296,10 +285,8 @@
         .r-stars-count { display: flex; flex-direction: column; gap: 4px; }
         .r-stars svg { width: 18px; height: 18px; fill: #f59e0b; }
         .r-count-text { font-size: 12px; color: var(--text-dim); font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
-        
         .reviews-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 20px; padding-bottom: 20px; scrollbar-width: none; mask-image: linear-gradient(to right, black 90%, transparent 100%); -webkit-overflow-scrolling: touch; }
         .reviews-container::-webkit-scrollbar { display: none; }
-        
         .r-card { min-width: 320px; max-width: 320px; scroll-snap-align: start; background: #0a0a0a; border: 1px solid var(--border); border-radius: 20px; padding: 25px; display: flex; flex-direction: column; transition: transform 0.3s; }
         @media (hover: hover) { .r-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); } }
         .r-card-stars { margin-bottom: 15px; display: flex; gap: 2px;}
@@ -311,58 +298,23 @@
         /* =========================================
            11. MODALS (AUTH, PROFILE, PAYMENT)
            ========================================= */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            z-index: 4000; display: none; justify-content: center; align-items: center; padding: 20px;
-            opacity: 0; transition: opacity 0.3s;
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 4000; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.3s; }
         .modal-overlay.active { opacity: 1; display: flex; }
-        
-        .modal-content {
-            background: #0a0a0a; border: 1px solid var(--border); border-radius: 24px;
-            width: 100%; max-width: 400px; padding: 35px; position: relative;
-            transform: scale(0.95); transition: transform 0.3s; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-            max-height: 90vh; max-height: 90dvh; overflow-y: auto; -webkit-overflow-scrolling: touch;
-            padding-bottom: calc(35px + env(safe-area-inset-bottom));
-        }
+        .modal-content { background: #0a0a0a; border: 1px solid var(--border); border-radius: 24px; width: 100%; max-width: 400px; padding: 35px; position: relative; transform: scale(0.95); transition: transform 0.3s; box-shadow: 0 25px 50px rgba(0,0,0,0.8); max-height: 90vh; max-height: 90dvh; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: calc(35px + env(safe-area-inset-bottom)); }
         .modal-overlay.active .modal-content { transform: scale(1); }
-        
         .m-close { position: absolute; top: 20px; right: 25px; background: none; border: none; color: #888; font-size: 28px; cursor: pointer; transition: color 0.2s; }
         @media (hover: hover) { .m-close:hover { color: #fff; } }
-        
-        .m-input {
-            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
-            padding: 16px; border-radius: 12px; color: #fff; font-size: 14px; font-weight: 500;
-            margin-bottom: 15px; outline: none; transition: border-color 0.2s, background 0.2s; font-family: 'Manrope', sans-serif;
-            -webkit-appearance: none;
-        }
+        .m-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); padding: 16px; border-radius: 12px; color: #fff; font-size: 14px; font-weight: 500; margin-bottom: 15px; outline: none; transition: border-color 0.2s, background 0.2s; font-family: 'Manrope', sans-serif; -webkit-appearance: none; }
         .m-input:focus { border-color: var(--accent); }
 
-        .payment-modal {
-            background:#0a0a0a; border:1px solid #333; text-align:center; padding: 35px;
-            border-radius:24px; max-width:400px; position:relative;
-            transform: scale(0.95); transition: transform 0.3s; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-            max-height: 90vh; max-height: 90dvh; overflow-y: auto; -webkit-overflow-scrolling: touch;
-        }
+        .payment-modal { background:#0a0a0a; border:1px solid #333; text-align:center; padding: 35px; border-radius:24px; max-width:400px; position:relative; transform: scale(0.95); transition: transform 0.3s; box-shadow: 0 25px 50px rgba(0,0,0,0.8); max-height: 90vh; max-height: 90dvh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
         .modal-overlay.active .payment-modal { transform: scale(1); }
-        
         .qr-box-container { display: block; }
         .qr-box { background: #fff; border: 1px solid #e5e7eb; padding: 20px; border-radius: 16px; margin: 10px auto 20px; display: inline-block; }
-        
         .upi-app-btn { font-family: 'Space Grotesk', sans-serif; text-decoration: none; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 14px; border-radius: 12px; font-weight: 800; font-size: 14px; display: flex; justify-content: center; align-items: center; transition: transform 0.2s, box-shadow 0.2s; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; }
         .upi-app-btn:active { transform: scale(0.95); }
-        
-        @keyframes pulse-green {
-            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); transform: scale(1); }
-            50% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); transform: scale(1.02); }
-            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); transform: scale(1); }
-        }
-        @keyframes pulse-accent {
-            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); transform: scale(1); }
-            50% { box-shadow: 0 0 0 15px rgba(99, 102, 241, 0); transform: scale(1.02); }
-            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); transform: scale(1); }
-        }
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); transform: scale(1); } 50% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); transform: scale(1.02); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); transform: scale(1); } }
+        @keyframes pulse-accent { 0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); transform: scale(1); } 50% { box-shadow: 0 0 0 15px rgba(99, 102, 241, 0); transform: scale(1.02); } 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); transform: scale(1); } }
         .pulse-btn-green { animation: pulse-green 2s infinite; }
         .pulse-btn-accent { animation: pulse-accent 2s infinite; border: 2px solid var(--accent) !important; background: rgba(99, 102, 241, 0.2) !important;}
 
@@ -372,68 +324,45 @@
         .prof-orders td { padding: 15px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
 
         /* =========================================
-           12. CART SIDEBAR (FIXED MOBILE HEIGHT)
+           12. CART SIDEBAR
            ========================================= */
-        .cart-fab {
-            position: fixed; bottom: 30px; right: 20px; width: 65px; height: 65px;
-            background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            z-index: 2000; box-shadow: 0 10px 30px rgba(255,255,255,0.2); transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s;
-            cursor: pointer;
-        }
+        .cart-fab { position: fixed; bottom: 30px; right: 20px; width: 65px; height: 65px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 2000; box-shadow: 0 10px 30px rgba(255,255,255,0.2); transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; cursor: pointer; }
         @media (hover: hover) { .cart-fab:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(255,255,255,0.3); } }
         .cart-fab:active { transform: scale(0.9); }
-        
         .cart-count { position: absolute; top: -2px; right: -2px; background: #000; color: #fff; font-size: 11px; width: 24px; height: 24px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; font-weight: 800; transition: transform 0.4s var(--ease-spring); }
-        
         .cart-reminder { position: fixed; bottom: 100px; right: 32px; font-size: 35px; z-index: 1999; opacity: 0; pointer-events: none; transform: translate3d(0, 20px, 0); transition: transform 0.5s var(--ease-spring), opacity 0.5s; animation: bounceHand 1s infinite alternate; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); }
         .cart-reminder.show { opacity: 1; transform: translate3d(0, 0, 0); }
-        
         .cart-sidebar { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; height: 100dvh; z-index: 3000; pointer-events: none; }
         .cart-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); opacity: 0; transition: opacity 0.5s var(--ease-fluid); cursor: pointer; }
-        
-        .cart-inner { 
-            position: absolute; right: 0; width: 100%; max-width: 420px; height: 100%; background: #050505; 
-            border-left: 1px solid var(--border); transform: translate3d(100%, 0, 0); transition: transform 0.6s var(--ease-fluid); 
-            display: flex; flex-direction: column; padding: 40px 40px calc(40px + var(--safe-bottom, 20px)); 
-            box-shadow: -20px 0 50px rgba(0,0,0,0.5); 
-        }
-        
+        .cart-inner { position: absolute; right: 0; width: 100%; max-width: 420px; height: 100%; background: #050505; border-left: 1px solid var(--border); transform: translate3d(100%, 0, 0); transition: transform 0.6s var(--ease-fluid); display: flex; flex-direction: column; padding: 40px 40px calc(40px + var(--safe-bottom, 20px)); box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
         .cart-sidebar.active { pointer-events: all; }
         .cart-sidebar.active .cart-overlay { opacity: 1; }
         .cart-sidebar.active .cart-inner { transform: translate3d(0, 0, 0); }
-        
         .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; flex-shrink: 0; }
         .cart-items-container { flex: 1; overflow-y: auto; padding-right: 5px; -webkit-overflow-scrolling: touch; }
-        
         .cart-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; animation: slideInRight 0.4s var(--ease-spring) forwards; }
         @keyframes slideInRight { from { opacity: 0; transform: translate3d(30px,0,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
-        
         .qty-control { display: flex; align-items: center; background: #000; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
         .qty-btn { width: 34px; height: 34px; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 14px; font-weight: 800; cursor: pointer; transition: background 0.2s; }
         @media (hover: hover) { .qty-btn:hover { background: rgba(255,255,255,0.15); } }
         .qty-btn:active { background: rgba(255,255,255,0.3); }
         .qty-val { width: 24px; text-align: center; font-size: 12px; font-weight: 800; color: #fff; }
-        
         .cart-summary { margin-top:20px; border-top:1px solid var(--border); padding-top:20px; flex-shrink: 0; }
-        
         .checkout-btn { width: 100%; background: #fff; color: #000; padding: 20px; border-radius: 12px; font-weight: 800; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; display: flex; justify-content: center; align-items: center; cursor: pointer; border: none; margin-top: 10px; }
         @media (hover: hover) { .checkout-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2); } }
         .checkout-btn:active:not(:disabled) { transform: scale(0.98); }
 
         /* =========================================
-           13. VIJETA AI ASSISTANT
+           13. VIJETA AI
            ========================================= */
         .vijeta-fab { position: fixed; bottom: 30px; left: 20px; width: 65px; height: 65px; background: #000; border: 2px solid var(--accent); border-radius: 50%; z-index: 2000; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4); transition: transform 0.4s var(--ease-fluid), box-shadow 0.4s; cursor: pointer; padding: 2px; }
         @media (hover: hover) { .vijeta-fab:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6); } }
         .v-avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
         .v-online-dot { position: absolute; bottom: 2px; right: 2px; width: 14px; height: 14px; background: var(--success); border-radius: 50%; border: 2px solid #000; box-shadow: 0 0 10px var(--success); }
-        
         .v-greeting { position: fixed; bottom: 105px; left: 20px; width: 250px; background: rgba(20, 20, 20, 0.95); border: 1px solid var(--accent); border-radius: 16px 16px 16px 4px; padding: 15px; color: #fff; font-size: 13px; line-height: 1.5; z-index: 1999; opacity: 0; transform: translate3d(0, 20px, 0) scale(0.9); transition: opacity 0.5s var(--ease-spring), transform 0.5s var(--ease-spring); box-shadow: 0 10px 30px rgba(0,0,0,0.5); pointer-events: none; }
         .v-greeting.show { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-
         .vijeta-panel { position: fixed; bottom: 105px; left: 20px; width: 380px; height: 550px; background: #0a0a0a; border: 1px solid var(--border); border-radius: 24px; z-index: 2001; display: flex; flex-direction: column; overflow: hidden; opacity: 0; transform: translate3d(0, 20px, 0) scale(0.95); pointer-events: none; transition: transform 0.5s var(--ease-spring), opacity 0.5s; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
         .vijeta-panel.active { opacity: 1; transform: translate3d(0, 0, 0) scale(1); pointer-events: all; }
-        
         .v-header { background: rgba(99, 102, 241, 0.1); border-bottom: 1px solid var(--border); padding: 20px; display: flex; justify-content: space-between; align-items: center; }
         .v-close { background: none; border: none; color: var(--text-dim); font-size: 24px; cursor: pointer; transition: color 0.3s; line-height: 1; }
         .v-chat { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
@@ -447,7 +376,7 @@
         .v-send:disabled { background: #333; cursor: not-allowed; }
 
         /* =========================================
-           14. FOOTER (HIGH CONTRAST)
+           14. FOOTER & ADMIN
            ========================================= */
         .footer { padding: 120px 20px 60px; background: #ffffff; border-top: 1px solid var(--border-light); }
         .f-top-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; margin-bottom: 100px; max-width: 1200px; margin: 0 auto; }
@@ -465,14 +394,7 @@
         .f-nav-link:hover { color: #000000; }
         .f-copy { font-size: 12px; color: #555555; font-weight: 800; cursor: pointer; user-select: none; }
 
-        /* =========================================
-           15. SECRET SUPREME ADMIN PORTAL 
-           ========================================= */
-        #supreme-admin-portal {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh;
-            background: #000; z-index: 100000; display: none; overflow-y: auto; -webkit-overflow-scrolling: touch;
-            font-family: 'Manrope', sans-serif; color: #fff;
-        }
+        #supreme-admin-portal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; background: #000; z-index: 100000; display: none; overflow-y: auto; -webkit-overflow-scrolling: touch; font-family: 'Manrope', sans-serif; color: #fff; }
         #supreme-admin-portal .admin-sidebar { width: 280px; background: #0a0a0a; border-right: 1px solid rgba(255,255,255,0.1); padding: 30px 20px; display: flex; flex-direction: column; position: fixed; height: 100vh; height: 100dvh; left: 0; top: 0;}
         #supreme-admin-portal .admin-main { margin-left: 280px; padding: 40px 50px; min-height: 100vh; min-height: 100dvh; }
         #supreme-admin-portal .admin-stat-card { background: #0a0a0a; border: 1px solid rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; }
@@ -488,13 +410,10 @@
            16. MOBILE OPTIMIZATIONS
            ========================================= */
         .mobile-only { display: none !important; }
-        
         @media (max-width: 900px) {
             .mobile-only { display: flex !important; }
             .desktop-only { display: none !important; }
-            
             .bg-layer { background-size: cover; opacity: 0.85; background-attachment: scroll; background-position: center center; }
-            
             .navbar { height: 65px; padding-top: var(--safe-top); }
             .navbar.scrolled { height: 60px; }
             .nav-inner { justify-content: space-between; gap: 5px; padding: 0 10px; }
@@ -504,30 +423,23 @@
             .nav-auth-btn { padding: 6px 10px; border-radius: 12px; font-size: 9px; }
             .hide-mobile { display: none !important; }
             .nav-stamp { width: 42px; height: 42px; margin-left: 5px; }
-
             .grid-3 { grid-template-columns: 100%; } 
             .specs-layout, .gallery-masonry, .zenith-calc, .dos-donts, .refine-grid { grid-template-columns: 1fr; }
             .gallery-masonry { column-count: 2; column-gap: 10px; }
-            
             .cart-inner { padding: 25px 25px calc(25px + var(--safe-bottom, 20px)); max-width: 100%; }
-            
             .z-controls, .z-display { padding: 30px; }
             .comp-table { width: 100%; table-layout: fixed; min-width: auto; }
             .comp-cell, .comp-table th { white-space: normal; font-size: 10px; padding: 10px 4px; line-height: 1.3; word-wrap: break-word; }
             .comp-table th:nth-child(1) { width: 20%; } 
             .comp-table th:nth-child(2) { width: 45%; } 
             .comp-table th:nth-child(3) { width: 35%; } 
-            
             .vijeta-panel { width: calc(100% - 40px); left: 20px; right: 20px; height: 500px; bottom: 105px; }
             .scanner-ui { max-width: 95%; }
             .f-top-grid { grid-template-columns: 1fr; gap: 40px; }
             .f-bottom-row { flex-direction: column; align-items: flex-start; gap: 20px; }
-
             #supreme-admin-portal .admin-sidebar { position:relative; width:100%; height:auto; border-right:none; border-bottom:1px solid #333; padding: 15px;}
             #supreme-admin-portal .admin-main { margin-left:0; padding:15px;}
         }
-        
-        /* 🛡️ ULTRA-SMALL IOS (iPhone 12 Mini, SE) OPTIMIZATIONS */
         @media (max-width: 400px) {
             .nav-inner { padding: 0 8px; gap: 4px; }
             .logo { font-size: 12px; letter-spacing: 0; margin-right: auto; }
@@ -552,21 +464,11 @@
                 <p style="color: var(--text-dim); font-size: 13px; font-weight: 500;" id="prof-email">email@address.com</p>
                 <button class="btn btn-outline" style="margin-top:15px; border-color:#333; color:#fff; padding: 8px 16px; font-size: 10px;" onclick="logout(event)">Sign Out</button>
             </div>
-            
             <h4 style="color:#fff; font-weight:800; margin-bottom:15px;">Order History</h4>
             <div style="max-height: 400px; overflow-y: auto; background:#050505; border-radius:12px; border:1px solid #333; padding:10px; -webkit-overflow-scrolling: touch;">
                 <table class="prof-orders">
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Date</th>
-                            <th>Total</th>
-                            <th>Invoice / Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="prof-orders-tbody">
-                        <tr><td colspan="4" style="text-align:center; color:#fff;">Loading orders...</td></tr>
-                    </tbody>
+                    <thead><tr><th>Order ID</th><th>Date</th><th>Total</th><th>Invoice / Status</th></tr></thead>
+                    <tbody id="prof-orders-tbody"><tr><td colspan="4" style="text-align:center; color:#fff;">Loading orders...</td></tr></tbody>
                 </table>
             </div>
         </div>
@@ -579,23 +481,17 @@
                 <h3 id="auth-modal-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;">M-X LUMES</h3>
                 <p id="auth-modal-subtitle" style="color: var(--text-muted); font-size: 13px; font-weight: 500;">The Professional Standard.</p>
             </div>
-            
             <div id="auth-tabs" style="display:flex; justify-content: center; gap:30px; margin-bottom:25px; border-bottom:2px solid #222; padding-bottom:10px;">
                 <span id="tab-login" style="font-size:15px; font-weight: 800; cursor:pointer; color:#fff; transition: color 0.2s;" onclick="switchAuthTab('login')">Sign In</span>
                 <span id="tab-signup" style="font-size:15px; font-weight: 800; cursor:pointer; color:#555; transition: color 0.2s;" onclick="switchAuthTab('signup')">Create Account</span>
             </div>
-            
             <form id="auth-form" onsubmit="submitAuth(event)">
                 <input type="text" id="auth-name" class="m-input" placeholder="Full Name" autocomplete="name" enterkeyhint="next" style="display:none;">
                 <input type="email" id="auth-email" class="m-input" placeholder="Email Address" autocomplete="email" enterkeyhint="next" style="display:none;">
-                
                 <input type="tel" id="auth-phone" class="m-input" placeholder="10-Digit Mobile Number" autocomplete="tel" inputmode="numeric" pattern="[0-9]*" enterkeyhint="done" required>
-                
                 <textarea id="auth-address" class="m-input" placeholder="Complete Shipping Address (with Pincode)" autocomplete="street-address" enterkeyhint="done" style="display:none; height:100px;"></textarea>
-                
                 <button type="submit" class="btn btn-primary" style="width:100%; font-size:14px; margin-top:10px; background:#fff; color:#000; padding: 18px;" id="auth-btn">Secure Login</button>
             </form>
-            
             <div id="auth-error" style="color:var(--danger); background: rgba(239,68,68,0.1); border: 1px solid var(--danger); border-radius: 8px; padding: 12px; font-size:12px; font-weight: 600; margin-top:15px; text-align:center; display:none;"></div>
         </div>
     </div>
@@ -608,28 +504,19 @@
                 <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 5px;">M-X SecurePay</h3>
                 <p style="color: var(--text-dim); font-size: 13px;">100% Secure Encrypted Checkout</p>
             </div>
-            
             <div style="font-size: 36px; font-weight: 800; color: #fff; font-family:'Space Grotesk', sans-serif; margin-bottom: 20px;" id="payment-total">₹0</div>
-            
             <div class="qr-box-container" style="display: block;">
                 <p style="color: var(--text-dim); font-size: 13px; line-height: 1.5; margin-bottom: 10px;">Scan QR or screenshot to pay with any UPI App:</p>
-                <div class="qr-box">
-                    <img id="upi-qr" src="" alt="UPI QR Code">
-                </div>
+                <div class="qr-box"><img id="upi-qr" src="" alt="UPI QR Code"></div>
             </div>
-            
             <div style="text-align:center; margin-bottom:20px;">
                 <span style="font-size:13px; font-weight: 800; color:var(--accent); cursor:pointer; text-decoration:underline; display: inline-flex; align-items: center; gap: 5px;" onclick="copyUPI()">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                     Copy UPI ID: 7668077298@ybl
                 </span>
             </div>
-            
             <div id="payment-error-msg" style="display:none; background: rgba(239,68,68,0.1); border: 1px solid var(--danger); color: var(--danger); padding: 12px; border-radius: 12px; font-size: 12px; font-weight: 700; margin-bottom: 15px; text-align: left; line-height: 1.4;"></div>
-
-            <button id="pay-confirm-btn" class="btn btn-primary" style="width:100%; background:var(--accent); color:#fff; border:none; margin-bottom: 10px; padding:20px; font-size:14px; transition: 0.3s;" onclick="finalizeOrder()">
-                ✓ I Have Completed The Payment
-            </button>
+            <button id="pay-confirm-btn" class="btn btn-primary" style="width:100%; background:var(--accent); color:#fff; border:none; margin-bottom: 10px; padding:20px; font-size:14px; transition: 0.3s;" onclick="finalizeOrder()">✓ I Have Completed The Payment</button>
             <p style="font-size: 10px; color: var(--text-dim); line-height: 1.4;">By confirming, you agree that you have transferred the exact amount shown above. Our team will verify and approve your order shortly.</p>
         </div>
     </div>
@@ -637,10 +524,7 @@
     <div id="smart-scanner" class="scanner-overlay">
         <div class="scanner-ui">
             <div class="scanner-header">
-                <h3>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5" style="margin-right:8px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                    Document-Style Scanner
-                </h3>
+                <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5" style="margin-right:8px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Document-Style Scanner</h3>
                 <button class="scanner-close" onclick="closeScanner()">×</button>
             </div>
             <div class="scanner-view" id="scanner-view-container">
@@ -652,21 +536,13 @@
                 <button id="btn-capture" class="btn btn-primary" style="width:100%; background:#111; color:#fff; font-size:14px; padding: 20px;" onclick="captureScanFrame()">Capture & Map Bounds</button>
                 <div id="scan-actions" style="display:none; width:100%; flex-direction:column; gap:15px;">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <p style="font-size:13px; font-weight:800; margin:0; color:#000;">
-                            <span style="color:var(--accent);">✓ Quad Detected.</span><br>Drag the 4 corners to perfect the edges.
-                        </p>
+                        <p style="font-size:13px; font-weight:800; margin:0; color:#000;"><span style="color:var(--accent);">✓ Quad Detected.</span><br>Drag the 4 corners to perfect the edges.</p>
                         <button class="btn btn-outline" style="min-height:30px; padding:8px 15px; font-size:11px; color:#666; border-color:#ccc; background: #fff;" onclick="retakeScan()">Retake</button>
                     </div>
-                    <p style="font-size:12px; font-weight:800; margin:0; color:var(--text-muted); line-height:1.4; border-top:1px solid #ccc; padding-top:15px;">
-                        Enter the real-world length of the <span style="color:#ef4444; text-decoration:underline;">RED TOP EDGE</span>:
-                    </p>
+                    <p style="font-size:12px; font-weight:800; margin:0; color:var(--text-muted); line-height:1.4; border-top:1px solid #ccc; padding-top:15px;">Enter the real-world length of the <span style="color:#ef4444; text-decoration:underline;">RED TOP EDGE</span>:</p>
                     <div class="scan-inputs">
                         <input type="number" id="scan-line-length" placeholder="Length (e.g. 15)" inputmode="decimal">
-                        <select id="scan-unit">
-                            <option value="cm">cm</option>
-                            <option value="mm">mm</option>
-                            <option value="in">inch</option>
-                        </select>
+                        <select id="scan-unit"><option value="cm">cm</option><option value="mm">mm</option><option value="in">inch</option></select>
                     </div>
                     <button class="btn btn-primary" style="background:var(--accent); color:#fff; border:none; width:100%; font-size: 14px;" onclick="processCalibration()">Calculate Exact Area</button>
                 </div>
@@ -679,7 +555,6 @@
             <button class="m-close" onclick="closeReviewModal()">×</button>
             <h3 style="font-size: 24px; margin-bottom: 5px; font-weight: 800; font-family: 'Space Grotesk', sans-serif; color: #fff;">Share Your Experience</h3>
             <p style="color:var(--text-dim); font-size:13px; margin-bottom:20px;">Your feedback helps thousands of Indian resin artists make the right choice.</p>
-            
             <input type="text" id="rv-name" class="m-input" placeholder="Your Name" enterkeyhint="next">
             <div class="rm-star-select" id="rv-stars">
                 <svg data-val="1" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -707,19 +582,13 @@
                 <a href="#shop" class="nav-link hide-mobile">Lineup</a>
                 <a href="#specs" class="nav-link hide-mobile">Specs</a>
                 <a href="#calc" class="nav-link hide-mobile">Calc</a>
-                <a href="#" class="nav-link nav-auth-btn" id="nav-auth-link">
-                    Sign In
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                </a>
-                
+                <a href="#" class="nav-link nav-auth-btn" id="nav-auth-link">Sign In <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
                 <div class="nav-stamp">
                     <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; overflow: visible;">
                         <circle cx="50" cy="50" r="46" fill="none" stroke="#ef4444" stroke-width="0.5" opacity="0.4" stroke-dasharray="2 3"/>
                         <circle cx="50" cy="50" r="27" fill="none" stroke="#ef4444" stroke-width="0.5" opacity="0.4" />
                         <path id="stamp-curve" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="none" />
-                        <text font-size="10.5" font-weight="800" fill="#ef4444" letter-spacing="2" font-family="'Space Grotesk', sans-serif">
-                            <textPath href="#stamp-curve" startOffset="0%" textLength="220">PREMIUM PRODUCT ✦ PREMIUM PRODUCT ✦ </textPath>
-                        </text>
+                        <text font-size="10.5" font-weight="800" fill="#ef4444" letter-spacing="2" font-family="'Space Grotesk', sans-serif"><textPath href="#stamp-curve" startOffset="0%" textLength="220">PREMIUM PRODUCT ✦ PREMIUM PRODUCT ✦ </textPath></text>
                         <path d="M50 38 L52 48 L62 50 L52 52 L50 62 L48 52 L38 50 L48 48 Z" fill="#ef4444" opacity="0.9" />
                     </svg>
                 </div>
@@ -738,12 +607,7 @@
         </div>
         <div class="marquee">
             <div class="marquee-content">
-                <span class="marquee-item"><span>✦</span> ISO 9001</span>
-                <span class="marquee-item"><span>✦</span> Zero VOC</span>
-                <span class="marquee-item"><span>✦</span> 85 Shore D</span>
-                <span class="marquee-item"><span>✦</span> 120m Pot Life</span>
-                <span class="marquee-item"><span>✦</span> ISO 9001</span>
-                <span class="marquee-item"><span>✦</span> Zero VOC</span>
+                <span class="marquee-item"><span>✦</span> ISO 9001</span><span class="marquee-item"><span>✦</span> Zero VOC</span><span class="marquee-item"><span>✦</span> 85 Shore D</span><span class="marquee-item"><span>✦</span> 120m Pot Life</span><span class="marquee-item"><span>✦</span> ISO 9001</span><span class="marquee-item"><span>✦</span> Zero VOC</span>
             </div>
         </div>
     </header>
@@ -761,10 +625,7 @@
                         <div style="display:flex; align-items:center; margin-top:10px; color:var(--success); font-size:11px; font-weight:700; letter-spacing:1px;"><span style="margin-right:5px;">🚚</span> No Extra Shipping Charges</div>
                     </div>
                     <div style="margin-top:20px;">
-                        <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:15px;">
-                            <div style="font-size:24px; font-weight:700;">₹1,250</div>
-                            <div style="font-size:16px; text-decoration:line-through; color:var(--text-dim);">₹1,450</div>
-                        </div>
+                        <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:15px;"><div style="font-size:24px; font-weight:700;">₹1,250</div><div style="font-size:16px; text-decoration:line-through; color:var(--text-dim);">₹1,450</div></div>
                         <button class="btn btn-primary" style="width:100%;" onclick="addToCart('1.2 KG Master Kit', 1250)">Add to Cart</button>
                     </div>
                 </div>
@@ -778,10 +639,7 @@
                         <div style="display:flex; align-items:center; margin-top:10px; color:var(--success); font-size:11px; font-weight:700; letter-spacing:1px;"><span style="margin-right:5px;">🚚</span> No Extra Shipping Charges</div>
                     </div>
                     <div style="margin-top:20px;">
-                        <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:15px;">
-                            <div style="font-size:24px; font-weight:700;">₹4,400</div>
-                            <div style="font-size:16px; text-decoration:line-through; color:var(--text-dim);">₹5,000</div>
-                        </div>
+                        <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:15px;"><div style="font-size:24px; font-weight:700;">₹4,400</div><div style="font-size:16px; text-decoration:line-through; color:var(--text-dim);">₹5,000</div></div>
                         <button class="btn btn-primary" style="width:100%;" onclick="addToCart('4.8 KG Master Kit', 4400)">Add to Cart</button>
                     </div>
                 </div>
@@ -796,10 +654,7 @@
                         <div style="margin-top:10px; font-size:12px; font-weight:700; color:#fff;">Only <span style="color:var(--accent);">₹850/kg</span> for premium quality.</div>
                     </div>
                     <div style="margin-top:20px;">
-                        <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:15px;">
-                            <div style="font-size:24px; font-weight:700;">₹17,000</div>
-                            <div style="font-size:16px; text-decoration:line-through; color:var(--text-dim);">₹25,000</div>
-                        </div>
+                        <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:15px;"><div style="font-size:24px; font-weight:700;">₹17,000</div><div style="font-size:16px; text-decoration:line-through; color:var(--text-dim);">₹25,000</div></div>
                         <button class="btn btn-primary" style="width:100%;" onclick="addToCart('20 KG Studio Set', 17000)">Add to Cart</button>
                     </div>
                 </div>
@@ -952,7 +807,6 @@
                             <svg viewBox="0 0 24 24" stroke="var(--accent)"><path d="M3 3h6v2H5v4H3V3zm18 0h-6v2h4v4h2V3zM3 21h6v-2H5v-4H3v6zm18 0h-6v-2h4v-4h2v6z" fill="currentColor"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
                             <span style="color: var(--accent);">Smart Scan</span>
                         </div>
-                        
                         <div class="shape-btn active" id="btn-rect" onclick="setShape('rect'); vibrate(30);"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/></svg><span>Square</span></div>
                         <div class="shape-btn" id="btn-circ" onclick="setShape('circ'); vibrate(30);"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg><span>Circle</span></div>
                         <div class="shape-btn" id="btn-tri" onclick="setShape('tri'); vibrate(30);"><svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/></svg><span>Triangle</span></div>
@@ -1282,9 +1136,6 @@
     </div>
 
     <script>
-        // =========================================
-        // 1. GLOBAL VARS & CONFIG
-        // =========================================
         const RENDER_URL = 'https://mxlumes-api.onrender.com';
         const MERCHANT_UPI_ID = "7668077298@ybl"; 
         
@@ -1324,7 +1175,6 @@
             }, 2000);
         };
 
-        // 🛡️ LEVEL 24: BFCache IOS Safari Reset
         window.addEventListener('pageshow', function(event) {
             if (event.persisted) {
                 isVerifying = false;
@@ -1355,9 +1205,6 @@
             }
         });
 
-        // =========================================
-        // 2. AUTHENTICATION & PROFILE 
-        // =========================================
         function blurInputs() { document.activeElement?.blur(); }
 
         function lockScroll() {
@@ -1405,7 +1252,6 @@
             const tbody = document.getElementById('prof-orders-tbody');
             tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888;">Loading orders...</td></tr>';
 
-            // Isolate user string for printing
             const isolatedUserStr = encodeURIComponent(JSON.stringify({
                 name: user.name, email: user.email, phone: user.phone, address: user.address
             })).replace(/'/g, "%27");
@@ -1735,7 +1581,6 @@
             btn.innerText = "Processing..."; 
             errorDiv.style.display = 'none';
 
-            // 🛡️ EXTRACT EXACTLY 10 DIGITS
             const rawPhone = document.getElementById('auth-phone').value.trim();
             const cleanPhone = rawPhone.replace(/\D/g, '').slice(-10);
 
@@ -1747,7 +1592,6 @@
                 return;
             }
 
-            // 🛡️ DEDICATED PHONE LOGIN
             if (currentAuthMode === 'login') {
                 try {
                     const response = await fetch(`${RENDER_URL}/api/login/phone`, { 
@@ -1777,7 +1621,6 @@
                 return;
             }
 
-            // 🛡️ GUEST CHECKOUT / SIGNUP ROUTER
             const name = document.getElementById('auth-name').value.trim();
             const email = document.getElementById('auth-email').value.trim();
             const address = document.getElementById('auth-address').value.trim();
@@ -1838,9 +1681,6 @@
             }
         }
 
-        // =========================================
-        // 3. CART & CLOUD SYNC LOGIC
-        // =========================================
         function updateReminder() {
             const reminder = document.getElementById('cartReminder');
             const sidebar = document.getElementById('cartSidebar');
@@ -1943,10 +1783,6 @@
             setTimeout(() => t.classList.remove('show'), 3000); 
         }
 
-        // =========================================
-        // 4. M-X SECUREPAY GATEWAY LOGIC
-        // =========================================
-        
         function trackPaymentIntent() {
             window.paymentIntentFired = Date.now();
         }
@@ -1971,7 +1807,6 @@
             const payeeName = encodeURIComponent("M-X Lumes");
             const baseParams = `pa=${MERCHANT_UPI_ID}&pn=${payeeName}&am=${amountFixed}&cu=INR&tn=Resin%20Order`;
             
-            // Generate universal QR code
             document.getElementById('upi-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent('upi://pay?' + baseParams)}`;
             document.getElementById('payment-total').innerText = `₹${checkoutTotal.toLocaleString()}`;
             
@@ -2023,14 +1858,13 @@
                 user = JSON.parse(localStorage.getItem('mxlumes_user'));
             } catch(e){}
 
-            // 🛡️ FRONTEND FAILSAFE: Catches corrupted local storage before hitting backend
             if (!user || !user.email) {
                 errBox.innerText = "⚠ Session expired. Please close this and securely re-enter your delivery details.";
                 errBox.style.display = 'block';
                 btn.innerText = "✓ Try Verification Again";
                 btn.disabled = false;
                 isVerifying = false;
-                logout(new Event('click')); // Force cleanup
+                logout(new Event('click'));
                 return;
             }
 
@@ -2083,9 +1917,6 @@
             }
         }
 
-        // =========================================
-        // 5. CORE UI SCROLLING
-        // =========================================
         let tickingScroll = false;
         window.addEventListener('scroll', () => { 
             if (!tickingScroll) { window.requestAnimationFrame(() => { document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50); tickingScroll = false; }); tickingScroll = true; }
@@ -2094,9 +1925,6 @@
         const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if(entry.isIntersecting) { entry.target.classList.add('active'); } }); }, {threshold: 0.1});
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // =========================================
-        // 6. TITAN FUSION CALCULATOR LOGIC
-        // =========================================
         let appState = { unit: 'cm', shape: 'rect', ratioA: 3, ratioB: 1, mode: 'cast', scannedArea: 0 };
         function setUnit(u) {
             if(appState.unit !== u) {
@@ -2164,9 +1992,6 @@
             setTimeout(() => { btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg> Auto-Detect Conditions'; status.style.display = 'none'; btn.disabled = false; }, 3000);
         }
 
-        // =========================================
-        // 7. SMART SCANNER WITH PERSPECTIVE MATH
-        // =========================================
         let camStream = null; let polyNodes = []; let draggingNode = null;
         async function openScanner() {
             setShape('scan'); const overlay = document.getElementById('smart-scanner'); overlay.style.display = 'flex'; setTimeout(()=> overlay.classList.add('active'), 10); 
@@ -2226,9 +2051,6 @@
             appState.scannedArea = areaCm2; document.getElementById('scan-area-display').innerText = areaCm2.toFixed(1) + ' cm²'; closeScanner(); runCalc();
         }
 
-        // =========================================
-        // 8. CALCULATOR ENGINE
-        // =========================================
         function runCalc() {
             let h = parseFloat(document.getElementById('input-D').value) || 0; let factor = appState.unit === 'in' ? 2.54 : 1; let h_cm = h * factor; let vol = 0;
             if (appState.shape === 'rect') vol = ((parseFloat(document.getElementById('input-L').value)||0) * factor) * ((parseFloat(document.getElementById('input-W').value)||0) * factor) * h_cm;
@@ -2257,9 +2079,6 @@
             else { sStatus.innerText = "ALERT"; sStatus.style.color = "var(--danger)"; sCard.className = "safety-report danger"; }
         }
 
-        // =========================================
-        // 9. LIVE REVIEWS (XSS PROTECTED)
-        // =========================================
         const initialReviews = [ { name: "Sneha Sharma", text: "Absolutely flawless for Varmala preservation. Diamond clear and absolutely no micro-bubbles.", stars: 5 }, { name: "Rahul Verma", text: "The 120-minute pot life is a lifesaver for complex geode pours. Gives me ample time to mix pigments.", stars: 5 }, { name: "Ananya Patel", text: "I was skeptical about the 85 Shore D hardness, but my coasters are practically scratch-proof.", stars: 5 }, { name: "Vikram Singh", text: "Zero VOCs means no headaches! I can finally work in my indoor studio without the strong chemical smell.", stars: 4 }, { name: "Divya Iyer", text: "Best 3:1 epoxy in India hands down. Auto-degassing actually works—I didn't even need my heat gun.", stars: 5 } ];
         let selectedStars = 5;
         
@@ -2326,9 +2145,6 @@
             btn.disabled = false;
         }
 
-        // =========================================
-        // 10. VIJETA AI ASSISTANT
-        // =========================================
         function toggleVijeta() {
             document.getElementById('vGreeting')?.classList.remove('show'); 
             document.getElementById('vijetaPanel').classList.toggle('active');
@@ -2370,9 +2186,6 @@
         function renderUserMessage(text) { const chatBox = document.getElementById('vChatBox'); chatBox.innerHTML += `<div class="msg user">${escapeHTML(text)}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
         function renderBotMessage(text) { const chatBox = document.getElementById('vChatBox'); let formattedText = escapeHTML(text).replace(/\n/g, '<br>'); chatBox.innerHTML += `<div class="msg bot" style="white-space: pre-wrap; line-height: 1.5;">${formattedText}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
 
-        // =========================================
-        // 11. SECRET ADMIN DASHBOARD LOGIC
-        // =========================================
         let adminClicks = 0;
         let adminTimer = null;
         function triggerAdmin() {
@@ -2504,7 +2317,6 @@
                     const txEncAdmin = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
                     const userEncAdmin = encodeURIComponent(JSON.stringify(resolvedUserObj)).replace(/'/g, "%27");
 
-                    // MAIN ORDERS TAB HTML
                     oHtml += `
                         <tr style="border-bottom: 1px solid #333;">
                             <td style="padding:15px; vertical-align:top;">
@@ -2536,7 +2348,6 @@
                         </tr>
                     `;
 
-                    // LOGISTICS TAB HTML (Only show if not "Pending Verification")
                     if (o.status !== 'Pending Verification') {
                         lHtml += `
                             <tr style="border-bottom: 1px solid #333;">
@@ -2688,8 +2499,8 @@
                             totalAmount: Number(document.getElementById('ae-amt').value), 
                             customerEmail: document.getElementById('ae-email').value,
                             transactionDetails: document.getElementById('ae-tx').value,
-                            trackingNumber: order.trackingNumber, // Preserve existing
-                            courierCompany: order.courierCompany // Preserve existing
+                            trackingNumber: order.trackingNumber, 
+                            courierCompany: order.courierCompany 
                         }) 
                     });
                     closeAdminEditModal(); 
@@ -2723,7 +2534,6 @@
             };
         }
 
-        // 🛡️ NEW: Save Tracking Data from Logistics Tab
         async function saveTracking(orderId) {
             const order = globalOrders.find(o => o.orderId === orderId);
             if(!order) return;
@@ -2760,7 +2570,6 @@
             }
         }
 
-        // 🛡️ NEW: 1-Click WhatsApp Dispatch Notification
         function sendTrackingWhatsApp(orderId) {
             const order = globalOrders.find(o => o.orderId === orderId);
             if(!order) return;
