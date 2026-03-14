@@ -2297,20 +2297,17 @@
                 btn.innerText = "⟳ Sync Data";
             }
         }
-        function populateAdminDashboard() {
+    }function populateAdminDashboard() {
             let totalRev = 0;
-            globalOrders.forEach(o => { if (o.status !== 'Pending Verification') totalRev += o.totalAmount; });
-            document.getElementById('stat-revenue').innerText = '₹' + totalRev.toLocaleString();
-            document.getElementById('stat-orders').innerText = globalOrders.length;
-            document.getElementById('stat-users').innerText = globalUsers.length;
+            let totalGlobalCost = 0;
+            let totalGlobalProfit = 0;
 
             const oBody = document.getElementById('admin-orders-tbody');
             const lBody = document.getElementById('admin-logistics-tbody');
+            const fBody = document.getElementById('admin-finance-tbody');
             const pGrid = document.getElementById('admin-inventory-grid');
             
-            let oHtml = '';
-            let lHtml = '';
-            let pHtml = '';
+            let oHtml = ''; let lHtml = ''; let pHtml = ''; let fHtml = '';
             
             let searchFilter = document.getElementById('order-search') ? document.getElementById('order-search').value.toLowerCase() : '';
             
@@ -2327,13 +2324,12 @@
             if(filteredOrders.length === 0) { 
                 oHtml = '<tr><td colspan="4" style="text-align:center; color:#888;">No orders found.</td></tr>'; 
                 lHtml = '<tr><td colspan="4" style="text-align:center; color:#888;">No orders found.</td></tr>';
+                fHtml = '<tr><td colspan="6" style="text-align:center; color:#888;">No financial records found.</td></tr>';
             } 
             else {
                 filteredOrders.forEach(o => {
-                    let userPhone = ''; 
-                    let userAddress = '<span style="color:#ef4444;">Address Not Provided</span>'; 
+                    let userPhone = ''; let userAddress = '<span style="color:#ef4444;">Address Not Provided</span>'; 
                     let linkedUser = globalUsers.find(u => u.email === o.customerEmail); 
-                    
                     let resolvedUserObj = { name: 'Guest User', email: o.customerEmail, phone: '', address: '' };
 
                     if(linkedUser) {
@@ -2349,6 +2345,23 @@
                     const txEncAdmin = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
                     const userEncAdmin = encodeURIComponent(JSON.stringify(resolvedUserObj)).replace(/'/g, "%27");
 
+                    // 💰 FINANCE MATH ENGINE
+                    const rev = o.totalAmount || 0;
+                    const cRaw = o.costRawMaterial || 0;
+                    const cLabel = o.costLabeling || 0;
+                    const cShip = o.costShipping || 0;
+                    const totalCost = cRaw + cLabel + cShip;
+                    const netProfit = rev - totalCost;
+                    const margin = rev > 0 ? ((netProfit / rev) * 100).toFixed(1) : 0;
+                    const perKg = (o.totalWeightKg && o.totalWeightKg > 0) ? (rev / o.totalWeightKg).toFixed(0) : 0;
+
+                    if (o.status !== 'Pending Verification') {
+                        totalRev += rev;
+                        totalGlobalCost += totalCost;
+                        totalGlobalProfit += netProfit;
+                    }
+
+                    // 1. ORDERS TAB
                     oHtml += `
                         <tr style="border-bottom: 1px solid #333;">
                             <td style="padding:15px; vertical-align:top;">
@@ -2358,12 +2371,10 @@
                             </td>
                             <td style="padding:15px; vertical-align:top;">
                                 <div style="color:#fff; font-weight:700;">${escapeHTML(o.customerEmail)}</div>
-                                <div style="color:#aaa; font-size:11px; margin-top:6px; line-height:1.4; max-width:220px; word-wrap: break-word;">
-                                    📍 ${userAddress}
-                                </div>
+                                <div style="color:#aaa; font-size:11px; margin-top:6px; line-height:1.4; max-width:220px; word-wrap: break-word;">📍 ${userAddress}</div>
                                 ${userPhone ? `<a href="https://wa.me/91${userPhone}?text=Hi!%20Update%20regarding%20your%20M-X%20Lumes%20order%20${encodeURIComponent(o.orderId)}:" target="_blank" style="color:var(--whatsapp); text-decoration:none; font-size:11px; display:inline-block; margin-top:6px; border:1px solid var(--whatsapp); padding:3px 6px; border-radius:4px;">WhatsApp</a>` : ''}
                             </td>
-                            <td style="padding:15px; vertical-align:top; font-weight:800; color:var(--success);">₹${(o.totalAmount || 0).toLocaleString()}</td>
+                            <td style="padding:15px; vertical-align:top; font-weight:800; color:var(--success);">₹${rev.toLocaleString()}</td>
                             <td style="padding:15px; vertical-align:top;">
                                 <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px;">
                                     <select onchange="updateOrderStatus('${escapeHTML(o.orderId)}', this.value, this)" style="background:#000; color:${selectColor}; border:1px solid ${selectColor}; padding:6px; border-radius:6px; outline:none; font-size:11px; font-weight:800; cursor:pointer;" data-original="${o.status}">
@@ -2380,12 +2391,13 @@
                         </tr>
                     `;
 
+                    // 2. LOGISTICS TAB
                     if (o.status !== 'Pending Verification') {
                         let safeTrackingLink = "";
                         let awbClean = escapeHTML(o.trackingNumber || '');
                         let cour = escapeHTML(o.courierCompany || '');
                         
-                        if (o.trackingNumber && o.trackingNumber !== "Pending") {
+                        if (awbClean && awbClean !== "Pending") {
                             if (cour === "Delhivery") safeTrackingLink = `https://www.delhivery.com/track/package/${awbClean}`;
                             else if (cour === "DTDC") safeTrackingLink = `https://www.dtdc.in/`;
                             else if (cour === "Trackon") safeTrackingLink = `https://trackon.in/`;
@@ -2402,9 +2414,7 @@
                                 <td style="padding:15px; vertical-align:top;">
                                     <div style="color:#fff; font-weight:700;">${escapeHTML(resolvedUserObj.name)}</div>
                                     <div style="color:#aaa; font-size:11px; margin-top:4px;">${escapeHTML(resolvedUserObj.phone || 'No Phone')}</div>
-                                    <div style="color:#888; font-size:11px; margin-top:6px; line-height:1.4; max-width:250px; word-wrap: break-word;">
-                                        📍 ${userAddress}
-                                    </div>
+                                    <div style="color:#888; font-size:11px; margin-top:6px; line-height:1.4; max-width:250px; word-wrap: break-word;">📍 ${userAddress}</div>
                                 </td>
                                 <td style="padding:15px; vertical-align:top;">
                                     <div style="display:flex; flex-direction:column; gap:8px;">
@@ -2425,60 +2435,105 @@
                                 <td style="padding:15px; vertical-align:top;">
                                     <div style="display:flex; flex-direction:column; gap:8px; width: 120px;">
                                         <button id="btn-save-log-${escapeHTML(o.orderId)}" onclick="saveTracking('${escapeHTML(o.orderId)}')" style="background:var(--accent); color:#fff; padding:8px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer; border:none;">Save</button>
-                                        <button onclick="sendTrackingWhatsApp('${escapeHTML(o.orderId)}')" style="background:var(--whatsapp); color:#000; padding:8px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer; border:none; display:flex; align-items:center; justify-content:center; gap:5px;">
-                                            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg> Notify
-                                        </button>
+                                        <button onclick="sendTrackingWhatsApp('${escapeHTML(o.orderId)}')" style="background:var(--whatsapp); color:#000; padding:8px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer; border:none; display:flex; align-items:center; justify-content:center; gap:5px;">Notify</button>
                                     </div>
                                 </td>
                             </tr>
                         `;
                     }
-                });
-            }
-            oBody.innerHTML = oHtml;
-            lBody.innerHTML = lHtml;
 
-            // RENDER INVENTORY
-            if(globalProducts.length === 0) {
-                pHtml = `<div style="color:#888;">No products found. Add one above.</div>`;
-            } else {
-                globalProducts.forEach(p => {
-                    pHtml += `
-                        <div class="inv-card">
-                            <button onclick="adminDeleteProduct('${p._id}', this)" style="position:absolute; top:10px; right:10px; background:rgba(239,68,68,0.2); color:#ef4444; border:none; padding:5px 10px; border-radius:6px; cursor:pointer;">✕</button>
-                            <img src="${escapeHTML(p.image)}" class="inv-img" onerror="this.src='product-1.webp'">
-                            <h4 style="font-size:16px; margin-bottom:10px;">${escapeHTML(p.name)}</h4>
-                            <button onclick="adminEditProduct('${p._id}')" style="width:100%; padding:10px; background:#fff; color:#000; border-radius:8px; font-weight:800; cursor:pointer; border:none;">✎ Edit Product</button>
-                        </div>
+                    // 3. FINANCE TAB HTML
+                    let profitColor = netProfit >= 0 ? '#10b981' : '#ef4444';
+                    fHtml += `
+                        <tr style="border-bottom: 1px solid #333;">
+                            <td style="padding:15px; vertical-align:middle;">
+                                <div style="font-family:'Space Grotesk', font-weight:800; color:#fff;">${escapeHTML(o.orderId)}</div>
+                                <div style="color:#888; font-size:11px; margin-top:4px;">${o.createdAt ? new Date(o.createdAt).toLocaleDateString() : 'N/A'}</div>
+                            </td>
+                            <td style="padding:15px; vertical-align:middle; color:#fff; font-weight:700; font-size:16px;">₹${rev.toLocaleString()}</td>
+                            <td style="padding:15px; vertical-align:middle; color:#888; font-size:12px; line-height:1.6;">
+                                Raw: ₹${cRaw}<br>Lbl: ₹${cLabel}<br>Ship: ₹${cShip}<br>
+                                <strong style="color:#ccc; display:inline-block; margin-top:4px; padding-top:4px; border-top:1px solid #444;">Total Costs: ₹${totalCost}</strong>
+                            </td>
+                            <td style="padding:15px; vertical-align:middle; color:#ccc;">${o.totalWeightKg || 0} kg</td>
+                            <td style="padding:15px; vertical-align:middle; color:${profitColor}; font-weight:800; font-size:16px;">₹${netProfit.toLocaleString()}</td>
+                            <td style="padding:15px; vertical-align:middle; color:#6366f1; font-weight:700; font-size:14px;">
+                                ${margin}%<br><span style="font-size:11px; color:#888;">(₹${perKg}/kg)</span>
+                            </td>
+                        </tr>
                     `;
                 });
             }
-            pGrid.innerHTML = pHtml;
+            
+            // Render Orders & Logistics
+            if(oBody) oBody.innerHTML = oHtml;
+            if(lBody) lBody.innerHTML = lHtml;
+            if(fBody) fBody.innerHTML = fHtml;
 
-            const uBody = document.getElementById('admin-users-tbody');
-            let uHtml = '';
-            globalUsers.forEach(u => {
-                uHtml += `
-                    <tr style="border-bottom: 1px solid #333;">
-                        <td style="padding:15px; font-weight:800; color:#fff;">${escapeHTML(u.name)}</td>
-                        <td style="padding:15px; color:#aaa;">${escapeHTML(u.email)}</td>
-                        <td style="padding:15px;">
-                            ${u.phone ? escapeHTML(u.phone) : '<span style="color:#555;">No Phone</span>'}
-                            <div style="font-size: 11px; color: #888; margin-top: 5px; max-width: 250px; line-height: 1.4;">
-                                📍 ${u.address ? escapeHTML(u.address) : 'No address provided'}
+            // RENDER INVENTORY
+            if(pGrid) {
+                if(globalProducts.length === 0) {
+                    pHtml = `<div style="color:#888;">No products found. Add one above.</div>`;
+                } else {
+                    globalProducts.forEach(p => {
+                        pHtml += `
+                            <div class="inv-card">
+                                <button onclick="adminDeleteProduct('${p._id}', this)" style="position:absolute; top:10px; right:10px; background:rgba(239,68,68,0.2); color:#ef4444; border:none; padding:5px 10px; border-radius:6px; cursor:pointer;">✕</button>
+                                <img src="${escapeHTML(p.image)}" class="inv-img" onerror="this.src='product-1.webp'">
+                                <h4 style="font-size:16px; margin-bottom:10px; color:#fff;">${escapeHTML(p.name)}</h4>
+                                <button onclick="adminEditProduct('${p._id}')" style="width:100%; padding:10px; background:#fff; color:#000; border-radius:8px; font-weight:800; cursor:pointer; border:none;">✎ Edit Product</button>
                             </div>
-                        </td>
-                        <td style="padding:15px; display:flex; gap:5px;">
-                            <button onclick="adminEditUser('${u._id}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎</button>
-                            <button onclick="adminDeleteUser('${escapeHTML(u.email)}', this)" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕</button>
-                        </td>
-                    </tr>
-                `;
-            });
-            uBody.innerHTML = uHtml;
-        }
+                        `;
+                    });
+                }
+                pGrid.innerHTML = pHtml;
+            }
 
-        function adminSwitchTab(tabId, el) {
+            // STATS UPDATE
+            const statRev = document.getElementById('stat-revenue');
+            if(statRev) statRev.innerText = '₹' + totalRev.toLocaleString();
+            
+            const statOrd = document.getElementById('stat-orders');
+            if(statOrd) statOrd.innerText = globalOrders.length;
+            
+            const statUsers = document.getElementById('stat-users');
+            if(statUsers) statUsers.innerText = globalUsers.length;
+            
+            const statNet = document.getElementById('stat-net-profit');
+            if(statNet) statNet.innerText = '₹' + totalGlobalProfit.toLocaleString();
+            
+            const statCost = document.getElementById('stat-total-costs');
+            if(statCost) statCost.innerText = '₹' + totalGlobalCost.toLocaleString();
+            
+            let avgMargin = totalRev > 0 ? ((totalGlobalProfit / totalRev) * 100).toFixed(1) : 0;
+            const statMargin = document.getElementById('stat-avg-margin');
+            if(statMargin) statMargin.innerText = avgMargin + '%';
+
+            // USERS TAB
+            const uBody = document.getElementById('admin-users-tbody');
+            if (uBody) {
+                let uHtml = '';
+                globalUsers.forEach(u => {
+                    uHtml += `
+                        <tr style="border-bottom: 1px solid #333;">
+                            <td style="padding:15px; font-weight:800; color:#fff;">${escapeHTML(u.name)}</td>
+                            <td style="padding:15px; color:#aaa;">${escapeHTML(u.email)}</td>
+                            <td style="padding:15px;">
+                                ${u.phone ? escapeHTML(u.phone) : '<span style="color:#555;">No Phone</span>'}
+                                <div style="font-size: 11px; color: #888; margin-top: 5px; max-width: 250px; line-height: 1.4;">
+                                    📍 ${u.address ? escapeHTML(u.address) : 'No address provided'}
+                                </div>
+                            </td>
+                            <td style="padding:15px; display:flex; gap:5px;">
+                                <button onclick="adminEditUser('${u._id}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎</button>
+                                <button onclick="adminDeleteUser('${escapeHTML(u.email)}', this)" style="background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ef4444; padding:6px; border-radius:6px; cursor:pointer;">✕</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                uBody.innerHTML = uHtml;
+            }
+        }
             document.querySelectorAll('.admin-nav-item').forEach(t => t.classList.remove('active')); el.classList.add('active');
             document.querySelectorAll('.admin-data-panel').forEach(p => p.style.display = 'none'); document.getElementById('admin-panel-' + tabId).style.display = 'block';
         }
@@ -2838,4 +2893,5 @@
     </script>
 </body>
 </html>
+
 
