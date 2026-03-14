@@ -100,7 +100,7 @@
             user-select: none; 
         }
         
-        /* 🛡️ APPLE SAFARI FIXES */
+        /* 🛡️ APPLE SAFARI FIXES: Input Zoom, Rounded Corners & Yellow Autofill */
         input, select, textarea { 
             font-size: 16px !important; 
             font-family: 'Manrope', sans-serif; 
@@ -540,23 +540,8 @@
         .tech-icon { font-size: 40px; margin-bottom: 20px; }
         .tech-sub { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 15px; font-weight: 800; }
         .tech-list { margin-top: 30px; list-style: none; padding: 0; }
-        
-        .tech-list li { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 15px 0; 
-            border-bottom: 1px solid rgba(255,255,255,0.05); 
-            font-size: 13px; 
-            color: var(--text-dim); 
-        }
-        
-        .tech-list li span { 
-            color: #fff; 
-            font-weight: 800; 
-            font-size: 15px; 
-            font-family: 'Space Grotesk', sans-serif; 
-        }
+        .tech-list li { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; color: var(--text-dim); }
+        .tech-list li span { color: #fff; font-weight: 800; font-size: 15px; font-family: 'Space Grotesk', sans-serif; }
 
         .gallery-masonry { column-count: 3; column-gap: 20px; margin-top: 40px;}
         .g-item { break-inside: avoid; margin-bottom: 20px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); background: #0a0a0a; transition: transform 0.4s, border-color 0.4s; }
@@ -881,7 +866,7 @@
         .v-send:disabled { background: #333; cursor: not-allowed; }
 
         /* =========================================
-           14. FOOTER & SUPREME ADMIN PORTAL
+           14. FOOTER & ADMIN PORTAL
            ========================================= */
         .footer { padding: 120px 20px 60px; background: #ffffff; border-top: 1px solid var(--border-light); }
         .f-top-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; margin-bottom: 100px; max-width: 1200px; margin: 0 auto; }
@@ -899,7 +884,7 @@
         .f-nav-link:hover { color: #000000; }
         .f-copy { font-size: 12px; color: #555555; font-weight: 800; cursor: pointer; user-select: none; }
 
-        /* ADMIN PORTAL STYLES */
+        /* SUPREME ADMIN PORTAL STYLES */
         #supreme-admin-portal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; background: #000; z-index: 100000; display: none; overflow-y: auto; -webkit-overflow-scrolling: touch; font-family: 'Manrope', sans-serif; color: #fff; }
         #supreme-admin-portal .admin-sidebar { width: 280px; background: #0a0a0a; border-right: 1px solid rgba(255,255,255,0.1); padding: 30px 20px; display: flex; flex-direction: column; position: fixed; height: 100vh; height: 100dvh; left: 0; top: 0;}
         #supreme-admin-portal .admin-main { margin-left: 280px; padding: 40px 50px; min-height: 100vh; min-height: 100dvh; }
@@ -980,6 +965,8 @@
         }
     </style>
 </head>
+<body>
+
     <div id="profile-modal-overlay" class="modal-overlay">
         <div class="modal-content" style="max-width: 600px;">
             <button class="m-close" onclick="closeProfileModal()">×</button>
@@ -1444,7 +1431,6 @@
             </div>
         </div>
     </section>
-
     <section id="gallery" class="section reveal">
         <div class="container">
             <h2 style="text-align:center; font-size:36px; margin-bottom:50px;">Gallery</h2>
@@ -2473,8 +2459,7 @@
             btn.onclick = finalizeOrder; 
             btn.style.background = "var(--accent)";
             btn.style.color = "#fff";
-            btn.classList.remove('pulse-btn-accent');
-            btn.classList.remove('pulse-btn-green');
+            btn.classList.remove('pulse-btn-accent', 'pulse-btn-green');
             
             const trustMsg = document.getElementById('trust-msg-block');
             if(trustMsg) trustMsg.remove();
@@ -2826,9 +2811,6 @@
         function renderUserMessage(text) { const chatBox = document.getElementById('vChatBox'); chatBox.innerHTML += `<div class="msg user">${escapeHTML(text)}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
         function renderBotMessage(text) { const chatBox = document.getElementById('vChatBox'); let formattedText = escapeHTML(text).replace(/\n/g, '<br>'); chatBox.innerHTML += `<div class="msg bot" style="white-space: pre-wrap; line-height: 1.5;">${formattedText}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
 
-        // =========================================
-        // 14. SECRET SUPREME ADMIN PORTAL ENGINE
-        // =========================================
         let adminClicks = 0;
         let adminTimer = null;
         function triggerAdmin() {
@@ -2914,7 +2896,7 @@
             }
         }
 
-        // 🖨️ 1-CLICK PDF REPORT GENERATOR ENGINE
+        // 🖨️ ADVANCED PDF GENERATOR ENGINE
         function generateAdminPDF(tabName, targetId) {
             const el = document.getElementById(targetId);
             if(!el) return alert("Nothing to print.");
@@ -2924,11 +2906,11 @@
             if(clone.tagName.toLowerCase() === 'TABLE') {
                 const rows = clone.querySelectorAll('tr');
                 rows.forEach(row => {
-                    // Strip Action Columns to clean up PDF
+                    // Strip Action Columns
                     if(row.lastElementChild && (row.lastElementChild.innerText.match(/Action|Actions/i) || row.lastElementChild.querySelector('button'))) {
                         row.removeChild(row.lastElementChild);
                     }
-                    // Flatten Inputs and Selects into raw text for printing
+                    // Flatten Inputs and Selects
                     row.querySelectorAll('select, input').forEach(inputEl => {
                         let textVal = inputEl.value || '';
                         if(inputEl.tagName.toLowerCase() === 'SELECT' && inputEl.selectedIndex >= 0) {
@@ -2953,7 +2935,7 @@
                     .inv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
                     .inv-card { border: 1px solid #ccc; padding: 15px; border-radius: 8px; text-align: center; page-break-inside: avoid; }
                     .inv-img { width: 100%; height: 120px; object-fit: cover; margin-bottom: 10px; filter: grayscale(100%); }
-                    button, .export-btn { display: none !important; }
+                    button { display: none !important; }
                     @page { size: landscape; margin: 15mm; }
                 </style>
                 </head><body>
@@ -3010,7 +2992,7 @@
                     const txEncAdmin = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
                     const userEncAdmin = encodeURIComponent(JSON.stringify(resolvedUserObj)).replace(/'/g, "%27");
 
-                    // 💰 SUPREME FINANCE MATH ENGINE
+                    // 💰 FINANCE MATH ENGINE
                     const rev = Number(o.totalAmount) || 0;
                     const cRaw = Number(o.costRawMaterial) || 0;
                     const cLabel = Number(o.costLabeling) || 0;
@@ -3061,19 +3043,12 @@
                         let awbClean = escapeHTML(o.trackingNumber || '');
                         let cour = escapeHTML(o.courierCompany || '');
                         
-                        // 2. LOGISTICS TAB
-                    if (o.status !== 'Pending Verification') {
-                        let liveTrackUrl = "";
-                        let awbClean = escapeHTML(o.trackingNumber || '');
-                        let cour = escapeHTML(o.courierCompany || '');
-                        
-                        // 🚀 UNFAILABLE TRACKING LINK GENERATOR
                         if (awbClean && awbClean !== "Pending") {
                             if (cour === "Delhivery") liveTrackUrl = `https://www.delhivery.com/track/package/${awbClean}`;
                             else if (cour === "DTDC") liveTrackUrl = `https://www.dtdc.in/`; 
                             else if (cour === "Trackon") liveTrackUrl = `https://trackon.in/Tracking/Tracking_results?TrackingNumber=${awbClean}`;
                             else if (cour === "India Post") liveTrackUrl = `https://www.indiapost.gov.in/`;
-                            else liveTrackUrl = `https://parcelsapp.com/track/${awbClean}`; // Universal Tracker Fallback
+                            else liveTrackUrl = `https://parcelsapp.com/track/${awbClean}`; 
                         }
 
                         let trackBtnHtml = liveTrackUrl ? `<button onclick="window.open('${liveTrackUrl}', '_blank')" style="background:#10b981; color:#000; padding:8px; border-radius:8px; cursor:pointer; border:none; font-size:12px; font-weight:800;">📍 Track</button>` : '';
@@ -3102,7 +3077,7 @@
                                             <option value="India Post" ${cour === 'India Post' ? 'selected' : ''}>India Post</option>
                                             <option value="Other" ${cour === 'Other' ? 'selected' : ''}>Other</option>
                                         </select>
-                                        <input type="text" id="awb-${escapeHTML(o.orderId)}" value="${awbClean}" placeholder="AWB / Tracking Number" style="background:#000; color:#fff; border:1px solid #555; padding:8px; border-radius:8px; font-size:12px; outline:none; width: 200px;">
+                                        <input type="text" id ="awb-${escapeHTML(o.orderId)}" value="${awbClean}" placeholder="AWB / Tracking Number" style="background:#000; color:#fff; border:1px solid #555; padding:8px; border-radius:8px; font-size:12px; outline:none; width: 200px;">
                                     </div>
                                 </td>
                                 <td style="padding:15px; vertical-align:top;">
@@ -3144,10 +3119,10 @@
             if(lBody) lBody.innerHTML = lHtml;
             if(fBody) fBody.innerHTML = fHtml;
 
-            // 4. RENDER INVENTORY
+            // RENDER INVENTORY
             if(pGrid) {
                 if(globalProducts.length === 0) {
-                    pHtml = `<div style="color:#888; text-align:center; grid-column:1/-1;">No products found. Add one above.</div>`;
+                    pHtml = `<div style="color:#888;">No products found. Add one above.</div>`;
                 } else {
                     globalProducts.forEach(p => {
                         pHtml += `
@@ -3184,7 +3159,7 @@
             const statMargin = document.getElementById('stat-avg-margin');
             if(statMargin) statMargin.innerText = avgMargin + '%';
 
-            // 5. USERS TAB
+            // USERS TAB
             const uBody = document.getElementById('admin-users-tbody');
             if (uBody) {
                 let uHtml = '';
@@ -3321,10 +3296,7 @@
         function adminEditUser(id) {
             const user = globalUsers.find(u => u._id === id); if(!user) return;
             document.getElementById('admin-edit-title').innerText = `Edit User`;
-            document.getElementById('admin-edit-fields').innerHTML = `
-                <label style="font-size:12px; color:#888;">Name</label><input type="text" id="ae-u-name" value="${escapeHTML(user.name)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
-                <label style="font-size:12px; color:#888;">Phone</label><input type="text" id="ae-u-phone" value="${escapeHTML(user.phone)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px;">
-            `;
+            document.getElementById('admin-edit-fields').innerHTML = `<label style="font-size:12px; color:#888;">Name</label><input type="text" id="ae-u-name" value="${escapeHTML(user.name)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"><label style="font-size:12px; color:#888;">Phone</label><input type="text" id="ae-u-phone" value="${escapeHTML(user.phone)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px;">`;
             document.getElementById('admin-edit-modal').style.display = 'flex';
             
             const btn = document.getElementById('admin-edit-save');
@@ -3333,11 +3305,7 @@
                 btn.disabled = true;
                 btn.innerText = 'Saving...';
                 try {
-                    await fetch(`${RENDER_URL}/api/admin/users/${id}`, { 
-                        method: 'PUT', 
-                        headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, 
-                        body: JSON.stringify({ name: document.getElementById('ae-u-name').value, phone: document.getElementById('ae-u-phone').value }) 
-                    });
+                    await fetch(`${RENDER_URL}/api/admin/users/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify({ name: document.getElementById('ae-u-name').value, phone: document.getElementById('ae-u-phone').value }) });
                     closeAdminEditModal(); 
                     fetchAdminData();
                 } finally {
@@ -3426,13 +3394,13 @@
             } else if (courier === "Delhivery") {
                 trackingLink = `https://www.delhivery.com/track/package/${awb}`;
             } else if (courier === "DTDC") {
-                trackingLink = `https://www.dtdc.in/`; 
+                trackingLink = `https://www.dtdc.in/  (Enter AWB: ${awb})`; 
             } else if (courier === "Trackon") {
                 trackingLink = `https://trackon.in/Tracking/Tracking_results?TrackingNumber=${awb}`;
             } else if (courier === "India Post") {
-                trackingLink = `https://www.indiapost.gov.in/`;
+                trackingLink = `https://www.indiapost.gov.in/  (Enter AWB: ${awb})`;
             } else {
-                trackingLink = `https://parcelsapp.com/track/${awb}`; // Universal Link for WhatsApp
+                trackingLink = `Tracking AWB: ${awb} (Please check via courier website)`;
             }
 
             let firstName = user.name.split(' ')[0] || "Artist";
