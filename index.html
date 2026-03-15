@@ -2911,7 +2911,7 @@ id="admin-panel-finance" style="display:none;">
         function triggerAdmin() {
             adminClicks++;
             clearTimeout(adminTimer);
-            adminTimer = setTimeout(() => { adminClicks = 0; }, 2000);
+            adminTimer = setTimeout(() => { adminClicks = 0; }, 800);
             if(adminClicks >= 3) {
                 document.getElementById('supreme-admin-portal').style.display = 'block';
                 adminClicks = 0;
@@ -2963,7 +2963,7 @@ id="admin-panel-finance" style="display:none;">
         }
 
        // ====== FOUNDERS LEDGER ======
-let founderTxList = JSON.parse(localStorage.getItem('mxlumes_founder_tx') || '[]');
+let founderTxList = [];  async function fetchFounderLedger() {     const key = sessionStorage.getItem('mxlumes_admin_key');     try {         const res = await fetch(`${RENDER_URL}/api/admin/founders-ledger`, { headers: { 'admin-secret-key': key } });         if(res.ok) {             founderTxList = await res.json();             renderFounderLedger();         }     } catch(e) {         showToast("Failed to sync ledger from server", true);     } }
 
 function openFounderTxModal(editId = null) {
     document.getElementById('ftm-edit-id').value = editId || '';
