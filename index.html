@@ -2994,35 +2994,59 @@ function closeFounderTxModal() {
     document.getElementById('founder-tx-modal').style.display = 'none';
 }
 
-function saveFounderTx() {
+async function saveFounderTx() {
+    const btn = document.querySelector('#founder-tx-modal button:last-child');
+    const originalText = btn.innerText;
+    btn.innerText = "Saving...";
+    btn.disabled = true;
+
     const editId = document.getElementById('ftm-edit-id').value;
-    const amount = parseFloat(document.getElementById('ftm-amount').value);
+    const amount = Number(document.getElementById('ftm-amount').value) || 0;
     const note = document.getElementById('ftm-note').value.trim();
-    if (!amount || amount <= 0) { alert('Enter a valid amount.'); return; }
-    if (!note) { alert('Enter a purpose/note.'); return; }
-    const tx = {
-        id: editId || 'FTX-' + Date.now(),
+    const key = sessionStorage.getItem('mxlumes_admin_key');
+
+    if (amount <= 0) { alert('Enter a valid amount.'); btn.disabled = false; btn.innerText = originalText; return; }
+    if (!note) { alert('Enter a purpose/note.'); btn.disabled = false; btn.innerText = originalText; return; }
+
+    const txPayload = {
         date: document.getElementById('ftm-date').value,
         from: document.getElementById('ftm-from').value,
         to: document.getElementById('ftm-to').value,
         type: document.getElementById('ftm-type').value,
         amount: amount,
         note: note,
-        status: document.getElementById('ftm-status').value,
-        createdAt: editId ? (founderTxList.find(t => t.id === editId)?.createdAt || new Date().toISOString()) : new Date().toISOString()
+        status: document.getElementById('ftm-status').value
     };
-    if (editId) { const i = founderTxList.findIndex(t => t.id === editId); if (i > -1) founderTxList[i] = tx; }
-    else { founderTxList.unshift(tx); }
-    localStorage.setItem('mxlumes_founder_tx', JSON.stringify(founderTxList));
-    closeFounderTxModal();
-    renderFounderLedger();
+
+    try {
+        const url = editId ? `${RENDER_URL}/api/admin/founders-ledger/${editId}` : `${RENDER_URL}/api/admin/founders-ledger`;
+        const method = editId ? 'PUT' : 'POST';
+        
+        await fetch(url, { 
+            method, 
+            headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, 
+            body: JSON.stringify(txPayload) 
+        });
+        
+        closeFounderTxModal();
+        await fetchFounderLedger(); 
+    } catch (e) {
+        alert("Failed to save transaction to cloud.");
+    } finally {
+        btn.disabled = false;
+        btn.innerText = originalText;
+    }
 }
 
-function deleteFounderTx(id) {
+async function deleteFounderTx(id) {
     if (!confirm('Delete this transaction?')) return;
-    founderTxList = founderTxList.filter(t => t.id !== id);
-    localStorage.setItem('mxlumes_founder_tx', JSON.stringify(founderTxList));
-    renderFounderLedger();
+    const key = sessionStorage.getItem('mxlumes_admin_key');
+    try {
+        await fetch(`${RENDER_URL}/api/admin/founders-ledger/${id}`, { method: 'DELETE', headers: { 'admin-secret-key': key } });
+        await fetchFounderLedger();
+    } catch(e) {
+        alert("Failed to delete.");
+    }
 }
 
 function renderFounderLedger() {
@@ -3076,27 +3100,33 @@ function exportFounderCSV() {
         }
 
         async function fetchAdminData() {
-            const key = sessionStorage.getItem('mxlumes_admin_key'); if(!key) return;
-            const btn = document.getElementById('admin-sync-btn');
-            btn.disabled = true;
-            btn.innerText = "Syncing...";
-            try {
-                const [orderRes, userRes, prodRes] = await Promise.all([
-                    fetch(`${RENDER_URL}/api/admin/orders`, { headers: { 'admin-secret-key': key } }),
-                    fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': key } }),
-                    fetch(`${RENDER_URL}/api/admin/products`, { headers: { 'admin-secret-key': key } })
-                ]);
-                globalOrders = await orderRes.json();
-                globalUsers = await userRes.json();
-                globalProducts = await prodRes.json();
-                populateAdminDashboard();
-            } catch(e) {
-                console.error("Sync failed");
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "⟳ Sync Data";
-            }
-        }
+    const key = sessionStorage.getItem('mxlumes_admin_key'); if(!key) return;
+    const btn = document.getElementById('admin-sync-btn');
+    btn.disabled = true;
+    btn.innerText = "Syncing...";
+    try {
+        const [orderRes, userRes, prodRes, ledgerRes] = await Promise.all([
+            fetch(`${RENDER_URL}/api/admin/orders`, { headers: { 'admin-secret-key': key } }),
+            fetch(`${RENDER_URL}/api/admin/users`, { headers: { 'admin-secret-key': key } }),
+            fetch(`${RENDER_URL}/api/admin/products`, { headers: { 'admin-secret-key': key } }),
+            fetch(`${RENDER_URL}/api/admin/founders-ledger`, { headers: { 'admin-secret-key': key } }).catch(() => ({ok: false})) 
+        ]);
+        
+        globalOrders = await orderRes.json();
+        globalUsers = await userRes.json();
+        globalProducts = await prodRes.json();
+        if(ledgerRes.ok) founderTxList = await ledgerRes.json();
+        
+        populateAdminDashboard();
+        renderFounderLedger();
+    } catch(e) {
+        console.error("Sync failed");
+        showToast("API sync failed. Retrying...", true);
+    } finally {
+        btn.disabled = false;
+        btn.innerText = "⟳ Sync Data";
+    }
+}
 
         // 🖨️ ADVANCED PDF GENERATOR ENGINE
         function generateAdminPDF(tabName, targetId) {
