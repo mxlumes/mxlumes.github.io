@@ -638,7 +638,8 @@
             border-bottom: 1px solid rgba(255,255,255,0.1); 
         }
 
-        .comp-table th.col-mx, .comp-table td.col-mx { 
+        .comp-table th.col-mx, 
+        .comp-table td.col-mx { 
             width: 40%; 
             background: rgba(99,102,241,0.03); 
             border-right: 1px solid rgba(99,102,241,0.1); 
@@ -1177,7 +1178,7 @@
 
         .refine-panel { 
             display: none; 
-            padding: 20px 0; 
+            padding-top: 20px; 
         }
 
         .refine-panel.show { 
@@ -2742,16 +2743,32 @@
     </div>
 
     <div id="vip-order-modal" class="modal-overlay" style="z-index: 200000;">
-        <div class="modal-content" style="max-width: 500px;">
+        <div class="modal-content" style="max-width: 600px;">
             <button class="m-close" onclick="closeVIPOrderModal()">×</button>
             <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;">Generate VIP Order</h3>
-            <p style="color: var(--text-dim); font-size: 13px; margin-bottom: 20px;">This will deduct stock and appear in the customer's portal instantly.</p>
+            <p style="color: var(--text-dim); font-size: 13px; margin-bottom: 20px;">Link to an existing customer via phone, or fill all details to create a new account automatically.</p>
             
-            <label style="font-size:11px; color:#888; text-transform:uppercase;">Customer Email</label>
-            <input type="email" id="vip-email" class="m-input" placeholder="artist@email.com" required>
-            
-            <div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border);">
-                <label style="font-size:11px; color:#888; text-transform:uppercase;">Add Product</label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <div>
+                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Phone Number (10 Digits)</label>
+                    <input type="tel" id="vip-phone" class="m-input" placeholder="e.g. 9876543210" required>
+                </div>
+                <div>
+                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Full Name</label>
+                    <input type="text" id="vip-name" class="m-input" placeholder="Artist Name">
+                </div>
+                <div>
+                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Email Address</label>
+                    <input type="email" id="vip-email" class="m-input" placeholder="artist@email.com">
+                </div>
+                <div>
+                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Shipping Address</label>
+                    <input type="text" id="vip-address" class="m-input" placeholder="Complete Address with Pincode">
+                </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border); margin-top: 10px;">
+                <label style="font-size:11px; color:#888; text-transform:uppercase;">Add Product to Order</label>
                 <select id="vip-product-select" class="m-input" style="margin-bottom: 10px;">
                     <option value="">Select a Product...</option>
                 </select>
@@ -3265,7 +3282,6 @@
                 <div class="admin-nav-item" onclick="adminSwitchTab('inventory', this)">Inventory</div>
                 <div class="admin-nav-item" onclick="adminSwitchTab('finance', this)">Finance</div>
                 <div class="admin-nav-item" onclick="adminSwitchTab('founders', this)">💰 Founders Ledger</div>
-
                 <div class="admin-nav-item" onclick="adminSwitchTab('users', this)">Customers</div>
                 <div style="flex:1;"></div>
                 <div class="admin-nav-item" onclick="lockVault()" style="color:#ef4444;">Lock Vault</div>
@@ -3288,8 +3304,8 @@
                         <input type="text" id="order-search" placeholder="Search orders or transactions..." onkeyup="populateAdminDashboard()" style="padding: 10px; border-radius: 8px; background: #000; border: 1px solid #333; color: #fff; outline: none;">
                         <div>
                             <button class="export-btn" onclick="exportOrdersCSV()" style="margin-right:10px;">Download CSV</button>
-                            <button class="export-btn" onclick="generateAdminPDF('Orders', 'table-orders')" style="border-color:#6366f1; color:#6366f1;">🖨️ PDF Report</button>
-                            <button class="export-btn" onclick="openVIPOrderModal()" style="background:var(--accent); color:#fff; border:none; margin-left:10px;">+ Create VIP Order</button>
+                            <button class="export-btn" onclick="generateAdminPDF('Orders', 'table-orders')" style="border-color:#6366f1; color:#6366f1; margin-right:10px;">🖨️ PDF Report</button>
+                            <button class="export-btn" onclick="openVIPOrderModal()" style="background:var(--accent); color:#fff; border:none;">+ Create VIP Order</button>
                         </div>
                     </div>
                     <div style="background:#0a0a0a; border:1px solid #333; border-radius:16px; overflow-x:auto; -webkit-overflow-scrolling: touch;">
@@ -3464,17 +3480,33 @@
         </div>
     </div>
 
-    <div id="vip-order-modal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 500px;">
+    <div id="vip-order-modal" class="modal-overlay" style="z-index: 200000;">
+        <div class="modal-content" style="max-width: 600px;">
             <button class="m-close" onclick="closeVIPOrderModal()">×</button>
             <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;">Generate VIP Order</h3>
-            <p style="color: var(--text-dim); font-size: 13px; margin-bottom: 20px;">This will deduct stock and appear in the customer's portal instantly.</p>
+            <p style="color: var(--text-dim); font-size: 13px; margin-bottom: 20px;">Link to an existing customer via phone, or fill all details to create a new account automatically.</p>
             
-            <label style="font-size:11px; color:#888; text-transform:uppercase;">Customer Email</label>
-            <input type="email" id="vip-email" class="m-input" placeholder="artist@email.com" required>
-            
-            <div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border);">
-                <label style="font-size:11px; color:#888; text-transform:uppercase;">Add Product</label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <div>
+                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Phone Number (10 Digits)</label>
+                    <input type="tel" id="vip-phone" class="m-input" placeholder="e.g. 9876543210" required>
+                </div>
+                <div>
+                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Full Name</label>
+                    <input type="text" id="vip-name" class="m-input" placeholder="Artist Name">
+                </div>
+                <div>
+                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Email Address</label>
+                    <input type="email" id="vip-email" class="m-input" placeholder="artist@email.com">
+                </div>
+                <div>
+                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Shipping Address</label>
+                    <input type="text" id="vip-address" class="m-input" placeholder="Complete Address with Pincode">
+                </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border); margin-top: 10px;">
+                <label style="font-size:11px; color:#888; text-transform:uppercase;">Add Product to Order</label>
                 <select id="vip-product-select" class="m-input" style="margin-bottom: 10px;">
                     <option value="">Select a Product...</option>
                 </select>
@@ -3821,7 +3853,6 @@
                         .qr-box span { display: block; font-size: 8px; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); margin-top: 5px; }
                         .btn-print { background: var(--black); color: #fff; padding: 12px 25px; text-align: center; border-radius: 30px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-size: 11px; margin-bottom: 20px; display: inline-block; }
                         
-                        /* A4 Print Layout Fixes */
                         @media print {
                             @page { size: A4; margin: 10mm; }
                             body { background: #fff; }
@@ -5493,7 +5524,10 @@
             document.getElementById('vip-order-modal').classList.add('active');
             lockScroll();
             vipCart = [];
+            document.getElementById('vip-phone').value = '';
+            document.getElementById('vip-name').value = '';
             document.getElementById('vip-email').value = '';
+            document.getElementById('vip-address').value = '';
             document.getElementById('vip-discount-name').value = 'One-Time VIP Referral Discount';
             document.getElementById('vip-discount-amt').value = '0';
             
@@ -5552,23 +5586,27 @@
         }
 
         async function submitVIPOrder() {
+            const phone = document.getElementById('vip-phone').value.trim();
+            const name = document.getElementById('vip-name').value.trim();
             const email = document.getElementById('vip-email').value.trim();
+            const address = document.getElementById('vip-address').value.trim();
+            
             const discountName = document.getElementById('vip-discount-name').value.trim();
             const discountAmount = Number(document.getElementById('vip-discount-amt').value) || 0;
             const btn = document.getElementById('btn-submit-vip');
 
-            if(!email) return alert("Customer Email is required. This links the order to their account.");
+            if(!phone || phone.length < 10) return alert("A valid 10-digit Phone Number is required to identify the customer.");
             if(vipCart.length === 0) return alert("Please add at least one product.");
 
             btn.disabled = true;
-            btn.innerText = "Generating...";
+            btn.innerText = "Generating & Syncing...";
             const key = sessionStorage.getItem('mxlumes_admin_key');
 
             try {
                 const response = await fetch(`${RENDER_URL}/api/admin/orders/manual`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'admin-secret-key': key },
-                    body: JSON.stringify({ email, items: vipCart, discountName, discountAmount })
+                    body: JSON.stringify({ phone, name, email, address, items: vipCart, discountName, discountAmount })
                 });
 
                 if(!response.ok) {
@@ -5576,7 +5614,7 @@
                     throw new Error(errData.message || "Failed to create VIP order");
                 }
 
-                showToast("VIP Order Generated Successfully!");
+                showToast("VIP Order Generated & Linked to User!");
                 closeVIPOrderModal();
                 fetchAdminData(); 
             } catch(e) {
