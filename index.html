@@ -5625,5 +5625,155 @@
             }
         }
     </script>
+    <!-- your existing last script/code above -->
+
+<style id="mx-smoothness-patch">
+  .perf-gpu,
+  .product-card,
+  .support-card,
+  .tech-card,
+  .g-item,
+  .r-card,
+  .dd-box,
+  .cart-inner,
+  .modal-content,
+  .payment-modal,
+  .scanner-ui,
+  .vijeta-panel,
+  .admin-stat-card,
+  .nav-stamp,
+  .marquee-content {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  html.__scrolling .nav-stamp,
+  html.__scrolling .marquee-content,
+  html.__scrolling .icon-temp,
+  html.__scrolling .icon-drop,
+  html.__scrolling .pulse-btn-green,
+  html.__scrolling .pulse-btn-accent,
+  html.__scrolling .cart-reminder {
+    animation-play-state: paused !important;
+  }
+
+  .perf-cv {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 900px;
+  }
+
+  .perf-contain {
+    contain: layout paint style;
+  }
+</style>
+
+<script>
+(() => {
+  if (window.__MX_SMOOTH_PATCH__) return;
+  window.__MX_SMOOTH_PATCH__ = true;
+
+  const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+
+  const criticalImage = (img) =>
+    img.closest('.hero, .navbar, .scanner-view, .cart-fab, .vijeta-fab, .logo-wrapper, .nav-stamp');
+
+  const interactionTargets = [
+    '.product-card',
+    '.support-card',
+    '.tech-card',
+    '.g-item',
+    '.r-card',
+    '.dd-box',
+    '.btn',
+    '.qty-btn',
+    '.checkout-btn',
+    '.ratio-btn',
+    '.shape-btn',
+    '.preset-btn',
+    '.mode-opt',
+    '.unit-btn',
+    '.auto-btn',
+    '.cart-fab',
+    '.vijeta-fab',
+    '.nav-auth-btn'
+  ].join(',');
+
+  const pulsePromote = (el) => {
+    if (!el) return;
+    el.style.willChange = 'transform, opacity';
+    clearTimeout(el.__mxPerfTimer);
+    el.__mxPerfTimer = setTimeout(() => {
+      el.style.willChange = 'auto';
+    }, 280);
+  };
+
+  $$('.section, .reviews-section, .footer, .gallery-masonry, .comp-container').forEach(el => {
+    if (!el.closest('.modal-overlay, .scanner-overlay, .cart-sidebar, #supreme-admin-portal')) {
+      el.classList.add('perf-cv');
+    }
+  });
+
+  $$('.grid-3, .gallery-masonry, .reviews-container, .dos-donts, .comp-wrapper, .cart-items-container, .v-chat').forEach(el => {
+    el.classList.add('perf-contain');
+  });
+
+  $$('.reveal, ' + interactionTargets).forEach(el => {
+    el.style.willChange = 'auto';
+  });
+
+  $$(interactionTargets).forEach(el => {
+    ['pointerenter', 'pointerdown', 'focus'].forEach(evt => {
+      el.addEventListener(evt, () => pulsePromote(el), { passive: true });
+    });
+  });
+
+  $$('img').forEach(img => {
+    if (!criticalImage(img)) {
+      if (!img.hasAttribute('loading')) img.loading = 'lazy';
+      if (!img.hasAttribute('decoding')) img.decoding = 'async';
+      try { img.fetchPriority = 'low'; } catch (e) {}
+    } else {
+      try { img.fetchPriority = 'high'; } catch (e) {}
+    }
+  });
+
+  let scrollStopTimer = 0;
+  const onScrollState = () => {
+    document.documentElement.classList.add('__scrolling');
+    clearTimeout(scrollStopTimer);
+    scrollStopTimer = setTimeout(() => {
+      document.documentElement.classList.remove('__scrolling');
+    }, 120);
+  };
+  window.addEventListener('scroll', onScrollState, { passive: true });
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('active', 'perf-gpu');
+        pulsePromote(entry.target);
+        io.unobserve(entry.target);
+      });
+    }, {
+      rootMargin: '180px 0px',
+      threshold: 0.01
+    });
+
+    $$('.reveal').forEach(el => io.observe(el));
+  }
+
+  const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
+  idle(() => {
+    $$('img').forEach(img => {
+      if (img.decode) img.decode().catch(() => {});
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
 </body>
 </html>
