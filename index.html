@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -906,7 +906,7 @@
         </div>
     </div>
 
-    <div id="vip-order-modal" class="modal-overlay" style="z-index: 200000;">
+    <div id="vip-order-modal-2" class="modal-overlay" style="z-index: 200000;">
         <div class="modal-content" style="max-width: 600px;">
             <button class="m-close" onclick="closeVIPOrderModal()">×</button>
             <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;">Generate VIP Order</h3>
@@ -915,52 +915,52 @@
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                 <div>
                     <label style="font-size:11px; color:#888; text-transform:uppercase;">Phone Number (10 Digits)</label>
-                    <input type="tel" id="vip-phone" class="m-input" placeholder="e.g. 9876543210" required>
+                    <input type="tel" id="vip-phone-2" class="m-input" placeholder="e.g. 9876543210" required>
                 </div>
                 <div>
                     <label style="font-size:11px; color:#888; text-transform:uppercase;">Full Name</label>
-                    <input type="text" id="vip-name" class="m-input" placeholder="Artist Name">
+                    <input type="text" id="vip-name-2" class="m-input" placeholder="Artist Name">
                 </div>
                 <div>
                     <label style="font-size:11px; color:#888; text-transform:uppercase;">Email Address</label>
-                    <input type="email" id="vip-email" class="m-input" placeholder="artist@email.com">
+                    <input type="email" id="vip-email-2" class="m-input" placeholder="artist@email.com">
                 </div>
                 <div>
                     <label style="font-size:11px; color:#888; text-transform:uppercase;">Shipping Address</label>
-                    <input type="text" id="vip-address" class="m-input" placeholder="Complete Address with Pincode">
+                    <input type="text" id="vip-address-2" class="m-input" placeholder="Complete Address with Pincode">
                 </div>
             </div>
 
             <div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border); margin-top: 10px;">
                 <label style="font-size:11px; color:#888; text-transform:uppercase;">Add Product to Order</label>
-                <select id="vip-product-select" class="m-input" style="margin-bottom: 10px;">
+                <select id="vip-product-select-2" class="m-input" style="margin-bottom: 10px;">
                     <option value="">Select a Product...</option>
                 </select>
                 <div style="display:flex; gap:10px;">
-                    <input type="number" id="vip-qty" class="m-input" placeholder="Qty" value="1" min="1" style="width: 80px; margin-bottom:0;">
+                    <input type="number" id="vip-qty-2" class="m-input" placeholder="Qty" value="1" min="1" style="width: 80px; margin-bottom:0;">
                     <button class="btn btn-outline" style="flex:1; margin-bottom:0; padding: 10px;" onclick="addVIPItem()">+ Add to VIP Cart</button>
                 </div>
             </div>
 
-            <div id="vip-cart-display" style="margin-bottom: 15px;"></div>
+            <div id="vip-cart-display-2" style="margin-bottom: 15px;"></div>
 
             <div style="display:grid; grid-template-columns:2fr 1fr; gap:10px; margin-bottom:15px;">
                 <div>
                     <label style="font-size:11px; color:#888; text-transform:uppercase;">Discount Name (Prints on Invoice)</label>
-                    <input type="text" id="vip-discount-name" class="m-input" value="One-Time VIP Referral Discount">
+                    <input type="text" id="vip-discount-name-2" class="m-input" value="One-Time VIP Referral Discount">
                 </div>
                 <div>
                     <label style="font-size:11px; color:var(--success); text-transform:uppercase; font-weight:800;">Discount (₹)</label>
-                    <input type="number" id="vip-discount-amt" class="m-input" placeholder="0" value="0" style="border-color:var(--success);">
+                    <input type="number" id="vip-discount-amt-2" class="m-input" placeholder="0" value="0" style="border-color:var(--success);">
                 </div>
             </div>
 
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 1px solid #333; padding-top: 15px;">
                 <span style="color:#888; font-size:12px; text-transform:uppercase;">Final Total</span>
-                <span id="vip-final-total" style="font-size:24px; font-weight:800; color:#fff;">₹0</span>
+                <span id="vip-final-total-2" style="font-size:24px; font-weight:800; color:#fff;">₹0</span>
             </div>
             
-            <button class="btn btn-primary" id="btn-submit-vip" style="width:100%; margin-top:15px;" onclick="submitVIPOrder()">Confirm & Generate Order</button>
+            <button class="btn btn-primary" id="btn-submit-vip-2" style="width:100%; margin-top:15px;" onclick="submitVIPOrder()">Confirm & Generate Order</button>
         </div>
     </div>
     
