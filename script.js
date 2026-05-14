@@ -43,7 +43,6 @@ window.onload = () => {
         }
     }, 2000);
 
-    // Listener for VIP Discount input to auto-calculate the total
     const vipDiscountInput = document.getElementById('vip-discount-amt');
     if (vipDiscountInput) {
         vipDiscountInput.addEventListener('input', renderVIPCart);
@@ -137,9 +136,7 @@ function renderStorefront() {
     grid.innerHTML = html;
 }
 
-function blurInputs() { 
-    document.activeElement?.blur(); 
-}
+function blurInputs() { document.activeElement?.blur(); }
 
 function lockScroll() {
     document.body.style.overflow = 'hidden';
@@ -194,10 +191,7 @@ async function openProfileModal() {
     try {
         const res = await fetch(`${RENDER_URL}/api/user/orders`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}`
-            },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}` },
             body: JSON.stringify({ email: user.email })
         });
         
@@ -215,7 +209,6 @@ async function openProfileModal() {
             orders.forEach(o => {
                 const safeItems = o.items.map(i => ({ name: escapeHTML(i.name), qty: i.qty, price: i.price }));
                 const itemsJson = JSON.stringify(safeItems).replace(/"/g, '&quot;');
-                
                 const txEnc = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
                 
                 let actionBtn = '';
