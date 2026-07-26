@@ -9,12 +9,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>M-X Lumes | The Professional Standard</title>
     
-    <!-- ULTRA-FAST SPEED UPGRADES: DNS Prefetch & Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://mxlumes-api.onrender.com">
-    <link rel="dns-prefetch" href="https://mxlumes-api.onrender.com">
-    
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
@@ -149,8 +145,6 @@
             background-repeat: no-repeat; 
             background-size: 65%; 
             opacity: 0.5; 
-            transform: translateZ(0); /* GPU Acceleration */
-            will-change: transform;
         }
 
         .bg-gradient { 
@@ -206,8 +200,6 @@
             justify-content: center; 
             min-height: 48px; 
             transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s, opacity 0.2s; 
-            transform: translateZ(0); /* GPU Acceleration */
-            will-change: transform;
         }
 
         @media (hover: hover) { 
@@ -259,7 +251,6 @@
             width: 90%; 
             max-width: 350px; 
             justify-content: center; 
-            will-change: transform, opacity;
         }
 
         .toast::before { 
@@ -293,8 +284,6 @@
             background-color: var(--bg-milky); 
             border-bottom: 1px solid var(--border-light); 
             padding-top: var(--safe-top); 
-            transform: translateZ(0); /* GPU Acceleration */
-            will-change: height, box-shadow;
         }
 
         .navbar.scrolled { 
@@ -431,7 +420,6 @@
         .marquee-content { 
             display: inline-block; 
             animation: scroll 40s linear infinite; 
-            will-change: transform;
         }
 
         .marquee-item { 
@@ -516,8 +504,6 @@
             padding: 60px 30px; 
             transition: transform 0.4s, box-shadow 0.4s, border-color 0.4s; 
             border-radius: var(--radius); 
-            transform: translateZ(0);
-            will-change: transform;
         }
 
         @media (hover: hover) { 
@@ -541,8 +527,6 @@
             background: rgba(0,0,0,0.4); 
             backdrop-filter: blur(10px); 
             border-radius: var(--radius); 
-            transform: translateZ(0);
-            will-change: transform;
         }
 
         @media (hover: hover) { 
@@ -604,7 +588,6 @@
             border: 1px solid var(--border); 
             background: #0a0a0a; 
             transition: transform 0.4s, border-color 0.4s; 
-            transform: translateZ(0);
         }
 
         @media (hover: hover) { 
@@ -719,7 +702,6 @@
             transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s; 
             background: rgba(20,20,20,0.8); 
             backdrop-filter: blur(10px); 
-            transform: translateZ(0);
         }
 
         @media (hover: hover) { 
@@ -1028,6 +1010,17 @@
             color: #000; 
         }
 
+        .preset-row { 
+            display: flex; 
+            gap: 10px; 
+            margin-bottom: 30px; 
+            overflow-x: auto; 
+            padding-bottom: 10px; 
+            scrollbar-width: none; 
+            mask-image: linear-gradient(to right, black 90%, transparent 100%); 
+            -webkit-overflow-scrolling: touch; 
+        }
+
         .preset-btn { 
             padding: 12px 24px; 
             border: 2px solid #aaa; 
@@ -1039,17 +1032,6 @@
             white-space: nowrap; 
             transition: all 0.3s; 
             cursor: pointer; 
-        }
-
-        .preset-row { 
-            display: flex; 
-            gap: 10px; 
-            margin-bottom: 30px; 
-            overflow-x: auto; 
-            padding-bottom: 10px; 
-            scrollbar-width: none; 
-            mask-image: linear-gradient(to right, black 90%, transparent 100%); 
-            -webkit-overflow-scrolling: touch; 
         }
 
         @media (hover: hover) { 
@@ -1739,6 +1721,28 @@
             border-radius: 16px; 
             margin: 10px auto 20px; 
             display: inline-block; 
+        }
+        
+        .upi-app-btn { 
+            font-family: 'Space Grotesk', sans-serif; 
+            text-decoration: none; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            color: #fff; 
+            padding: 14px; 
+            border-radius: 12px; 
+            font-weight: 800; 
+            font-size: 14px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            transition: transform 0.2s, box-shadow 0.2s; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            cursor: pointer; 
+        }
+
+        .upi-app-btn:active { 
+            transform: scale(0.95); 
         }
         
         @keyframes pulse-green {
@@ -2525,57 +2529,6 @@
             resize: vertical; 
             min-height: 60px; 
         }
-        
-        /* MULTI-SELECT CHIPS FOR ADMIN */
-        .admin-chips-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-        .admin-chip {
-            background: #000;
-            border: 1px solid #333;
-            color: #888;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .admin-chip.active {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
-        }
-
-        /* NEW CSS FOR SHOP CHIPS */
-        .article-chip {
-            padding: 12px 24px;
-            border: 2px solid #aaa;
-            border-radius: 30px;
-            font-size: 13px;
-            font-weight: 800;
-            color: #333;
-            background: #fff;
-            white-space: nowrap;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        .article-chip.active {
-            color: #fff;
-            background: #000;
-            border-color: #000;
-        }
-
-        /* GREEN CHECKMARKS FOR ACTIVE SHOP FILTERS */
-        .ratio-btn.active::before, 
-        .article-chip.active::before {
-            content: '✓ ';
-            color: #10b981;
-            font-weight: 900;
-            margin-right: 4px;
-        }
 
         /* =========================================
            16. MOBILE OPTIMIZATIONS
@@ -2623,7 +2576,7 @@
             #supreme-admin-portal .admin-main { margin-left:0; padding:15px;}
         }
         
-        /* ULTRA-SMALL IOS (iPhone 12 Mini, SE) OPTIMIZATIONS */
+        /* 🛡️ ULTRA-SMALL IOS (iPhone 12 Mini, SE) OPTIMIZATIONS */
         @media (max-width: 400px) {
             .nav-inner { padding: 0 8px; gap: 4px; }
             .logo { font-size: 12px; letter-spacing: 0; margin-right: auto; }
@@ -2636,7 +2589,8 @@
             .product-card { padding: 20px; }
         }
     </style>
-    <body>
+</head>
+<body>
 
     <div id="profile-modal-overlay" class="modal-overlay">
         <div class="modal-content" style="max-width: 600px;">
@@ -2696,51 +2650,36 @@
     </div>
 
     <div id="payment-modal-overlay" class="modal-overlay">
-        <div class="payment-modal" style="border-top: 4px solid var(--success); padding-top: 30px;">
-            <button class="m-close" onclick="closePaymentModal()" style="position:absolute; top:15px; right:20px; background:none; border:none; color:#888; font-size:32px; cursor:pointer; line-height: 1;">×</button>
+        <div class="payment-modal">
+            <button class="m-close" onclick="closePaymentModal()" style="position:absolute; top:20px; right:25px; background:none; border:none; color:#888; font-size:28px; cursor:pointer;">×</button>
+            <div style="margin-bottom: 20px;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" style="margin-bottom:10px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 5px;">M-X SecurePay</h3>
+                <p style="color: var(--text-dim); font-size: 13px;">100% Secure Encrypted Checkout</p>
+            </div>
             
-            <div style="margin-bottom: 25px; display: flex; align-items: center; justify-content: center; gap: 12px;">
-                <div style="background: rgba(16, 185, 129, 0.1); padding: 8px; border-radius: 50%;">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                </div>
-                <div style="text-align: left;">
-                    <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin: 0; line-height: 1;">M-X SecurePay</h3>
-                    <span style="font-size: 10px; color: var(--success); font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">256-Bit SSL Encrypted</span>
+            <div style="font-size: 36px; font-weight: 800; color: #fff; font-family:'Space Grotesk', sans-serif; margin-bottom: 20px;" id="payment-total">₹0</div>
+            
+            <div class="qr-box-container" style="display: block;">
+                <p style="color: var(--text-dim); font-size: 13px; line-height: 1.5; margin-bottom: 10px;">Scan QR or screenshot to pay with any UPI App:</p>
+                <div class="qr-box">
+                    <img id="upi-qr" src="" alt="UPI QR Code">
                 </div>
             </div>
             
-            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 25px 20px; margin-bottom: 20px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);">
-                <p style="color: var(--text-dim); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; font-weight: 800;">Total Amount Due</p>
-                <div style="font-size: 46px; font-weight: 800; color: #fff; font-family:'Space Grotesk', sans-serif; line-height: 1;" id="payment-total">₹0</div>
-            </div>
-            
-            <div class="qr-box-container" style="background: #fff; padding: 25px; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-                <p style="color: #000; font-size: 14px; font-weight: 800; margin-bottom: 15px;">Scan QR with any UPI App</p>
-                <div class="qr-box" style="border: none; padding: 0; margin: 0 auto; display: inline-block; border-radius: 12px; overflow: hidden; background: #fff;">
-                    <img id="upi-qr" src="" alt="UPI QR Code" style="display: block; width: 200px; height: 200px;">
-                </div>
-                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" style="height: 18px; filter: grayscale(100%); opacity: 0.6;">
-                </div>
-            </div>
-            
-            <div style="text-align:center; margin-bottom:25px; background: rgba(99, 102, 241, 0.08); border: 1px dashed rgba(99, 102, 241, 0.4); padding: 15px; border-radius: 12px; transition: background 0.3s;" onmousedown="this.style.background='rgba(99, 102, 241, 0.2)'" onmouseup="this.style.background='rgba(99, 102, 241, 0.08)'">
-                <span style="font-size:15px; font-weight: 800; color:#fff; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="copyUPI()">
-                    UPI ID: 7668077298@ybl
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <div style="text-align:center; margin-bottom:20px;">
+                <span style="font-size:13px; font-weight: 800; color:var(--accent); cursor:pointer; text-decoration:underline; display: inline-flex; align-items: center; gap: 5px;" onclick="copyUPI()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy UPI ID: 7668077298@ybl
                 </span>
-                <div style="font-size: 11px; color: var(--accent); margin-top: 6px; font-weight: 600;">Tap to copy ID manually</div>
             </div>
             
             <div id="payment-error-msg" style="display:none; background: rgba(239,68,68,0.1); border: 1px solid var(--danger); color: var(--danger); padding: 12px; border-radius: 12px; font-size: 12px; font-weight: 700; margin-bottom: 15px; text-align: left; line-height: 1.4;"></div>
 
-            <button id="pay-confirm-btn" class="btn btn-primary" style="width:100%; background:var(--success); color:#fff; border:none; margin-bottom: 15px; padding:22px; font-size:15px; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);" onclick="finalizeOrder()">
-                ✓ I Have Paid (Confirm Order)
+            <button id="pay-confirm-btn" class="btn btn-primary" style="width:100%; background:var(--accent); color:#fff; border:none; margin-bottom: 10px; padding:20px; font-size:14px; transition: 0.3s;" onclick="finalizeOrder()">
+                ✓ I Have Completed The Payment
             </button>
-            <div style="display: flex; align-items: center; justify-content: center; gap: 6px;">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                <span style="font-size: 11px; color: var(--text-dim); line-height: 1; font-weight: 500;">Connection securely monitored.</span>
-            </div>
+            <p style="font-size: 10px; color: var(--text-dim); line-height: 1.4;">By confirming, you agree that you have transferred the exact amount shown above. Our team will verify and approve your order shortly.</p>
         </div>
     </div>
 
@@ -2915,37 +2854,10 @@
             </div>
         </div>
     </header>
+
     <section id="shop" class="section" style="padding-top: 40px;">
         <div class="container">
-            <h2 style="text-align:center; font-size:42px; margin-bottom:40px;">Studio Lineup</h2>
-            
-            <!-- NEW GUIDED SHOP UI -->
-            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 24px; padding: 30px; margin-bottom: 50px;">
-                <h3 style="text-align:center; font-size:18px; margin-bottom:20px;">How would you like to shop?</h3>
-                <div class="mode-toggle" style="max-width: 400px; margin: 0 auto 30px;">
-                    <div class="mode-opt active" id="sm-ratio" onclick="setShopMode('ratio'); vibrate(30);">By Ratio</div>
-                    <div class="mode-opt" id="sm-article" onclick="setShopMode('article'); vibrate(30);">By Article</div>
-                </div>
-
-                <!-- Ratio Selection UI -->
-                <div id="shop-ratio-ui" style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
-                    <p style="color:var(--text-dim); font-size:13px; text-transform:uppercase; font-weight:800; letter-spacing:1px; text-align:center;">Select Mixing Ratio</p>
-                    <div class="ratio-grid" style="justify-content: center; width: 100%; max-width: 400px; margin-bottom: 0;">
-                        <button class="ratio-btn active" id="btn-ratio-3-1" onclick="setShopRatio('3:1'); vibrate(30);">3:1</button>
-                        <button class="ratio-btn" id="btn-ratio-2-1" onclick="setShopRatio('2:1'); vibrate(30);">2:1</button>
-                        <button class="ratio-btn" id="btn-ratio-100-30" onclick="setShopRatio('100:30'); vibrate(30);">100:30</button>
-                    </div>
-                </div>
-
-                <!-- Article Selection UI -->
-                <div id="shop-article-ui" style="display: none; flex-direction: column; align-items: center; gap: 15px;">
-                    <p style="color:var(--text-dim); font-size:13px; text-transform:uppercase; font-weight:800; letter-spacing:1px; text-align:center;">What are you creating? (Select multiple)</p>
-                    <div id="article-chips-container" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
-                        <!-- Populated via JS initShopFlow() -->
-                    </div>
-                </div>
-            </div>
-
+            <h2 style="text-align:center; font-size:42px; margin-bottom:80px;">Studio Lineup</h2>
             <div class="grid-3" id="product-grid">
                 <div style="color:var(--text-dim); text-align:center; width:100%; grid-column:1/-1;">Loading Live Inventory...</div>
             </div>
@@ -3348,7 +3260,8 @@
             </div>
         </div>
     </div>
-        <div id="supreme-admin-portal">
+
+    <div id="supreme-admin-portal">
         <div id="admin-auth-gate">
             <div class="admin-auth-box">
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" style="margin-bottom:20px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
@@ -3421,7 +3334,7 @@
                         <button onclick="adminEditProduct('new')" style="background:var(--accent); color:#fff; padding:10px 20px; border-radius:8px; font-weight:800; border:none; cursor:pointer;">+ Add New Product</button>
                     </div>
                     <div class="inv-grid" id="admin-inventory-grid">
-                    </div>
+                        </div>
                 </div>
 
                 <div class="admin-data-panel" id="admin-panel-finance" style="display:none;">
@@ -3566,6 +3479,64 @@
           </div>
         </div>
     </div>
+
+    <div id="vip-order-modal" class="modal-overlay" style="z-index: 200000;">
+        <div class="modal-content" style="max-width: 600px;">
+            <button class="m-close" onclick="closeVIPOrderModal()">×</button>
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;">Generate VIP Order</h3>
+            <p style="color: var(--text-dim); font-size: 13px; margin-bottom: 20px;">Link to an existing customer via phone, or fill all details to create a new account automatically.</p>
+            
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <div>
+                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Phone Number (10 Digits)</label>
+                    <input type="tel" id="vip-phone" class="m-input" placeholder="e.g. 9876543210" required>
+                </div>
+                <div>
+                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Full Name</label>
+                    <input type="text" id="vip-name" class="m-input" placeholder="Artist Name">
+                </div>
+                <div>
+                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Email Address</label>
+                    <input type="email" id="vip-email" class="m-input" placeholder="artist@email.com">
+                </div>
+                <div>
+                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Shipping Address</label>
+                    <input type="text" id="vip-address" class="m-input" placeholder="Complete Address with Pincode">
+                </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border); margin-top: 10px;">
+                <label style="font-size:11px; color:#888; text-transform:uppercase;">Add Product to Order</label>
+                <select id="vip-product-select" class="m-input" style="margin-bottom: 10px;">
+                    <option value="">Select a Product...</option>
+                </select>
+                <div style="display:flex; gap:10px;">
+                    <input type="number" id="vip-qty" class="m-input" placeholder="Qty" value="1" min="1" style="width: 80px; margin-bottom:0;">
+                    <button class="btn btn-outline" style="flex:1; margin-bottom:0; padding: 10px;" onclick="addVIPItem()">+ Add to VIP Cart</button>
+                </div>
+            </div>
+
+            <div id="vip-cart-display" style="margin-bottom: 15px;"></div>
+
+            <div style="display:grid; grid-template-columns:2fr 1fr; gap:10px; margin-bottom:15px;">
+                <div>
+                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Discount Name (Prints on Invoice)</label>
+                    <input type="text" id="vip-discount-name" class="m-input" value="One-Time VIP Referral Discount">
+                </div>
+                <div>
+                    <label style="font-size:11px; color:var(--success); text-transform:uppercase; font-weight:800;">Discount (₹)</label>
+                    <input type="number" id="vip-discount-amt" class="m-input" placeholder="0" value="0" style="border-color:var(--success);">
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 1px solid #333; padding-top: 15px;">
+                <span style="color:#888; font-size:12px; text-transform:uppercase;">Final Total</span>
+                <span id="vip-final-total" style="font-size:24px; font-weight:800; color:#fff;">₹0</span>
+            </div>
+            
+            <button class="btn btn-primary" id="btn-submit-vip" style="width:100%; margin-top:15px;" onclick="submitVIPOrder()">Confirm & Generate Order</button>
+        </div>
+    </div>
     <script>
         const RENDER_URL = 'https://mxlumes-api.onrender.com';
         const MERCHANT_UPI_ID = "7668077298@ybl"; 
@@ -3581,12 +3552,6 @@
 
         // INVENTORY DATA
         let liveProducts = [];
-
-        // NEW GUIDED SHOP FLOW CONSTANTS (DYNAMIC)
-        let ARTICLE_TYPES = [];
-        let currentShopMode = 'ratio'; // 'ratio' or 'article'
-        let activeShopRatio = '3:1';
-        let activeShopArticles = [];
 
         const escapeHTML = (str) => {
             if (str == null) return '';
@@ -3618,6 +3583,7 @@
                 }
             }, 2000);
 
+            // Listener for VIP Discount input to auto-calculate the total
             const vipDiscountInput = document.getElementById('vip-discount-amt');
             if (vipDiscountInput) {
                 vipDiscountInput.addEventListener('input', renderVIPCart);
@@ -3630,9 +3596,9 @@
                 const btn = document.getElementById('pay-confirm-btn');
                 if(btn) {
                     btn.disabled = false;
-                    btn.innerText = "✓ I Have Paid (Confirm Order)";
+                    btn.innerText = "✓ I Have Completed The Payment";
                     btn.classList.remove('pulse-btn-accent', 'pulse-btn-green');
-                    btn.style.background = "var(--success)";
+                    btn.style.background = "var(--accent)";
                     btn.style.color = "#fff";
                 }
             }
@@ -3660,70 +3626,12 @@
                 const res = await fetch(`${RENDER_URL}/api/products`);
                 if(!res.ok) throw new Error();
                 liveProducts = await res.json();
-                
-                // DYNAMIC ARTICLE EXTRACTION
-                let uniqueArts = new Set();
-                liveProducts.forEach(p => {
-                    if (p.inStock && p.suitableArticles) {
-                        p.suitableArticles.forEach(a => uniqueArts.add(a));
-                    }
-                });
-                ARTICLE_TYPES = Array.from(uniqueArts).sort();
-                
-                initShopFlow();
                 renderStorefront();
             } catch(e) {
                 console.error("Using fallback inventory");
             }
         }
 
-        // --- NEW SHOP FLOW LOGIC ---
-        function initShopFlow() {
-            const container = document.getElementById('article-chips-container');
-            if(container) {
-                let html = '';
-                ARTICLE_TYPES.forEach((art, idx) => {
-                    const isActive = activeShopArticles.includes(art) ? 'active' : '';
-                    html += `<button class="article-chip ${isActive}" id="chip-art-${idx}" onclick="toggleShopArticle('${idx}')">${escapeHTML(art)}</button>`;
-                });
-                if(ARTICLE_TYPES.length === 0) {
-                    html = `<div style="color:var(--text-dim); font-size:13px; text-align:center; width:100%;">No articles tagged in inventory yet. Use Admin to add articles to products!</div>`;
-                }
-                container.innerHTML = html;
-            }
-        }
-
-        function setShopMode(mode) {
-            currentShopMode = mode;
-            document.getElementById('sm-ratio').classList.toggle('active', mode === 'ratio');
-            document.getElementById('sm-article').classList.toggle('active', mode === 'article');
-            document.getElementById('shop-ratio-ui').style.display = mode === 'ratio' ? 'flex' : 'none';
-            document.getElementById('shop-article-ui').style.display = mode === 'article' ? 'flex' : 'none';
-            renderStorefront();
-        }
-
-        function setShopRatio(ratio) {
-            activeShopRatio = ratio;
-            document.getElementById('btn-ratio-3-1').classList.toggle('active', ratio === '3:1');
-            document.getElementById('btn-ratio-2-1').classList.toggle('active', ratio === '2:1');
-            document.getElementById('btn-ratio-100-30').classList.toggle('active', ratio === '100:30');
-            renderStorefront();
-        }
-
-        function toggleShopArticle(idx) {
-            const art = ARTICLE_TYPES[idx];
-            const chip = document.getElementById(`chip-art-${idx}`);
-            if(activeShopArticles.includes(art)) {
-                activeShopArticles = activeShopArticles.filter(a => a !== art);
-                chip.classList.remove('active');
-            } else {
-                activeShopArticles.push(art);
-                chip.classList.add('active');
-            }
-            renderStorefront();
-        }
-
-        // --- RENDER STOREFRONT ---
         function renderStorefront() {
             const grid = document.getElementById('product-grid');
             if(!grid) return;
@@ -3733,27 +3641,10 @@
                 return;
             }
 
-            let filteredProducts = liveProducts.filter(p => {
-                if(!p.inStock) return false;
-                if(currentShopMode === 'ratio') {
-                    const pRatio = p.ratio || '3:1'; 
-                    return pRatio === activeShopRatio;
-                } else if (currentShopMode === 'article') {
-                    if(activeShopArticles.length === 0) return true; 
-                    if(!p.suitableArticles || p.suitableArticles.length === 0) return false;
-                    return activeShopArticles.some(art => p.suitableArticles.includes(art));
-                }
-                return true;
-            });
-
-            if(filteredProducts.length === 0) {
-                let msg = currentShopMode === 'ratio' ? `No products found for ${activeShopRatio} ratio.` : `No products match the selected articles.`;
-                grid.innerHTML = `<div style="color:var(--text-dim); text-align:center; width:100%; grid-column:1/-1; padding: 40px; border: 1px dashed #333; border-radius: 16px;">${msg}</div>`;
-                return;
-            }
-
             let html = '';
-            filteredProducts.forEach(p => {
+            liveProducts.forEach(p => {
+                if(!p.inStock) return; 
+                
                 let tagStyle = '';
                 if(p.tag === 'Best Seller') tagStyle = 'background:#fff; color:#000; border-color:#fff;';
                 else if(p.tag === 'Monthly Pack') tagStyle = 'color:var(--accent); border-color:var(--accent);';
@@ -3765,29 +3656,14 @@
 
                 let borderStyle = p.tag === 'Best Seller' ? 'border-color:rgba(255,255,255,0.4) !important;' : '';
 
-                let pRatio = p.ratio || '3:1';
-                let articleTags = '';
-                if(p.suitableArticles && p.suitableArticles.length > 0) {
-                    const displayArts = p.suitableArticles.slice(0, 3);
-                    const moreCount = p.suitableArticles.length - 3;
-                    articleTags = displayArts.map(a => `<span style="background:rgba(255,255,255,0.1); color:#ccc; padding:4px 8px; border-radius:6px; font-size:10px; margin-right:6px; white-space:nowrap; display:inline-block; margin-bottom:6px;">${escapeHTML(a)}</span>`).join('');
-                    if(moreCount > 0) {
-                        articleTags += `<span style="background:rgba(255,255,255,0.05); color:#888; padding:4px 8px; border-radius:6px; font-size:10px; white-space:nowrap; display:inline-block; margin-bottom:6px;">+${moreCount} more</span>`;
-                    }
-                }
-
                 html += `
                 <div class="product-card reveal active" style="position:relative; overflow:hidden; ${borderStyle}">
                     ${cornerBadge}
                     <div>
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
-                            <span class="p-tag" style="margin-bottom:0; ${tagStyle}">${escapeHTML(p.tag)}</span>
-                            <span style="font-size:10px; font-weight:800; color:var(--accent); background:rgba(99,102,241,0.1); padding:4px 10px; border-radius:12px; border:1px solid rgba(99,102,241,0.3); text-transform:uppercase;">${escapeHTML(pRatio)} Ratio</span>
-                        </div>
+                        <span class="p-tag" style="${tagStyle}">${escapeHTML(p.tag)}</span>
                         <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}" class="p-img" loading="lazy" decoding="async">
-                        <h3 style="margin-bottom:8px;">${escapeHTML(p.name)}</h3>
-                        <div style="margin-bottom:10px; min-height: 24px;">${articleTags}</div>
-                        <p style="color:var(--text-dim); font-size:13px; line-height:1.5;">${escapeHTML(p.description)}</p>
+                        <h3>${escapeHTML(p.name)}</h3>
+                        <p style="color:var(--text-dim); font-size:14px; margin-top:5px;">${escapeHTML(p.description)}</p>
                     </div>
                     <div style="margin-top:20px;">
                         <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:15px;">
@@ -4209,16 +4085,9 @@
                     } catch(err) {}
 
                     showToast("Login Successful!");
-                    checkAuthStatus();
+                    closeAuthModal();
                     document.getElementById('auth-form').reset();
-                    
-                    // FIXED INSTANT SWAP (Keeps scroll locked)
-                    if(pendingCheckout) {
-                        document.getElementById('auth-modal-overlay').classList.remove('active');
-                        initiateCheckout();
-                    } else {
-                        closeAuthModal();
-                    }
+                    checkAuthStatus();
                 } catch (error) {
                     errorDiv.innerText = error.message; 
                     errorDiv.style.display = 'block'; 
@@ -4252,15 +4121,9 @@
                     const data = await response.json();
                     localStorage.setItem('mxlumes_token', data.token);
                     localStorage.setItem('mxlumes_user', JSON.stringify(data.user));
+                    closeAuthModal();
                     checkAuthStatus();
-                    
-                    // FIXED INSTANT SWAP (Keeps scroll locked)
-                    if(currentAuthMode === 'guest' || pendingCheckout) {
-                        document.getElementById('auth-modal-overlay').classList.remove('active');
-                        initiateCheckout(); 
-                    } else {
-                        closeAuthModal();
-                    }
+                    if(currentAuthMode === 'guest' || pendingCheckout) initiateCheckout(); 
                     return;
                 } else if (response.status === 400 || response.status === 409) {
                     
@@ -4273,15 +4136,9 @@
                         const loginData = await loginRes.json();
                         localStorage.setItem('mxlumes_token', loginData.token);
                         localStorage.setItem('mxlumes_user', JSON.stringify(loginData.user));
+                        closeAuthModal();
                         checkAuthStatus();
-                        
-                        // FIXED INSTANT SWAP (Keeps scroll locked)
-                        if(currentAuthMode === 'guest' || pendingCheckout) {
-                            document.getElementById('auth-modal-overlay').classList.remove('active');
-                            initiateCheckout(); 
-                        } else {
-                            closeAuthModal();
-                        }
+                        if(currentAuthMode === 'guest' || pendingCheckout) initiateCheckout(); 
                         return;
                     } else {
                         throw new Error("Email exists, but phone number doesn't match our records. Please try logging in.");
@@ -4430,18 +4287,11 @@
             document.getElementById('upi-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent('upi://pay?' + baseParams)}`;
             document.getElementById('payment-total').innerText = `₹${checkoutTotal.toLocaleString()}`;
             
-            // SEAMLESS CHECKOUT FIX: If cart is open, silently close it without unlocking scroll
-            const sidebar = document.getElementById('cartSidebar');
-            if (sidebar && sidebar.classList.contains('active')) {
-                sidebar.classList.remove('active');
-                updateReminder();
-            }
-            
+            toggleCart(); 
             document.getElementById('payment-modal-overlay').classList.add('active');
-            lockScroll(); // Keep scroll securely locked for the payment modal
+            lockScroll();
             
             document.getElementById('payment-error-msg').style.display = 'none';
-            pendingCheckout = false; // Reset flow
         }
 
         function closePaymentModal() { 
@@ -4456,9 +4306,9 @@
             const btn = document.getElementById('pay-confirm-btn');
             btn.style.display = 'block';
             btn.disabled = false;
-            btn.innerText = "✓ I Have Paid (Confirm Order)";
+            btn.innerText = "✓ I Have Completed The Payment";
             btn.onclick = finalizeOrder; 
-            btn.style.background = "var(--success)";
+            btn.style.background = "var(--accent)";
             btn.style.color = "#fff";
             btn.classList.remove('pulse-btn-accent', 'pulse-btn-green');
             
@@ -5084,9 +4934,11 @@
             if(clone.tagName.toLowerCase() === 'TABLE') {
                 const rows = clone.querySelectorAll('tr');
                 rows.forEach(row => {
+                    // Strip Action Columns
                     if(row.lastElementChild && (row.lastElementChild.innerText.match(/Action|Actions/i) || row.lastElementChild.querySelector('button'))) {
                         row.removeChild(row.lastElementChild);
                     }
+                    // Flatten Inputs and Selects
                     row.querySelectorAll('select, input').forEach(inputEl => {
                         let textVal = inputEl.value || '';
                         if(inputEl.tagName.toLowerCase() === 'SELECT' && inputEl.selectedIndex >= 0) {
@@ -5168,6 +5020,7 @@
                     const txEncAdmin = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
                     const userEncAdmin = encodeURIComponent(JSON.stringify(resolvedUserObj)).replace(/'/g, "%27");
 
+                    // 💰 FINANCE MATH ENGINE
                     const rev = Number(o.totalAmount) || 0;
                     const cRaw = Number(o.costRawMaterial) || 0;
                     const cLabel = Number(o.costLabeling) || 0;
@@ -5182,6 +5035,7 @@
                         totalRev += rev; totalGlobalCost += totalCost; totalGlobalProfit += netProfit; 
                     }
 
+                    // 1. ORDERS TAB
                     oHtml += `
                         <tr style="border-bottom: 1px solid #333;">
                             <td style="padding:15px; vertical-align:top;">
@@ -5211,6 +5065,7 @@
                         </tr>
                     `;
 
+                    // 2. LOGISTICS TAB
                     if (o.status !== 'Pending Verification') {
                         let liveTrackUrl = "";
                         let awbClean = escapeHTML(o.trackingNumber || '');
@@ -5226,6 +5081,7 @@
 
                         let trackBtnHtml = liveTrackUrl ? `<button onclick="window.open('${liveTrackUrl}', '_blank')" style="background:#10b981; color:#000; padding:8px; border-radius:8px; cursor:pointer; border:none; font-size:12px; font-weight:800;">📍 Track</button>` : '';
 
+                        // ⚠️ STUCK IN TRANSIT ALERT LOGIC
                         let transitAlert = '';
                         if (o.status === 'Shipped' && o.createdAt) {
                             const daysInTransit = Math.floor((new Date() - new Date(o.createdAt)) / (1000 * 60 * 60 * 24));
@@ -5273,6 +5129,7 @@
                         `;
                     }
 
+                    // 3. FINANCE TAB
                     let profitColor = netProfit >= 0 ? '#10b981' : '#ef4444';
                     fHtml += `
                         <tr style="border-bottom: 1px solid #333;">
@@ -5295,10 +5152,12 @@
                 });
             }
             
+            // Render Orders & Logistics
             if(oBody) oBody.innerHTML = oHtml;
             if(lBody) lBody.innerHTML = lHtml;
             if(fBody) fBody.innerHTML = fHtml;
 
+            // RENDER PROFESSIONAL INVENTORY ENGINE
             if(pGrid) {
                 let totalStockValue = 0;
                 let activeProducts = 0;
@@ -5317,20 +5176,14 @@
                         totalStockValue += potentialRev;
 
                         let statusUI = p.inStock ? `<span style="color:#10b981; font-weight:800;">✓ Active</span>` : `<span style="color:#ef4444; font-weight:800;">✕ Out of Stock</span>`;
-                        
-                        let articlesAdminDisplay = '';
-                        if(p.suitableArticles && p.suitableArticles.length > 0) {
-                            articlesAdminDisplay = `<div style="font-size:9px; color:#aaa; margin-top:4px; max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Arts: ${p.suitableArticles.join(', ')}</div>`;
-                        }
 
                         tableRows += `
                             <tr style="border-bottom: 1px solid #333;">
                                 <td style="padding:15px; display:flex; align-items:center; gap:10px;">
                                     <img src="${escapeHTML(p.image)}" style="width:40px; height:40px; border-radius:6px; object-fit:cover;" onerror="this.src='product-1.webp'">
-                                    <div style="overflow: hidden;">
-                                        <div style="font-weight:800; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:220px;">${escapeHTML(p.name)}</div>
-                                        <div style="font-size:10px; color:#888; text-transform:uppercase; margin-top:2px;">${escapeHTML(p.tag)} <span style="color:var(--accent);">| ${p.ratio || '3:1'}</span></div>
-                                        ${articlesAdminDisplay}
+                                    <div>
+                                        <div style="font-weight:800; color:#fff;">${escapeHTML(p.name)}</div>
+                                        <div style="font-size:10px; color:#888; text-transform:uppercase;">${escapeHTML(p.tag)}</div>
                                     </div>
                                 </td>
                                 <td style="padding:15px; color:#ccc;">${statusUI}</td>
@@ -5346,6 +5199,7 @@
                     });
                 }
 
+                // Inject the new Stock Dashboard HTML
                 let totalProjectedProfit = totalStockValue * (avgMargin / 100);
                 
                 pHtml = `
@@ -5370,10 +5224,11 @@
                     </table>
                 </div>
                 `;
-                pGrid.style.display = 'block';
+                pGrid.style.display = 'block'; // Remove grid layout so table flows normally
                 pGrid.innerHTML = pHtml;
             }
 
+            // STATS UPDATE
             const statRev = document.getElementById('stat-revenue');
             if(statRev) statRev.innerText = '₹' + totalRev.toLocaleString();
             
@@ -5393,6 +5248,7 @@
             const statMargin = document.getElementById('stat-avg-margin');
             if(statMargin) statMargin.innerText = avgMargin + '%';
 
+            // USERS TAB
             const uBody = document.getElementById('admin-users-tbody');
             if (uBody) {
                 let uHtml = '';
@@ -5548,41 +5404,17 @@
             };
         }
 
-        // 📦 INVENTORY MANAGEMENT LOGIC WITH IMAGE UPLOAD & COMPRESSION
+        // 📦 INVENTORY MANAGEMENT LOGIC
         function adminEditProduct(id) {
-            let p = { name: '', tag: 'Premium Kit', image: 'product-1.webp', description: '', originalPrice: 0, currentPrice: 0, inStock: true, stockQty: 0, ratio: '3:1', suitableArticles: [] };
+            let p = { name: '', tag: 'Premium Kit', image: 'product-1.webp', description: '', originalPrice: 0, currentPrice: 0, inStock: true, stockQty: 0 };
             if (id !== 'new') p = globalProducts.find(x => x._id === id) || p;
-
-            let articlesStr = (p.suitableArticles || []).join(', ');
 
             document.getElementById('admin-edit-title').innerText = id === 'new' ? 'Add New Product' : 'Edit Product';
             document.getElementById('admin-edit-fields').innerHTML = `
-                <label style="font-size:11px; color:#888;">Product Name</label>
-                <input type="text" id="ep-name" value="${escapeHTML(p.name)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
-                
-                <label style="font-size:11px; color:#888;">Badge/Tag (e.g. Best Seller)</label>
-                <input type="text" id="ep-tag" value="${escapeHTML(p.tag)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
-                
-                <label style="font-size:11px; color:#888;">Resin Ratio</label>
-                <select id="ep-ratio" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
-                    <option value="3:1" ${p.ratio==='3:1'?'selected':''}>3:1</option>
-                    <option value="2:1" ${p.ratio==='2:1'?'selected':''}>2:1</option>
-                    <option value="100:30" ${p.ratio==='100:30'?'selected':''}>100:30</option>
-                </select>
-
-                <label style="font-size:11px; color:var(--success); font-weight:800;">Suitable Articles (Comma Separated)</label>
-                <input type="text" id="ep-articles" value="${escapeHTML(articlesStr)}" placeholder="e.g. Varmala, Geode, Wall Clock" style="width:100%; background:rgba(16, 185, 129, 0.05); border:1px solid rgba(16, 185, 129, 0.4); color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
-
-                <label style="font-size:11px; color:#888;">Product Image (Upload directly)</label>
-                <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
-                    <img id="ep-img-preview" src="${escapeHTML(p.image)}" style="width:60px; height:60px; object-fit:cover; border-radius:8px; border:1px solid #333;" onerror="this.src='product-1.webp'">
-                    <input type="file" id="ep-img-upload" accept="image/*" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px; font-size:12px; cursor:pointer;">
-                    <input type="hidden" id="ep-img" value="${escapeHTML(p.image)}">
-                </div>
-
-                <label style="font-size:11px; color:#888;">Description</label>
-                <textarea id="ep-desc" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px; height:60px; font-family:inherit;">${escapeHTML(p.description)}</textarea>
-                
+                <label style="font-size:11px; color:#888;">Product Name</label><input type="text" id="ep-name" value="${escapeHTML(p.name)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
+                <label style="font-size:11px; color:#888;">Badge/Tag (e.g. Best Seller)</label><input type="text" id="ep-tag" value="${escapeHTML(p.tag)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
+                <label style="font-size:11px; color:#888;">Image Filename</label><input type="text" id="ep-img" value="${escapeHTML(p.image)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
+                <label style="font-size:11px; color:#888;">Description</label><textarea id="ep-desc" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px; height:60px; font-family:inherit;">${escapeHTML(p.description)}</textarea>
                 <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
                     <div><label style="font-size:11px; color:#888;">Orig. Price (₹)</label><input type="number" id="ep-orig" value="${p.originalPrice}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"></div>
                     <div><label style="font-size:11px; color:#888;">Curr. Price (₹)</label><input type="number" id="ep-curr" value="${p.currentPrice}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"></div>
@@ -5594,66 +5426,16 @@
             `;
             document.getElementById('admin-edit-modal').style.display = 'flex';
 
-            // Image Compression Logic
-            document.getElementById('ep-img-upload').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-                
-                const btn = document.getElementById('admin-edit-save');
-                btn.disabled = true;
-                btn.innerText = "Compressing Image...";
-
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const img = new Image();
-                    img.onload = function() {
-                        const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 800; // Optimal size for store layout
-                        let width = img.width;
-                        let height = img.height;
-                        
-                        if (width > MAX_WIDTH) {
-                            height = Math.round((height * MAX_WIDTH) / width);
-                            width = MAX_WIDTH;
-                        }
-                        
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-                        
-                        // Compress to WebP format for fast loading
-                        const dataUrl = canvas.toDataURL('image/webp', 0.8);
-                        document.getElementById('ep-img-preview').src = dataUrl;
-                        document.getElementById('ep-img').value = dataUrl;
-                        
-                        btn.disabled = false;
-                        btn.innerText = "Save";
-                    };
-                    img.src = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            });
-
             const btn = document.getElementById('admin-edit-save');
             btn.onclick = async () => {
                 const key = sessionStorage.getItem('mxlumes_admin_key');
                 btn.disabled = true; btn.innerText = 'Saving...';
                 
-                const artsInput = document.getElementById('ep-articles').value;
-                const suitableArticlesArray = artsInput.split(',').map(a => a.trim()).filter(a => a);
-
                 const payload = {
-                    name: document.getElementById('ep-name').value, 
-                    tag: document.getElementById('ep-tag').value,
-                    ratio: document.getElementById('ep-ratio').value,
-                    suitableArticles: suitableArticlesArray,
-                    image: document.getElementById('ep-img').value, 
-                    description: document.getElementById('ep-desc').value,
-                    originalPrice: document.getElementById('ep-orig').value, 
-                    currentPrice: document.getElementById('ep-curr').value,
-                    inStock: document.getElementById('ep-stock').checked, 
-                    stockQty: Number(document.getElementById('ep-qty').value) || 0
+                    name: document.getElementById('ep-name').value, tag: document.getElementById('ep-tag').value,
+                    image: document.getElementById('ep-img').value, description: document.getElementById('ep-desc').value,
+                    originalPrice: document.getElementById('ep-orig').value, currentPrice: document.getElementById('ep-curr').value,
+                    inStock: document.getElementById('ep-stock').checked, stockQty: Number(document.getElementById('ep-qty').value) || 0
                 };
 
                 const url = id === 'new' ? `${RENDER_URL}/api/admin/products` : `${RENDER_URL}/api/admin/products/${id}`;
@@ -5662,11 +5444,7 @@
                 try {
                     await fetch(url, { method, headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify(payload) });
                     closeAdminEditModal(); fetchAdminData(); fetchLiveInventory(); 
-                } catch(e) {
-                    alert("Failed to save. Ensure image size isn't too large.");
-                } finally { 
-                    btn.disabled = false; btn.innerText = 'Save'; 
-                }
+                } finally { btn.disabled = false; btn.innerText = 'Save'; }
             };
         }
 
@@ -5846,6 +5624,6 @@
                 btn.innerText = "Confirm & Generate Order";
             }
         }
-        </script>
-    </body>
-    </html>
+    </script>
+</body>
+</html>
