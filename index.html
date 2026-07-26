@@ -2915,7 +2915,7 @@
             </div>
         </div>
     </header>
-        <section id="shop" class="section" style="padding-top: 40px;">
+    <section id="shop" class="section" style="padding-top: 40px;">
         <div class="container">
             <h2 style="text-align:center; font-size:42px; margin-bottom:40px;">Studio Lineup</h2>
             
@@ -3064,7 +3064,8 @@
             </div>
         </div>
     </section>
-        <section id="calc" class="section reveal">
+
+    <section id="calc" class="section reveal">
         <div class="container">
             <h2 style="text-align:center; margin-bottom:50px;">Project Calculator</h2>
             
@@ -3420,7 +3421,7 @@
                         <button onclick="adminEditProduct('new')" style="background:var(--accent); color:#fff; padding:10px 20px; border-radius:8px; font-weight:800; border:none; cursor:pointer;">+ Add New Product</button>
                     </div>
                     <div class="inv-grid" id="admin-inventory-grid">
-                        </div>
+                    </div>
                 </div>
 
                 <div class="admin-data-panel" id="admin-panel-finance" style="display:none;">
@@ -3565,7 +3566,7 @@
           </div>
         </div>
     </div>
-        <script>
+    <script>
         const RENDER_URL = 'https://mxlumes-api.onrender.com';
         const MERCHANT_UPI_ID = "7668077298@ybl"; 
         
@@ -4208,9 +4209,16 @@
                     } catch(err) {}
 
                     showToast("Login Successful!");
-                    closeAuthModal();
-                    document.getElementById('auth-form').reset();
                     checkAuthStatus();
+                    document.getElementById('auth-form').reset();
+                    
+                    // FIXED INSTANT SWAP (Keeps scroll locked)
+                    if(pendingCheckout) {
+                        document.getElementById('auth-modal-overlay').classList.remove('active');
+                        initiateCheckout();
+                    } else {
+                        closeAuthModal();
+                    }
                 } catch (error) {
                     errorDiv.innerText = error.message; 
                     errorDiv.style.display = 'block'; 
@@ -4244,12 +4252,14 @@
                     const data = await response.json();
                     localStorage.setItem('mxlumes_token', data.token);
                     localStorage.setItem('mxlumes_user', JSON.stringify(data.user));
-                    closeAuthModal();
                     checkAuthStatus();
                     
-                    // SEAMLESS CHECKOUT FIX: If guest just entered details, push instantly to payment.
+                    // FIXED INSTANT SWAP (Keeps scroll locked)
                     if(currentAuthMode === 'guest' || pendingCheckout) {
-                        setTimeout(() => { initiateCheckout(); }, 150); 
+                        document.getElementById('auth-modal-overlay').classList.remove('active');
+                        initiateCheckout(); 
+                    } else {
+                        closeAuthModal();
                     }
                     return;
                 } else if (response.status === 400 || response.status === 409) {
@@ -4263,12 +4273,14 @@
                         const loginData = await loginRes.json();
                         localStorage.setItem('mxlumes_token', loginData.token);
                         localStorage.setItem('mxlumes_user', JSON.stringify(loginData.user));
-                        closeAuthModal();
                         checkAuthStatus();
                         
-                        // SEAMLESS CHECKOUT FIX: Even if they existed, push to payment now that they are verified
+                        // FIXED INSTANT SWAP (Keeps scroll locked)
                         if(currentAuthMode === 'guest' || pendingCheckout) {
-                            setTimeout(() => { initiateCheckout(); }, 150); 
+                            document.getElementById('auth-modal-overlay').classList.remove('active');
+                            initiateCheckout(); 
+                        } else {
+                            closeAuthModal();
                         }
                         return;
                     } else {
@@ -5834,7 +5846,6 @@
                 btn.innerText = "Confirm & Generate Order";
             }
         }
-    </script>
-</body>
-</html>
-</head>
+        </script>
+    </body>
+    </html>
