@@ -2572,6 +2572,15 @@
             border-color: #000;
         }
 
+        /* NEW: GREEN CHECKMARKS FOR SHOP FILTERS */
+        .ratio-btn.active::before, 
+        .article-chip.active::before {
+            content: '✓ ';
+            color: #10b981;
+            font-weight: 900;
+            margin-right: 4px;
+        }
+
         /* =========================================
            16. MOBILE OPTIMIZATIONS
            ========================================= */
@@ -3545,65 +3554,7 @@
           </div>
         </div>
     </div>
-
-    <div id="vip-order-modal-2" class="modal-overlay" style="z-index: 200000;">
-        <div class="modal-content" style="max-width: 600px;">
-            <button class="m-close" onclick="closeVIPOrderModal()">×</button>
-            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;">Generate VIP Order</h3>
-            <p style="color: var(--text-dim); font-size: 13px; margin-bottom: 20px;">Link to an existing customer via phone, or fill all details to create a new account automatically.</p>
-            
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                <div>
-                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Phone Number (10 Digits)</label>
-                    <input type="tel" id="vip-phone-2" class="m-input" placeholder="e.g. 9876543210" required>
-                </div>
-                <div>
-                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Full Name</label>
-                    <input type="text" id="vip-name-2" class="m-input" placeholder="Artist Name">
-                </div>
-                <div>
-                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Email Address</label>
-                    <input type="email" id="vip-email-2" class="m-input" placeholder="artist@email.com">
-                </div>
-                <div>
-                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Shipping Address</label>
-                    <input type="text" id="vip-address-2" class="m-input" placeholder="Complete Address with Pincode">
-                </div>
-            </div>
-
-            <div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border); margin-top: 10px;">
-                <label style="font-size:11px; color:#888; text-transform:uppercase;">Add Product to Order</label>
-                <select id="vip-product-select-2" class="m-input" style="margin-bottom: 10px;">
-                    <option value="">Select a Product...</option>
-                </select>
-                <div style="display:flex; gap:10px;">
-                    <input type="number" id="vip-qty-2" class="m-input" placeholder="Qty" value="1" min="1" style="width: 80px; margin-bottom:0;">
-                    <button class="btn btn-outline" style="flex:1; margin-bottom:0; padding: 10px;" onclick="addVIPItem()">+ Add to VIP Cart</button>
-                </div>
-            </div>
-
-            <div id="vip-cart-display-2" style="margin-bottom: 15px;"></div>
-
-            <div style="display:grid; grid-template-columns:2fr 1fr; gap:10px; margin-bottom:15px;">
-                <div>
-                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Discount Name (Prints on Invoice)</label>
-                    <input type="text" id="vip-discount-name-2" class="m-input" value="One-Time VIP Referral Discount">
-                </div>
-                <div>
-                    <label style="font-size:11px; color:var(--success); text-transform:uppercase; font-weight:800;">Discount (₹)</label>
-                    <input type="number" id="vip-discount-amt-2" class="m-input" placeholder="0" value="0" style="border-color:var(--success);">
-                </div>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 1px solid #333; padding-top: 15px;">
-                <span style="color:#888; font-size:12px; text-transform:uppercase;">Final Total</span>
-                <span id="vip-final-total-2" style="font-size:24px; font-weight:800; color:#fff;">₹0</span>
-            </div>
-            
-            <button class="btn btn-primary" id="btn-submit-vip-2" style="width:100%; margin-top:15px;" onclick="submitVIPOrder()">Confirm & Generate Order</button>
-        </div>
-    </div>
-    <script>
+        <script>
         const RENDER_URL = 'https://mxlumes-api.onrender.com';
         const MERCHANT_UPI_ID = "7668077298@ybl"; 
         
@@ -3619,17 +3570,11 @@
         // INVENTORY DATA
         let liveProducts = [];
 
-        // NEW GUIDED SHOP FLOW CONSTANTS
-        const ARTICLE_TYPES = [
-            "Varmala frame casting", "Varmala frame top layer coating",
-            "Single flower block with deep casting", "Geode", "WALL clock",
-            "3d art", "Name plates", "Bangles", "Jewellary", "pooja thali",
-            "key chains and small home decor articles", "Furniture tables"
-        ];
+        // NEW GUIDED SHOP FLOW CONSTANTS (DYNAMIC)
+        let ARTICLE_TYPES = [];
         let currentShopMode = 'ratio'; // 'ratio' or 'article'
         let activeShopRatio = '3:1';
         let activeShopArticles = [];
-        let tempAdminArticles = []; // Used in Admin Editor
 
         const escapeHTML = (str) => {
             if (str == null) return '';
@@ -3645,7 +3590,6 @@
             setupReviewStars(); 
             checkAuthStatus(); 
             runCalc(); 
-            initShopFlow();
             fetchLiveInventory();
 
             fetch('https://ipapi.co/json/')
@@ -3705,6 +3649,17 @@
                 const res = await fetch(`${RENDER_URL}/api/products`);
                 if(!res.ok) throw new Error();
                 liveProducts = await res.json();
+                
+                // DYNAMIC ARTICLE EXTRACTION
+                let uniqueArts = new Set();
+                liveProducts.forEach(p => {
+                    if (p.inStock && p.suitableArticles) {
+                        p.suitableArticles.forEach(a => uniqueArts.add(a));
+                    }
+                });
+                ARTICLE_TYPES = Array.from(uniqueArts).sort();
+                
+                initShopFlow();
                 renderStorefront();
             } catch(e) {
                 console.error("Using fallback inventory");
@@ -3717,8 +3672,12 @@
             if(container) {
                 let html = '';
                 ARTICLE_TYPES.forEach((art, idx) => {
-                    html += `<button class="article-chip" id="chip-art-${idx}" onclick="toggleShopArticle('${idx}')">${art}</button>`;
+                    const isActive = activeShopArticles.includes(art) ? 'active' : '';
+                    html += `<button class="article-chip ${isActive}" id="chip-art-${idx}" onclick="toggleShopArticle('${idx}')">${escapeHTML(art)}</button>`;
                 });
+                if(ARTICLE_TYPES.length === 0) {
+                    html = `<div style="color:var(--text-dim); font-size:13px; text-align:center; width:100%;">No articles tagged in inventory yet. Use Admin to add articles to products!</div>`;
+                }
                 container.innerHTML = html;
             }
         }
@@ -3795,7 +3754,6 @@
 
                 let borderStyle = p.tag === 'Best Seller' ? 'border-color:rgba(255,255,255,0.4) !important;' : '';
 
-                // Visual Linkage for Ratio and Articles
                 let pRatio = p.ratio || '3:1';
                 let articleTags = '';
                 if(p.suitableArticles && p.suitableArticles.length > 0) {
@@ -5089,11 +5047,9 @@
             if(clone.tagName.toLowerCase() === 'TABLE') {
                 const rows = clone.querySelectorAll('tr');
                 rows.forEach(row => {
-                    // Strip Action Columns
                     if(row.lastElementChild && (row.lastElementChild.innerText.match(/Action|Actions/i) || row.lastElementChild.querySelector('button'))) {
                         row.removeChild(row.lastElementChild);
                     }
-                    // Flatten Inputs and Selects
                     row.querySelectorAll('select, input').forEach(inputEl => {
                         let textVal = inputEl.value || '';
                         if(inputEl.tagName.toLowerCase() === 'SELECT' && inputEl.selectedIndex >= 0) {
@@ -5175,7 +5131,6 @@
                     const txEncAdmin = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
                     const userEncAdmin = encodeURIComponent(JSON.stringify(resolvedUserObj)).replace(/'/g, "%27");
 
-                    // 💰 FINANCE MATH ENGINE
                     const rev = Number(o.totalAmount) || 0;
                     const cRaw = Number(o.costRawMaterial) || 0;
                     const cLabel = Number(o.costLabeling) || 0;
@@ -5190,7 +5145,6 @@
                         totalRev += rev; totalGlobalCost += totalCost; totalGlobalProfit += netProfit; 
                     }
 
-                    // 1. ORDERS TAB
                     oHtml += `
                         <tr style="border-bottom: 1px solid #333;">
                             <td style="padding:15px; vertical-align:top;">
@@ -5220,7 +5174,6 @@
                         </tr>
                     `;
 
-                    // 2. LOGISTICS TAB
                     if (o.status !== 'Pending Verification') {
                         let liveTrackUrl = "";
                         let awbClean = escapeHTML(o.trackingNumber || '');
@@ -5236,7 +5189,6 @@
 
                         let trackBtnHtml = liveTrackUrl ? `<button onclick="window.open('${liveTrackUrl}', '_blank')" style="background:#10b981; color:#000; padding:8px; border-radius:8px; cursor:pointer; border:none; font-size:12px; font-weight:800;">📍 Track</button>` : '';
 
-                        // ⚠️ STUCK IN TRANSIT ALERT LOGIC
                         let transitAlert = '';
                         if (o.status === 'Shipped' && o.createdAt) {
                             const daysInTransit = Math.floor((new Date() - new Date(o.createdAt)) / (1000 * 60 * 60 * 24));
@@ -5284,7 +5236,6 @@
                         `;
                     }
 
-                    // 3. FINANCE TAB
                     let profitColor = netProfit >= 0 ? '#10b981' : '#ef4444';
                     fHtml += `
                         <tr style="border-bottom: 1px solid #333;">
@@ -5307,12 +5258,10 @@
                 });
             }
             
-            // Render Orders & Logistics
             if(oBody) oBody.innerHTML = oHtml;
             if(lBody) lBody.innerHTML = lHtml;
             if(fBody) fBody.innerHTML = fHtml;
 
-            // RENDER PROFESSIONAL INVENTORY ENGINE
             if(pGrid) {
                 let totalStockValue = 0;
                 let activeProducts = 0;
@@ -5360,7 +5309,6 @@
                     });
                 }
 
-                // Inject the new Stock Dashboard HTML
                 let totalProjectedProfit = totalStockValue * (avgMargin / 100);
                 
                 pHtml = `
@@ -5385,11 +5333,10 @@
                     </table>
                 </div>
                 `;
-                pGrid.style.display = 'block'; // Remove grid layout so table flows normally
+                pGrid.style.display = 'block';
                 pGrid.innerHTML = pHtml;
             }
 
-            // STATS UPDATE
             const statRev = document.getElementById('stat-revenue');
             if(statRev) statRev.innerText = '₹' + totalRev.toLocaleString();
             
@@ -5409,7 +5356,6 @@
             const statMargin = document.getElementById('stat-avg-margin');
             if(statMargin) statMargin.innerText = avgMargin + '%';
 
-            // USERS TAB
             const uBody = document.getElementById('admin-users-tbody');
             if (uBody) {
                 let uHtml = '';
@@ -5565,28 +5511,12 @@
             };
         }
 
-        // 📦 INVENTORY MANAGEMENT LOGIC WITH NEW SHOP UI
+        // 📦 INVENTORY MANAGEMENT LOGIC WITH COMMA-SEPARATED ARTICLES
         function adminEditProduct(id) {
             let p = { name: '', tag: 'Premium Kit', image: 'product-1.webp', description: '', originalPrice: 0, currentPrice: 0, inStock: true, stockQty: 0, ratio: '3:1', suitableArticles: [] };
             if (id !== 'new') p = globalProducts.find(x => x._id === id) || p;
 
-            tempAdminArticles = [...(p.suitableArticles || [])];
-
-            let articlesHtml = ARTICLE_TYPES.map((art, idx) => {
-                const isActive = tempAdminArticles.includes(art) ? 'active' : '';
-                return `<span class="admin-chip ${isActive}" onclick="toggleAdminArticle('${idx}', this)">${art}</span>`;
-            }).join('');
-
-            window.toggleAdminArticle = function(idx, btnEl) {
-                const art = ARTICLE_TYPES[idx];
-                if(tempAdminArticles.includes(art)) {
-                    tempAdminArticles = tempAdminArticles.filter(a => a !== art);
-                    btnEl.classList.remove('active');
-                } else {
-                    tempAdminArticles.push(art);
-                    btnEl.classList.add('active');
-                }
-            };
+            let articlesStr = (p.suitableArticles || []).join(', ');
 
             document.getElementById('admin-edit-title').innerText = id === 'new' ? 'Add New Product' : 'Edit Product';
             document.getElementById('admin-edit-fields').innerHTML = `
@@ -5600,8 +5530,8 @@
                     <option value="100:30" ${p.ratio==='100:30'?'selected':''}>100:30</option>
                 </select>
 
-                <label style="font-size:11px; color:#888;">Suitable For (Click to select)</label>
-                <div class="admin-chips-container" style="margin-bottom:10px;">${articlesHtml}</div>
+                <label style="font-size:11px; color:var(--success); font-weight:800;">Suitable Articles (Comma Separated)</label>
+                <input type="text" id="ep-articles" value="${escapeHTML(articlesStr)}" placeholder="e.g. Varmala, Geode, Wall Clock" style="width:100%; background:rgba(16, 185, 129, 0.05); border:1px solid rgba(16, 185, 129, 0.4); color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
 
                 <label style="font-size:11px; color:#888;">Image Filename</label><input type="text" id="ep-img" value="${escapeHTML(p.image)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
                 <label style="font-size:11px; color:#888;">Description</label><textarea id="ep-desc" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px; height:60px; font-family:inherit;">${escapeHTML(p.description)}</textarea>
@@ -5621,11 +5551,14 @@
                 const key = sessionStorage.getItem('mxlumes_admin_key');
                 btn.disabled = true; btn.innerText = 'Saving...';
                 
+                const artsInput = document.getElementById('ep-articles').value;
+                const suitableArticlesArray = artsInput.split(',').map(a => a.trim()).filter(a => a);
+
                 const payload = {
                     name: document.getElementById('ep-name').value, 
                     tag: document.getElementById('ep-tag').value,
                     ratio: document.getElementById('ep-ratio').value,
-                    suitableArticles: tempAdminArticles,
+                    suitableArticles: suitableArticlesArray,
                     image: document.getElementById('ep-img').value, 
                     description: document.getElementById('ep-desc').value,
                     originalPrice: document.getElementById('ep-orig').value, 
@@ -5823,3 +5756,4 @@
     </script>
 </body>
 </html>
+</head>
