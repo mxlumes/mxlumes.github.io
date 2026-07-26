@@ -3603,7 +3603,7 @@
             <button class="btn btn-primary" id="btn-submit-vip-2" style="width:100%; margin-top:15px;" onclick="submitVIPOrder()">Confirm & Generate Order</button>
         </div>
     </div>
-        <script>
+    <script>
         const RENDER_URL = 'https://mxlumes-api.onrender.com';
         const MERCHANT_UPI_ID = "7668077298@ybl"; 
         
@@ -3753,6 +3753,7 @@
             renderStorefront();
         }
 
+        // --- UPDATED RENDER STOREFRONT WITH VISUAL TAGS ---
         function renderStorefront() {
             const grid = document.getElementById('product-grid');
             if(!grid) return;
@@ -3794,14 +3795,30 @@
 
                 let borderStyle = p.tag === 'Best Seller' ? 'border-color:rgba(255,255,255,0.4) !important;' : '';
 
+                // Visual Linkage for Ratio and Articles
+                let pRatio = p.ratio || '3:1';
+                let articleTags = '';
+                if(p.suitableArticles && p.suitableArticles.length > 0) {
+                    const displayArts = p.suitableArticles.slice(0, 3);
+                    const moreCount = p.suitableArticles.length - 3;
+                    articleTags = displayArts.map(a => `<span style="background:rgba(255,255,255,0.1); color:#ccc; padding:4px 8px; border-radius:6px; font-size:10px; margin-right:6px; white-space:nowrap; display:inline-block; margin-bottom:6px;">${escapeHTML(a)}</span>`).join('');
+                    if(moreCount > 0) {
+                        articleTags += `<span style="background:rgba(255,255,255,0.05); color:#888; padding:4px 8px; border-radius:6px; font-size:10px; white-space:nowrap; display:inline-block; margin-bottom:6px;">+${moreCount} more</span>`;
+                    }
+                }
+
                 html += `
                 <div class="product-card reveal active" style="position:relative; overflow:hidden; ${borderStyle}">
                     ${cornerBadge}
                     <div>
-                        <span class="p-tag" style="${tagStyle}">${escapeHTML(p.tag)}</span>
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+                            <span class="p-tag" style="margin-bottom:0; ${tagStyle}">${escapeHTML(p.tag)}</span>
+                            <span style="font-size:10px; font-weight:800; color:var(--accent); background:rgba(99,102,241,0.1); padding:4px 10px; border-radius:12px; border:1px solid rgba(99,102,241,0.3); text-transform:uppercase;">${escapeHTML(pRatio)} Ratio</span>
+                        </div>
                         <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}" class="p-img" loading="lazy" decoding="async">
-                        <h3>${escapeHTML(p.name)}</h3>
-                        <p style="color:var(--text-dim); font-size:14px; margin-top:5px;">${escapeHTML(p.description)}</p>
+                        <h3 style="margin-bottom:8px;">${escapeHTML(p.name)}</h3>
+                        <div style="margin-bottom:10px; min-height: 24px;">${articleTags}</div>
+                        <p style="color:var(--text-dim); font-size:13px; line-height:1.5;">${escapeHTML(p.description)}</p>
                     </div>
                     <div style="margin-top:20px;">
                         <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:15px;">
@@ -5314,14 +5331,20 @@
                         totalStockValue += potentialRev;
 
                         let statusUI = p.inStock ? `<span style="color:#10b981; font-weight:800;">✓ Active</span>` : `<span style="color:#ef4444; font-weight:800;">✕ Out of Stock</span>`;
+                        
+                        let articlesAdminDisplay = '';
+                        if(p.suitableArticles && p.suitableArticles.length > 0) {
+                            articlesAdminDisplay = `<div style="font-size:9px; color:#aaa; margin-top:4px; max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Arts: ${p.suitableArticles.join(', ')}</div>`;
+                        }
 
                         tableRows += `
                             <tr style="border-bottom: 1px solid #333;">
                                 <td style="padding:15px; display:flex; align-items:center; gap:10px;">
                                     <img src="${escapeHTML(p.image)}" style="width:40px; height:40px; border-radius:6px; object-fit:cover;" onerror="this.src='product-1.webp'">
-                                    <div>
-                                        <div style="font-weight:800; color:#fff;">${escapeHTML(p.name)}</div>
-                                        <div style="font-size:10px; color:#888; text-transform:uppercase;">${escapeHTML(p.tag)} | ${p.ratio || '3:1'}</div>
+                                    <div style="overflow: hidden;">
+                                        <div style="font-weight:800; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:220px;">${escapeHTML(p.name)}</div>
+                                        <div style="font-size:10px; color:#888; text-transform:uppercase; margin-top:2px;">${escapeHTML(p.tag)} <span style="color:var(--accent);">| ${p.ratio || '3:1'}</span></div>
+                                        ${articlesAdminDisplay}
                                     </div>
                                 </td>
                                 <td style="padding:15px; color:#ccc;">${statusUI}</td>
@@ -5800,4 +5823,3 @@
     </script>
 </body>
 </html>
-</head>
