@@ -100,7 +100,7 @@
             user-select: none; 
         }
         
-        /* 🛡️ APPLE SAFARI FIXES: Input Zoom, Rounded Corners & Yellow Autofill */
+        /* APPLE SAFARI FIXES: Input Zoom, Rounded Corners & Yellow Autofill */
         input, select, textarea { 
             font-size: 16px !important; 
             font-family: 'Manrope', sans-serif; 
@@ -369,7 +369,6 @@
             from { transform: rotate(0deg); } 
             to { transform: rotate(360deg); } 
         }
-
         /* =========================================
            5. HERO SECTION
            ========================================= */
@@ -1010,17 +1009,6 @@
             color: #000; 
         }
 
-        .preset-row { 
-            display: flex; 
-            gap: 10px; 
-            margin-bottom: 30px; 
-            overflow-x: auto; 
-            padding-bottom: 10px; 
-            scrollbar-width: none; 
-            mask-image: linear-gradient(to right, black 90%, transparent 100%); 
-            -webkit-overflow-scrolling: touch; 
-        }
-
         .preset-btn { 
             padding: 12px 24px; 
             border: 2px solid #aaa; 
@@ -1034,6 +1022,17 @@
             cursor: pointer; 
         }
 
+        .preset-row { 
+            display: flex; 
+            gap: 10px; 
+            margin-bottom: 30px; 
+            overflow-x: auto; 
+            padding-bottom: 10px; 
+            scrollbar-width: none; 
+            mask-image: linear-gradient(to right, black 90%, transparent 100%); 
+            -webkit-overflow-scrolling: touch; 
+        }
+
         @media (hover: hover) { 
             .preset-btn:hover { 
                 color: #000; 
@@ -1042,7 +1041,7 @@
                 transform: translateY(-2px); 
                 box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
             } 
-        }
+        } 
         
         /* Environment Lab */
         .env-icons { 
@@ -1349,7 +1348,7 @@
         .scanner-overlay.active { 
             opacity: 1; 
             display: flex; 
-        }
+        } 
         
         .scanner-ui { 
             background: #fff; 
@@ -2529,6 +2528,57 @@
             resize: vertical; 
             min-height: 60px; 
         }
+        
+        /* MULTI-SELECT CHIPS FOR ADMIN */
+        .admin-chips-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .admin-chip {
+            background: #000;
+            border: 1px solid #333;
+            color: #888;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .admin-chip.active {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        /* NEW CSS FOR SHOP CHIPS */
+        .article-chip {
+            padding: 12px 24px;
+            border: 2px solid #aaa;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 800;
+            color: #333;
+            background: #fff;
+            white-space: nowrap;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .article-chip.active {
+            color: #fff;
+            background: #000;
+            border-color: #000;
+        }
+
+        /* GREEN CHECKMARKS FOR ACTIVE SHOP FILTERS (SCOPED TO FIX BUG 3) */
+        #shop-ratio-ui .ratio-btn.active::before, 
+        .article-chip.active::before {
+            content: '✓ ';
+            color: #10b981;
+            font-weight: 900;
+            margin-right: 4px;
+        }
 
         /* =========================================
            16. MOBILE OPTIMIZATIONS
@@ -2576,7 +2626,7 @@
             #supreme-admin-portal .admin-main { margin-left:0; padding:15px;}
         }
         
-        /* 🛡️ ULTRA-SMALL IOS (iPhone 12 Mini, SE) OPTIMIZATIONS */
+        /* ULTRA-SMALL IOS (iPhone 12 Mini, SE) OPTIMIZATIONS */
         @media (max-width: 400px) {
             .nav-inner { padding: 0 8px; gap: 4px; }
             .logo { font-size: 12px; letter-spacing: 0; margin-right: auto; }
@@ -2591,7 +2641,6 @@
     </style>
 </head>
 <body>
-
     <div id="profile-modal-overlay" class="modal-overlay">
         <div class="modal-content" style="max-width: 600px;">
             <button class="m-close" onclick="closeProfileModal()">×</button>
@@ -2742,63 +2791,7 @@
         </div>
     </div>
 
-    <div id="vip-order-modal" class="modal-overlay" style="z-index: 200000;">
-        <div class="modal-content" style="max-width: 600px;">
-            <button class="m-close" onclick="closeVIPOrderModal()">×</button>
-            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px;">Generate VIP Order</h3>
-            <p style="color: var(--text-dim); font-size: 13px; margin-bottom: 20px;">Link to an existing customer via phone, or fill all details to create a new account automatically.</p>
-            
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                <div>
-                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Phone Number (10 Digits)</label>
-                    <input type="tel" id="vip-phone" class="m-input" placeholder="e.g. 9876543210" required>
-                </div>
-                <div>
-                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Full Name</label>
-                    <input type="text" id="vip-name" class="m-input" placeholder="Artist Name">
-                </div>
-                <div>
-                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Email Address</label>
-                    <input type="email" id="vip-email" class="m-input" placeholder="artist@email.com">
-                </div>
-                <div>
-                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Shipping Address</label>
-                    <input type="text" id="vip-address" class="m-input" placeholder="Complete Address with Pincode">
-                </div>
-            </div>
-
-            <div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border); margin-top: 10px;">
-                <label style="font-size:11px; color:#888; text-transform:uppercase;">Add Product to Order</label>
-                <select id="vip-product-select" class="m-input" style="margin-bottom: 10px;">
-                    <option value="">Select a Product...</option>
-                </select>
-                <div style="display:flex; gap:10px;">
-                    <input type="number" id="vip-qty" class="m-input" placeholder="Qty" value="1" min="1" style="width: 80px; margin-bottom:0;">
-                    <button class="btn btn-outline" style="flex:1; margin-bottom:0; padding: 10px;" onclick="addVIPItem()">+ Add to VIP Cart</button>
-                </div>
-            </div>
-
-            <div id="vip-cart-display" style="margin-bottom: 15px;"></div>
-
-            <div style="display:grid; grid-template-columns:2fr 1fr; gap:10px; margin-bottom:15px;">
-                <div>
-                    <label style="font-size:11px; color:#888; text-transform:uppercase;">Discount Name (Prints on Invoice)</label>
-                    <input type="text" id="vip-discount-name" class="m-input" value="One-Time VIP Referral Discount">
-                </div>
-                <div>
-                    <label style="font-size:11px; color:var(--success); text-transform:uppercase; font-weight:800;">Discount (₹)</label>
-                    <input type="number" id="vip-discount-amt" class="m-input" placeholder="0" value="0" style="border-color:var(--success);">
-                </div>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 1px solid #333; padding-top: 15px;">
-                <span style="color:#888; font-size:12px; text-transform:uppercase;">Final Total</span>
-                <span id="vip-final-total" style="font-size:24px; font-weight:800; color:#fff;">₹0</span>
-            </div>
-            
-            <button class="btn btn-primary" id="btn-submit-vip" style="width:100%; margin-top:15px;" onclick="submitVIPOrder()">Confirm & Generate Order</button>
-        </div>
-    </div>
+    <!-- VIP MODAL OMITTED HERE: We deleted the duplicate instance that was causing the bug. -->
 
     <div class="bg-layer"></div>
     <div class="bg-gradient"></div>
@@ -2857,13 +2850,40 @@
 
     <section id="shop" class="section" style="padding-top: 40px;">
         <div class="container">
-            <h2 style="text-align:center; font-size:42px; margin-bottom:80px;">Studio Lineup</h2>
+            <h2 style="text-align:center; font-size:42px; margin-bottom:40px;">Studio Lineup</h2>
+            
+            <!-- GUIDED SHOP UI -->
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 24px; padding: 30px; margin-bottom: 50px;">
+                <h3 style="text-align:center; font-size:18px; margin-bottom:20px;">How would you like to shop?</h3>
+                <div class="mode-toggle" style="max-width: 400px; margin: 0 auto 30px;">
+                    <div class="mode-opt active" id="sm-ratio" onclick="setShopMode('ratio'); vibrate(30);">By Ratio</div>
+                    <div class="mode-opt" id="sm-article" onclick="setShopMode('article'); vibrate(30);">By Article</div>
+                </div>
+
+                <!-- Ratio Selection UI -->
+                <div id="shop-ratio-ui" style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                    <p style="color:var(--text-dim); font-size:13px; text-transform:uppercase; font-weight:800; letter-spacing:1px; text-align:center;">Select Mixing Ratio</p>
+                    <div class="ratio-grid" style="justify-content: center; width: 100%; max-width: 400px; margin-bottom: 0;">
+                        <button class="ratio-btn active" id="btn-ratio-3-1" onclick="setShopRatio('3:1'); vibrate(30);">3:1</button>
+                        <button class="ratio-btn" id="btn-ratio-2-1" onclick="setShopRatio('2:1'); vibrate(30);">2:1</button>
+                        <button class="ratio-btn" id="btn-ratio-100-30" onclick="setShopRatio('100:30'); vibrate(30);">100:30</button>
+                    </div>
+                </div>
+
+                <!-- Article Selection UI -->
+                <div id="shop-article-ui" style="display: none; flex-direction: column; align-items: center; gap: 15px;">
+                    <p style="color:var(--text-dim); font-size:13px; text-transform:uppercase; font-weight:800; letter-spacing:1px; text-align:center;">What are you creating? (Select multiple)</p>
+                    <div id="article-chips-container" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+                        <!-- Populated via JS initShopFlow() -->
+                    </div>
+                </div>
+            </div>
+
             <div class="grid-3" id="product-grid">
                 <div style="color:var(--text-dim); text-align:center; width:100%; grid-column:1/-1;">Loading Live Inventory...</div>
             </div>
         </div>
     </section>
-
     <section id="support" class="section" style="padding-top: 20px;">
         <div class="container">
             <div class="support-card reveal">
@@ -3260,7 +3280,6 @@
             </div>
         </div>
     </div>
-
     <div id="supreme-admin-portal">
         <div id="admin-auth-gate">
             <div class="admin-auth-box">
@@ -3334,7 +3353,8 @@
                         <button onclick="adminEditProduct('new')" style="background:var(--accent); color:#fff; padding:10px 20px; border-radius:8px; font-weight:800; border:none; cursor:pointer;">+ Add New Product</button>
                     </div>
                     <div class="inv-grid" id="admin-inventory-grid">
-                        </div>
+                        <!-- Populated dynamically -->
+                    </div>
                 </div>
 
                 <div class="admin-data-panel" id="admin-panel-finance" style="display:none;">
@@ -3553,6 +3573,12 @@
         // INVENTORY DATA
         let liveProducts = [];
 
+        // NEW GUIDED SHOP FLOW CONSTANTS (DYNAMIC)
+        let ARTICLE_TYPES = [];
+        let currentShopMode = 'ratio'; // 'ratio' or 'article'
+        let activeShopRatio = '3:1';
+        let activeShopArticles = [];
+
         const escapeHTML = (str) => {
             if (str == null) return '';
             return String(str).replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
@@ -3626,12 +3652,71 @@
                 const res = await fetch(`${RENDER_URL}/api/products`);
                 if(!res.ok) throw new Error();
                 liveProducts = await res.json();
+                
+                // DYNAMIC ARTICLE EXTRACTION
+                let uniqueArts = new Set();
+                liveProducts.forEach(p => {
+                    if (p.inStock && p.suitableArticles) {
+                        p.suitableArticles.forEach(a => uniqueArts.add(a));
+                    }
+                });
+                ARTICLE_TYPES = Array.from(uniqueArts).sort();
+                
+                initShopFlow();
                 renderStorefront();
             } catch(e) {
                 console.error("Using fallback inventory");
             }
         }
 
+        // --- GUIDED SHOP FLOW LOGIC ---
+        function initShopFlow() {
+            const container = document.getElementById('article-chips-container');
+            if(container) {
+                let html = '';
+                ARTICLE_TYPES.forEach((art) => {
+                    const isActive = activeShopArticles.includes(art) ? 'active' : '';
+                    // Pass string directly to avoid index shift bugs
+                    const safeArtStr = escapeHTML(art).replace(/'/g, "\\'");
+                    html += `<button class="article-chip ${isActive}" id="chip-art-${safeArtStr}" onclick="toggleShopArticle('${safeArtStr}')">${escapeHTML(art)}</button>`;
+                });
+                if(ARTICLE_TYPES.length === 0) {
+                    html = `<div style="color:var(--text-dim); font-size:13px; text-align:center; width:100%;">No articles tagged in inventory yet. Use Admin to add articles to products!</div>`;
+                }
+                container.innerHTML = html;
+            }
+        }
+
+        function setShopMode(mode) {
+            currentShopMode = mode;
+            document.getElementById('sm-ratio').classList.toggle('active', mode === 'ratio');
+            document.getElementById('sm-article').classList.toggle('active', mode === 'article');
+            document.getElementById('shop-ratio-ui').style.display = mode === 'ratio' ? 'flex' : 'none';
+            document.getElementById('shop-article-ui').style.display = mode === 'article' ? 'flex' : 'none';
+            renderStorefront();
+        }
+
+        function setShopRatio(ratio) {
+            activeShopRatio = ratio;
+            document.getElementById('btn-ratio-3-1').classList.toggle('active', ratio === '3:1');
+            document.getElementById('btn-ratio-2-1').classList.toggle('active', ratio === '2:1');
+            document.getElementById('btn-ratio-100-30').classList.toggle('active', ratio === '100:30');
+            renderStorefront();
+        }
+
+        function toggleShopArticle(art) {
+            const chip = document.getElementById(`chip-art-${art}`);
+            if(activeShopArticles.includes(art)) {
+                activeShopArticles = activeShopArticles.filter(a => a !== art);
+                if(chip) chip.classList.remove('active');
+            } else {
+                activeShopArticles.push(art);
+                if(chip) chip.classList.add('active');
+            }
+            renderStorefront();
+        }
+
+        // --- UPDATED RENDER STOREFRONT WITH VISUAL TAGS ---
         function renderStorefront() {
             const grid = document.getElementById('product-grid');
             if(!grid) return;
@@ -3641,10 +3726,27 @@
                 return;
             }
 
+            let filteredProducts = liveProducts.filter(p => {
+                if(!p.inStock) return false;
+                if(currentShopMode === 'ratio') {
+                    const pRatio = p.ratio || '3:1'; // Default backwards compatibility
+                    return pRatio === activeShopRatio;
+                } else if (currentShopMode === 'article') {
+                    if(activeShopArticles.length === 0) return true; // Show all if none selected
+                    if(!p.suitableArticles || p.suitableArticles.length === 0) return false;
+                    return activeShopArticles.some(art => p.suitableArticles.includes(art));
+                }
+                return true;
+            });
+
+            if(filteredProducts.length === 0) {
+                let msg = currentShopMode === 'ratio' ? `No products found for ${activeShopRatio} ratio.` : `No products match the selected articles.`;
+                grid.innerHTML = `<div style="color:var(--text-dim); text-align:center; width:100%; grid-column:1/-1; padding: 40px; border: 1px dashed #333; border-radius: 16px;">${msg}</div>`;
+                return;
+            }
+
             let html = '';
-            liveProducts.forEach(p => {
-                if(!p.inStock) return; 
-                
+            filteredProducts.forEach(p => {
                 let tagStyle = '';
                 if(p.tag === 'Best Seller') tagStyle = 'background:#fff; color:#000; border-color:#fff;';
                 else if(p.tag === 'Monthly Pack') tagStyle = 'color:var(--accent); border-color:var(--accent);';
@@ -3656,14 +3758,29 @@
 
                 let borderStyle = p.tag === 'Best Seller' ? 'border-color:rgba(255,255,255,0.4) !important;' : '';
 
+                let pRatio = p.ratio || '3:1';
+                let articleTags = '';
+                if(p.suitableArticles && p.suitableArticles.length > 0) {
+                    const displayArts = p.suitableArticles.slice(0, 3);
+                    const moreCount = p.suitableArticles.length - 3;
+                    articleTags = displayArts.map(a => `<span style="background:rgba(255,255,255,0.1); color:#ccc; padding:4px 8px; border-radius:6px; font-size:10px; margin-right:6px; white-space:nowrap; display:inline-block; margin-bottom:6px;">${escapeHTML(a)}</span>`).join('');
+                    if(moreCount > 0) {
+                        articleTags += `<span style="background:rgba(255,255,255,0.05); color:#888; padding:4px 8px; border-radius:6px; font-size:10px; white-space:nowrap; display:inline-block; margin-bottom:6px;">+${moreCount} more</span>`;
+                    }
+                }
+
                 html += `
                 <div class="product-card reveal active" style="position:relative; overflow:hidden; ${borderStyle}">
                     ${cornerBadge}
                     <div>
-                        <span class="p-tag" style="${tagStyle}">${escapeHTML(p.tag)}</span>
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+                            <span class="p-tag" style="margin-bottom:0; ${tagStyle}">${escapeHTML(p.tag)}</span>
+                            <span style="font-size:10px; font-weight:800; color:var(--accent); background:rgba(99,102,241,0.1); padding:4px 10px; border-radius:12px; border:1px solid rgba(99,102,241,0.3); text-transform:uppercase;">${escapeHTML(pRatio)} Ratio</span>
+                        </div>
                         <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}" class="p-img" loading="lazy" decoding="async">
-                        <h3>${escapeHTML(p.name)}</h3>
-                        <p style="color:var(--text-dim); font-size:14px; margin-top:5px;">${escapeHTML(p.description)}</p>
+                        <h3 style="margin-bottom:8px;">${escapeHTML(p.name)}</h3>
+                        <div style="margin-bottom:10px; min-height: 24px;">${articleTags}</div>
+                        <p style="color:var(--text-dim); font-size:13px; line-height:1.5;">${escapeHTML(p.description)}</p>
                     </div>
                     <div style="margin-top:20px;">
                         <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:15px;">
@@ -4149,8 +4266,13 @@
             } catch(err) {
                 errorDiv.innerText = err.message; 
                 errorDiv.style.display = 'block'; 
-                if(err.message.includes("logging in")) {
-                    setTimeout(() => { switchAuthTab('login'); document.getElementById('auth-phone').value = cleanPhone; }, 2000);
+                // Fix: Ensure tabs unhide for guest checkouts
+                if(err.message.includes("logging in") || currentAuthMode === 'guest') {
+                    setTimeout(() => { 
+                        document.getElementById('auth-tabs').style.display = 'flex';
+                        switchAuthTab('login'); 
+                        document.getElementById('auth-phone').value = cleanPhone; 
+                    }, 2000);
                 }
             } finally {
                 btn.disabled = false;
@@ -4230,9 +4352,9 @@
                     <div class="c-actions" style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
                         <div class="c-price" style="color:#fff; font-weight:700;">₹${(item.price * item.qty).toLocaleString()}</div>
                         <div class="qty-control" style="display:flex; align-items:center; background:#000; border:1px solid #333; border-radius:20px; overflow:hidden;">
-                            <div class="qty-btn" style="width:30px; height:30px; display:flex; justify-content:center; align-items:center; color:#fff; cursor:pointer;" onclick="updateQty('${escapeHTML(item.name)}', -1)">-</div>
+                            <div class="qty-btn" style="width:30px; height:30px; display:flex; justify-content:center; align-items:center; color:#fff; cursor:pointer;" onclick="updateQty('${escapeHTML(item.name).replace(/'/g, "\\'")}', -1)">-</div>
                             <div class="qty-val" style="width:20px; text-align:center; color:#fff; font-size:12px; font-weight:800;">${item.qty}</div>
-                            <div class="qty-btn" style="width:30px; height:30px; display:flex; justify-content:center; align-items:center; color:#fff; cursor:pointer;" onclick="updateQty('${escapeHTML(item.name)}', 1)">+</div>
+                            <div class="qty-btn" style="width:30px; height:30px; display:flex; justify-content:center; align-items:center; color:#fff; cursor:pointer;" onclick="updateQty('${escapeHTML(item.name).replace(/'/g, "\\'")}', 1)">+</div>
                         </div>
                     </div>
                 </div>`; 
@@ -4491,9 +4613,19 @@
         }
 
         function retakeScan() { document.getElementById('scan-actions').style.display = 'none'; document.getElementById('btn-capture').style.display = 'block'; document.getElementById('scan-instruction').style.display = 'block'; const video = document.getElementById('camera-feed'); const canvas = document.getElementById('scanner-canvas'); canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); video.play(); }
+        
         function captureScanFrame() {
-            const video = document.getElementById('camera-feed'); const canvas = document.getElementById('scanner-canvas'); const ctx = canvas.getContext('2d');
-            canvas.width = video.clientWidth; canvas.height = video.clientHeight; ctx.drawImage(video, 0, 0, canvas.width, canvas.height); video.pause();
+            const video = document.getElementById('camera-feed'); 
+            const canvas = document.getElementById('scanner-canvas'); 
+            const ctx = canvas.getContext('2d');
+            
+            // Fix iOS Safari Crash: Fallback to video dimensions or explicit pixels if clientWidth is 0 during transitions
+            canvas.width = video.videoWidth || video.clientWidth || 320; 
+            canvas.height = video.videoHeight || video.clientHeight || 240; 
+            
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height); 
+            video.pause();
+            
             let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height); let d = imgData.data; let w = canvas.width, h = canvas.height;
             let bgR = 0, bgG = 0, bgB = 0; let corners = [0, (w-1)*4, (h-1)*w*4, ((h-1)*w + w - 1)*4]; corners.forEach(c => { bgR+=d[c]; bgG+=d[c+1]; bgB+=d[c+2]; }); bgR/=4; bgG/=4; bgB/=4;
             let minX = w, maxX = 0, minY = h, maxY = 0; const tolerance = 40;
@@ -4503,6 +4635,7 @@
             document.getElementById('scan-instruction').style.display = 'none'; document.getElementById('btn-capture').style.display = 'none'; document.getElementById('scan-actions').style.display = 'flex';
             setupCanvasInteraction(canvas, ctx, video); renderInteractivePolygon(canvas, ctx, video);
         }
+
         function setupCanvasInteraction(canvas, ctx, video) {
             const getPointerPos = (e) => { let rect = canvas.getBoundingClientRect(); let clientX = e.touches ? e.touches[0].clientX : e.clientX; let clientY = e.touches ? e.touches[0].clientY : e.clientY; return { x: (clientX - rect.left) * (canvas.width / rect.width), y: (clientY - rect.top) * (canvas.height / rect.height) }; };
             const downHandler = (e) => { e.preventDefault(); let pos = getPointerPos(e); draggingNode = polyNodes.find(p => Math.hypot(p.x - pos.x, p.y - pos.y) < 60); if(draggingNode) renderInteractivePolygon(canvas, ctx, video); };
@@ -4510,6 +4643,7 @@
             const upHandler = () => { draggingNode = null; renderInteractivePolygon(canvas, ctx, video); };
             canvas.addEventListener('mousedown', downHandler); canvas.addEventListener('mousemove', moveHandler); window.addEventListener('mouseup', upHandler); canvas.addEventListener('touchstart', downHandler, {passive: false}); canvas.addEventListener('touchmove', moveHandler, {passive: false}); window.addEventListener('touchend', upHandler);
         }
+
         function renderInteractivePolygon(canvas, ctx, video) {
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             ctx.fillStyle = "rgba(0, 0, 0, 0.7)"; ctx.beginPath(); ctx.rect(0, 0, canvas.width, canvas.height); ctx.moveTo(polyNodes[0].x, polyNodes[0].y); for(let i=1; i<polyNodes.length; i++) ctx.lineTo(polyNodes[i].x, polyNodes[i].y); ctx.closePath(); ctx.fill("evenodd");
@@ -4518,6 +4652,7 @@
             ctx.beginPath(); ctx.moveTo(polyNodes[0].x, polyNodes[0].y); ctx.lineTo(polyNodes[1].x, polyNodes[1].y); ctx.strokeStyle = "#ef4444"; ctx.lineWidth = 5; ctx.stroke();
             polyNodes.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, 14, 0, Math.PI*2); ctx.fillStyle = "#fff"; ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = (p === draggingNode) ? "#ef4444" : "#00a0ff"; ctx.stroke(); });
         }
+
         function processCalibration() {
             const inputLen = parseFloat(document.getElementById('scan-line-length').value); const unit = document.getElementById('scan-unit').value;
             if(!inputLen || inputLen <= 0) return alert('Please enter the length of the top red edge.');
@@ -4719,7 +4854,7 @@
             }
         }
 
-        // ====== FOUNDERS LEDGER ======
+        // ====== FOUNDERS LEDGER WITH FIXED MATH ======
         let founderTxList = []; 
         
         async function fetchFounderLedger() {     
@@ -4819,6 +4954,7 @@
             }
         }
 
+        // --- FIXED LEDGER MATH ---
         function renderFounderLedger() {
             const pF = document.getElementById('ft-filter-person')?.value || 'all';
             const tF = document.getElementById('ft-filter-type')?.value || 'all';
@@ -4828,8 +4964,15 @@
             
             founderTxList.forEach(tx => {
                 if (tx.status === 'settled') return;
-                if (tx.from === 'Mukul' && tx.to === 'Mahima') mahimaOwes += tx.amount;
-                if (tx.from === 'Mahima' && tx.to === 'Mukul') mukulOwes += tx.amount;
+                
+                if (tx.from === 'Mukul' && tx.to === 'Mahima') {
+                    if (tx.type === 'taken') mukulOwes += tx.amount;
+                    else mahimaOwes += tx.amount; // 'given', 'due', 'expense' 
+                } 
+                else if (tx.from === 'Mahima' && tx.to === 'Mukul') {
+                    if (tx.type === 'taken') mahimaOwes += tx.amount;
+                    else mukulOwes += tx.amount; // 'given', 'due', 'expense'
+                }
             });
 
             document.getElementById('ft-total-count').innerText = founderTxList.length;
@@ -4924,7 +5067,6 @@
             }
         }
 
-        // 🖨️ ADVANCED PDF GENERATOR ENGINE
         function generateAdminPDF(tabName, targetId) {
             const el = document.getElementById(targetId);
             if(!el) return alert("Nothing to print.");
@@ -4934,11 +5076,9 @@
             if(clone.tagName.toLowerCase() === 'TABLE') {
                 const rows = clone.querySelectorAll('tr');
                 rows.forEach(row => {
-                    // Strip Action Columns
                     if(row.lastElementChild && (row.lastElementChild.innerText.match(/Action|Actions/i) || row.lastElementChild.querySelector('button'))) {
                         row.removeChild(row.lastElementChild);
                     }
-                    // Flatten Inputs and Selects
                     row.querySelectorAll('select, input').forEach(inputEl => {
                         let textVal = inputEl.value || '';
                         if(inputEl.tagName.toLowerCase() === 'SELECT' && inputEl.selectedIndex >= 0) {
@@ -4976,7 +5116,6 @@
             printWindow.document.close();
         }
 
-        // 💰 MASTER RENDER FUNCTION
         function populateAdminDashboard() {
             let totalRev = 0; let totalGlobalCost = 0; let totalGlobalProfit = 0;
 
@@ -5020,7 +5159,6 @@
                     const txEncAdmin = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
                     const userEncAdmin = encodeURIComponent(JSON.stringify(resolvedUserObj)).replace(/'/g, "%27");
 
-                    // 💰 FINANCE MATH ENGINE
                     const rev = Number(o.totalAmount) || 0;
                     const cRaw = Number(o.costRawMaterial) || 0;
                     const cLabel = Number(o.costLabeling) || 0;
@@ -5035,7 +5173,6 @@
                         totalRev += rev; totalGlobalCost += totalCost; totalGlobalProfit += netProfit; 
                     }
 
-                    // 1. ORDERS TAB
                     oHtml += `
                         <tr style="border-bottom: 1px solid #333;">
                             <td style="padding:15px; vertical-align:top;">
@@ -5065,7 +5202,6 @@
                         </tr>
                     `;
 
-                    // 2. LOGISTICS TAB
                     if (o.status !== 'Pending Verification') {
                         let liveTrackUrl = "";
                         let awbClean = escapeHTML(o.trackingNumber || '');
@@ -5081,7 +5217,6 @@
 
                         let trackBtnHtml = liveTrackUrl ? `<button onclick="window.open('${liveTrackUrl}', '_blank')" style="background:#10b981; color:#000; padding:8px; border-radius:8px; cursor:pointer; border:none; font-size:12px; font-weight:800;">📍 Track</button>` : '';
 
-                        // ⚠️ STUCK IN TRANSIT ALERT LOGIC
                         let transitAlert = '';
                         if (o.status === 'Shipped' && o.createdAt) {
                             const daysInTransit = Math.floor((new Date() - new Date(o.createdAt)) / (1000 * 60 * 60 * 24));
@@ -5129,7 +5264,6 @@
                         `;
                     }
 
-                    // 3. FINANCE TAB
                     let profitColor = netProfit >= 0 ? '#10b981' : '#ef4444';
                     fHtml += `
                         <tr style="border-bottom: 1px solid #333;">
@@ -5152,12 +5286,10 @@
                 });
             }
             
-            // Render Orders & Logistics
             if(oBody) oBody.innerHTML = oHtml;
             if(lBody) lBody.innerHTML = lHtml;
             if(fBody) fBody.innerHTML = fHtml;
 
-            // RENDER PROFESSIONAL INVENTORY ENGINE
             if(pGrid) {
                 let totalStockValue = 0;
                 let activeProducts = 0;
@@ -5176,14 +5308,20 @@
                         totalStockValue += potentialRev;
 
                         let statusUI = p.inStock ? `<span style="color:#10b981; font-weight:800;">✓ Active</span>` : `<span style="color:#ef4444; font-weight:800;">✕ Out of Stock</span>`;
+                        
+                        let articlesAdminDisplay = '';
+                        if(p.suitableArticles && p.suitableArticles.length > 0) {
+                            articlesAdminDisplay = `<div style="font-size:9px; color:#aaa; margin-top:4px; max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Arts: ${p.suitableArticles.join(', ')}</div>`;
+                        }
 
                         tableRows += `
                             <tr style="border-bottom: 1px solid #333;">
                                 <td style="padding:15px; display:flex; align-items:center; gap:10px;">
                                     <img src="${escapeHTML(p.image)}" style="width:40px; height:40px; border-radius:6px; object-fit:cover;" onerror="this.src='product-1.webp'">
-                                    <div>
-                                        <div style="font-weight:800; color:#fff;">${escapeHTML(p.name)}</div>
-                                        <div style="font-size:10px; color:#888; text-transform:uppercase;">${escapeHTML(p.tag)}</div>
+                                    <div style="overflow: hidden;">
+                                        <div style="font-weight:800; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:220px;">${escapeHTML(p.name)}</div>
+                                        <div style="font-size:10px; color:#888; text-transform:uppercase; margin-top:2px;">${escapeHTML(p.tag)} <span style="color:var(--accent);">| ${p.ratio || '3:1'}</span></div>
+                                        ${articlesAdminDisplay}
                                     </div>
                                 </td>
                                 <td style="padding:15px; color:#ccc;">${statusUI}</td>
@@ -5199,7 +5337,6 @@
                     });
                 }
 
-                // Inject the new Stock Dashboard HTML
                 let totalProjectedProfit = totalStockValue * (avgMargin / 100);
                 
                 pHtml = `
@@ -5224,11 +5361,10 @@
                     </table>
                 </div>
                 `;
-                pGrid.style.display = 'block'; // Remove grid layout so table flows normally
+                pGrid.style.display = 'block';
                 pGrid.innerHTML = pHtml;
             }
 
-            // STATS UPDATE
             const statRev = document.getElementById('stat-revenue');
             if(statRev) statRev.innerText = '₹' + totalRev.toLocaleString();
             
@@ -5248,7 +5384,6 @@
             const statMargin = document.getElementById('stat-avg-margin');
             if(statMargin) statMargin.innerText = avgMargin + '%';
 
-            // USERS TAB
             const uBody = document.getElementById('admin-users-tbody');
             if (uBody) {
                 let uHtml = '';
@@ -5404,17 +5539,41 @@
             };
         }
 
-        // 📦 INVENTORY MANAGEMENT LOGIC
+        // 📦 INVENTORY MANAGEMENT LOGIC WITH SAFE COMPRESSION
         function adminEditProduct(id) {
-            let p = { name: '', tag: 'Premium Kit', image: 'product-1.webp', description: '', originalPrice: 0, currentPrice: 0, inStock: true, stockQty: 0 };
+            let p = { name: '', tag: 'Premium Kit', image: 'product-1.webp', description: '', originalPrice: 0, currentPrice: 0, inStock: true, stockQty: 0, ratio: '3:1', suitableArticles: [] };
             if (id !== 'new') p = globalProducts.find(x => x._id === id) || p;
+
+            let articlesStr = (p.suitableArticles || []).join(', ');
 
             document.getElementById('admin-edit-title').innerText = id === 'new' ? 'Add New Product' : 'Edit Product';
             document.getElementById('admin-edit-fields').innerHTML = `
-                <label style="font-size:11px; color:#888;">Product Name</label><input type="text" id="ep-name" value="${escapeHTML(p.name)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
-                <label style="font-size:11px; color:#888;">Badge/Tag (e.g. Best Seller)</label><input type="text" id="ep-tag" value="${escapeHTML(p.tag)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
-                <label style="font-size:11px; color:#888;">Image Filename</label><input type="text" id="ep-img" value="${escapeHTML(p.image)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
-                <label style="font-size:11px; color:#888;">Description</label><textarea id="ep-desc" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px; height:60px; font-family:inherit;">${escapeHTML(p.description)}</textarea>
+                <label style="font-size:11px; color:#888;">Product Name</label>
+                <input type="text" id="ep-name" value="${escapeHTML(p.name)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
+                
+                <label style="font-size:11px; color:#888;">Badge/Tag (e.g. Best Seller)</label>
+                <input type="text" id="ep-tag" value="${escapeHTML(p.tag)}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
+                
+                <label style="font-size:11px; color:#888;">Resin Ratio</label>
+                <select id="ep-ratio" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
+                    <option value="3:1" ${p.ratio==='3:1'?'selected':''}>3:1</option>
+                    <option value="2:1" ${p.ratio==='2:1'?'selected':''}>2:1</option>
+                    <option value="100:30" ${p.ratio==='100:30'?'selected':''}>100:30</option>
+                </select>
+
+                <label style="font-size:11px; color:var(--success); font-weight:800;">Suitable Articles (Comma Separated)</label>
+                <input type="text" id="ep-articles" value="${escapeHTML(articlesStr)}" placeholder="e.g. Varmala, Geode, Wall Clock" style="width:100%; background:rgba(16, 185, 129, 0.05); border:1px solid rgba(16, 185, 129, 0.4); color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
+
+                <label style="font-size:11px; color:#888;">Product Image (Upload directly)</label>
+                <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
+                    <img id="ep-img-preview" src="${escapeHTML(p.image)}" style="width:60px; height:60px; object-fit:cover; border-radius:8px; border:1px solid #333;" onerror="this.src='product-1.webp'">
+                    <input type="file" id="ep-img-upload" accept="image/*" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px; font-size:12px; cursor:pointer;">
+                    <input type="hidden" id="ep-img" value="${escapeHTML(p.image)}">
+                </div>
+
+                <label style="font-size:11px; color:#888;">Description</label>
+                <textarea id="ep-desc" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px; height:60px; font-family:inherit;">${escapeHTML(p.description)}</textarea>
+                
                 <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
                     <div><label style="font-size:11px; color:#888;">Orig. Price (₹)</label><input type="number" id="ep-orig" value="${p.originalPrice}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"></div>
                     <div><label style="font-size:11px; color:#888;">Curr. Price (₹)</label><input type="number" id="ep-curr" value="${p.currentPrice}" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; margin-bottom:10px; border-radius:8px;"></div>
@@ -5426,16 +5585,76 @@
             `;
             document.getElementById('admin-edit-modal').style.display = 'flex';
 
+            // Safe Image Compression Logic
+            document.getElementById('ep-img-upload').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const btn = document.getElementById('admin-edit-save');
+                btn.disabled = true;
+                btn.innerText = "Compressing Image...";
+
+                const reader = new FileReader();
+                reader.onerror = () => {
+                    alert("Failed to read the file.");
+                    btn.disabled = false;
+                    btn.innerText = "Save";
+                };
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onerror = () => {
+                        alert("Invalid image file selected.");
+                        btn.disabled = false;
+                        btn.innerText = "Save";
+                    };
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 800; // Optimal size for store layout
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        if (width > MAX_WIDTH) {
+                            height = Math.round((height * MAX_WIDTH) / width);
+                            width = MAX_WIDTH;
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // Compress to WebP format for fast loading
+                        const dataUrl = canvas.toDataURL('image/webp', 0.8);
+                        document.getElementById('ep-img-preview').src = dataUrl;
+                        document.getElementById('ep-img').value = dataUrl;
+                        
+                        btn.disabled = false;
+                        btn.innerText = "Save";
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+
             const btn = document.getElementById('admin-edit-save');
             btn.onclick = async () => {
                 const key = sessionStorage.getItem('mxlumes_admin_key');
                 btn.disabled = true; btn.innerText = 'Saving...';
                 
+                const artsInput = document.getElementById('ep-articles').value;
+                const suitableArticlesArray = artsInput.split(',').map(a => a.trim()).filter(a => a);
+
                 const payload = {
-                    name: document.getElementById('ep-name').value, tag: document.getElementById('ep-tag').value,
-                    image: document.getElementById('ep-img').value, description: document.getElementById('ep-desc').value,
-                    originalPrice: document.getElementById('ep-orig').value, currentPrice: document.getElementById('ep-curr').value,
-                    inStock: document.getElementById('ep-stock').checked, stockQty: Number(document.getElementById('ep-qty').value) || 0
+                    name: document.getElementById('ep-name').value, 
+                    tag: document.getElementById('ep-tag').value,
+                    ratio: document.getElementById('ep-ratio').value,
+                    suitableArticles: suitableArticlesArray,
+                    image: document.getElementById('ep-img').value, 
+                    description: document.getElementById('ep-desc').value,
+                    originalPrice: Number(document.getElementById('ep-orig').value) || 0, 
+                    currentPrice: Number(document.getElementById('ep-curr').value) || 0,
+                    inStock: document.getElementById('ep-stock').checked, 
+                    stockQty: Number(document.getElementById('ep-qty').value) || 0
                 };
 
                 const url = id === 'new' ? `${RENDER_URL}/api/admin/products` : `${RENDER_URL}/api/admin/products/${id}`;
@@ -5444,7 +5663,11 @@
                 try {
                     await fetch(url, { method, headers: { 'Content-Type': 'application/json', 'admin-secret-key': key }, body: JSON.stringify(payload) });
                     closeAdminEditModal(); fetchAdminData(); fetchLiveInventory(); 
-                } finally { btn.disabled = false; btn.innerText = 'Save'; }
+                } catch(e) {
+                    alert("Failed to save. Ensure image size isn't too large.");
+                } finally { 
+                    btn.disabled = false; btn.innerText = 'Save'; 
+                }
             };
         }
 
@@ -5573,7 +5796,7 @@
                 subtotal += item.price * item.qty;
                 html += `<div style="display:flex; justify-content:space-between; margin-bottom:5px; font-size:13px; color:#ccc;">
                     <span>${item.qty}x ${escapeHTML(item.name)}</span>
-                    <span>₹${(item.price * item.qty).toLocaleString()} <button onclick="removeVIPItem('${escapeHTML(item.name)}')" style="color:#ef4444; margin-left:10px; cursor:pointer; border:none; background:transparent;">✕</button></span>
+                    <span>₹${(item.price * item.qty).toLocaleString()} <button onclick="removeVIPItem('${escapeHTML(item.name).replace(/'/g, "\\'")}')" style="color:#ef4444; margin-left:10px; cursor:pointer; border:none; background:transparent;">✕</button></span>
                 </div>`;
             });
             display.innerHTML = html;
