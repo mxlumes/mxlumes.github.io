@@ -13,6 +13,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <!-- Razorpay Payment Gateway SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <style>
         /* =========================================
@@ -348,7 +351,7 @@
         .nav-auth-btn:hover { 
             transform: translateY(-2px); 
             box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
-        }
+        } 
         
         .nav-stamp { 
             width: 55px; 
@@ -760,7 +763,7 @@
             display: flex; 
             flex-direction: column; 
             justify-content: space-between; 
-        }
+        } 
         
         @media (min-width: 900px) { 
             .zenith-calc { 
@@ -922,7 +925,7 @@
         .z-number:focus { 
             border-color: var(--accent); 
             outline: none; 
-        }
+        } 
         
         .z-slider { 
             -webkit-appearance: none; 
@@ -1298,7 +1301,7 @@
             display: flex; 
             gap: 8px; 
             line-height: 1.4; 
-        }
+        } 
         
         .cost-card { 
             display: flex; 
@@ -1545,7 +1548,7 @@
 
         .reviews-container::-webkit-scrollbar { 
             display: none; 
-        }
+        } 
         
         .r-card { 
             min-width: 320px; 
@@ -1627,7 +1630,7 @@
         .modal-overlay.active { 
             opacity: 1; 
             display: flex; 
-        }
+        } 
         
         .modal-content {
             background: #0a0a0a; 
@@ -1881,7 +1884,7 @@
             opacity: 0; 
             transition: opacity 0.5s var(--ease-fluid); 
             cursor: pointer; 
-        }
+        } 
         
         .cart-inner { 
             position: absolute; 
@@ -2116,7 +2119,7 @@
             opacity: 1; 
             transform: translate3d(0, 0, 0) scale(1); 
             pointer-events: all; 
-        }
+        } 
         
         .v-header { 
             background: rgba(99, 102, 241, 0.1); 
@@ -2528,7 +2531,7 @@
             font-size: 13px; 
             resize: vertical; 
             min-height: 60px; 
-        }
+        } 
         
         /* MULTI-SELECT CHIPS FOR ADMIN */
         .admin-chips-container {
@@ -3337,6 +3340,7 @@
             </div>
         </div>
     </div>
+
 <div id="supreme-admin-portal">
         <div id="admin-auth-gate">
             <div class="admin-auth-box">
@@ -3557,21 +3561,17 @@
     </div>
 <script>
         const RENDER_URL = 'https://mxlumes-api.onrender.com';
-        const MERCHANT_UPI_ID = "7668077298@ybl"; 
         
         let cart = []; 
         let currentAuthMode = 'login'; 
         let checkoutTotal = 0; 
         let userLocation = "Unknown";
-        
-        let isVerifying = false; 
-        window.paymentIntentFired = null; 
         let pendingCheckout = false; 
 
         // INVENTORY DATA
         let liveProducts = [];
 
-        // NEW GUIDED SHOP FLOW CONSTANTS (DYNAMIC)
+        // GUIDED SHOP FLOW CONSTANTS (DYNAMIC)
         let ARTICLE_TYPES = [];
         let currentShopMode = 'ratio'; // 'ratio' or 'article'
         let activeShopRatio = '3:1';
@@ -3614,35 +3614,30 @@
             }
         };
 
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted) {
-                isVerifying = false; 
-                const btn = document.getElementById('pay-confirm-btn');
-                if(btn) {
-                    btn.disabled = false;
-                    btn.innerText = "✓ I Have Completed The Payment";
-                    btn.classList.remove('pulse-btn-accent', 'pulse-btn-green');
-                    btn.style.background = "var(--accent)";
-                    btn.style.color = "#fff";
-                }
-            }
-        });
+        function blurInputs() { 
+            document.activeElement?.blur(); 
+        }
 
-        document.addEventListener("visibilitychange", () => {
-            if (document.visibilityState === "visible" && window.paymentIntentFired) {
-                const timeAway = Date.now() - window.paymentIntentFired;
-                window.paymentIntentFired = null; 
-                
-                if (timeAway > 4000 && !isVerifying && cart.length > 0) {
-                    const btn = document.getElementById('pay-confirm-btn');
-                    if(btn && !btn.disabled) {
-                        btn.innerText = "Tap to Verify Payment ➝";
-                        btn.classList.add('pulse-btn-accent'); 
-                        showToast("Welcome back! Please verify your order.");
-                    }
-                }
-            }
-        });
+        function lockScroll() {
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overscrollBehavior = 'none';
+            document.body.style.overscrollBehavior = 'none';
+        }
+
+        function unlockScroll() {
+            document.body.style.overflow = '';
+            document.documentElement.style.overscrollBehavior = '';
+            document.body.style.overscrollBehavior = '';
+        }
+
+        function showToast(msg, isError = false) { 
+            const t = document.getElementById('toast'); 
+            if(!t) return;
+            t.innerText = msg; 
+            if(isError) t.classList.add('error'); else t.classList.remove('error');
+            t.classList.add('show'); 
+            setTimeout(() => t.classList.remove('show'), 3000); 
+        }
 
         // 📦 FETCH & RENDER INVENTORY
         async function fetchLiveInventory() {
@@ -3667,7 +3662,7 @@
             }
         }
 
-        // --- NEW SHOP FLOW LOGIC ---
+        // --- SHOP FLOW LOGIC ---
         function initShopFlow() {
             const container = document.getElementById('article-chips-container');
             if(container) {
@@ -3713,7 +3708,6 @@
             renderStorefront();
         }
 
-        // --- UPDATED RENDER STOREFRONT WITH VISUAL TAGS ---
         function renderStorefront() {
             const grid = document.getElementById('product-grid');
             if(!grid) return;
@@ -3726,10 +3720,10 @@
             let filteredProducts = liveProducts.filter(p => {
                 if(!p.inStock) return false;
                 if(currentShopMode === 'ratio') {
-                    const pRatio = p.ratio || '3:1'; // Default backwards compatibility
+                    const pRatio = p.ratio || '3:1';
                     return pRatio === activeShopRatio;
                 } else if (currentShopMode === 'article') {
-                    if(activeShopArticles.length === 0) return true; // Show all if none selected
+                    if(activeShopArticles.length === 0) return true;
                     if(!p.suitableArticles || p.suitableArticles.length === 0) return false;
                     return activeShopArticles.some(art => p.suitableArticles.includes(art));
                 }
@@ -3791,22 +3785,7 @@
             grid.innerHTML = html;
         }
 
-        function blurInputs() { 
-            document.activeElement?.blur(); 
-        }
-
-        function lockScroll() {
-            document.body.style.overflow = 'hidden';
-            document.documentElement.style.overscrollBehavior = 'none';
-            document.body.style.overscrollBehavior = 'none';
-        }
-
-        function unlockScroll() {
-            document.body.style.overflow = '';
-            document.documentElement.style.overscrollBehavior = '';
-            document.body.style.overscrollBehavior = '';
-        }
-
+        // 👤 USER AUTHENTICATION & PROFILE
         function checkAuthStatus() {
             try {
                 const user = JSON.parse(localStorage.getItem('mxlumes_user'));
@@ -3872,23 +3851,7 @@
                         
                         const txEnc = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
                         
-                        let actionBtn = '';
-                        if (o.status === 'Pending Verification') {
-                            actionBtn = `
-                                <div style="background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.2); padding: 10px; border-radius: 12px; max-width: 200px;">
-                                    <div style="display:flex; align-items:center; gap:5px; color:var(--warning); font-size:12px; font-weight:800; margin-bottom:5px;">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                                        Payment Under Review
-                                    </div>
-                                    <div style="font-size:10px; color:#888; line-height:1.4; margin-bottom:8px;">
-                                        Our accounts team is manually matching your UPI transfer to this order. This usually takes 1-2 hours.
-                                    </div>
-                                    <a href="https://wa.me/917668077298?text=Hi,%20I%20want%20to%20confirm%20my%20payment%20for%20Order%20${encodeURIComponent(o.orderId)}" target="_blank" style="display:inline-block; background:var(--whatsapp); color:#000; padding:6px 10px; border-radius:6px; font-size:10px; font-weight:800; text-decoration:none;">Message Support</a>
-                                </div>
-                            `;
-                        } else {
-                            actionBtn = `<button class="btn btn-outline" style="padding: 6px 12px; font-size:10px; background:#fff; color:#000;" onclick="printInvoice('${escapeHTML(o.orderId)}', '${escapeHTML(o.createdAt)}', ${o.totalAmount}, '${itemsJson}', '${txEnc}', '${isolatedUserStr}'); vibrate(50);">Download Invoice</button>`;
-                        }
+                        let actionBtn = `<button class="btn btn-outline" style="padding: 6px 12px; font-size:10px; background:#fff; color:#000;" onclick="printInvoice('${escapeHTML(o.orderId)}', '${escapeHTML(o.createdAt)}', ${o.totalAmount}, '${itemsJson}', '${txEnc}', '${isolatedUserStr}'); vibrate(50);">Download Invoice</button>`;
 
                         tbodyHtml += `
                             <tr>
@@ -4056,7 +4019,7 @@
                             <div style="padding: 15px; background: var(--light-gray); border-radius: 10px; margin-bottom: 15px;">
                                 <h4 style="margin: 0 0 5px 0; font-size: 10px; text-transform: uppercase; color: var(--gray); letter-spacing: 1px;">Payment & Transaction Details</h4>
                                 <p style="margin: 0; font-size: 12px; font-weight: 600; color: var(--black); line-height: 1.4; word-break: break-all;">
-                                    ${transactionDetails || 'Payment Pending / No manual details provided.'}
+                                    ${transactionDetails || 'Paid via Razorpay Secure Gateway.'}
                                 </p>
                             </div>
 
@@ -4202,6 +4165,7 @@
                     closeAuthModal();
                     document.getElementById('auth-form').reset();
                     checkAuthStatus();
+                    if(pendingCheckout) initiateCheckout();
                 } catch (error) {
                     errorDiv.innerText = error.message; 
                     errorDiv.style.display = 'block'; 
@@ -4272,6 +4236,7 @@
             }
         }
 
+        // 🛒 CART MANAGEMENT & CLOUD SYNC
         function updateReminder() {
             const reminder = document.getElementById('cartReminder');
             const sidebar = document.getElementById('cartSidebar');
@@ -4365,25 +4330,10 @@
             if(sidebar.classList.contains('active')) lockScroll(); else unlockScroll();
             updateReminder(); 
         }
-        
-        function showToast(msg, isError = false) { 
-            const t = document.getElementById('toast'); 
-            t.innerText = msg; 
-            if(isError) t.classList.add('error'); else t.classList.remove('error');
-            t.classList.add('show'); 
-            setTimeout(() => t.classList.remove('show'), 3000); 
-        }
 
-        function trackPaymentIntent() {
-            window.paymentIntentFired = Date.now();
-        }
-
-        function copyUPI() {
-            navigator.clipboard.writeText("7668077298@ybl");
-            showToast("UPI ID Copied! Paste it in your app.");
-            vibrate(50);
-        }
-
+        // ===================================================
+        // 💳 AUTOMATED RAZORPAY GATEWAY CHECKOUT ENGINE
+        // ===================================================
         function initiateCheckout() {
             if (cart.length === 0) return showToast("Your cart is empty", true);
             
@@ -4394,116 +4344,102 @@
                 return; 
             }
 
-            const amountFixed = checkoutTotal.toFixed(2);
-            const payeeName = encodeURIComponent("M-X Lumes");
-            const baseParams = `pa=${MERCHANT_UPI_ID}&pn=${payeeName}&am=${amountFixed}&cu=INR&tn=Resin%20Order`;
-            
-            document.getElementById('upi-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent('upi://pay?' + baseParams)}`;
-            document.getElementById('payment-total').innerText = `₹${checkoutTotal.toLocaleString()}`;
-            
-            toggleCart(); 
-            document.getElementById('payment-modal-overlay').classList.add('active');
-            lockScroll();
-            
-            document.getElementById('payment-error-msg').style.display = 'none';
+            startRazorpayCheckout(user);
         }
 
-        function closePaymentModal() { 
-            blurInputs();
-            document.getElementById('payment-modal-overlay').classList.remove('active'); 
-            unlockScroll();
+        async function startRazorpayCheckout(user) {
+            if (cart.length === 0) return showToast("Your cart is empty", true);
             
-            isVerifying = false;
-            window.paymentIntentFired = null;
-            document.getElementById('payment-error-msg').style.display = 'none';
+            showToast("Initializing Razorpay Secure Checkout...");
             
-            const btn = document.getElementById('pay-confirm-btn');
-            btn.style.display = 'block';
-            btn.disabled = false;
-            btn.innerText = "✓ I Have Completed The Payment";
-            btn.onclick = finalizeOrder; 
-            btn.style.background = "var(--accent)";
-            btn.style.color = "#fff";
-            btn.classList.remove('pulse-btn-accent', 'pulse-btn-green');
-            
-            const trustMsg = document.getElementById('trust-msg-block');
-            if(trustMsg) trustMsg.remove();
-        }
-
-        async function finalizeOrder() {
-            const btn = document.getElementById('pay-confirm-btn');
-            const errBox = document.getElementById('payment-error-msg');
-            
-            if (isVerifying || btn.disabled) return;
-            isVerifying = true;
-            vibrate(50);
-            
-            btn.classList.remove('pulse-btn-accent');
-            btn.innerText = "Verifying with Bank API...";
-            btn.disabled = true; 
-            errBox.style.display = 'none';
-
-            let user = null;
             try {
-                user = JSON.parse(localStorage.getItem('mxlumes_user'));
-            } catch(e){}
-
-            if (!user || !user.email) {
-                errBox.innerText = "⚠ Session expired. Please close this and securely re-enter your delivery details.";
-                errBox.style.display = 'block';
-                btn.innerText = "✓ Try Verification Again";
-                btn.disabled = false;
-                isVerifying = false;
-                logout(new Event('click')); 
-                return;
-            }
-
-            const payload = { email: user.email, items: cart, totalAmount: checkoutTotal, location: userLocation };
-
-            try {
-                const response = await fetch(`${RENDER_URL}/api/orders`, { 
-                    method: 'POST', 
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}` 
-                    }, 
-                    body: JSON.stringify(payload) 
+                // 1. Request Order Creation from Backend Server
+                const response = await fetch(`${RENDER_URL}/api/create-razorpay-order`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        amount: checkoutTotal, 
+                        email: user.email, 
+                        phone: user.phone || '' 
+                    })
                 });
-                
-                if (response.status === 429) throw new Error("System is busy. Please wait 30 seconds.");
-                
-                const data = await response.json();
-                if (!response.ok) throw new Error(data.message || "Failed to communicate with server.");
 
-                const trustMsg = document.createElement('div');
-                trustMsg.id = "trust-msg-block";
-                trustMsg.innerHTML = `<div style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success); color: var(--success); padding: 15px; border-radius: 12px; font-size: 13px; line-height: 1.5; margin-bottom: 15px; font-weight: 700; text-align: left;">
-                    ✅ Payment Logged! Your order <b>${escapeHTML(data.orderId)}</b> has been generated safely. Please send us your invoice receipt on WhatsApp to finalize dispatch.
-                </div>`;
-                btn.parentNode.insertBefore(trustMsg, btn);
+                const orderData = await response.json();
+                if (!response.ok || !orderData.success) {
+                    throw new Error(orderData.message || "Failed to create payment order");
+                }
 
-                let msg = `*NEW ORDER RECEIVED: ${data.orderId}*%0AHi M-X Lumes team,%0AI have transferred ₹${checkoutTotal.toLocaleString()} via UPI.%0A%0A`;
-                cart.forEach(i => { msg += `• ${i.name} x ${i.qty}%0A`; });
-                msg += `%0APlease verify and approve my invoice.`;
-                
-                cart = []; renderCart(); syncCartWithCloud([]); 
-                
-                btn.innerText = "Step 2: Send Receipt on WhatsApp";
-                btn.style.background = "var(--whatsapp)";
-                btn.style.color = "#000";
-                btn.classList.add('pulse-btn-green');
-                btn.disabled = false;
-                btn.onclick = () => {
-                    vibrate(50);
-                    window.location.href = `https://wa.me/917668077298?text=${encodeURIComponent(msg)}`;
+                // 2. Configure Razorpay Popup Options with your Key ID
+                const options = {
+                    "key": orderData.keyId || "rzp_live_TP7uAZYescgjnH",
+                    "amount": orderData.amount,
+                    "currency": orderData.currency || "INR",
+                    "name": "M-X Lumes",
+                    "description": "Epoxy Resin Purchase",
+                    "image": "product-1.webp",
+                    "order_id": orderData.orderId,
+                    "prefill": {
+                        "name": user.name || "",
+                        "email": user.email || "",
+                        "contact": user.phone || ""
+                    },
+                    "theme": {
+                        "color": "#6366f1"
+                    },
+                    "handler": async function (paymentResult) {
+                        // 3. Verify Payment Signature & Save Order in Database
+                        showToast("Verifying Payment with Server...");
+                        try {
+                            const verifyRes = await fetch(`${RENDER_URL}/api/verify-razorpay-payment`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}`
+                                },
+                                body: JSON.stringify({
+                                    razorpay_order_id: paymentResult.razorpay_order_id,
+                                    razorpay_payment_id: paymentResult.razorpay_payment_id,
+                                    razorpay_signature: paymentResult.razorpay_signature,
+                                    email: user.email,
+                                    items: cart,
+                                    totalAmount: checkoutTotal,
+                                    location: userLocation
+                                })
+                            });
+
+                            const verifyData = await verifyRes.json();
+                            if (verifyRes.ok && verifyData.success) {
+                                showToast("✅ Payment Verified! Order Placed.");
+                                const placedOrderId = verifyData.orderId || paymentResult.razorpay_order_id;
+
+                                let msg = `*NEW RAZORPAY ORDER: ${placedOrderId}*%0AHi M-X Lumes team,%0APayment Successful via Razorpay (ID: ${paymentResult.razorpay_payment_id})!%0A%0A`;
+                                cart.forEach(i => { msg += `• ${i.name} x ${i.qty}%0A`; });
+                                msg += `%0AAmount Paid: ₹${checkoutTotal.toLocaleString()}`;
+
+                                cart = []; renderCart(); syncCartWithCloud([]);
+                                if(document.getElementById('cartSidebar').classList.contains('active')) toggleCart();
+
+                                setTimeout(() => {
+                                    window.location.href = `https://wa.me/917668077298?text=${encodeURIComponent(msg)}`;
+                                }, 800);
+                            } else {
+                                alert("Payment Verification Failed: " + (verifyData.message || "Invalid Signature"));
+                            }
+                        } catch (err) {
+                            alert("Verification Error: " + err.message);
+                        }
+                    },
+                    "modal": {
+                        "ondismiss": function() {
+                            showToast("Payment window closed", true);
+                        }
+                    }
                 };
 
-            } catch (error) { 
-                errBox.innerText = "⚠ " + (error.message || "Verification failed. Check network connection.");
-                errBox.style.display = 'block';
-                btn.innerText = "✓ Try Verification Again";
-                btn.disabled = false;
-                isVerifying = false;
+                const rzp = new Razorpay(options);
+                rzp.open();
+            } catch (err) {
+                alert("Razorpay Checkout Error: " + err.message);
             }
         }
 
@@ -4514,8 +4450,9 @@
         function smoothScroll(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
         const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if(entry.isIntersecting) { entry.target.classList.add('active'); } }); }, {threshold: 0.1});
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
+// 🧮 PROJECT CALCULATOR JS ENGINE
         let appState = { unit: 'cm', shape: 'rect', ratioA: 3, ratioB: 1, mode: 'cast', scannedArea: 0 };
+        
         function setUnit(u) {
             if(appState.unit !== u) {
                 const factor = u === 'in' ? 0.3937 : 2.54; 
@@ -4526,16 +4463,19 @@
             }
             document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active')); document.getElementById('unit-'+u).classList.add('active'); appState.unit = u; runCalc();
         }
+
         function setShape(s) {
             appState.shape = s; document.querySelectorAll('.shape-btn').forEach(i => i.classList.remove('active')); document.getElementById('btn-'+s).classList.add('active');
             ['rect', 'circ', 'tri', 'pyr', 'sph', 'scan'].forEach(k => { const el = document.getElementById('dims-'+k); if(el) el.style.display = 'none'; });
             const activeDims = document.getElementById('dims-'+s); if(activeDims) activeDims.style.display = (s === 'scan') ? 'flex' : 'block';
             document.getElementById('group-depth').style.display = (s === 'sph' || s === 'pyr') ? 'none' : 'block'; runCalc();
         }
+
         function sync(id, isSlider = false) { const inp = document.getElementById('input-' + id); const sli = document.getElementById('slider-' + id); if(isSlider) inp.value = sli.value; else sli.value = inp.value; runCalc(); }
         function setRatio(a, b, el) { document.querySelectorAll('.ratio-btn').forEach(btn => btn.classList.remove('active')); el.classList.add('active'); document.getElementById('custom-ratio').style.display = 'none'; appState.ratioA = a; appState.ratioB = b; runCalc(); }
         function toggleCustomRatio(el) { document.querySelectorAll('.ratio-btn').forEach(btn => btn.classList.remove('active')); el.classList.add('active'); document.getElementById('custom-ratio').style.display = 'flex'; runCalc(); }
         function setMode(mode) { appState.mode = mode; document.querySelectorAll('.mode-opt').forEach(opt => opt.classList.remove('active')); document.getElementById('mode-'+mode).classList.add('active'); runCalc(); }
+        
         function setPreset(type) {
             if(appState.unit === 'in') setUnit('cm'); 
             if(type === 'varmala') { setShape('rect'); syncSet('L', 30); syncSet('W', 30); syncSet('D', 7.5); setMode('cast'); }
@@ -4563,6 +4503,7 @@
                 } catch (ipError) { handleWeatherError(btn, status, "Connection Blocked"); }
             }
         }
+
         async function fetchWeatherData(lat, lon, btn, status, intelligence, sourceLabel) {
             status.innerText = "Downloading Atmospheric Data...";
             try {
@@ -4577,12 +4518,15 @@
                 setTimeout(() => { btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg> Auto-Detect Conditions'; }, 5000);
             } catch (e) { handleWeatherError(btn, status, "Weather API Offline"); }
         }
+
         function handleWeatherError(btn, status, msg) {
             btn.innerHTML = "⚠️ " + msg; status.innerText = "Please use manual sliders."; status.style.color = "var(--warning)";
             setTimeout(() => { btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg> Auto-Detect Conditions'; status.style.display = 'none'; btn.disabled = false; }, 3000);
         }
 
+        // 📷 CAMERA SMART SCANNER
         let camStream = null; let polyNodes = []; let draggingNode = null;
+        
         async function openScanner() {
             setShape('scan'); const overlay = document.getElementById('smart-scanner'); overlay.style.display = 'flex'; setTimeout(()=> overlay.classList.add('active'), 10); 
             lockScroll(); 
@@ -4605,6 +4549,7 @@
         }
 
         function retakeScan() { document.getElementById('scan-actions').style.display = 'none'; document.getElementById('btn-capture').style.display = 'block'; document.getElementById('scan-instruction').style.display = 'block'; const video = document.getElementById('camera-feed'); const canvas = document.getElementById('scanner-canvas'); canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); video.play(); }
+        
         function captureScanFrame() {
             const video = document.getElementById('camera-feed'); const canvas = document.getElementById('scanner-canvas'); const ctx = canvas.getContext('2d');
             canvas.width = video.clientWidth; canvas.height = video.clientHeight; ctx.drawImage(video, 0, 0, canvas.width, canvas.height); video.pause();
@@ -4617,6 +4562,7 @@
             document.getElementById('scan-instruction').style.display = 'none'; document.getElementById('btn-capture').style.display = 'none'; document.getElementById('scan-actions').style.display = 'flex';
             setupCanvasInteraction(canvas, ctx, video); renderInteractivePolygon(canvas, ctx, video);
         }
+
         function setupCanvasInteraction(canvas, ctx, video) {
             const getPointerPos = (e) => { let rect = canvas.getBoundingClientRect(); let clientX = e.touches ? e.touches[0].clientX : e.clientX; let clientY = e.touches ? e.touches[0].clientY : e.clientY; return { x: (clientX - rect.left) * (canvas.width / rect.width), y: (clientY - rect.top) * (canvas.height / rect.height) }; };
             const downHandler = (e) => { e.preventDefault(); let pos = getPointerPos(e); draggingNode = polyNodes.find(p => Math.hypot(p.x - pos.x, p.y - pos.y) < 60); if(draggingNode) renderInteractivePolygon(canvas, ctx, video); };
@@ -4624,6 +4570,7 @@
             const upHandler = () => { draggingNode = null; renderInteractivePolygon(canvas, ctx, video); };
             canvas.addEventListener('mousedown', downHandler); canvas.addEventListener('mousemove', moveHandler); window.addEventListener('mouseup', upHandler); canvas.addEventListener('touchstart', downHandler, {passive: false}); canvas.addEventListener('touchmove', moveHandler, {passive: false}); window.addEventListener('touchend', upHandler);
         }
+
         function renderInteractivePolygon(canvas, ctx, video) {
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             ctx.fillStyle = "rgba(0, 0, 0, 0.7)"; ctx.beginPath(); ctx.rect(0, 0, canvas.width, canvas.height); ctx.moveTo(polyNodes[0].x, polyNodes[0].y); for(let i=1; i<polyNodes.length; i++) ctx.lineTo(polyNodes[i].x, polyNodes[i].y); ctx.closePath(); ctx.fill("evenodd");
@@ -4632,6 +4579,7 @@
             ctx.beginPath(); ctx.moveTo(polyNodes[0].x, polyNodes[0].y); ctx.lineTo(polyNodes[1].x, polyNodes[1].y); ctx.strokeStyle = "#ef4444"; ctx.lineWidth = 5; ctx.stroke();
             polyNodes.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, 14, 0, Math.PI*2); ctx.fillStyle = "#fff"; ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = (p === draggingNode) ? "#ef4444" : "#00a0ff"; ctx.stroke(); });
         }
+
         function processCalibration() {
             const inputLen = parseFloat(document.getElementById('scan-line-length').value); const unit = document.getElementById('scan-unit').value;
             if(!inputLen || inputLen <= 0) return alert('Please enter the length of the top red edge.');
@@ -4669,6 +4617,7 @@
             else { sStatus.innerText = "ALERT"; sStatus.style.color = "var(--danger)"; sCard.className = "safety-report danger"; }
         }
 
+        // ⭐ COMMUNITY REVIEWS ENGINE
         const initialReviews = [ { name: "Sneha Sharma", text: "Absolutely flawless for Varmala preservation. Diamond clear and absolutely no micro-bubbles.", stars: 5 }, { name: "Rahul Verma", text: "The 120-minute pot life is a lifesaver for complex geode pours. Gives me ample time to mix pigments.", stars: 5 }, { name: "Ananya Patel", text: "I was skeptical about the 85 Shore D hardness, but my coasters are practically scratch-proof.", stars: 5 }, { name: "Vikram Singh", text: "Zero VOCs means no headaches! I can finally work in my indoor studio without the strong chemical smell.", stars: 4 }, { name: "Divya Iyer", text: "Best 3:1 epoxy in India hands down. Auto-degassing actually works—I didn't even need my heat gun.", stars: 5 } ];
         let selectedStars = 5;
         
@@ -4735,6 +4684,7 @@
             btn.disabled = false;
         }
 
+        // 🤖 VIJETA AI ASSISTANT CHAT ENGINE
         function toggleVijeta() {
             document.getElementById('vGreeting')?.classList.remove('show'); 
             document.getElementById('vijetaPanel').classList.toggle('active');
@@ -4776,6 +4726,7 @@
         function renderUserMessage(text) { const chatBox = document.getElementById('vChatBox'); chatBox.innerHTML += `<div class="msg user">${escapeHTML(text)}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
         function renderBotMessage(text) { const chatBox = document.getElementById('vChatBox'); let formattedText = escapeHTML(text).replace(/\n/g, '<br>'); chatBox.innerHTML += `<div class="msg bot" style="white-space: pre-wrap; line-height: 1.5;">${formattedText}</div>`; chatBox.scrollTop = chatBox.scrollHeight; }
 
+        // 🔐 COMMAND CENTER / ADMIN PORTAL ENGINE
         let adminClicks = 0;
         let adminTimer = null;
         function triggerAdmin() {
@@ -5182,9 +5133,9 @@
                         
                         if (awbClean && awbClean !== "Pending") {
                             if (cour === "Delhivery") liveTrackUrl = `https://www.delhivery.com/track/package/${awbClean}`;
-                            else if (cour === "DTDC") liveTrackUrl = `https://www.dtdc.in/`; 
+                            else if (cour === "DTDC") liveTrackUrl = `https://www.dtdc.in/  (Enter AWB: ${awbClean})`; 
                             else if (cour === "Trackon") liveTrackUrl = `https://trackon.in/Tracking/Tracking_results?TrackingNumber=${awbClean}`;
-                            else if (cour === "India Post") liveTrackUrl = `https://www.indiapost.gov.in/`;
+                            else if (cour === "India Post") liveTrackUrl = `https://www.indiapost.gov.in/  (Enter AWB: ${awbClean})`;
                             else liveTrackUrl = `https://parcelsapp.com/track/${awbClean}`; 
                         }
 
@@ -5223,7 +5174,7 @@
                                             <option value="India Post" ${cour === 'India Post' ? 'selected' : ''}>India Post</option>
                                             <option value="Other" ${cour === 'Other' ? 'selected' : ''}>Other</option>
                                         </select>
-                                        <input type="text" id ="awb-${escapeHTML(o.orderId)}" value="${awbClean}" placeholder="AWB / Tracking Number" style="background:#000; color:#fff; border:1px solid #555; padding:8px; border-radius:8px; font-size:12px; outline:none; width: 200px;">
+                                        <input type="text" id="awb-${escapeHTML(o.orderId)}" value="${awbClean}" placeholder="AWB / Tracking Number" style="background:#000; color:#fff; border:1px solid #555; padding:8px; border-radius:8px; font-size:12px; outline:none; width: 200px;">
                                     </div>
                                 </td>
                                 <td style="padding:15px; vertical-align:top;">
@@ -5456,7 +5407,7 @@
                 </div>
 
                 <label style="font-size:12px; color:#888;">Transaction Details (Prints on Invoice)</label>
-                <textarea id="ae-tx" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px; height:60px; font-family:inherit; margin-bottom:10px;" placeholder="e.g. Paid via UPI Ref: 123456789">${escapeHTML(order.transactionDetails || '')}</textarea>
+                <textarea id="ae-tx" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:10px; border-radius:8px; height:60px; font-family:inherit;" placeholder="e.g. Paid via Razorpay Ref: pay_123456789">${escapeHTML(order.transactionDetails || '')}</textarea>
             `;
             document.getElementById('admin-edit-modal').style.display = 'flex';
             
