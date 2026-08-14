@@ -3586,12 +3586,20 @@
             try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} 
         };
 
+        // 🚀 PRE-WARM RENDER SERVER IN BACKGROUND (Eliminates Cold-Start Lag)
+        function pingServer() {
+            try {
+                fetch(`${RENDER_URL}/api/ping`, { mode: 'no-cors' }).catch(() => {});
+            } catch(e) {}
+        }
+
         window.onload = () => {
             renderReviews(); 
             setupReviewStars(); 
             checkAuthStatus(); 
             runCalc(); 
             fetchLiveInventory();
+            pingServer(); // Wake server immediately on page load
 
             fetch('https://ipapi.co/json/')
                 .then(r => r.json())
@@ -3607,28 +3615,15 @@
                 }
             }, 2000);
 
-            // Listener for VIP Discount input to auto-calculate the total
             const vipDiscountInput = document.getElementById('vip-discount-amt');
             if (vipDiscountInput) {
                 vipDiscountInput.addEventListener('input', renderVIPCart);
             }
         };
 
-        function blurInputs() { 
-            document.activeElement?.blur(); 
-        }
-
-        function lockScroll() {
-            document.body.style.overflow = 'hidden';
-            document.documentElement.style.overscrollBehavior = 'none';
-            document.body.style.overscrollBehavior = 'none';
-        }
-
-        function unlockScroll() {
-            document.body.style.overflow = '';
-            document.documentElement.style.overscrollBehavior = '';
-            document.body.style.overscrollBehavior = '';
-        }
+        function blurInputs() { document.activeElement?.blur(); }
+        function lockScroll() { document.body.style.overflow = 'hidden'; }
+        function unlockScroll() { document.body.style.overflow = ''; }
 
         function showToast(msg, isError = false) { 
             const t = document.getElementById('toast'); 
@@ -3646,7 +3641,6 @@
                 if(!res.ok) throw new Error();
                 liveProducts = await res.json();
                 
-                // DYNAMIC ARTICLE EXTRACTION
                 let uniqueArts = new Set();
                 liveProducts.forEach(p => {
                     if (p.inStock && p.suitableArticles) {
@@ -3720,8 +3714,7 @@
             let filteredProducts = liveProducts.filter(p => {
                 if(!p.inStock) return false;
                 if(currentShopMode === 'ratio') {
-                    const pRatio = p.ratio || '3:1';
-                    return pRatio === activeShopRatio;
+                    return (p.ratio || '3:1') === activeShopRatio;
                 } else if (currentShopMode === 'article') {
                     if(activeShopArticles.length === 0) return true;
                     if(!p.suitableArticles || p.suitableArticles.length === 0) return false;
@@ -3748,7 +3741,6 @@
                 }
 
                 let borderStyle = p.tag === 'Best Seller' ? 'border-color:rgba(255,255,255,0.4) !important;' : '';
-
                 let pRatio = p.ratio || '3:1';
                 let articleTags = '';
                 if(p.suitableArticles && p.suitableArticles.length > 0) {
@@ -3785,7 +3777,7 @@
             grid.innerHTML = html;
         }
 
-        // 👤 USER AUTHENTICATION & PROFILE
+        // 👤 USER AUTHENTICATION & INVOICE DOWNLOAD
         function checkAuthStatus() {
             try {
                 const user = JSON.parse(localStorage.getItem('mxlumes_user'));
@@ -3848,7 +3840,6 @@
                     orders.forEach(o => {
                         const safeItems = o.items.map(i => ({ name: escapeHTML(i.name), qty: i.qty, price: i.price }));
                         const itemsJson = JSON.stringify(safeItems).replace(/"/g, '&quot;');
-                        
                         const txEnc = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
                         
                         let actionBtn = `<button class="btn btn-outline" style="padding: 6px 12px; font-size:10px; background:#fff; color:#000;" onclick="printInvoice('${escapeHTML(o.orderId)}', '${escapeHTML(o.createdAt)}', ${o.totalAmount}, '${itemsJson}', '${txEnc}', '${isolatedUserStr}'); vibrate(50);">Download Invoice</button>`;
@@ -3881,7 +3872,7 @@
             let invoiceUser = { name: 'Valued Customer', email: 'N/A', phone: 'N/A', address: 'N/A' };
             try {
                 if(userEncoded) invoiceUser = JSON.parse(decodeURIComponent(userEncoded));
-            } catch(e) { console.error("Invoice user parse error"); }
+            } catch(e) {}
 
             const waLink = `https://wa.me/917668077298?text=Hi,%20I%20need%20help%20with%20Order%20${encodeURIComponent(orderId)}`;
             const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(waLink)}`;
@@ -4072,7 +4063,6 @@
             currentAuthMode = 'guest';
 
             document.getElementById('auth-error').style.display = 'none';
-            
             document.getElementById('auth-modal-title').innerText = "Delivery Details";
             document.getElementById('auth-modal-subtitle').innerText = "Where should we send your order?";
             document.getElementById('auth-tabs').style.display = 'none';
@@ -4094,7 +4084,6 @@
         function switchAuthTab(mode) {
             currentAuthMode = mode;
             document.getElementById('auth-error').style.display = 'none';
-            
             document.getElementById('auth-modal-title').innerText = "M-X LUMES";
             document.getElementById('auth-modal-subtitle').innerText = "The Professional Standard.";
             document.getElementById('auth-tabs').style.display = 'flex';
@@ -4204,7 +4193,6 @@
                     if(currentAuthMode === 'guest' || pendingCheckout) initiateCheckout(); 
                     return;
                 } else if (response.status === 400 || response.status === 409) {
-                    
                     const loginRes = await fetch(`${RENDER_URL}/api/login/phone`, { 
                         method: 'POST', headers: { 'Content-Type': 'application/json' }, 
                         body: JSON.stringify({ phone: cleanPhone }) 
@@ -4277,6 +4265,7 @@
             renderCart(); 
             showToast("Added to Cart"); 
             syncCartWithCloud(cart); 
+            pingServer(); // Pre-warm backend
             
             const fab = document.querySelector('.cart-fab');
             fab.style.transform = 'translate3d(0, -10px, 0) scale(1.1)';
@@ -4327,12 +4316,17 @@
         function toggleCart() { 
             const sidebar = document.getElementById('cartSidebar');
             sidebar.classList.toggle('active'); 
-            if(sidebar.classList.contains('active')) lockScroll(); else unlockScroll();
+            if(sidebar.classList.contains('active')) {
+                lockScroll();
+                pingServer(); // Pre-warm server as soon as cart is opened
+            } else {
+                unlockScroll();
+            }
             updateReminder(); 
         }
 
         // ===================================================
-        // 💳 AUTOMATED RAZORPAY GATEWAY CHECKOUT ENGINE
+        // 💳 ULTRA-RELIABLE RAZORPAY CHECKOUT ENGINE
         // ===================================================
         function initiateCheckout() {
             if (cart.length === 0) return showToast("Your cart is empty", true);
@@ -4347,12 +4341,33 @@
             startRazorpayCheckout(user);
         }
 
+        // 🛡️ DYNAMIC RAZORPAY SCRIPT INJECTOR
+        function ensureRazorpayLoaded() {
+            return new Promise((resolve, reject) => {
+                if (typeof Razorpay !== 'undefined') return resolve();
+                const script = document.createElement('script');
+                script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+                script.onload = () => resolve();
+                script.onerror = () => reject(new Error("Unable to connect to Razorpay payment network. Check ad-blocker or internet."));
+                document.head.appendChild(script);
+            });
+        }
+
         async function startRazorpayCheckout(user) {
             if (cart.length === 0) return showToast("Your cart is empty", true);
             
-            showToast("Initializing Razorpay Secure Checkout...");
+            const checkoutBtn = document.getElementById('main-checkout-btn');
+            if (checkoutBtn) {
+                checkoutBtn.disabled = true;
+                checkoutBtn.innerText = "Securing Session... 🔒";
+            }
+            
+            showToast("Connecting to Razorpay Secure Gateway...");
             
             try {
+                // Ensure Razorpay script is active
+                await ensureRazorpayLoaded();
+
                 // 1. Request Order Creation from Backend Server
                 const response = await fetch(`${RENDER_URL}/api/create-razorpay-order`, {
                     method: 'POST',
@@ -4360,22 +4375,28 @@
                     body: JSON.stringify({ 
                         amount: checkoutTotal, 
                         email: user.email, 
-                        phone: user.phone || '' 
+                        phone: user.phone || '',
+                        items: cart
                     })
                 });
 
-                const orderData = await response.json();
-                if (!response.ok || !orderData.success) {
-                    throw new Error(orderData.message || "Failed to create payment order");
+                if (!response.ok) {
+                    const errData = await response.json().catch(() => ({}));
+                    throw new Error(errData.message || `Server returned code ${response.status}`);
                 }
 
-                // 2. Configure Razorpay Popup Options with your Key ID
+                const orderData = await response.json();
+                if (!orderData.success) {
+                    throw new Error(orderData.message || "Failed to initialize order");
+                }
+
+                // 2. Configure Razorpay Popup Options (With Mobile Screen Locking)
                 const options = {
                     "key": orderData.keyId || "rzp_live_TP7uAZYescgjnH",
                     "amount": orderData.amount,
                     "currency": orderData.currency || "INR",
                     "name": "M-X Lumes",
-                    "description": "Epoxy Resin Purchase",
+                    "description": "Premium Epoxy Resin Purchase",
                     "image": "product-1.webp",
                     "order_id": orderData.orderId,
                     "prefill": {
@@ -4386,60 +4407,84 @@
                     "theme": {
                         "color": "#6366f1"
                     },
-                    "handler": async function (paymentResult) {
-                        // 3. Verify Payment Signature & Save Order in Database
-                        showToast("Verifying Payment with Server...");
-                        try {
-                            const verifyRes = await fetch(`${RENDER_URL}/api/verify-razorpay-payment`, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'Authorization': `Bearer ${localStorage.getItem('mxlumes_token')}`
-                                },
-                                body: JSON.stringify({
-                                    razorpay_order_id: paymentResult.razorpay_order_id,
-                                    razorpay_payment_id: paymentResult.razorpay_payment_id,
-                                    razorpay_signature: paymentResult.razorpay_signature,
-                                    email: user.email,
-                                    items: cart,
-                                    totalAmount: checkoutTotal,
-                                    location: userLocation
-                                })
-                            });
-
-                            const verifyData = await verifyRes.json();
-                            if (verifyRes.ok && verifyData.success) {
-                                showToast("✅ Payment Verified! Order Placed.");
-                                const placedOrderId = verifyData.orderId || paymentResult.razorpay_order_id;
-
-                                let msg = `*NEW RAZORPAY ORDER: ${placedOrderId}*%0AHi M-X Lumes team,%0APayment Successful via Razorpay (ID: ${paymentResult.razorpay_payment_id})!%0A%0A`;
-                                cart.forEach(i => { msg += `• ${i.name} x ${i.qty}%0A`; });
-                                msg += `%0AAmount Paid: ₹${checkoutTotal.toLocaleString()}`;
-
-                                cart = []; renderCart(); syncCartWithCloud([]);
-                                if(document.getElementById('cartSidebar').classList.contains('active')) toggleCart();
-
-                                setTimeout(() => {
-                                    window.location.href = `https://wa.me/917668077298?text=${encodeURIComponent(msg)}`;
-                                }, 800);
-                            } else {
-                                alert("Payment Verification Failed: " + (verifyData.message || "Invalid Signature"));
+                    "modal": {
+                        "backdropclose": false, // Prevents accidental backdrop dismissal on mobile
+                        "escape": false,
+                        "handleback": true,
+                        "ondismiss": function() {
+                            showToast("Payment cancelled", true);
+                            if (checkoutBtn) {
+                                checkoutBtn.disabled = false;
+                                checkoutBtn.innerText = "Proceed to Secure Checkout";
                             }
-                        } catch (err) {
-                            alert("Verification Error: " + err.message);
                         }
                     },
-                    "modal": {
-                        "ondismiss": function() {
-                            showToast("Payment window closed", true);
+                    "handler": async function (paymentResult) {
+                        // 3. Automated 3-Tier Verification Retry Engine
+                        showToast("Verifying Payment with Server...");
+                        
+                        let verified = false;
+                        let lastError = null;
+                        
+                        for (let attempt = 1; attempt <= 3; attempt++) {
+                            try {
+                                const verifyRes = await fetch(`${RENDER_URL}/api/verify-razorpay-payment`, {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        razorpay_order_id: paymentResult.razorpay_order_id,
+                                        razorpay_payment_id: paymentResult.razorpay_payment_id,
+                                        razorpay_signature: paymentResult.razorpay_signature,
+                                        email: user.email,
+                                        items: cart,
+                                        totalAmount: checkoutTotal,
+                                        location: userLocation
+                                    })
+                                });
+
+                                const verifyData = await verifyRes.json();
+                                if (verifyRes.ok && verifyData.success) {
+                                    verified = true;
+                                    const placedOrderId = verifyData.orderId || paymentResult.razorpay_order_id;
+                                    
+                                    showToast("✅ Payment Verified! Order Placed.");
+                                    
+                                    let msg = `*NEW RAZORPAY ORDER: ${placedOrderId}*%0AHi M-X Lumes team,%0APayment Successful via Razorpay (ID: ${paymentResult.razorpay_payment_id})!%0A%0A`;
+                                    cart.forEach(i => { msg += `• ${i.name} x ${i.qty}%0A`; });
+                                    msg += `%0AAmount Paid: ₹${checkoutTotal.toLocaleString()}`;
+
+                                    cart = []; renderCart(); syncCartWithCloud([]);
+                                    if(document.getElementById('cartSidebar').classList.contains('active')) toggleCart();
+
+                                    setTimeout(() => {
+                                        window.location.href = `https://wa.me/917668077298?text=${encodeURIComponent(msg)}`;
+                                    }, 800);
+                                    break;
+                                } else {
+                                    lastError = verifyData.message || "Invalid Payment Signature";
+                                }
+                            } catch (netErr) {
+                                lastError = "Network reconnecting... Attempt " + attempt;
+                                await new Promise(r => setTimeout(r, attempt * 1000)); // 1s, 2s backoff
+                            }
+                        }
+
+                        if (!verified) {
+                            alert("Verification Notice: " + lastError + "\nIf amount was deducted, your order is safe. Please message support on WhatsApp.");
                         }
                     }
                 };
 
                 const rzp = new Razorpay(options);
                 rzp.open();
+
             } catch (err) {
-                alert("Razorpay Checkout Error: " + err.message);
+                alert("Checkout Error: " + err.message);
+            } finally {
+                if (checkoutBtn) {
+                    checkoutBtn.disabled = false;
+                    checkoutBtn.innerText = "Proceed to Secure Checkout";
+                }
             }
         }
 
@@ -4576,14 +4621,14 @@
             ctx.fillStyle = "rgba(0, 0, 0, 0.7)"; ctx.beginPath(); ctx.rect(0, 0, canvas.width, canvas.height); ctx.moveTo(polyNodes[0].x, polyNodes[0].y); for(let i=1; i<polyNodes.length; i++) ctx.lineTo(polyNodes[i].x, polyNodes[i].y); ctx.closePath(); ctx.fill("evenodd");
             ctx.fillStyle = "rgba(0, 160, 255, 0.3)"; ctx.beginPath(); ctx.moveTo(polyNodes[0].x, polyNodes[0].y); for(let i=1; i<polyNodes.length; i++) ctx.lineTo(polyNodes[i].x, polyNodes[i].y); ctx.closePath(); ctx.fill();
             ctx.beginPath(); ctx.moveTo(polyNodes[0].x, polyNodes[0].y); for(let i=1; i<polyNodes.length; i++) ctx.lineTo(polyNodes[i].x, polyNodes[i].y); ctx.closePath(); ctx.strokeStyle = "#fff"; ctx.lineWidth = 3; ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(polyNodes[0].x, polyNodes[0].y); ctx.lineTo(polyNodes[1].x, polyNodes[1].y); ctx.strokeStyle = "#ef4444"; ctx.lineWidth = 5; ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(polyNodes[0].x, polyNodes[0].y); ctx.lineTo(polyNodes.x, polyNodes.y); ctx.strokeStyle = "#ef4444"; ctx.lineWidth = 5; ctx.stroke();
             polyNodes.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, 14, 0, Math.PI*2); ctx.fillStyle = "#fff"; ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = (p === draggingNode) ? "#ef4444" : "#00a0ff"; ctx.stroke(); });
         }
 
         function processCalibration() {
             const inputLen = parseFloat(document.getElementById('scan-line-length').value); const unit = document.getElementById('scan-unit').value;
             if(!inputLen || inputLen <= 0) return alert('Please enter the length of the top red edge.');
-            let topEdge = Math.hypot(polyNodes[1].x - polyNodes[0].x, polyNodes[1].y - polyNodes[0].y); let rightEdge = Math.hypot(polyNodes[2].x - polyNodes[1].x, polyNodes[2].y - polyNodes[1].y); let bottomEdge = Math.hypot(polyNodes[2].x - polyNodes[3].x, polyNodes[2].y - polyNodes[3].y); let leftEdge = Math.hypot(polyNodes[3].x - polyNodes[0].x, polyNodes[3].y - polyNodes[0].y);
+            let topEdge = Math.hypot(polyNodes.x - polyNodes[0].x, polyNodes.y - polyNodes[0].y); let rightEdge = Math.hypot(polyNodes[2].x - polyNodes.x, polyNodes[2].y - polyNodes.y); let bottomEdge = Math.hypot(polyNodes[2].x - polyNodes[3].x, polyNodes[2].y - polyNodes[3].y); let leftEdge = Math.hypot(polyNodes[3].x - polyNodes[0].x, polyNodes[3].y - polyNodes[0].y);
             let horizontalScale = (topEdge + bottomEdge) / 2; let verticalScale = (leftEdge + rightEdge) / 2;
             let undistortedPixelArea = horizontalScale * verticalScale; let factor = (unit === 'in') ? 2.54 : ((unit === 'mm') ? 0.1 : 1); let realLen_cm = inputLen * factor; let cmPerPixel = realLen_cm / topEdge; let areaCm2 = undistortedPixelArea * Math.pow(cmPerPixel, 2);
             appState.scannedArea = areaCm2; document.getElementById('scan-area-display').innerText = areaCm2.toFixed(1) + ' cm²'; closeScanner(); runCalc();
@@ -5039,7 +5084,7 @@
             printWindow.document.close();
         }
 
-        // 💰 MASTER RENDER FUNCTION
+        // 💰 MASTER RENDER FUNCTION (With Stock-Restoring Status Dropdown)
         function populateAdminDashboard() {
             let totalRev = 0; let totalGlobalCost = 0; let totalGlobalProfit = 0;
 
@@ -5077,7 +5122,7 @@
                         if(linkedUser.address) { userAddress = escapeHTML(linkedUser.address); resolvedUserObj.address = linkedUser.address; }
                     }
                     let statusClass = 'Pending'; if(o.status.includes('Processing')) statusClass = 'Processing'; if(o.status.includes('Shipped')) statusClass = 'Shipped'; if(o.status.includes('Delivered')) statusClass = 'Delivered';
-                    let selectColor = o.status === 'Pending Verification' ? '#ef4444' : (o.status === 'Processing' ? '#6366f1' : '#10b981');
+                    let selectColor = o.status === 'Pending Verification' ? '#ef4444' : (o.status === 'Processing' ? '#6366f1' : (o.status === 'Cancelled' ? '#888' : '#10b981'));
                     
                     const safeItemsAdmin = JSON.stringify(o.items || []).replace(/"/g, '&quot;');
                     const txEncAdmin = encodeURIComponent(o.transactionDetails || '').replace(/'/g, "%27");
@@ -5093,7 +5138,7 @@
                     const wKG = Number(o.totalWeightKg) || 0;
                     const perKg = wKG > 0 ? (rev / wKG).toFixed(0) : 0;
 
-                    if (o.status !== 'Pending Verification') { 
+                    if (o.status !== 'Pending Verification' && o.status !== 'Cancelled') { 
                         totalRev += rev; totalGlobalCost += totalCost; totalGlobalProfit += netProfit; 
                     }
 
@@ -5117,6 +5162,7 @@
                                         <option value="Processing" ${o.status === 'Processing' ? 'selected' : ''}>Paid & Processing</option>
                                         <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
                                         <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                                        <option value="Cancelled" ${o.status === 'Cancelled' ? 'selected' : ''}>Cancelled (Restores Stock)</option>
                                     </select>
                                     <button onclick="adminEditOrder('${escapeHTML(o.orderId)}')" style="background:transparent; border:1px solid #555; color:#fff; padding:6px; border-radius:6px; cursor:pointer;">✎ Edit</button>
                                     <button onclick="printInvoice('${escapeHTML(o.orderId)}', '${o.createdAt || 'N/A'}', ${o.totalAmount}, '${safeItemsAdmin}', '${txEncAdmin}', '${userEncAdmin}')" style="background:transparent; border:1px solid #6366f1; color:#6366f1; padding:6px; border-radius:6px; cursor:pointer;">🖨️ Invoice</button>
@@ -5126,16 +5172,16 @@
                         </tr>
                     `;
 
-                    if (o.status !== 'Pending Verification') {
+                    if (o.status !== 'Pending Verification' && o.status !== 'Cancelled') {
                         let liveTrackUrl = "";
                         let awbClean = escapeHTML(o.trackingNumber || '');
                         let cour = escapeHTML(o.courierCompany || '');
                         
                         if (awbClean && awbClean !== "Pending") {
                             if (cour === "Delhivery") liveTrackUrl = `https://www.delhivery.com/track/package/${awbClean}`;
-                            else if (cour === "DTDC") liveTrackUrl = `https://www.dtdc.in/  (Enter AWB: ${awbClean})`; 
+                            else if (cour === "DTDC") liveTrackUrl = `https://www.dtdc.in/`; 
                             else if (cour === "Trackon") liveTrackUrl = `https://trackon.in/Tracking/Tracking_results?TrackingNumber=${awbClean}`;
-                            else if (cour === "India Post") liveTrackUrl = `https://www.indiapost.gov.in/  (Enter AWB: ${awbClean})`;
+                            else if (cour === "India Post") liveTrackUrl = `https://www.indiapost.gov.in/`;
                             else liveTrackUrl = `https://parcelsapp.com/track/${awbClean}`; 
                         }
 
@@ -5356,7 +5402,7 @@
         }
 
         async function adminDeleteOrder(id, btnEl) {
-            if(!confirm(`Delete order ${id}?`)) return;
+            if(!confirm(`Delete order ${id}? This will restore its inventory stock if it was fulfilled.`)) return;
             btnEl.disabled = true;
             const key = sessionStorage.getItem('mxlumes_admin_key'); 
             try {
@@ -5463,7 +5509,7 @@
             };
         }
 
-        // 📦 INVENTORY MANAGEMENT LOGIC WITH IMAGE UPLOAD & COMPRESSION
+        // 📦 INVENTORY MANAGEMENT WITH CLIENT-SIDE WEBP COMPRESSION
         function adminEditProduct(id) {
             let p = { name: '', tag: 'Premium Kit', image: 'product-1.webp', description: '', originalPrice: 0, currentPrice: 0, inStock: true, stockQty: 0, ratio: '3:1', suitableArticles: [] };
             if (id !== 'new') p = globalProducts.find(x => x._id === id) || p;
@@ -5509,7 +5555,6 @@
             `;
             document.getElementById('admin-edit-modal').style.display = 'flex';
 
-            // Image Compression Logic
             document.getElementById('ep-img-upload').addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -5523,7 +5568,7 @@
                     const img = new Image();
                     img.onload = function() {
                         const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 800; // Optimal size for store layout
+                        const MAX_WIDTH = 800;
                         let width = img.width;
                         let height = img.height;
                         
@@ -5537,7 +5582,6 @@
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
                         
-                        // Compress to WebP format for fast loading
                         const dataUrl = canvas.toDataURL('image/webp', 0.8);
                         document.getElementById('ep-img-preview').src = dataUrl;
                         document.getElementById('ep-img').value = dataUrl;
@@ -5621,13 +5665,13 @@
             } else if (courier === "Delhivery") {
                 trackingLink = `https://www.delhivery.com/track/package/${awb}`;
             } else if (courier === "DTDC") {
-                trackingLink = `https://www.dtdc.in/  (Enter AWB: ${awb})`; 
+                trackingLink = `https://www.dtdc.in/`; 
             } else if (courier === "Trackon") {
                 trackingLink = `https://trackon.in/Tracking/Tracking_results?TrackingNumber=${awb}`;
             } else if (courier === "India Post") {
-                trackingLink = `https://www.indiapost.gov.in/  (Enter AWB: ${awb})`;
+                trackingLink = `https://www.indiapost.gov.in/`;
             } else {
-                trackingLink = `Tracking AWB: ${awb} (Please check via courier website)`;
+                trackingLink = `Tracking AWB: ${awb}`;
             }
 
             let firstName = user.name.split(' ')[0] || "Artist";
@@ -5716,9 +5760,7 @@
             display.innerHTML = html;
             
             const discountAmt = Math.abs(Number(document.getElementById('vip-discount-amt').value)) || 0;
-            let finalTotal = subtotal - discountAmt;
-            if(finalTotal < 0) finalTotal = 0;
-            
+            let finalTotal = Math.max(0, subtotal - discountAmt);
             document.getElementById('vip-final-total').innerText = `₹${finalTotal.toLocaleString()}`;
         }
 
